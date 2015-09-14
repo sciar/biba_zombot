@@ -18,6 +18,11 @@ namespace BibaFramework.BibaMenu
             onComplete();
         }
 
+        protected virtual IEnumerator AnimateMenuEntry()
+        {
+            yield return new WaitForSeconds(3.0f);
+        }
+
         public void StartExitAnimation(Action onComplete)
         {
             StartCoroutine(PlayExitAnimation(onComplete));
@@ -29,15 +34,9 @@ namespace BibaFramework.BibaMenu
             onComplete();
         }
 
-        //Default animation behaviour
-        protected virtual IEnumerator AnimateMenuEntry()
-        {
-            yield return new WaitForSeconds(1.0f);
-        }
-        
         protected virtual IEnumerator AnimateMenuExit()
         {
-            yield return new WaitForSeconds(1.0f);
+            yield return new WaitForSeconds(3.0f);
         }
 	}
 }

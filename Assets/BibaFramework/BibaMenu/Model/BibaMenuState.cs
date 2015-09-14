@@ -16,12 +16,6 @@ namespace BibaFramework.BibaMenu
             animator.GetComponent<BibaMenuStateMachineView>().EnteredMenuState(this);
     	}
 
-    	// OnStateExit is called before OnStateExit is called on any state inside this state machine
-    	override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) 
-        {
-            animator.GetComponent<BibaMenuStateMachineView>().ExitedMenuState(this);
-    	}
-
         public override string ToString()
         {
             return string.Format("[BibaMenuState: GameScene={0}, Popup={1}, EntryAnimation={2}, ExitAnimation={3}]", GameScene, Popup, EntryAnimation, ExitAnimation);

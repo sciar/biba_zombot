@@ -17,6 +17,7 @@ namespace BibaFramework.BibaMenu
 
         protected override void BindModels ()
         {
+            injectionBinder.Bind<BibaSceneModel>().To<BibaSceneModel>().ToSingleton().CrossContext();
         }
 
         protected override void BindServices ()
@@ -30,16 +31,20 @@ namespace BibaFramework.BibaMenu
 
         protected override void BindCommands ()
         {
-            commandBinder.Bind<LoadGameSceneSignal>().To<LoadGameSceneCommand>();
-            commandBinder.Bind<UnloadGameSceneSignal>().To<UnloadGameSceneCommand>();
+            commandBinder.Bind<LoadGameSceneSignal>()
+                    .To<LoadGameSceneCommand>()
+                    .To<AnimateSceneExitCommand>()
+                    .To<DestroyLastViewCommand>()
+                    .To<CreateNewViewCommand>()
+                    .To<AnimateSceneEntryCommand>().InSequence();
         }
 
         protected override void BindSignals ()
         {
-         //   injectionBinder.Bind<TriggerNextMenuStateSignal>().CrossContext();
             injectionBinder.Bind<SetupMenuSignal>().ToSingleton().CrossContext();
             injectionBinder.Bind<PlayMenuEntryAnimationSignal>().ToSingleton().CrossContext();
             injectionBinder.Bind<PlayMenuExitedAnimationSignal>().ToSingleton().CrossContext();
+            injectionBinder.Bind<PlayMenuLoadAnimationSignal>().ToSingleton().CrossContext();
             injectionBinder.Bind<MenuEntryAnimationEndedSignal>().ToSingleton().CrossContext();
             injectionBinder.Bind<MenuExitAnimationEndedSignal>().ToSingleton().CrossContext();
         }

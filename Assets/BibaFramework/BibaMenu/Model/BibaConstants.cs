@@ -5,4 +5,3 @@ namespace BibaFramework.BibaMenu
         public const string BIBA_STATE_MACHINE = "BibaStateMachine";
     }
 }
-
