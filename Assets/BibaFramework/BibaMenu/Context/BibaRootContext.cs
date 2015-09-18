@@ -17,7 +17,7 @@ namespace BibaFramework.BibaMenu
 
         protected override void BindModels ()
         {
-            injectionBinder.Bind<BibaSceneModel>().To<BibaSceneModel>().ToSingleton().CrossContext();
+            injectionBinder.Bind<BibaSceneStack>().To<BibaSceneStack>().ToSingleton().CrossContext();
         }
 
         protected override void BindServices ()
@@ -27,16 +27,43 @@ namespace BibaFramework.BibaMenu
         protected override void BindViews ()
         {
             mediationBinder.Bind<BibaMenuStateMachineView>().To<BibaMenuStateMachineMediator>();
+            mediationBinder.Bind<LoadingView>().To<LoadingMediator>();
         }
 
         protected override void BindCommands ()
         {
-            commandBinder.Bind<LoadGameSceneSignal>()
-                    .To<LoadGameSceneCommand>()
+            commandBinder.Bind<ProcessNextMenuStateSignal>().To<ProcessNextMenuStateCommand>();
+
+            commandBinder.Bind<LoadFullSceneSignal>()
+                    .To<DisableAllInputCommand>()
                     .To<AnimateSceneExitCommand>()
-                    .To<DestroyLastViewCommand>()
-                    .To<CreateNewViewCommand>()
-                    .To<AnimateSceneEntryCommand>().InSequence();
+                    .To<ClearAllViewsCommand>()
+                    .To<PushNewViewCommand>()
+                    .To<DisableTopInputCommand>()
+                    .To<AnimateSceneEntryCommand>()
+                    .To<EnableTopInputCommand>().InSequence();
+
+            commandBinder.Bind<PushPopupSceneSignal>()
+                    .To<DisableAllInputCommand>()
+                    .To<PushNewViewCommand>()
+                    .To<DisableTopInputCommand>()
+                    .To<AnimateSceneEntryCommand>()
+                    .To<EnableTopInputCommand>().InSequence();
+
+            commandBinder.Bind<PopPopupSceneSignal>()
+                    .To<DisableAllInputCommand>()
+                    .To<AnimateSceneExitCommand>()
+                    .To<PopLastViewCommand>()
+                    .To<EnableTopInputCommand>().InSequence();
+
+            commandBinder.Bind<ReplacePopupSceneSignal>()
+                    .To<DisableAllInputCommand>()    
+                    .To<AnimateSceneExitCommand>()
+                    .To<PopLastViewCommand>()
+                    .To<PushNewViewCommand>()
+                    .To<DisableTopInputCommand>()
+                    .To<AnimateSceneEntryCommand>()
+                    .To<EnableTopInputCommand>().InSequence();
         }
 
         protected override void BindSignals ()

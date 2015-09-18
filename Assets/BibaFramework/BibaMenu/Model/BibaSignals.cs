@@ -5,8 +5,13 @@ namespace BibaFramework.BibaMenu
     public class StartSignal : Signal { }
 
     public class TriggerNextMenuStateSignal : Signal<MenuStateTrigger>{ }
-    public class LoadGameSceneSignal : Signal<BibaMenuState>{ }
+    public class ProcessNextMenuStateSignal : Signal<BibaMenuState>{ }
     public class SetupMenuSignal : Signal<BibaMenuState>{ }
+
+    public class LoadFullSceneSignal : Signal<BibaMenuState>{ }
+    public class PushPopupSceneSignal : Signal<BibaMenuState>{ }
+    public class PopPopupSceneSignal : Signal<BibaMenuState>{ }
+    public class ReplacePopupSceneSignal : Signal<BibaMenuState>{ }
 
     public class PlayMenuEntryAnimationSignal : Signal { } 
     public class PlayMenuExitedAnimationSignal : Signal { } 

@@ -1,13 +1,17 @@
 ﻿using UnityEngine;
+using BibaFramework.BibaGame;
 
 namespace BibaFramework.BibaMenu
 {
 	public abstract class BibaMenuState : StateMachineBehaviour 
 	{
-        public GameScene GameScene;
+        public abstract GameScene GameScene { get; }
         public bool Popup;
-        public bool LoadingScreen;
-		public bool EntryAnimation;
+        public bool FullScreen { get { return !Popup; } }
+
+        public bool Replace;
+
+        public bool EntryAnimation; 
 		public bool ExitAnimation;
 
     	// OnStateEnter is called before OnStateEnter is called on any state inside this state machine

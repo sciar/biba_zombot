@@ -20,7 +20,7 @@ namespace BibaFramework.BibaMenu
 
         protected virtual IEnumerator AnimateMenuEntry()
         {
-            yield return new WaitForSeconds(3.0f);
+            yield return new WaitForSeconds(1.0f);
         }
 
         public void StartExitAnimation(Action onComplete)
@@ -36,7 +36,7 @@ namespace BibaFramework.BibaMenu
 
         protected virtual IEnumerator AnimateMenuExit()
         {
-            yield return new WaitForSeconds(3.0f);
+            yield return new WaitForSeconds(1.0f);
         }
 	}
 }

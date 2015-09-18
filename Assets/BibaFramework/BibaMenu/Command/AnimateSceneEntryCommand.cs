@@ -1,7 +1,5 @@
-﻿using UnityEngine;
-using strange.extensions.command.impl;
-using System.Collections;
-using BibaFramework.Utility;
+﻿using strange.extensions.command.impl;
+using UnityEngine;
 
 namespace BibaFramework.BibaMenu
 {
@@ -14,17 +12,16 @@ namespace BibaFramework.BibaMenu
         public MenuEntryAnimationEndedSignal MenuEntryAnimationEndedSignal { get; set; }
 
         [Inject]
-        public BibaSceneModel BibaSceneModel { get; set; }
-        
-        private BibaMenuState menuState { get { return BibaSceneModel.NextMenuState; } }
+        public BibaSceneStack BibaSceneStack { get; set; }
 
         public override void Execute ()
         {
+            var menuState = BibaSceneStack.Peek();
             if (menuState != null && menuState.EntryAnimation)
             {
                 Retain();
 
-                Debug.Log("View Loading Animation Started: " + menuState.GameScene);
+                Debug.Log("View Loading Animation: " + menuState.GameScene);
                 PlayMenuEntryAnimationSignal.Dispatch();
                 MenuEntryAnimationEndedSignal.AddListener(MenuEntryAnimationCompleted);
             }
@@ -32,8 +29,6 @@ namespace BibaFramework.BibaMenu
 
         void MenuEntryAnimationCompleted()
         {
-            Debug.Log("View Loading Animation Completed: " + menuState.GameScene);
-
             MenuEntryAnimationEndedSignal.RemoveListener(MenuEntryAnimationCompleted);
             Release();
         }

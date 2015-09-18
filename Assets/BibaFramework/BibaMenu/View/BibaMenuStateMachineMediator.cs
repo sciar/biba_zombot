@@ -9,7 +9,7 @@ namespace BibaFramework.BibaMenu
         public BibaMenuStateMachineView View { get; set; }
 
         [Inject]
-        public LoadGameSceneSignal LoadGameSceneSignal { get; set; }
+        public ProcessNextMenuStateSignal ProcessNextMenuStateSignal { get; set; }
 
         public override void OnRegister ()
         {
@@ -23,7 +23,7 @@ namespace BibaFramework.BibaMenu
 
         void OnMenuStateEntered(BibaMenuState menuState)
         {
-            LoadGameSceneSignal.Dispatch(menuState);
+            ProcessNextMenuStateSignal.Dispatch(menuState);
         }
     }
 }
