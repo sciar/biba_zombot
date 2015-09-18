@@ -5,8 +5,20 @@ using UnityEngine;
 
 namespace BibaFramework.BibaMenu
 {
+    [RequireComponent(typeof(Animator))]
 	public abstract class BaseBibaView : View
 	{
+        private Animator _anim;
+        private Animator anim {
+            get {
+                if(_anim == null)
+                {
+                    _anim = GetComponent<Animator>();
+                }
+                return _anim;
+            }
+        }
+
         public void StartEntryAnimation(Action onComplete)
         {
             StartCoroutine(PlayEntryAnimation(onComplete));
@@ -20,7 +32,19 @@ namespace BibaFramework.BibaMenu
 
         protected virtual IEnumerator AnimateMenuEntry()
         {
-            yield return new WaitForSeconds(1.0f);
+            if (anim.runtimeAnimatorController != null && anim.HasState(0, Animator.StringToHash(BibaConstants.BIBA_MENU_ENTRY_ANIMATION_STATE)))
+            {
+                anim.SetTrigger(BibaConstants.BIBA_MENU_ENTRY_ANIMATION_TRIGGER);
+
+                while (anim.GetCurrentAnimatorStateInfo(0).IsName(BibaConstants.BIBA_MENU_ENTRY_ANIMATION_STATE))
+                {
+                    yield return null;
+                }
+            }
+            else
+            {
+                yield return new WaitForSeconds(1.0f);
+            }
         }
 
         public void StartExitAnimation(Action onComplete)
@@ -36,7 +60,19 @@ namespace BibaFramework.BibaMenu
 
         protected virtual IEnumerator AnimateMenuExit()
         {
-            yield return new WaitForSeconds(1.0f);
+            if (anim.runtimeAnimatorController != null && anim.HasState(0, Animator.StringToHash(BibaConstants.BIBA_MENU_EXIT_ANIMATION_STATE)))
+            {
+                anim.SetTrigger(BibaConstants.BIBA_MENU_EXIT_ANIMATION_TRIGGER);
+                
+                while (anim.GetCurrentAnimatorStateInfo(0).IsName(BibaConstants.BIBA_MENU_EXIT_ANIMATION_STATE))
+                {
+                    yield return null;
+                }
+            }
+            else
+            {
+                yield return new WaitForSeconds(1.0f);
+            }
         }
 	}
 }

@@ -23,7 +23,10 @@ namespace BibaFramework.BibaMenu
         {
             Retain();
 
-            PlayMenuLoadedAnimationSignal.Dispatch(true);
+            if (!BibaMenuState.Popup)
+            {
+                PlayMenuLoadedAnimationSignal.Dispatch(true);
+            }
             BibaSceneStack.Push(BibaMenuState);
             new Task(LoadLevelAsync(), true);
         }
@@ -33,13 +36,16 @@ namespace BibaFramework.BibaMenu
             AsyncOperation asyncOp = Application.LoadLevelAdditiveAsync(BibaMenuState.GameScene.ToString());
             yield return asyncOp;
 
-          //  yield return new WaitForSeconds(1.0f);
             LevelLoaded();
         }
 
         void LevelLoaded()
         {
-            PlayMenuLoadedAnimationSignal.Dispatch(false);
+            if (!BibaMenuState.Popup)
+            {
+                PlayMenuLoadedAnimationSignal.Dispatch(false);
+            }
+
             Release();
             SetupMenuSignal.Dispatch(BibaMenuState);;
         }
