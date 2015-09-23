@@ -18,6 +18,5 @@ namespace BibaFramework.BibaMenu
             _button = (Button)GetComponent<Button>();
             _button.onClick.AddListener(() => ButtonClickedSignal.Dispatch(MenuStateTrigger));
         }
-
     }
 }

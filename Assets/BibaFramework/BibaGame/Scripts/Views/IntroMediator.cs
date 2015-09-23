@@ -1,4 +1,6 @@
 using BibaFramework.BibaMenu;
+using BibaFramework.BibaTag;
+using UnityEngine;
 
 namespace BibaFramework.BibaGame
 {
@@ -9,9 +11,21 @@ namespace BibaFramework.BibaGame
 
         public override BaseBibaView View { get { return IntroView; } }
 
+        [Inject]
+        public IBibaTagService BibaTagService { get; set; }
+
+        [Inject]
+        public TagScanningCompletedSignal TagScanningCompletedSignal { get; set; }
+
         public override void SetupMenu (BibaMenuState menuState)
         {
-          //  throw new System.NotImplementedException ();
+            TagScanningCompletedSignal.AddOnce(ScanCompleted);
+            BibaTagService.StartScanWithCompleteHandler();
+        }
+
+        void ScanCompleted()
+        {
+            IntroView.Text.text = BibaTagService.LastScannedTags.Count.ToString();
         }
    	}
 }

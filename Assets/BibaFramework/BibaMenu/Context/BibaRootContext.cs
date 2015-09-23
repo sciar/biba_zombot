@@ -2,6 +2,7 @@
 using UnityEngine;
 using BibaFramework.BibaMenu;
 using strange.extensions.context.api;
+using BibaFramework.BibaTag;
 
 namespace BibaFramework.BibaMenu
 {
@@ -22,6 +23,7 @@ namespace BibaFramework.BibaMenu
 
         protected override void BindServices ()
         {
+            injectionBinder.Bind<IBibaTagService>().To<VuforiaTagService>().ToSingleton().CrossContext();
         }
 
         protected override void BindViews ()
@@ -74,6 +76,8 @@ namespace BibaFramework.BibaMenu
             injectionBinder.Bind<PlayMenuLoadAnimationSignal>().ToSingleton().CrossContext();
             injectionBinder.Bind<MenuEntryAnimationEndedSignal>().ToSingleton().CrossContext();
             injectionBinder.Bind<MenuExitAnimationEndedSignal>().ToSingleton().CrossContext();
+
+            injectionBinder.Bind<TagScanningCompletedSignal>().ToSingleton().CrossContext();
         }
     }
 }

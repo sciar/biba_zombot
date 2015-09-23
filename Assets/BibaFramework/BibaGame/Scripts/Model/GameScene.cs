@@ -1,4 +1,4 @@
-namespace BibaFramework.BibaGame
+namespace BibaFramework.BibaMenu
 {
     public enum GameScene
     {

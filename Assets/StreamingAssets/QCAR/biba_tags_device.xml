@@ -1,12 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <QCARConfig xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="qcar_config.xsd">
   <Tracking>
+    <ImageTarget name="equipment_tube_2" size="10.000000 9.773463" />
+    <ImageTarget name="equipment_swing_2" size="10.000000 9.902280" />
+    <ImageTarget name="equipment_slide_2" size="10.000000 9.900990" />
+    <ImageTarget name="equipment_overhang_2" size="10.000000 9.612904" />
+    <ImageTarget name="equipment_empty3_2" size="10.000000 9.453376" />
+    <ImageTarget name="equipment_empty2_2" size="10.000000 9.836065" />
+    <ImageTarget name="equipment_empty1_2" size="10.000000 10.000000" />
+    <ImageTarget name="equipment_climber_2" size="10.000000 10.101695" />
+    <ImageTarget name="equipment_bridge_2" size="10.000000 9.902280" />
+    <ImageTarget name="satellite_purple" size="10.000000 10.000000" />
     <ImageTarget name="satellite_blue" size="10.000000 10.000000" />
     <ImageTarget name="satellite_green" size="10.000000 10.000000" />
     <ImageTarget name="satellite_orange" size="10.000000 10.000000" />
     <ImageTarget name="satellite_red" size="10.000000 10.000000" />
     <ImageTarget name="satellite_yellow" size="10.000000 10.000000" />
-    <ImageTarget name="satellite_purple" size="10.000000 10.000000" />
     <ImageTarget name="equipment_tube" size="3.000000 2.991379" />
     <ImageTarget name="equipment_swing" size="3.000000 2.991379" />
     <ImageTarget name="equipment_slide" size="3.000000 2.991379" />

@@ -12,5 +12,6 @@ namespace BibaFramework.BibaGame
         public override void SetupMenu (BibaMenuState menuState)
         {
         }
+
 	}
 }

@@ -22,7 +22,7 @@ namespace BibaFramework.BibaMenuEditor
 		private const string UNITY_EXTENSION = ".unity";
         private const string GAMESCENE = "GameScene";
 		private const string GAMESCENES_FILE = GAMESCENE + ".cs";
-        private const string NAMESPACE_GAMESCENE_FILE = "BibaFramework.BibaMenu";
+        private const string NAMESPACE_GAMESCENE_FILE = "BibaFramework.BibaGame";
 
 		private string _inputDir = string.Empty;
 		private string _outputDir = string.Empty;
