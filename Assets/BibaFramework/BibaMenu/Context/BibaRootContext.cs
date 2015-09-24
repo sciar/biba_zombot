@@ -23,7 +23,7 @@ namespace BibaFramework.BibaMenu
 
         protected override void BindServices ()
         {
-            injectionBinder.Bind<IBibaTagService>().To<VuforiaTagService>().ToSingleton().CrossContext();
+            injectionBinder.Bind<IBibaTagService>().To<ARToolKitTagService>().ToSingleton().CrossContext();
         }
 
         protected override void BindViews ()
