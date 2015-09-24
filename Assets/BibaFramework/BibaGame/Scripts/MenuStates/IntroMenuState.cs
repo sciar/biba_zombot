@@ -1,12 +1,12 @@
-﻿using BibaFramework.BibaMenu;
+using BibaFramework.BibaMenu;
 
 namespace BibaFramework.BibaGame
 {
     public class IntroMenuState : BibaMenuState 
     {
-        public override GameScene GameScene {
+        public override BibaScene GameScene {
             get {
-                return GameScene.Intro;
+                return BibaScene.Intro;
             }
         }
     }

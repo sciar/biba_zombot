@@ -73,7 +73,6 @@ namespace BibaFramework.BibaTag
         void OnMarkerFound(ARMarker marker)
         {
             ARMarkerFoundSignal.Dispatch(marker.PatternFilename);
-            //Debug.Log(marker.PatternFilename + "found");
         }
     }
 }

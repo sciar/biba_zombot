@@ -1,21 +1,24 @@
-﻿namespace BibaFramework.BibaTag
+namespace BibaFramework.BibaTag
 {
-    public enum BibaTag 
+    public enum BibaTag
     {
-        //Equipments
-        equipment_bridge,
-        equipment_tube,
-        equipment_overhang,
-        equipment_climber,
-        equipment_swing,
-        equipment_slide,
-
-        //Satellites
-        satellite_red,
-        satellite_orange,
-        satellite_yellow,
-        satellite_green,
-        satellite_purple,
-        satellite_blue,
+        equipment_a,
+        equipment_b,
+        equipment_c,
+        equipment_d,
+        equipment_e,
+        equipment_f,
+        equipment_g,
+        equipment_h,
+        equipment_i,
+        equipment_j,
+        equipment_l,
+        equipment_m,
+        equipment_n,
+        equipment_o,
+        equipment_p,
+        equipment_q,
+        equipment_r,
+        equipment_s,
     }
 }

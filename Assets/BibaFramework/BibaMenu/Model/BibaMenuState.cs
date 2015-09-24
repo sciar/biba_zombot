@@ -1,11 +1,11 @@
-﻿using UnityEngine;
+using UnityEngine;
 using BibaFramework.BibaGame;
 
 namespace BibaFramework.BibaMenu
 {
 	public abstract class BibaMenuState : StateMachineBehaviour 
 	{
-        public abstract GameScene GameScene { get; }
+        public abstract BibaScene GameScene { get; }
         public bool Popup;
         public bool FullScreen { get { return !Popup; } }
 

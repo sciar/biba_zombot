@@ -17,7 +17,7 @@ namespace BibaFramework.BibaGame
 
         public override void SetupMenu (BibaMenuState menuState)
         {
-            BibaTagService.StartScanWithCompleteHandler(x => x >= 3, ScanCompleted);
+            BibaTagService.StartScanWithCompleteHandler(x => x >= 9, ScanCompleted);
         }
 
         void ScanCompleted()

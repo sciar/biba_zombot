@@ -4,9 +4,9 @@ namespace BibaFramework.BibaGame
 {
     public class PrivacyStatementMenuState : BibaMenuState 
     {
-        public override GameScene GameScene {
+        public override BibaScene GameScene {
             get {
-                return GameScene.PrivacyStatement;
+                return BibaScene.PrivacyStatement;
             }
         }
     }
