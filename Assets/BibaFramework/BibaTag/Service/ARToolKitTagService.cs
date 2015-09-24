@@ -11,19 +11,19 @@ namespace BibaFramework.BibaTag
     public class ARToolKitTagService : IBibaTagService
     {
         [Inject]
-        public TagScanningCompletedSignal TagScanningCompletedSignal { get; set; }
+        public ToggleScanSignal ToggleScanSignal { get; set; }
+
+        [Inject]
+        public TagScannedSignal TagScannedSignal { get; set; }
 
         private HashSet<BibaTag> _lastScannedTags;
         public HashSet<BibaTag> LastScannedTags {
             get {
                 if(_lastScannedTags == null)
                 {
+                    TagScannedSignal.AddListener(OnTagScanned);
                     _lastScannedTags = new HashSet<BibaTag>();
-                    //VuforiaBehaviour.Instance.gameObject.GetComponentsInChildren<BibaTrackableEventHandler>().ToList().ForEach(handler => {
-
-                      //  handler.TrackingFoundSignal.RemoveListener(TrackingFound);
-                      //  handler.TrackingFoundSignal.AddListener(TrackingFound);
-                    //});
+  
                 }
                 return _lastScannedTags;
             }
@@ -31,28 +31,31 @@ namespace BibaFramework.BibaTag
                 _lastScannedTags = value;
             }
         }
-
-        public void StartScanWithCompleteHandler()
+        public void StartScanWithCompleteHandler (Func<int, bool> isCompleted, Action onCompleted)
         {
-            new Task(StartScanning(), true);
+            new Task(StartScanning(isCompleted, onCompleted), true);
         }
 
-        IEnumerator StartScanning()
+        IEnumerator StartScanning(Func<int, bool> isCompleted, Action onCompleted)
         {
-           // VuforiaBehaviour.Instance.enabled = true;
+            ToggleScanSignal.Dispatch(true);
             LastScannedTags.Clear();
 
-            yield return new WaitForSeconds(3);
+            while (!isCompleted(LastScannedTags.Count))
+            {
+                yield return null;
+            }
 
-            TagScanningCompletedSignal.Dispatch();
-           // VuforiaBehaviour.Instance.enabled = false;
+            ToggleScanSignal.Dispatch(false);
+            onCompleted();
         }
 
-       void TrackingFound(string itemName)
+
+        void OnTagScanned(string fileName)
         {
-            if(Enum.IsDefined(typeof(BibaTag), itemName))
+            if(Enum.IsDefined(typeof(BibaTag), fileName))
             {
-                LastScannedTags.Add((BibaTag)Enum.Parse(typeof(BibaTag), itemName));
+                LastScannedTags.Add((BibaTag)Enum.Parse(typeof(BibaTag), fileName));
             }
         }
     }

@@ -14,13 +14,10 @@ namespace BibaFramework.BibaGame
         [Inject]
         public IBibaTagService BibaTagService { get; set; }
 
-        [Inject]
-        public TagScanningCompletedSignal TagScanningCompletedSignal { get; set; }
 
         public override void SetupMenu (BibaMenuState menuState)
         {
-            //TagScanningCompletedSignal.AddOnce(ScanCompleted);
-           // BibaTagService.StartScanWithCompleteHandler();
+            BibaTagService.StartScanWithCompleteHandler(x => x >= 3, ScanCompleted);
         }
 
         void ScanCompleted()

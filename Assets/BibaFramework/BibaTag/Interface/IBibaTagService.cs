@@ -6,8 +6,10 @@ namespace BibaFramework.BibaTag
 {
     public interface IBibaTagService 
     {
-        TagScanningCompletedSignal TagScanningCompletedSignal { get; set; }
+        TagScannedSignal TagScannedSignal { get; set; }
+        ToggleScanSignal ToggleScanSignal { get; set; }
+
         HashSet<BibaTag> LastScannedTags { get; set; }
-        void StartScanWithCompleteHandler();
+        void StartScanWithCompleteHandler(Func<int,bool> isCompleted, Action onCompleted);
     }
 }

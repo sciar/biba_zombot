@@ -29,6 +29,7 @@ namespace BibaFramework.BibaMenu
         protected override void BindViews ()
         {
             mediationBinder.Bind<BibaMenuStateMachineView>().To<BibaMenuStateMachineMediator>();
+            mediationBinder.Bind<ARToolKitView>().To<ARToolKitMediator>();
             mediationBinder.Bind<LoadingView>().To<LoadingMediator>();
         }
 
@@ -77,7 +78,8 @@ namespace BibaFramework.BibaMenu
             injectionBinder.Bind<MenuEntryAnimationEndedSignal>().ToSingleton().CrossContext();
             injectionBinder.Bind<MenuExitAnimationEndedSignal>().ToSingleton().CrossContext();
 
-            injectionBinder.Bind<TagScanningCompletedSignal>().ToSingleton().CrossContext();
+            injectionBinder.Bind<ToggleScanSignal>().ToSingleton().CrossContext();
+            injectionBinder.Bind<TagScannedSignal>().ToSingleton().CrossContext();
         }
     }
 }

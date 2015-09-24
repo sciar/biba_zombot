@@ -22,6 +22,6 @@ namespace BibaFramework.BibaMenu
     public class MenuExitAnimationEndedSignal : Signal { }
 
     //BibaTag
+    public class ToggleScanSignal : Signal<bool> { }
     public class TagScannedSignal : Signal<string> { }
-    public class TagScanningCompletedSignal : Signal { }
 }
