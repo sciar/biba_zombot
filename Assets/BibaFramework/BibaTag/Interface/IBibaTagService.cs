@@ -10,6 +10,9 @@ namespace BibaFramework.BibaTag
         ToggleScanSignal ToggleScanSignal { get; set; }
 
         HashSet<BibaTag> LastScannedTags { get; set; }
+
+        void StartScan();
+        void StopScan();
         void StartScanWithCompleteHandler(Func<int,bool> isCompleted, Action onCompleted);
     }
 }

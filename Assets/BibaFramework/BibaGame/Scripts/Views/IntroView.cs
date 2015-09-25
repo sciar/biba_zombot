@@ -5,6 +5,7 @@ namespace BibaFramework.BibaGame
 {
 	public class IntroView : BaseBibaView
     {
-        public Text Text;
+        public Text TitleText;
+        public Button ScanButton;
     }
 }

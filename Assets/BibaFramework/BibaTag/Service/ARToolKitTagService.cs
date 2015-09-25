@@ -31,6 +31,17 @@ namespace BibaFramework.BibaTag
                 _lastScannedTags = value;
             }
         }
+
+        public void StartScan()
+        {
+            ToggleScanSignal.Dispatch(true);
+        }
+
+        public void StopScan()
+        {
+            ToggleScanSignal.Dispatch(false);
+        }
+
         public void StartScanWithCompleteHandler (Func<int, bool> isCompleted, Action onCompleted)
         {
             new Task(StartScanning(isCompleted, onCompleted), true);
@@ -38,7 +49,7 @@ namespace BibaFramework.BibaTag
 
         IEnumerator StartScanning(Func<int, bool> isCompleted, Action onCompleted)
         {
-            ToggleScanSignal.Dispatch(true);
+            StartScan();
             LastScannedTags.Clear();
 
             while (!isCompleted(LastScannedTags.Count))
@@ -46,10 +57,9 @@ namespace BibaFramework.BibaTag
                 yield return null;
             }
 
-            ToggleScanSignal.Dispatch(false);
+            StopScan();
             onCompleted();
         }
-
 
         void OnTagScanned(string fileName)
         {

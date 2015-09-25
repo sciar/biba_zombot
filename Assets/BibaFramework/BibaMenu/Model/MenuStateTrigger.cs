@@ -4,8 +4,7 @@ namespace BibaFramework.BibaMenu
     public enum MenuStateTrigger
     {
         Next,
-        Push,
-        Pop,
         Back,
+        Scan,
     }
 }

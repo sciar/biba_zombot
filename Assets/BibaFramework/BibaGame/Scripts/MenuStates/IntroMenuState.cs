@@ -5,9 +5,12 @@ namespace BibaFramework.BibaGame
     public class IntroMenuState : BibaMenuState 
     {
         public override BibaScene GameScene {
-            get {
+            get 
+            {
                 return BibaScene.Intro;
             }
         }
+
+        public bool PrivatePolicyAccepted;
     }
 }

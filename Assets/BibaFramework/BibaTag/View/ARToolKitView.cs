@@ -18,7 +18,7 @@ namespace BibaFramework.BibaTag
 
         private ARController _arController;
 
-        void Start()
+        protected override void Start()
         {
             _arController = GetComponentInChildren<ARController>();
             SetupMarkerPatterns();
@@ -47,6 +47,8 @@ namespace BibaFramework.BibaTag
                 arTrackedObject.transform.parent = ARTargetContainer;
                 arTrackedObject.MarkerTag = arMarker.Tag;
                 arTrackedObject.eventReceiver = gameObject;
+                arTrackedObject.secondsToRemainVisible = float.MaxValue;
+
             }
 
             //Have to add the AROrigin for the ArTrackedObject eventReceiver assignment.
