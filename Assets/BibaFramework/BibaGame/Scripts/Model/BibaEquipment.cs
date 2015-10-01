@@ -1,6 +1,6 @@
 using BibaFramework.BibaTag;
-using System.Linq;
 using System;
+using System.Linq;
 
 namespace BibaFramework.BibaGame
 {
@@ -11,8 +11,26 @@ namespace BibaFramework.BibaGame
 
         BibaTagType FindBibaTagType(string enumPrefix)
         {
-            return Enum.GetValues(typeof(BibaTagType)).Cast<BibaTagType>().ToList().Find(tagType => tagType.ToString().StartsWith(enumPrefix + this.GetType().Name, StringComparison.InvariantCultureIgnoreCase));
+            return Enum.GetValues(typeof(BibaTagType)).Cast<BibaTagType>().ToList().Find(tagType => tagType.ToString().Equals(enumPrefix + this.GetType().Name, StringComparison.InvariantCultureIgnoreCase));
         }
     }
 
+    public class Bridge : BibaEquipment
+    {
+    }
+    public class Climber : BibaEquipment
+    {
+    }
+    public class Overhang : BibaEquipment
+    {
+    }
+    public class Slide : BibaEquipment
+    {
+    }
+    public class Swing : BibaEquipment
+    {
+    }
+    public class Tube : BibaEquipment
+    {
+    }
 }

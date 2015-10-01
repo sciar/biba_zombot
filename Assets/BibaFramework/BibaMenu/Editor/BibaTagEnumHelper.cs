@@ -25,13 +25,13 @@ namespace BibaFramework.BibaMenuEditor
 
         protected override string OutputFileName {
             get {
-                return "BibaTag.cs";
+                return "BibaTagType.cs";
             }
         }
 
         protected override string OutputClassName {
             get {
-                return "BibaTag";
+                return "BibaTagType";
             }
         }
 

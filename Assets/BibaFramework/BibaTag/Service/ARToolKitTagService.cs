@@ -23,7 +23,6 @@ namespace BibaFramework.BibaTag
                 {
                     TagScannedSignal.AddListener(OnTagScanned);
                     _lastScannedTags = new HashSet<BibaTagType>();
-  
                 }
                 return _lastScannedTags;
             }
