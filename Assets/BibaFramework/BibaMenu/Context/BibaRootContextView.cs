@@ -15,7 +15,7 @@ namespace BibaFramework.BibaMenu
                 _instance = this;
                 context = new BibaRootContext(this);
 
-                ((BibaRootContext)context).injectionBinder.Bind<Animator>().To(GetComponentInChildren<Animator>()).ToName(BibaConstants.BIBA_STATE_MACHINE).ToSingleton().CrossContext();
+                ((BibaRootContext)context).injectionBinder.Bind<Animator>().To(GetComponentInChildren<Animator>()).ToName(BibaMenuConstants.BIBA_STATE_MACHINE).ToSingleton().CrossContext();
 
                 DontDestroyOnLoad(gameObject);
 

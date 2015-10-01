@@ -3,8 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using BibaFramework.BibaMenu;
 using BibaFramework.Utility;
+using BibaFramework.BibaGame;
 
 namespace BibaFramework.BibaTag
 {
@@ -16,13 +16,13 @@ namespace BibaFramework.BibaTag
         [Inject]
         public TagScannedSignal TagScannedSignal { get; set; }
 
-        private HashSet<BibaTag> _lastScannedTags;
-        public HashSet<BibaTag> LastScannedTags {
+        private HashSet<BibaTagType> _lastScannedTags;
+        public HashSet<BibaTagType> LastScannedTags {
             get {
                 if(_lastScannedTags == null)
                 {
                     TagScannedSignal.AddListener(OnTagScanned);
-                    _lastScannedTags = new HashSet<BibaTag>();
+                    _lastScannedTags = new HashSet<BibaTagType>();
   
                 }
                 return _lastScannedTags;
@@ -63,9 +63,9 @@ namespace BibaFramework.BibaTag
 
         void OnTagScanned(string fileName)
         {
-            if(Enum.IsDefined(typeof(BibaTag), fileName))
+            if(Enum.IsDefined(typeof(BibaTagType), fileName))
             {
-                LastScannedTags.Add((BibaTag)Enum.Parse(typeof(BibaTag), fileName));
+                LastScannedTags.Add((BibaTagType)Enum.Parse(typeof(BibaTagType), fileName));
             }
         }
     }

@@ -2,8 +2,6 @@
 
 namespace BibaFramework.BibaMenu
 {
-    public class StartSignal : Signal { }
-
     //BibaMenu
     public class TriggerNextMenuStateSignal : Signal<MenuStateTrigger>{ }
     public class ProcessNextMenuStateSignal : Signal<BibaMenuState>{ }
@@ -17,11 +15,7 @@ namespace BibaFramework.BibaMenu
     public class PlayMenuEntryAnimationSignal : Signal { } 
     public class PlayMenuExitedAnimationSignal : Signal { } 
     public class PlayMenuLoadAnimationSignal : Signal<bool> { }
-   
+
     public class MenuEntryAnimationEndedSignal : Signal { }
     public class MenuExitAnimationEndedSignal : Signal { }
-
-    //BibaTag
-    public class ToggleScanSignal : Signal<bool> { }
-    public class TagScannedSignal : Signal<string> { }
 }

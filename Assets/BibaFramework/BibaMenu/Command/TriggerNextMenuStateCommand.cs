@@ -8,7 +8,7 @@ namespace BibaFramework.BibaMenu
         [Inject]
         public MenuStateTrigger MenuStateTrigger { get; set; }
 
-        [Inject(BibaConstants.BIBA_STATE_MACHINE)]
+        [Inject(BibaMenuConstants.BIBA_STATE_MACHINE)]
         public Animator StateMachine { get; set; }
 
         public override void Execute ()

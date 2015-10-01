@@ -1,9 +1,7 @@
 namespace BibaFramework.BibaTag
 {
-    public enum BibaTag
+    public enum BibaTagType
     {
-        equipment_a,
-        equipment_b,
         equipment_c,
         equipment_e,
         equipment_f,
@@ -19,5 +17,11 @@ namespace BibaFramework.BibaTag
         equipment_q,
         equipment_r,
         equipment_s,
+        satellite_bridge,
+        satellite_climber,
+        satellite_overhang,
+        satellite_slide,
+        satellite_swing,
+        satellite_tube,
     }
 }

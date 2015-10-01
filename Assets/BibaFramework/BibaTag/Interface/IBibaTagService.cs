@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System;
 using BibaFramework.BibaMenu;
+using BibaFramework.BibaGame;
 
 namespace BibaFramework.BibaTag
 {
@@ -9,7 +10,7 @@ namespace BibaFramework.BibaTag
         TagScannedSignal TagScannedSignal { get; set; }
         ToggleScanSignal ToggleScanSignal { get; set; }
 
-        HashSet<BibaTag> LastScannedTags { get; set; }
+        HashSet<BibaTagType> LastScannedTags { get; set; }
 
         void StartScan();
         void StopScan();
