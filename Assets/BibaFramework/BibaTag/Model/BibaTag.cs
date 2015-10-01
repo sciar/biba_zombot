@@ -5,7 +5,6 @@ namespace BibaFramework.BibaTag
         equipment_a,
         equipment_b,
         equipment_c,
-        equipment_d,
         equipment_e,
         equipment_f,
         equipment_g,

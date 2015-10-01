@@ -368,6 +368,10 @@ public class ARController : MonoBehaviour
 	
 	void OnApplicationPause(bool paused)
 	{
+        #if UNITY_IOS && !UNITY_EDITOR
+        return;
+        #endif
+
 		//Log(LogTag + "ARController.OnApplicationPause(" + paused + ")");
 		if (paused) {
 			if (_running) {
@@ -679,6 +683,7 @@ public class ARController : MonoBehaviour
 					if (_videoBackgroundCameraGO0 == null || _videoBackgroundCamera0 == null) {
 						Log (LogTag + "Error: unable to create video background camera.");
 					}
+                    _videoBackgroundCamera0.cullingMask = 0;
 				} else {
 					// Stereo display.
 					// If not VideoIsStereo, right eye will display copy of video frame.

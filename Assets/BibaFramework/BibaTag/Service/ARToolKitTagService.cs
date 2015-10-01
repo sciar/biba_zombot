@@ -34,6 +34,7 @@ namespace BibaFramework.BibaTag
 
         public void StartScan()
         {
+            LastScannedTags.Clear();
             ToggleScanSignal.Dispatch(true);
         }
 
@@ -50,7 +51,6 @@ namespace BibaFramework.BibaTag
         IEnumerator StartScanning(Func<int, bool> isCompleted, Action onCompleted)
         {
             StartScan();
-            LastScannedTags.Clear();
 
             while (!isCompleted(LastScannedTags.Count))
             {

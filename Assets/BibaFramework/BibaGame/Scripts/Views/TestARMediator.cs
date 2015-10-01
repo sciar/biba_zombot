@@ -25,8 +25,7 @@ namespace BibaFramework.BibaGame
         public override void OnRegister ()
         {
             base.OnRegister ();
-            TestARView.StartScanButton.onClick.AddListener(StartScan);
-            TestARView.StopScanButton.onClick.AddListener(StopScan);
+            TestARView.ResetScanButton.onClick.AddListener(ResetScan);
 
             TagScannedSignal.AddListener(TagScanned);
         }
@@ -34,20 +33,15 @@ namespace BibaFramework.BibaGame
         public override void OnRemove ()
         {
             base.OnRemove ();
-            TestARView.StartScanButton.onClick.RemoveListener(StartScan);
-            TestARView.StopScanButton.onClick.RemoveListener(StopScan);
-
+            TestARView.ResetScanButton.onClick.RemoveListener(ResetScan);
+         
             TagScannedSignal.AddListener(TagScanned);
         }
 
-        void StartScan()
+        void ResetScan()
         {
+            TestARView.Text.text = string.Empty;
             BibaTagService.StartScan();
-        }
-
-        void StopScan()
-        {
-            BibaTagService.StopScan();
         }
 
         void TagScanned(string scannedTag)
