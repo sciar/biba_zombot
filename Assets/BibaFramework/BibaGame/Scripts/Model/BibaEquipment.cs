@@ -4,10 +4,16 @@ using System.Linq;
 
 namespace BibaFramework.BibaGame
 {
-    public abstract class BibaEquipment
+    public class BibaEquipment
     {
+        public BibaEquipmentType EquipmentType { get; private set; }
         public BibaTagType EntryTag { get { return FindBibaTagType(BibaTagConstants.BIBA_ENTRY_TAG_PREFIX); } }
         public BibaTagType SatelliteTag { get { return FindBibaTagType(BibaTagConstants.BIBA_SATELLITE_TAG_PREFIX); } }
+
+        public BibaEquipment(BibaEquipmentType equipmentType)
+        {
+            EquipmentType = equipmentType;
+        }
 
         BibaTagType FindBibaTagType(string enumPrefix)
         {
@@ -15,22 +21,13 @@ namespace BibaFramework.BibaGame
         }
     }
 
-    public class Bridge : BibaEquipment
+    public enum BibaEquipmentType
     {
-    }
-    public class Climber : BibaEquipment
-    {
-    }
-    public class Overhang : BibaEquipment
-    {
-    }
-    public class Slide : BibaEquipment
-    {
-    }
-    public class Swing : BibaEquipment
-    {
-    }
-    public class Tube : BibaEquipment
-    {
+        bridge,
+        climber,
+        overhang,
+        slide,
+        swing,
+        tube,
     }
 }

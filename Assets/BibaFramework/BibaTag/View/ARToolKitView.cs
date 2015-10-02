@@ -8,7 +8,7 @@ namespace BibaFramework.BibaTag
 {
     public class ARToolKitView : View 
     {
-        private const float PATTERN_WIDTH = 0.1f;
+        private const float PATTERN_WIDTH = 0.08f;
 
         public GameObject ARMarkerPrefab;
         public string ARPatternResourceFolderPath;
@@ -47,8 +47,6 @@ namespace BibaFramework.BibaTag
                 arTrackedObject.transform.parent = ARTargetContainer;
                 arTrackedObject.MarkerTag = arMarker.Tag;
                 arTrackedObject.eventReceiver = gameObject;
-                arTrackedObject.secondsToRemainVisible = float.MaxValue;
-
             }
 
             //Have to add the AROrigin for the ArTrackedObject eventReceiver assignment.

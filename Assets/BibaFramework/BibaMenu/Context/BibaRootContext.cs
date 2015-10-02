@@ -20,6 +20,7 @@ namespace BibaFramework.BibaMenu
         protected override void BindModels ()
         {
             injectionBinder.Bind<BibaSceneStack>().To<BibaSceneStack>().ToSingleton().CrossContext();
+            injectionBinder.Bind<BibaGameModel>().To<BibaGameModel>().ToSingleton().CrossContext();
         }
 
         protected override void BindServices ()

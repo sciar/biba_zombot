@@ -7,6 +7,11 @@ namespace BibaFramework.BibaGame
 {
     public class BibaGameModel
     {
-        public List<BibaEquipment> Equipments { get; set; }
+        public Dictionary<BibaEquipmentType, BibaEquipment> EquipmentDict { get; set; }
+
+        public BibaGameModel()
+        {
+            EquipmentDict = new Dictionary<BibaEquipmentType, BibaEquipment>();
+        }
     }
 }
