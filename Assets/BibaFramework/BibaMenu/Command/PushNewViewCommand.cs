@@ -21,13 +21,34 @@ namespace BibaFramework.BibaMenu
 
         public override void Execute ()
         {
-            Retain();
+            PushMenuStateOnStack();
+            LoadNewGameScene();
+        }
 
+        void PushMenuStateOnStack()
+        {
+            if (BibaSceneStack.Contains(BibaMenuState))
+            {
+                return;
+            }
+            BibaSceneStack.Push(BibaMenuState);
+        }
+
+        void LoadNewGameScene()
+        {
+            if(GameObject.Find(BibaMenuState.GameScene.ToString()) != null)
+            {
+                SetupMenuSignal.Dispatch(BibaMenuState);
+                return;
+            }
+            
+            Retain();
+            
             if (!BibaMenuState.Popup)
             {
                 PlayMenuLoadedAnimationSignal.Dispatch(true);
             }
-            BibaSceneStack.Push(BibaMenuState);
+            
             new Task(LoadLevelAsync(), true);
         }
 

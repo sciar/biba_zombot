@@ -15,14 +15,17 @@ namespace BibaFramework.BibaMenu
                 _instance = this;
                 context = new BibaRootContext(this);
 
-                ((BibaRootContext)context).injectionBinder.Bind<Animator>().To(GetComponentInChildren<Animator>()).ToName(BibaMenuConstants.BIBA_STATE_MACHINE).ToSingleton().CrossContext();
+                var anim = GetComponentInChildren<Animator>();
+               ((BibaRootContext)context).injectionBinder.Bind<Animator>().To(anim).ToName(BibaMenuConstants.BIBA_STATE_MACHINE).ToSingleton().CrossContext();
+                anim.CrossFade(Application.loadedLevelName, 0);
 
                 DontDestroyOnLoad(gameObject);
 
             }
             else
             {
-                Destroy(this.gameObject);
+                gameObject.SetActive(false);
+                DestroyImmediate(this.gameObject);
             }
         }
     }

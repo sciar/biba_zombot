@@ -1,4 +1,5 @@
 using strange.extensions.command.impl;
+using UnityEngine;
 
 namespace BibaFramework.BibaGame
 {
@@ -24,6 +25,8 @@ namespace BibaFramework.BibaGame
             {
                 BibaGameModel.EquipmentDict.Remove(BibaEquipmentType);
             }
+
+            Debug.Log(string.Format("Equipment: {0} - {1}", BibaEquipmentType.ToString(), Status ? "Selected" : "Deselected"));
         }
     }
 }

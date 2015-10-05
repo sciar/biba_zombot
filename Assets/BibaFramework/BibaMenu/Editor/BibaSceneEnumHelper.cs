@@ -80,7 +80,7 @@ namespace BibaFramework.BibaMenuEditor
                 scenesToAdd.Add (new EditorBuildSettingsScene (sceneFilePath, true));
             });
 
-            var startSceneIndex = scenesToAdd.FindIndex(scene => scene.path.EndsWith("start.unity", StringComparison.InvariantCultureIgnoreCase));
+            var startSceneIndex = scenesToAdd.FindIndex(scene => scene.path.EndsWith("intro.unity", StringComparison.InvariantCultureIgnoreCase));
             if (startSceneIndex != -1)
             {
                 var tempScene = scenesToAdd[0];

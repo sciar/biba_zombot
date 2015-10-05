@@ -7,7 +7,6 @@ namespace BibaFramework.BibaGame
         Intro,
         Main,
         PrivacyStatement,
-        Start,
         TestAR,
     }
 }
