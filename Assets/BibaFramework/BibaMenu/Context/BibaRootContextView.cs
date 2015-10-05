@@ -1,6 +1,7 @@
 ﻿using System;
 using UnityEngine;
 using strange.extensions.context.impl;
+using BibaFramework.BibaAnalytic;
 
 namespace BibaFramework.BibaMenu
 {
@@ -15,10 +16,8 @@ namespace BibaFramework.BibaMenu
                 _instance = this;
                 context = new BibaRootContext(this);
 
-                var anim = GetComponentInChildren<Animator>();
-               ((BibaRootContext)context).injectionBinder.Bind<Animator>().To(anim).ToName(BibaMenuConstants.BIBA_STATE_MACHINE).ToSingleton().CrossContext();
-                anim.CrossFade(Application.loadedLevelName, 0);
-
+                SetupMenuStateMachine();
+                SetupAnalytic();
                 DontDestroyOnLoad(gameObject);
 
             }
@@ -27,6 +26,23 @@ namespace BibaFramework.BibaMenu
                 gameObject.SetActive(false);
                 DestroyImmediate(this.gameObject);
             }
+        }
+
+        void SetupMenuStateMachine()
+        {
+            var anim = GetComponentInChildren<Animator>();
+            ((BibaRootContext)context).injectionBinder.Bind<Animator>().To(anim).ToName(BibaMenuConstants.BIBA_STATE_MACHINE).ToSingleton().CrossContext();
+            anim.CrossFade(Application.loadedLevelName, 0);
+        }
+
+        void SetupAnalytic()
+        {
+            var flurryConfig = GetComponent<FlurryConfigs>();
+
+            var flurryAnalytics = new FlurryAnalyticService(flurryConfig.FlurryIosKey, flurryConfig.FlurryAndroidKey);
+            ((BibaRootContext)context).injectionBinder.Bind<IBibaAnalyticService>().To(flurryAnalytics).ToSingleton().CrossContext();
+
+            Destroy(flurryConfig);
         }
     }
 }
