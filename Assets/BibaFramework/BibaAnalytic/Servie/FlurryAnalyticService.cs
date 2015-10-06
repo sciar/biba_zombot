@@ -33,7 +33,7 @@ namespace BibaFramework.BibaAnalytic
 
         public void TrackStartSession ()
         {
-            _service.LogEvent(BibaAnalyticConstants.START_GAME_EVENT, TrackingParams);
+            _service.LogEvent(BibaAnalyticConstants.START_SESSION_EVENT, TrackingParams);
         }
 
         public void TrackEndSession ()
@@ -46,7 +46,7 @@ namespace BibaFramework.BibaAnalytic
                 parameters.Add(string.Format("{0}{1}", equipment.EquipmentType.ToString(), BibaAnalyticConstants.EQUIPMENT_PLAYED), equipment.Played.ToString());
             }
 
-            _service.LogEvent(BibaAnalyticConstants.END_GAME_EVENT, parameters);
+            _service.LogEvent(BibaAnalyticConstants.END_SESSION_EVENT, parameters);
         }
 
         public void TrackEquipmentSelected (BibaEquipmentType equipmentType)

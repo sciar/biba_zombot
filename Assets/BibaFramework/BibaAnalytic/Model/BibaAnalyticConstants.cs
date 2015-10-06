@@ -4,9 +4,9 @@ namespace BibaFramework.BibaAnalytic
     {
         public const string TIME_STAMP = "time_stamp";
 
-        public const string START_GAME_EVENT = "start_game";
+        public const string START_SESSION_EVENT = "start_session";
 
-        public const string END_GAME_EVENT = "end_game";
+        public const string END_SESSION_EVENT = "end_session";
         public const string END_GAME_EQUIPMENT_USED = "end_game_equipment_used";
         public const string END_GAME_LAST_MENU_SHOWN = "end_game_last_menu_shown";
 
