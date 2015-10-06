@@ -12,5 +12,13 @@ namespace BibaFramework.BibaGame
         public override void SetupMenu (BibaMenuState menuState)
         {
         }
+
+        public override void RegisterSceneDependentSignals ()
+        {
+        }
+        
+        public override void RemoveSceneDependentSignals ()
+        {
+        }
     }
 }

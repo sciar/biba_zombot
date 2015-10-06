@@ -1,5 +1,5 @@
-﻿
-using BibaFramework.BibaMenu;
+﻿using BibaFramework.BibaMenu;
+using System.Linq;
 
 namespace BibaFramework.BibaGame
 {
@@ -8,24 +8,32 @@ namespace BibaFramework.BibaGame
         [Inject]
         public EquipmentSelectView EquipmentSelectView { get; set; }
 
+        [Inject]
+        public EquipmentSelectedSignal EquipmentSelectedSignal { get; set; }
+
         public override BaseBibaView View {
             get {
                 return EquipmentSelectView;
             }
         }
 
-        public override void OnRegister ()
+        public override void RegisterSceneDependentSignals ()
         {
-            base.OnRegister ();
+            EquipmentSelectView.ConfirmButton.onClick.AddListener(ConfirmEquipmentSelection);
         }
 
-        public override void OnRemove ()
+        public override void RemoveSceneDependentSignals ()
         {
-            base.OnRemove ();
+            EquipmentSelectView.ConfirmButton.onClick.RemoveListener(ConfirmEquipmentSelection);
         }
 
         public override void SetupMenu (BibaMenuState menuState)
         {
+        }
+
+        void ConfirmEquipmentSelection()
+        {
+            EquipmentSelectedSignal.Dispatch(EquipmentSelectView.EquipmentSelectToggles.Where(est => est.IsOn).Select(est => est.BibaEquipmentType).ToList());
         }
     }
 }

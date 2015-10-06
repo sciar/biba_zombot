@@ -13,5 +13,12 @@ namespace BibaFramework.BibaGame
         {
         }
 
+        public override void RegisterSceneDependentSignals ()
+        {
+        }
+        
+        public override void RemoveSceneDependentSignals ()
+        {
+        }
 	}
 }

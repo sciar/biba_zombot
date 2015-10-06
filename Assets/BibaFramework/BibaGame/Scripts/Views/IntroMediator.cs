@@ -18,5 +18,13 @@ namespace BibaFramework.BibaGame
                 IntroView.TitleText.text = policyAccepted ? "Intro_Policy_Accepted" : "Intro";
             }
         }
+
+        public override void RegisterSceneDependentSignals ()
+        {
+        }
+        
+        public override void RemoveSceneDependentSignals ()
+        {
+        }
    	}
 }

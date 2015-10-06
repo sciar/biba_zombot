@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using BibaFramework.BibaMenu;
 using strange.extensions.context.api;
 
@@ -25,12 +25,11 @@ namespace BibaFramework.BibaGame
         protected override void BindViews ()
         {
             mediationBinder.Bind<EquipmentSelectView>().To<EquipmentSelectMediator>();
-            mediationBinder.Bind<EquipmentSelectToggleView>().To<EquipmentSelectToggleMediator>();
         }
 
         protected override void BindCommands ()
         {   
-            commandBinder.Bind<EquipmentSelectToggledSignal>().To<EquipmentSelectToggledCommand>();
+            commandBinder.Bind<EquipmentSelectedSignal>().To<EquipmentSelectedCommand>();
         }
 
         protected override void BindSignals ()

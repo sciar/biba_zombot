@@ -1,9 +1,20 @@
+using System;
+using System.Collections.Generic;
 using Analytics;
+using BibaFramework.BibaGame;
+using BibaFramework.BibaMenu;
+using BibaFramework.BibaTag;
 
 namespace BibaFramework.BibaAnalytic
 {
     public class FlurryAnalyticService : IBibaAnalyticService
     {
+        [Inject]
+        public BibaGameModel BibaGameModel { get; set; }
+
+        [Inject]
+        public BibaSceneStack BibaSceneStack { get; set; }
+
         private Flurry _service;
 
         public FlurryAnalyticService(string iosKey, string androidKey)
@@ -12,37 +23,62 @@ namespace BibaFramework.BibaAnalytic
             _service.SetLogLevel(LogLevel.All);
             _service.StartSession(iosKey, androidKey);
 
-            TrackStartGame(new System.Collections.Generic.Dictionary<string, string>());
+            TrackStartSession();
         }
 
         ~FlurryAnalyticService()
         {
-            TrackEndRound(new System.Collections.Generic.Dictionary<string, string>());
+            TrackEndSession();
         }
 
-        public void TrackStartGame (System.Collections.Generic.Dictionary<string, string> parameters)
+        public void TrackStartSession ()
         {
-            //Automatically implemented by Flurry
+            _service.LogEvent(BibaAnalyticConstants.START_GAME_EVENT, TrackingParams);
         }
 
-        public void TrackEndGame (System.Collections.Generic.Dictionary<string, string> parameters, string lastScene)
+        public void TrackEndSession ()
         {
-            //Automatically implemented by Flurry
+            var parameters = TrackingParams;
+            parameters.Add(BibaAnalyticConstants.END_GAME_LAST_MENU_SHOWN, BibaSceneStack.Count > 0 ? BibaSceneStack.Peek().ToString() : "GameScene.Null");
+
+            foreach (var equipment in BibaGameModel.Equipments)
+            {
+                parameters.Add(string.Format("{0}{1}", equipment.EquipmentType.ToString(), BibaAnalyticConstants.EQUIPMENT_PLAYED), equipment.Played.ToString());
+            }
+
+            _service.LogEvent(BibaAnalyticConstants.END_GAME_EVENT, parameters);
         }
 
-        public void TrackStartRound (System.Collections.Generic.Dictionary<string, string> parameters)
+        public void TrackEquipmentSelected (BibaEquipmentType equipmentType)
         {
-            throw new System.NotImplementedException ();
+            var parameters = TrackingParams;
+            parameters.Add(BibaAnalyticConstants.EQUIPMENT_SELECTED_TYPE, equipmentType.ToString());
+
+            _service.LogEvent(BibaAnalyticConstants.EQUIPMENT_SELECTED_EVENT, parameters);
         }
 
-        public void TrackEndRound (System.Collections.Generic.Dictionary<string, string> parameters)
+        public void TrackEquipmentPlayed(BibaEquipmentType equipmentType)
         {
-            throw new System.NotImplementedException ();
+            var parameters = TrackingParams;
+            parameters.Add(BibaAnalyticConstants.EQUIPMENT_PLAYED_TYPE, equipmentType.ToString());
+            
+            _service.LogEvent(BibaAnalyticConstants.EQUIPMENT_PLAYED_EVENT, parameters);
+        }
+       
+        public void TrackSatelliteTagScanned (BibaTagType tagType)
+        {
+            var parameters = TrackingParams;
+            parameters.Add(BibaAnalyticConstants.TAG_SCANNED_TYPE, tagType.ToString());
+
+            _service.LogEvent(BibaAnalyticConstants.TAG_SCANNED_EVENT, parameters);
         }
 
-        public void TrackSatelliteTagScanned (System.Collections.Generic.Dictionary<string, string> parameters)
-        {
-            throw new System.NotImplementedException ();
+        public Dictionary<string, string> TrackingParams {
+            get {
+                return new Dictionary<string, string>() { 
+                    {BibaAnalyticConstants.TIME_STAMP, DateTime.Now.ToString()}
+                };
+            }
         }
     }
 }

@@ -21,7 +21,6 @@ namespace BibaFramework.BibaMenu
             {
                 Retain();
 
-                Debug.Log("View Loading Animation: " + menuState.GameScene);
                 PlayMenuEntryAnimationSignal.Dispatch();
                 MenuEntryAnimationEndedSignal.AddListener(MenuEntryAnimationCompleted);
             }

@@ -27,18 +27,22 @@ namespace BibaFramework.BibaMenu
         {
             PlayMenuEntryAnimationSignal.AddListener(AnimateMenuEntry);
             PlayMenuExitedAnimationSignal.AddListener(AnimateMenuExit);
-
             SetupMenuSignal.AddListener(SetupMenu);
+
+            RegisterSceneDependentSignals();
         }
 
         public override void OnRemove ()
         {
             PlayMenuEntryAnimationSignal.RemoveListener(AnimateMenuEntry);
             PlayMenuExitedAnimationSignal.RemoveListener(AnimateMenuExit);
-            
             SetupMenuSignal.RemoveListener(SetupMenu);
+
+            RemoveSceneDependentSignals();
         }
 
+        public abstract void RegisterSceneDependentSignals();
+        public abstract void RemoveSceneDependentSignals();
         public abstract void SetupMenu(BibaMenuState menuState);
 
         void AnimateMenuEntry()

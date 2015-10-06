@@ -21,20 +21,16 @@ namespace BibaFramework.BibaGame
         public override void SetupMenu (BibaMenuState menuState)
         {
         }
-       
-        public override void OnRegister ()
-        {
-            base.OnRegister ();
-            TestARView.ResetScanButton.onClick.AddListener(ResetScan);
 
+        public override void RegisterSceneDependentSignals ()
+        {
+            TestARView.ResetScanButton.onClick.AddListener(ResetScan);
             TagScannedSignal.AddListener(TagScanned);
         }
-
-        public override void OnRemove ()
+        
+        public override void RemoveSceneDependentSignals ()
         {
-            base.OnRemove ();
             TestARView.ResetScanButton.onClick.RemoveListener(ResetScan);
-         
             TagScannedSignal.AddListener(TagScanned);
         }
 

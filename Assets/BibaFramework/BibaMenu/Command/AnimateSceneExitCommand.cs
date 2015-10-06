@@ -21,7 +21,6 @@ namespace BibaFramework.BibaMenu
                 var menuState = BibaSceneStack.Peek();
                 if (menuState != null && menuState.ExitAnimation)
                 {
-                    Debug.Log("View Unloading Animation: " + menuState.GameScene.ToString());
                     Retain();
                     
                     PlayMenuExitedAnimationSignal.Dispatch();
