@@ -11,6 +11,10 @@ namespace BibaFramework.BibaGame
         public BibaTagType EntryTag { get { return FindBibaTagType(BibaTagConstants.BIBA_ENTRY_TAG_PREFIX); } }
         public BibaTagType SatelliteTag { get { return FindBibaTagType(BibaTagConstants.BIBA_SATELLITE_TAG_PREFIX); } }
 
+        public BibaEquipment()
+        {
+        }
+
         public BibaEquipment(BibaEquipmentType equipmentType)
         {
             EquipmentType = equipmentType;

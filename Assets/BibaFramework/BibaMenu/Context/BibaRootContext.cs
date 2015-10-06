@@ -4,6 +4,7 @@ using BibaFramework.BibaMenu;
 using strange.extensions.context.api;
 using BibaFramework.BibaTag;
 using BibaFramework.BibaGame;
+using BibaFramework.BibaData;
 
 namespace BibaFramework.BibaMenu
 {
@@ -25,6 +26,7 @@ namespace BibaFramework.BibaMenu
 
         protected override void BindServices ()
         {
+            injectionBinder.Bind<IDataService>().To<JSONDataService>().ToSingleton().CrossContext();
             injectionBinder.Bind<IBibaTagService>().To<ARToolKitTagService>().ToSingleton().CrossContext();
         }
 
@@ -37,6 +39,8 @@ namespace BibaFramework.BibaMenu
 
         protected override void BindCommands ()
         {
+            commandBinder.Bind<StartSignal>().To<LoadGameDataCommand>().InSequence();
+
             commandBinder.Bind<ProcessNextMenuStateSignal>().To<ProcessNextMenuStateCommand>();
 
             commandBinder.Bind<LoadFullSceneSignal>()
@@ -73,6 +77,7 @@ namespace BibaFramework.BibaMenu
 
         protected override void BindSignals ()
         {
+            //BibaMenu
             injectionBinder.Bind<SetupMenuSignal>().ToSingleton().CrossContext();
             injectionBinder.Bind<PlayMenuEntryAnimationSignal>().ToSingleton().CrossContext();
             injectionBinder.Bind<PlayMenuExitedAnimationSignal>().ToSingleton().CrossContext();
@@ -80,6 +85,7 @@ namespace BibaFramework.BibaMenu
             injectionBinder.Bind<MenuEntryAnimationEndedSignal>().ToSingleton().CrossContext();
             injectionBinder.Bind<MenuExitAnimationEndedSignal>().ToSingleton().CrossContext();
 
+            //BibaTag
             injectionBinder.Bind<ToggleScanSignal>().ToSingleton().CrossContext();
             injectionBinder.Bind<TagScannedSignal>().ToSingleton().CrossContext();
         }

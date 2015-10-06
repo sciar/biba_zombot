@@ -1,8 +1,9 @@
-using strange.extensions.command.impl;
-using UnityEngine;
 using System.Collections.Generic;
-using BibaFramework.BibaAnalytic;
 using System.Text;
+using UnityEngine;
+using BibaFramework.BibaAnalytic;
+using BibaFramework.BibaData;
+using strange.extensions.command.impl;
 
 namespace BibaFramework.BibaGame
 {
@@ -17,8 +18,13 @@ namespace BibaFramework.BibaGame
         [Inject]
         public IBibaAnalyticService BibaAnalyticService { get; set; }
 
+        [Inject]
+        public IDataService DataService { get; set; }
+
         public override void Execute ()
         {
+            BibaGameModel.Equipments.Clear();
+
             foreach (var equipType in EquipmentSelected)
             {
                 BibaGameModel.Equipments.Add(new BibaEquipment(equipType));
@@ -26,6 +32,7 @@ namespace BibaFramework.BibaGame
             }
 
             PrintDebugInfo();
+            DataService.WriteGameModel();
         }
 
         void PrintDebugInfo()
