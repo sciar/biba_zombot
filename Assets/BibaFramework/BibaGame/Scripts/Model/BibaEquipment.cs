@@ -7,15 +7,13 @@ namespace BibaFramework.BibaGame
     public class BibaEquipment
     {
         public BibaEquipmentType EquipmentType { get; private set; }
-        public int Amount { get; private set; }
         public int Played { get; set; }
         public BibaTagType EntryTag { get { return FindBibaTagType(BibaTagConstants.BIBA_ENTRY_TAG_PREFIX); } }
         public BibaTagType SatelliteTag { get { return FindBibaTagType(BibaTagConstants.BIBA_SATELLITE_TAG_PREFIX); } }
 
-        public BibaEquipment(BibaEquipmentType equipmentType, int amount = 1)
+        public BibaEquipment(BibaEquipmentType equipmentType)
         {
             EquipmentType = equipmentType;
-            Amount = amount;
         }
 
         BibaTagType FindBibaTagType(string enumPrefix)
@@ -25,7 +23,7 @@ namespace BibaFramework.BibaGame
 
         public override string ToString ()
         {
-            return string.Format ("[BibaEquipment: EquipmentType={0}, Amount={1}]", EquipmentType, Amount);
+            return string.Format ("[BibaEquipment: EquipmentType={0}]", EquipmentType);
         }
     }
 
