@@ -4,6 +4,7 @@ using System.IO;
 using UnityEditor;
 using UnityEngine;
 using System.Linq;
+using BibaFramework.BibaMenu;
 
 namespace BibaFramework.BibaMenuEditor
 {
@@ -80,7 +81,7 @@ namespace BibaFramework.BibaMenuEditor
                 scenesToAdd.Add (new EditorBuildSettingsScene (sceneFilePath, true));
             });
 
-            var startSceneIndex = scenesToAdd.FindIndex(scene => scene.path.EndsWith("intro.unity", StringComparison.InvariantCultureIgnoreCase));
+            var startSceneIndex = scenesToAdd.FindIndex(scene => scene.path.EndsWith(BibaMenuConstants.FIRST_SCENE, StringComparison.InvariantCultureIgnoreCase));
             if (startSceneIndex != -1)
             {
                 var tempScene = scenesToAdd[0];

@@ -3,7 +3,8 @@ using System.Collections.Generic;
 
 namespace BibaFramework.BibaGame
 {
-    public class StartSignal : Signal { }
+    public class StartSignal : Signal{ }
+    public class EndSignal : Signal{ }
 
     public class EquipmentSelectedSignal : Signal <List<BibaEquipmentType>> { }
 

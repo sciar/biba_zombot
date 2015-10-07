@@ -18,7 +18,6 @@ namespace BibaFramework.BibaMenu
             base.BindBaseComponents ();
 
             mediationBinder.Bind<BibaButtonView>().To<BibaButtonMediator>();
-
             commandBinder.Bind<TriggerNextMenuStateSignal>().To<TriggerNextMenuStateCommand>();
         }
 	}

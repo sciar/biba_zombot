@@ -29,6 +29,7 @@ namespace BibaFramework.BibaGame
         
         protected override void BindCommands ()
         {   
+            commandBinder.Bind<EndSignal>().To<PrivacyStatementAcceptedCommand>();
         }
         
         protected override void BindSignals ()

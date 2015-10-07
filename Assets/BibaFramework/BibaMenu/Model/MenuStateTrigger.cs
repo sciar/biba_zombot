@@ -6,5 +6,6 @@ namespace BibaFramework.BibaMenu
         Next,
         Back,
         Scan,
+        Inactive,
     }
 }

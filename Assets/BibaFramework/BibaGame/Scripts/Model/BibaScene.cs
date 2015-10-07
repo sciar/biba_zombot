@@ -4,9 +4,11 @@ namespace BibaFramework.BibaGame
     {
         EquipmentSelect,
         Game,
+        Inactive,
         Intro,
         Main,
         PrivacyStatement,
+        Start,
         TestAR,
     }
 }

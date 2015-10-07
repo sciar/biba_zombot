@@ -34,6 +34,13 @@ namespace BibaFramework.BibaMenu
 			startSignal.Dispatch();
 			return this;
 		}
+
+        public override void OnRemove ()
+        {
+            EndSignal endSignal = (EndSignal)injectionBinder.GetInstance<EndSignal>();
+            endSignal.Dispatch();
+            base.OnRemove ();
+        }
 		
 		protected override void mapBindings()
 		{
@@ -44,31 +51,12 @@ namespace BibaFramework.BibaMenu
             BindViews();
             BindCommands();
             BindSignals();
-
-            /*
-            injectionBinder.Bind<IExampleModel>().To<ExampleModel>().ToSingleton();
-            injectionBinder.Bind<IExampleService>().To<ExampleService>().ToSingleton();
-            
-            
-            mediationBinder.Bind<ExampleView>().To<ExampleMediator>();
-            
-            
-            commandBinder.Bind<CallWebServiceSignal>().To<CallWebServiceCommand>();
-            
-            //StartSignal is now fired instead of the START event.
-            //Note how we've bound it "Once". This means that the mapping goes away as soon as the command fires.
-			
-			//In MyFirstProject, there's are SCORE_CHANGE and FULFILL_SERVICE_REQUEST Events.
-			//Here we change that to a Signal. The Signal isn't bound to any Command,
-			//so we map it as an injection so a Command can fire it, and a Mediator can receive it
-			injectionBinder.Bind<ScoreChangedSignal>().ToSingleton();
-			injectionBinder.Bind<FulfillWebServiceRequestSignal>().ToSingleton();
-			*/
 		}
 
         protected virtual void BindBaseComponents()
         {   
-            injectionBinder.Bind<StartSignal>().ToSingleton();
+            injectionBinder.Bind<StartSignal>().To<StartSignal>().ToSingleton();
+            injectionBinder.Bind<EndSignal>().To<EndSignal>().ToSingleton();
         }
 
         protected abstract void BindModels();

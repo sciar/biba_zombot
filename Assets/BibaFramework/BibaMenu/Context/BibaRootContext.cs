@@ -5,6 +5,7 @@ using strange.extensions.context.api;
 using BibaFramework.BibaTag;
 using BibaFramework.BibaGame;
 using BibaFramework.BibaData;
+using BibaFramework.BibaAnalytic;
 
 namespace BibaFramework.BibaMenu
 {
@@ -16,6 +17,12 @@ namespace BibaFramework.BibaMenu
         
         public BibaRootContext (MonoBehaviour view, ContextStartupFlags flags) : base(view, flags)
         {
+        }
+
+        protected override void BindBaseComponents ()
+        {
+            base.BindBaseComponents();
+            injectionBinder.Bind<GameObject>().To((GameObject)contextView).ToName(BibaMenuConstants.BIBA_ROOT_CONTEXT_VIEW);
         }
 
         protected override void BindModels ()
@@ -39,7 +46,10 @@ namespace BibaFramework.BibaMenu
 
         protected override void BindCommands ()
         {
-            commandBinder.Bind<StartSignal>().To<LoadGameDataCommand>().InSequence();
+            commandBinder.Bind<StartSignal>().
+                To<LoadGameDataCommand>().
+                    To<SetupGameStateMachineCommand>().
+                    To<SetupAnalyticCommand>().InSequence();
 
             commandBinder.Bind<ProcessNextMenuStateSignal>().To<ProcessNextMenuStateCommand>();
 
