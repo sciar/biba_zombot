@@ -18,32 +18,11 @@ namespace BibaFramework.BibaMenu
             var stateMachine = RootContextView.GetComponentInChildren<Animator>();
             injectionBinder.Bind<Animator>().To(stateMachine).ToName(BibaMenuConstants.BIBA_STATE_MACHINE).ToSingleton().CrossContext();
 
-            /*
-            #if UNITY_EDITOR
-            if(Application.loadedLevelName == BibaScene.Start.ToString())
-            {
-                TransitionToFirstScene(stateMachine);
-            }
-            else
-            {
-                stateMachine.CrossFade(Application.loadedLevelName, 0);
-            }
-            #else
-            TransitionToFirstScene(stateMachine);
-            #endif
-            */
-        }
 
-        void TransitionToFirstScene(Animator stateMachine)
-        {
-            if(BibaGameModel.PrivacyPolicyAccepted)
-            {
-                stateMachine.CrossFade(BibaScene.Intro.ToString(), 0);
-            }
-            else
-            {
-                stateMachine.CrossFade(BibaScene.PrivacyStatement.ToString(), 0);
-            }
+            #if UNITY_EDITOR
+                stateMachine.CrossFade(Application.loadedLevelName, 0);
+            #endif
+
         }
     }
 }
