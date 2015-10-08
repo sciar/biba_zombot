@@ -11,8 +11,9 @@ namespace BibaFramework.BibaData
 
         public override void Execute ()
         {
-            var loadedGameModel = LoaderService.ReadFromDisk<BibaGameModel>(BibaDataConstants.GAME_MODEL_DATA_PATH);
-            injectionBinder.Bind<BibaGameModel>().To(loadedGameModel);
+            var gameModel = LoaderService.ReadGameModel();
+            injectionBinder.Unbind<BibaGameModel>();
+            injectionBinder.Bind<BibaGameModel>().To(gameModel).ToSingleton().CrossContext();
         }
-    }
+    } 
 }

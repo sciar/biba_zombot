@@ -28,7 +28,9 @@ namespace BibaFramework.BibaMenu
         protected override void BindModels ()
         {
             injectionBinder.Bind<BibaSceneStack>().To<BibaSceneStack>().ToSingleton().CrossContext();
-            injectionBinder.Bind<BibaGameModel>().To<BibaGameModel>().ToSingleton().CrossContext();
+
+            //Create a bogus binding for the BibaGameModel because we are going to rebind it in LoadGameDataCommand
+            injectionBinder.Bind<BibaGameModel>().To<BibaGameModel>();
         }
 
         protected override void BindServices ()
@@ -42,15 +44,25 @@ namespace BibaFramework.BibaMenu
             mediationBinder.Bind<BibaMenuStateMachineView>().To<BibaMenuStateMachineMediator>();
             mediationBinder.Bind<ARToolKitView>().To<ARToolKitMediator>();
             mediationBinder.Bind<LoadingView>().To<LoadingMediator>();
+            mediationBinder.Bind<UnityEventListenerView>().To<UnityEventListenerMediator>();
         }
 
         protected override void BindCommands ()
         {
+            //BibaGame
             commandBinder.Bind<StartSignal>().
                 To<LoadGameDataCommand>().
                     To<SetupGameStateMachineCommand>().
+                    To<CheckPrivacyStatementAcceptedCommand>().
                     To<SetupAnalyticCommand>().InSequence();
 
+            commandBinder.Bind<ApplicationPausedSignal>().
+                To<LogLastPlayedTimeCommand>().InSequence();
+           
+            commandBinder.Bind<ApplicationUnPausedSignal>().
+                To<CheckForInactiveResetCommand>().InSequence();
+
+            //BibaMenu
             commandBinder.Bind<ProcessNextMenuStateSignal>().To<ProcessNextMenuStateCommand>();
 
             commandBinder.Bind<LoadFullSceneSignal>()
@@ -94,6 +106,8 @@ namespace BibaFramework.BibaMenu
             injectionBinder.Bind<PlayMenuLoadAnimationSignal>().ToSingleton().CrossContext();
             injectionBinder.Bind<MenuEntryAnimationEndedSignal>().ToSingleton().CrossContext();
             injectionBinder.Bind<MenuExitAnimationEndedSignal>().ToSingleton().CrossContext();
+            injectionBinder.Bind<SetMenuStateTriggerSignal>().ToSingleton().CrossContext();
+            injectionBinder.Bind<SetMenuStateConditionSignal>().ToSingleton().CrossContext();
 
             //BibaTag
             injectionBinder.Bind<ToggleScanSignal>().ToSingleton().CrossContext();

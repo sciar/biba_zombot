@@ -6,6 +6,14 @@ namespace BibaFramework.BibaMenu
         Next,
         Back,
         Scan,
+        Yes,
+        No,
+        Reset,
+    }
+
+    public enum MenuStateCondition
+    {
         Inactive,
+        PrivacyAgreementAccepted,
     }
 }

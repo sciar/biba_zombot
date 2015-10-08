@@ -8,7 +8,7 @@ namespace BibaFramework.BibaMenu
         public BibaButtonView BibaButtonView { get; set; }
 
         [Inject]
-        public TriggerNextMenuStateSignal TriggerNextMenuStateSignal { get; set; }
+        public SetMenuStateTriggerSignal SetMenuStateTriggerSignal { get; set; }
 
         public override void OnRegister ()
         {
@@ -22,7 +22,7 @@ namespace BibaFramework.BibaMenu
 
         void SendMenuStateTrigger(MenuStateTrigger stateTrigger)
         {
-            TriggerNextMenuStateSignal.Dispatch(stateTrigger);
+            SetMenuStateTriggerSignal.Dispatch(stateTrigger);
         }
     }
 }

@@ -18,6 +18,7 @@ namespace BibaFramework.BibaMenu
             var stateMachine = RootContextView.GetComponentInChildren<Animator>();
             injectionBinder.Bind<Animator>().To(stateMachine).ToName(BibaMenuConstants.BIBA_STATE_MACHINE).ToSingleton().CrossContext();
 
+            /*
             #if UNITY_EDITOR
             if(Application.loadedLevelName == BibaScene.Start.ToString())
             {
@@ -30,6 +31,7 @@ namespace BibaFramework.BibaMenu
             #else
             TransitionToFirstScene(stateMachine);
             #endif
+            */
         }
 
         void TransitionToFirstScene(Animator stateMachine)

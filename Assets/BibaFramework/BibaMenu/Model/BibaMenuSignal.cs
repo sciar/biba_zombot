@@ -3,7 +3,9 @@
 namespace BibaFramework.BibaMenu
 {
     //BibaMenu
-    public class TriggerNextMenuStateSignal : Signal<MenuStateTrigger>{ }
+    public class SetMenuStateTriggerSignal : Signal<MenuStateTrigger>{ }
+    public class SetMenuStateConditionSignal : Signal<MenuStateCondition, bool>{ }
+
     public class ProcessNextMenuStateSignal : Signal<BibaMenuState>{ }
     public class SetupMenuSignal : Signal<BibaMenuState>{ }
 

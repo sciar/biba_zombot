@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace BibaFramework.BibaMenu
 {
-    public class TriggerNextMenuStateCommand : Command
+    public class SetMenuStateTriggerCommand : Command
     {
         [Inject]
         public MenuStateTrigger MenuStateTrigger { get; set; }

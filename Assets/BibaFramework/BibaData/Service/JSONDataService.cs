@@ -16,15 +16,16 @@ namespace BibaFramework.BibaData
             WriteToDisk(BibaGameModel, BibaDataConstants.GAME_MODEL_DATA_PATH);
         }
 
-        public BibaFramework.BibaGame.BibaGameModel ReadGameModel ()
+        public BibaGameModel ReadGameModel ()
         {
-            return ReadFromDisk<BibaGameModel>(BibaDataConstants.GAME_MODEL_DATA_PATH);
+            BibaGameModel = ReadFromDisk<BibaGameModel>(BibaDataConstants.GAME_MODEL_DATA_PATH);
+            return BibaGameModel;
         }
 
         public void WriteToDisk<T>(T objectToWrite, string path)
         {
             path = Path.Combine(Application.persistentDataPath, path);
-            Debug.Log("Writing: " + path);
+            Debug.Log(string.Format("Writing: {0} with Hashcode: {1} to Path:{2}", objectToWrite.GetType().Name, objectToWrite.GetHashCode(), path));
             
             var jsonStr = JsonMapper.ToJson(objectToWrite);
             File.WriteAllText(path, jsonStr);
@@ -33,7 +34,7 @@ namespace BibaFramework.BibaData
         public T ReadFromDisk<T>(string path)
         {
             path = Path.Combine(Application.persistentDataPath, path);
-            Debug.Log("Reading: " + path);
+            Debug.Log(string.Format("Reading: {0}", path));
 
             if (File.Exists(path))
             {

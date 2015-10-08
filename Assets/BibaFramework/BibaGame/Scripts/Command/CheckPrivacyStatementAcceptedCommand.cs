@@ -1,26 +1,24 @@
 using strange.extensions.command.impl;
+using System;
 using BibaFramework.BibaData;
 using BibaFramework.BibaMenu;
+using UnityEngine;
 
 namespace BibaFramework.BibaGame
 {
-    public class PrivacyStatementAcceptedCommand : Command
+    public class CheckPrivacyStatementAcceptedCommand : Command
     {
         [Inject]
         public BibaGameModel BibaGameModel { get; set; }
-
-        [Inject]
-        public IDataService DataService { get; set; }
 
         [Inject]
         public SetMenuStateConditionSignal SetMenuStateConditionSignal { get; set; }
 
         public override void Execute ()
         {
-            BibaGameModel.PrivacyPolicyAccepted = true;
-            DataService.WriteGameModel();
-
-            SetMenuStateConditionSignal.Dispatch(MenuStateCondition.PrivacyAgreementAccepted, true);
+            Debug.Log(BibaGameModel.PrivacyPolicyAccepted.ToString());
+            Debug.Log(BibaGameModel.Equipments.Count.ToString());
+            SetMenuStateConditionSignal.Dispatch(MenuStateCondition.PrivacyAgreementAccepted, BibaGameModel.PrivacyPolicyAccepted);
         }
     }
 }
