@@ -19,7 +19,7 @@ namespace BibaFramework.BibaMenu
             if (BibaSceneStack.Count > 0)
             {
                 var menuState = BibaSceneStack.Peek();
-                if (menuState != null && menuState.ExitAnimation)
+                if (menuState != null)
                 {
                     Retain();
                     

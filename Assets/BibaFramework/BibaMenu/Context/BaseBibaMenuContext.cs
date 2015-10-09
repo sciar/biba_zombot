@@ -3,6 +3,7 @@ using strange.extensions.context.api;
 
 namespace BibaFramework.BibaMenu
 {
+    //The class is just for the BibaMenuContextView for the user to be able to select the right Context
 	public abstract class BaseBibaMenuContext : BaseBibaContext 
 	{
         public BaseBibaMenuContext (MonoBehaviour view) : base(view)
@@ -12,14 +13,5 @@ namespace BibaFramework.BibaMenu
         public BaseBibaMenuContext (MonoBehaviour view, ContextStartupFlags flags) : base(view, flags)
 		{
 		}
-
-        protected override void BindBaseComponents ()
-        {
-            base.BindBaseComponents ();
-
-            mediationBinder.Bind<BibaButtonView>().To<BibaButtonMediator>();
-            commandBinder.Bind<SetMenuStateTriggerSignal>().To<SetMenuStateTriggerCommand>();
-            commandBinder.Bind<SetMenuStateConditionSignal>().To<SetMenuStateConditionCommand>();
-        }
 	}
 }

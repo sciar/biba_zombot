@@ -2,7 +2,6 @@ using strange.extensions.command.impl;
 using System;
 using BibaFramework.BibaData;
 using BibaFramework.BibaMenu;
-using UnityEngine;
 
 namespace BibaFramework.BibaGame
 {
@@ -16,8 +15,6 @@ namespace BibaFramework.BibaGame
 
         public override void Execute ()
         {
-            Debug.Log(BibaGameModel.PrivacyPolicyAccepted.ToString());
-            Debug.Log(BibaGameModel.Equipments.Count.ToString());
             SetMenuStateConditionSignal.Dispatch(MenuStateCondition.PrivacyAgreementAccepted, BibaGameModel.PrivacyPolicyAccepted);
         }
     }

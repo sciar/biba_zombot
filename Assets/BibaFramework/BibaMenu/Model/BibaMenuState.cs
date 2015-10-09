@@ -11,9 +11,6 @@ namespace BibaFramework.BibaMenu
 
         public bool Replace;
 
-        public bool EntryAnimation; 
-		public bool ExitAnimation;
-
     	// OnStateEnter is called before OnStateEnter is called on any state inside this state machine
     	override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) 
         {
@@ -22,8 +19,7 @@ namespace BibaFramework.BibaMenu
 
         public override string ToString()
         {
-            return string.Format("[BibaMenuState: GameScene={0}, Popup={1}, EntryAnimation={2}, ExitAnimation={3}]", GameScene, Popup, EntryAnimation, ExitAnimation);
-        }
-        
+            return string.Format("[BibaMenuState: GameScene={0}, Popup={1}]", GameScene, Popup);
+        }   
 	}
 }

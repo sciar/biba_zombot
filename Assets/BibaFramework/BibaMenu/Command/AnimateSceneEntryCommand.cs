@@ -17,7 +17,7 @@ namespace BibaFramework.BibaMenu
         public override void Execute ()
         {
             var menuState = BibaSceneStack.Peek();
-            if (menuState != null && menuState.EntryAnimation)
+            if (menuState != null)
             {
                 Retain();
 

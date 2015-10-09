@@ -11,12 +11,6 @@ namespace BibaFramework.BibaGame
 
         public override void SetupMenu (BibaMenuState menuState)
         {
-            if (menuState is IntroMenuState)
-            {
-                var policyAccepted = ((IntroMenuState)menuState).PrivatePolicyAccepted;
-                IntroView.ScanButton.gameObject.SetActive(policyAccepted);
-                IntroView.TitleText.text = policyAccepted ? "Intro_Policy_Accepted" : "Intro";
-            }
         }
 
         public override void RegisterSceneDependentSignals ()

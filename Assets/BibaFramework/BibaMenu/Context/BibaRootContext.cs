@@ -49,10 +49,12 @@ namespace BibaFramework.BibaMenu
             //BibaGame
             commandBinder.Bind<StartSignal>().
                 To<LoadGameDataCommand>().
+                    To<SetupAnalyticCommand>().
                     To<SetupGameStateMachineCommand>().
                     To<CheckPrivacyStatementAcceptedCommand>().
-                    To<SetupAnalyticCommand>().InSequence();
-
+                    To<SetupEditorGameSceneCommand>().
+                    InSequence();
+     
             commandBinder.Bind<ApplicationPausedSignal>().
                 To<LogLastPlayedTimeCommand>().InSequence();
            
@@ -102,8 +104,6 @@ namespace BibaFramework.BibaMenu
             injectionBinder.Bind<PlayMenuExitedAnimationSignal>().ToSingleton().CrossContext();
             injectionBinder.Bind<MenuEntryAnimationEndedSignal>().ToSingleton().CrossContext();
             injectionBinder.Bind<MenuExitAnimationEndedSignal>().ToSingleton().CrossContext();
-            injectionBinder.Bind<SetMenuStateTriggerSignal>().ToSingleton().CrossContext();
-            injectionBinder.Bind<SetMenuStateConditionSignal>().ToSingleton().CrossContext();
 
             //BibaTag
             injectionBinder.Bind<TagScannedSignal>().ToSingleton().CrossContext();

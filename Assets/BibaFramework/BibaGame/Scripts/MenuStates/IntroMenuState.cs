@@ -10,7 +10,5 @@ namespace BibaFramework.BibaGame
                 return BibaScene.Intro;
             }
         }
-
-        public bool PrivatePolicyAccepted;
     }
 }
