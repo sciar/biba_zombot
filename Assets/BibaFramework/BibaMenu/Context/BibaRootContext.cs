@@ -41,7 +41,6 @@ namespace BibaFramework.BibaMenu
         protected override void BindViews ()
         {
             mediationBinder.Bind<BibaMenuStateMachineView>().To<BibaMenuStateMachineMediator>();
-            mediationBinder.Bind<LoadingView>().To<LoadingMediator>();
             mediationBinder.Bind<UnityEventListenerView>().To<UnityEventListenerMediator>();
         }
 
@@ -101,7 +100,6 @@ namespace BibaFramework.BibaMenu
             injectionBinder.Bind<SetupMenuSignal>().ToSingleton().CrossContext();
             injectionBinder.Bind<PlayMenuEntryAnimationSignal>().ToSingleton().CrossContext();
             injectionBinder.Bind<PlayMenuExitedAnimationSignal>().ToSingleton().CrossContext();
-            injectionBinder.Bind<PlayMenuLoadAnimationSignal>().ToSingleton().CrossContext();
             injectionBinder.Bind<MenuEntryAnimationEndedSignal>().ToSingleton().CrossContext();
             injectionBinder.Bind<MenuExitAnimationEndedSignal>().ToSingleton().CrossContext();
             injectionBinder.Bind<SetMenuStateTriggerSignal>().ToSingleton().CrossContext();

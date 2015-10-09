@@ -16,7 +16,6 @@ namespace BibaFramework.BibaMenu
 
     public class PlayMenuEntryAnimationSignal : Signal { } 
     public class PlayMenuExitedAnimationSignal : Signal { } 
-    public class PlayMenuLoadAnimationSignal : Signal<bool> { }
 
     public class MenuEntryAnimationEndedSignal : Signal { }
     public class MenuExitAnimationEndedSignal : Signal { }

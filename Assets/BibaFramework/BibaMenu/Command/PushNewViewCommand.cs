@@ -8,9 +8,6 @@ namespace BibaFramework.BibaMenu
     public class PushNewViewCommand : Command 
     {
         [Inject]
-        public PlayMenuLoadAnimationSignal PlayMenuLoadedAnimationSignal { get; set; }
-
-        [Inject]
         public SetupMenuSignal SetupMenuSignal { get; set; } 
 
         [Inject]
@@ -44,11 +41,6 @@ namespace BibaFramework.BibaMenu
             
             Retain();
             
-            if (!BibaMenuState.Popup)
-            {
-                PlayMenuLoadedAnimationSignal.Dispatch(true);
-            }
-            
             new Task(LoadLevelAsync(), true);
         }
 
@@ -62,11 +54,6 @@ namespace BibaFramework.BibaMenu
 
         void LevelLoaded()
         {
-            if (!BibaMenuState.Popup)
-            {
-                PlayMenuLoadedAnimationSignal.Dispatch(false);
-            }
-
             Release();
             SetupMenuSignal.Dispatch(BibaMenuState);;
         }
