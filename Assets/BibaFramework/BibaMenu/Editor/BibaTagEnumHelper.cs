@@ -17,9 +17,12 @@ namespace BibaFramework.BibaMenuEditor
 
 	public class BibaTagEnumHelperWindow : BibaSceneEnumHelperWindow
 	{
+        private const string PATTERN_FILE_SUFFIX = "_scaled";
+        private const string PATTERN_FILE_END = PATTERN_FILE_SUFFIX + ".jpg";
+
 		protected override string[] EnumStrings {
             get {
-                return Directory.GetFiles(_inputDir, "*.txt").Select(file => Path.GetFileNameWithoutExtension(file)).ToArray();;
+                return Directory.GetFiles(_inputDir, "*" + PATTERN_FILE_END).Select(file => Path.GetFileNameWithoutExtension(file).Replace(PATTERN_FILE_SUFFIX, string.Empty)).ToArray();;
             }
         }
 

@@ -1,7 +1,6 @@
 ﻿using BibaFramework.BibaMenu;
 using BibaFramework.BibaTag;
-using System.Linq;
-using System.Text;
+using UnityEngine;
 
 namespace BibaFramework.BibaGame
 {
@@ -24,31 +23,19 @@ namespace BibaFramework.BibaGame
 
         public override void RegisterSceneDependentSignals ()
         {
-            TestARView.ResetScanButton.onClick.AddListener(ResetScan);
+            BibaTagService.StartScan();
             TagScannedSignal.AddListener(TagScanned);
         }
         
         public override void RemoveSceneDependentSignals ()
         {
-            TestARView.ResetScanButton.onClick.RemoveListener(ResetScan);
-            TagScannedSignal.AddListener(TagScanned);
+            TagScannedSignal.RemoveListener(TagScanned);
         }
 
-        void ResetScan()
+        void TagScanned(BibaTagType tagType)
         {
-            TestARView.Text.text = string.Empty;
-            BibaTagService.StartScan();
-        }
-
-        void TagScanned(string scannedTag)
-        {
-            StringBuilder builder = new StringBuilder();
-            foreach(var tag in BibaTagService.LastScannedTags)
-            {
-                builder.Append(tag.ToString() + ", ");
-            }
-
-            TestARView.Text.text = builder.ToString();
+            BibaTagService.StopScan();
+            Debug.Log(tagType.ToString() + " tag is scanned.");
         }
     }
 }

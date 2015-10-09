@@ -36,13 +36,11 @@ namespace BibaFramework.BibaMenu
         protected override void BindServices ()
         {
             injectionBinder.Bind<IDataService>().To<JSONDataService>().ToSingleton().CrossContext();
-            injectionBinder.Bind<IBibaTagService>().To<ARToolKitTagService>().ToSingleton().CrossContext();
         }
 
         protected override void BindViews ()
         {
             mediationBinder.Bind<BibaMenuStateMachineView>().To<BibaMenuStateMachineMediator>();
-            mediationBinder.Bind<ARToolKitView>().To<ARToolKitMediator>();
             mediationBinder.Bind<LoadingView>().To<LoadingMediator>();
             mediationBinder.Bind<UnityEventListenerView>().To<UnityEventListenerMediator>();
         }
@@ -110,7 +108,6 @@ namespace BibaFramework.BibaMenu
             injectionBinder.Bind<SetMenuStateConditionSignal>().ToSingleton().CrossContext();
 
             //BibaTag
-            injectionBinder.Bind<ToggleScanSignal>().ToSingleton().CrossContext();
             injectionBinder.Bind<TagScannedSignal>().ToSingleton().CrossContext();
         }
     }

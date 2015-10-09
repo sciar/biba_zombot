@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<QCARConfig xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="qcar_config.xsd">
+  <Tracking>
+    <ImageTarget name="bridge" size="10.000000 9.785933" />
+    <ImageTarget name="tube" size="10.000000 10.000000" />
+    <ImageTarget name="swing" size="10.000000 9.862386" />
+    <ImageTarget name="overhang" size="10.000000 10.000000" />
+    <ImageTarget name="climber" size="10.000000 10.000000" />
+    <ImageTarget name="slide" size="10.000000 10.000000" />
+  </Tracking>
+</QCARConfig>

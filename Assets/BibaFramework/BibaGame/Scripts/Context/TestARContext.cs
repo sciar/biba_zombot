@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using BibaFramework.BibaMenu;
 using strange.extensions.context.api;
+using BibaFramework.BibaTag;
 
 namespace BibaFramework.BibaGame
 {
@@ -20,6 +21,7 @@ namespace BibaFramework.BibaGame
         
         protected override void BindServices ()
         {
+            injectionBinder.Bind<IBibaTagService>().To<VuforiaTagService>();
         }
         
         protected override void BindViews ()
