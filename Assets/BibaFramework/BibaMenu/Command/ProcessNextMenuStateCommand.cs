@@ -24,11 +24,29 @@ namespace BibaFramework.BibaMenu
 
         public override void Execute ()
         {
+            //The menustate is a 
+            if (BibaMenuState.EnabledGameObject != null)
+            {
+                ProcessNextMenustateAsGameObject();
+            }
+            else
+            {
+                ProcessNextMenustateAsGameScene();
+            }
+        }
+
+        void ProcessNextMenustateAsGameObject()
+        {
+            //TODO:implement
+        }
+        
+        void ProcessNextMenustateAsGameScene()
+        {
             if (BibaSceneStack.Count > 0)
             {
                 var lastMenuState = BibaSceneStack.Peek();
                 var nextMenuState = BibaMenuState;
-
+                
                 if(lastMenuState.FullScreen && nextMenuState.FullScreen)
                 {
                     LoadFullSceneSignal.Dispatch(BibaMenuState);

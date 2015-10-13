@@ -1,22 +1,23 @@
-﻿using UnityEngine;
+using UnityEngine;
 using BibaFramework.BibaMenu;
 using strange.extensions.context.api;
 using BibaFramework.BibaTag;
 
 namespace BibaFramework.BibaGame
 {
-    public class TestARContext : BaseBibaMenuContext 
+    public class ARScanContext : BaseBibaMenuContext 
     {
-        public TestARContext (MonoBehaviour view) : base(view)
+        public ARScanContext (MonoBehaviour view) : base(view)
         {
         }
         
-        public TestARContext (MonoBehaviour view, ContextStartupFlags flags) : base(view, flags)
+        public ARScanContext (MonoBehaviour view, ContextStartupFlags flags) : base(view, flags)
         {
         }
         
         protected override void BindModels ()
         {
+            injectionBinder.Bind<BibaEquipment>().To<BibaEquipment>().ToSingleton();
         }
         
         protected override void BindServices ()
@@ -26,11 +27,12 @@ namespace BibaFramework.BibaGame
         
         protected override void BindViews ()
         { 
-            mediationBinder.Bind<TestARView>().To<TestARMediator>();
+            mediationBinder.Bind<ARScanView>().To<ARScanMediator>();
         }
         
         protected override void BindCommands ()
         {   
+            commandBinder.Bind<StartSignal>().To<ARScanContextStartCommand>();
         }
         
         protected override void BindSignals ()

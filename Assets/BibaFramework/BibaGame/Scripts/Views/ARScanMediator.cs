@@ -4,12 +4,12 @@ using UnityEngine;
 
 namespace BibaFramework.BibaGame
 {
-    public class TestARMediator : BaseBibaMediator
+    public class ARScanMediator : BaseBibaMediator
     {
         public override BaseBibaView View { get { return TestARView; } }
 
         [Inject]
-        public TestARView TestARView { get; set; }
+        public ARScanView TestARView { get; set; }
         
         [Inject]
         public IBibaTagService BibaTagService { get; set; }
@@ -34,7 +34,7 @@ namespace BibaFramework.BibaGame
 
         void TagScanned(BibaTagType tagType)
         {
-            BibaTagService.StopScan();
+            //TODO: implement scanning logic
             Debug.Log(tagType.ToString() + " tag is scanned.");
         }
     }

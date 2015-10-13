@@ -1,5 +1,6 @@
 using UnityEngine;
 using BibaFramework.BibaGame;
+using System.Collections.Generic;
 
 namespace BibaFramework.BibaMenu
 {
@@ -9,6 +10,8 @@ namespace BibaFramework.BibaMenu
         public bool Popup;
         public bool FullScreen { get { return !Popup; } }
 
+        //TODO: Separate this somehow from the BibaMenuState
+        public GameObject EnabledGameObject;    
         public bool Replace;
 
     	// OnStateEnter is called before OnStateEnter is called on any state inside this state machine

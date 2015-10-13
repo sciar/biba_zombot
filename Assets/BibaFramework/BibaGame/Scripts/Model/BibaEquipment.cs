@@ -7,9 +7,16 @@ namespace BibaFramework.BibaGame
     public class BibaEquipment
     {
         public BibaEquipmentType EquipmentType { get; private set; }
+        public BibaTagType TagType { 
+            get {
+                if(Enum.IsDefined(typeof(BibaTagType), EquipmentType.ToString()))
+                {
+                    return ((BibaTagType)Enum.Parse(typeof(BibaTagType), EquipmentType.ToString()));
+                }
+                return BibaTagType.slide;
+            }
+        }
         public int Played { get; set; }
-        public BibaTagType EntryTag { get { return FindBibaTagType(BibaTagConstants.BIBA_ENTRY_TAG_PREFIX); } }
-        public BibaTagType SatelliteTag { get { return FindBibaTagType(BibaTagConstants.BIBA_SATELLITE_TAG_PREFIX); } }
 
         public BibaEquipment()
         {
@@ -27,7 +34,12 @@ namespace BibaFramework.BibaGame
 
         public override string ToString ()
         {
-            return string.Format ("[BibaEquipment: EquipmentType={0}]", EquipmentType);
+            return string.Format ("[BibaEquipment: EquipmentType={0} TagType={1}]", EquipmentType, TagType);
+        }
+
+        public override bool Equals (object obj)
+        {
+            return ((BibaEquipment)obj).EquipmentType == this.EquipmentType;
         }
     }
 

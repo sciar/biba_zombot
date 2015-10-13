@@ -2,6 +2,7 @@ namespace BibaFramework.BibaGame
 {
     public enum BibaScene
     {
+        ARScan,
         EquipmentSelect,
         Game,
         Inactive,
@@ -9,6 +10,5 @@ namespace BibaFramework.BibaGame
         Main,
         PrivacyStatement,
         Start,
-        TestAR,
     }
 }

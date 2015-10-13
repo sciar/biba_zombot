@@ -3,7 +3,7 @@ using UnityEngine.UI;
 
 namespace BibaFramework.BibaGame
 {
-    public class TestARView : BaseBibaView
+    public class ARScanView : BaseBibaView
     {
     }
 }

@@ -47,12 +47,20 @@ namespace BibaFramework.BibaMenu
 
         void AnimateMenuEntry()
         {
-            View.StartEntryAnimation(() => MenuEntryAnimationEndedSignal.Dispatch());
+            //TODO: hack fix sometimes mediator is still there after the gameobject has been destroyed by Unity
+            if (View != null)
+            {
+                View.StartEntryAnimation(() => MenuEntryAnimationEndedSignal.Dispatch());
+            }
         }
 
         void AnimateMenuExit()
         {
-            View.StartExitAnimation(() => MenuExitAnimationEndedSignal.Dispatch());
+            //TODO: hack fix sometimes mediator is still there after the gameobject has been destroyed by Unity
+            if (View != null)
+            {
+                View.StartExitAnimation(() => MenuExitAnimationEndedSignal.Dispatch());
+            }
         }
     }
 }

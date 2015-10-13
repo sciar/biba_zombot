@@ -1,12 +1,14 @@
 using BibaFramework.BibaMenu;
+using UnityEngine;
+using System.Collections.Generic;
 
 namespace BibaFramework.BibaGame
 {
-    public class TestARMenuState : BibaMenuState 
+    public class ARScanMenuState : BibaMenuState 
     {
         public override BibaScene GameScene {
             get {
-                return BibaScene.TestAR;
+                return BibaScene.ARScan;
             }
         }
     }

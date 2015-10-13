@@ -41,10 +41,6 @@ namespace BibaFramework.BibaMenu
                     yield return null;
                 }
             }
-            else
-            {
-                yield return new WaitForSeconds(1.0f);
-            }
         }
 
         public void StartExitAnimation(Action onComplete)
@@ -68,10 +64,6 @@ namespace BibaFramework.BibaMenu
                 {
                     yield return null;
                 }
-            }
-            else
-            {
-                yield return new WaitForSeconds(1.0f);
             }
         }
 	}
