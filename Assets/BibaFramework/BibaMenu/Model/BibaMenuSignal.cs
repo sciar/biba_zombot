@@ -9,14 +9,19 @@ namespace BibaFramework.BibaMenu
     public class ProcessNextMenuStateSignal : Signal<BibaMenuState>{ }
     public class SetupMenuSignal : Signal<BibaMenuState>{ }
 
-    public class LoadFullSceneSignal : Signal<BibaMenuState>{ }
-    public class PushPopupSceneSignal : Signal<BibaMenuState>{ }
-    public class PopPopupSceneSignal : Signal<BibaMenuState>{ }
-    public class ReplacePopupSceneSignal : Signal<BibaMenuState>{ }
+    //MenuState - Scene based
+    public class LoadSceneBasedMenuStateSignal : Signal<BibaMenuState>{ }
+    public class PushSceneBasedMenuStateSignal : Signal<BibaMenuState>{ }
+    public class PopSceneBasedMenuStateSignal : Signal<BibaMenuState>{ }
+    public class ReplaceSceneBasedMenuStateSignal : Signal<BibaMenuState>{ }
+    
+    public class PlaySceneBasedMenuStateEntryAnimationSignal : Signal { } 
+    public class PlaySceneBasedMenuStateExitAnimationSignal : Signal { } 
+    
+    public class SceneBasedMenuStateEntryAnimationEndedSignal : Signal { }
+    public class SceneBasedMenuStateExitAnimationEndedSignal : Signal { }
 
-    public class PlayMenuEntryAnimationSignal : Signal { } 
-    public class PlayMenuExitedAnimationSignal : Signal { } 
-
-    public class MenuEntryAnimationEndedSignal : Signal { }
-    public class MenuExitAnimationEndedSignal : Signal { }
+    //MenuState - Object based
+    public class EnableObjectBasedMenuStateSignal : Signal<BibaMenuState>{ };
+    public class ReplaceObjectBasedMenuStateSignal : Signal<BibaMenuState>{ };
 }

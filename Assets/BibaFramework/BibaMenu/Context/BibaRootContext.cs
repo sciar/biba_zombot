@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using UnityEngine;
 using BibaFramework.BibaMenu;
 using strange.extensions.context.api;
@@ -64,35 +64,42 @@ namespace BibaFramework.BibaMenu
             //BibaMenu
             commandBinder.Bind<ProcessNextMenuStateSignal>().To<ProcessNextMenuStateCommand>();
 
-            commandBinder.Bind<LoadFullSceneSignal>()
+            //BibaMenu - GameObject
+            //TODO:limit input and wait for animation
+            commandBinder.Bind<EnableObjectBasedMenuStateSignal>()
+                .To<EnableObjectBasedMenuStateCommand>();
+                    
+
+            //BibaMenu - GameScene
+            commandBinder.Bind<LoadSceneBasedMenuStateSignal>()
                     .To<DisableAllInputCommand>()
-                    .To<AnimateSceneExitCommand>()
+                    .To<AnimateSceneBasedMenuStateExitCommand>()
                     .To<ClearAllViewsCommand>()
                     .To<PushNewViewCommand>()
                     .To<DisableTopInputCommand>()
-                    .To<AnimateSceneEntryCommand>()
+                    .To<AnimateSceneBasedMenuStateEntryCommand>()
                     .To<EnableTopInputCommand>().InSequence();
 
-            commandBinder.Bind<PushPopupSceneSignal>()
+            commandBinder.Bind<PushSceneBasedMenuStateSignal>()
                     .To<DisableAllInputCommand>()
                     .To<PushNewViewCommand>()
                     .To<DisableTopInputCommand>()
-                    .To<AnimateSceneEntryCommand>()
+                    .To<AnimateSceneBasedMenuStateEntryCommand>()
                     .To<EnableTopInputCommand>().InSequence();
 
-            commandBinder.Bind<PopPopupSceneSignal>()
+            commandBinder.Bind<PopSceneBasedMenuStateSignal>()
                     .To<DisableAllInputCommand>()
-                    .To<AnimateSceneExitCommand>()
+                    .To<AnimateSceneBasedMenuStateExitCommand>()
                     .To<PopLastViewCommand>()
                     .To<EnableTopInputCommand>().InSequence();
 
-            commandBinder.Bind<ReplacePopupSceneSignal>()
+            commandBinder.Bind<ReplaceSceneBasedMenuStateSignal>()
                     .To<DisableAllInputCommand>()    
-                    .To<AnimateSceneExitCommand>()
+                    .To<AnimateSceneBasedMenuStateExitCommand>()
                     .To<PopLastViewCommand>()
                     .To<PushNewViewCommand>()
                     .To<DisableTopInputCommand>()
-                    .To<AnimateSceneEntryCommand>()
+                    .To<AnimateSceneBasedMenuStateEntryCommand>()
                     .To<EnableTopInputCommand>().InSequence();
         }
 
@@ -100,10 +107,10 @@ namespace BibaFramework.BibaMenu
         {
             //BibaMenu
             injectionBinder.Bind<SetupMenuSignal>().ToSingleton().CrossContext();
-            injectionBinder.Bind<PlayMenuEntryAnimationSignal>().ToSingleton().CrossContext();
-            injectionBinder.Bind<PlayMenuExitedAnimationSignal>().ToSingleton().CrossContext();
-            injectionBinder.Bind<MenuEntryAnimationEndedSignal>().ToSingleton().CrossContext();
-            injectionBinder.Bind<MenuExitAnimationEndedSignal>().ToSingleton().CrossContext();
+            injectionBinder.Bind<PlaySceneBasedMenuStateEntryAnimationSignal>().ToSingleton().CrossContext();
+            injectionBinder.Bind<PlaySceneBasedMenuStateExitAnimationSignal>().ToSingleton().CrossContext();
+            injectionBinder.Bind<SceneBasedMenuStateEntryAnimationEndedSignal>().ToSingleton().CrossContext();
+            injectionBinder.Bind<SceneBasedMenuStateExitAnimationEndedSignal>().ToSingleton().CrossContext();
 
             //BibaTag
             injectionBinder.Bind<TagScannedSignal>().ToSingleton().CrossContext();

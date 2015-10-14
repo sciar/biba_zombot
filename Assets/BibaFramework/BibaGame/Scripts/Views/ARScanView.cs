@@ -1,9 +1,9 @@
-﻿using BibaFramework.BibaMenu;
+using BibaFramework.BibaMenu;
 using UnityEngine.UI;
 
 namespace BibaFramework.BibaGame
 {
-    public class ARScanView : BaseBibaView
+    public class ARScanView : BaseSceneBasedView
     {
     }
 }

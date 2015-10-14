@@ -1,10 +1,10 @@
-﻿using BibaFramework.BibaMenu;
+using BibaFramework.BibaMenu;
 using System.Collections.Generic;
 using UnityEngine.UI;
 
 namespace BibaFramework.BibaGame
 {
-    public class EquipmentSelectView : BaseBibaView
+    public class EquipmentSelectView : BaseSceneBasedView
     {
         public Button ConfirmButton;
 

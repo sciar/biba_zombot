@@ -3,13 +3,13 @@ using strange.extensions.command.impl;
 
 namespace BibaFramework.BibaMenu
 {
-    public class AnimateSceneExitCommand : Command 
+    public class AnimateSceneBasedMenuStateExitCommand : Command 
     {
         [Inject]
-        public PlayMenuExitedAnimationSignal PlayMenuExitedAnimationSignal { get; set; }
+        public PlaySceneBasedMenuStateExitAnimationSignal PlaySceneBasedMenuStateExitAnimationSignal { get; set; }
 
         [Inject]
-        public MenuExitAnimationEndedSignal MenuExitAnimationEndedSignal { get; set; }
+        public SceneBasedMenuStateExitAnimationEndedSignal SceneBasedMenuStateExitAnimationEndedSignal { get; set; }
 
         [Inject]
         public BibaSceneStack BibaSceneStack { get; set; }
@@ -23,15 +23,15 @@ namespace BibaFramework.BibaMenu
                 {
                     Retain();
                     
-                    PlayMenuExitedAnimationSignal.Dispatch();
-                    MenuExitAnimationEndedSignal.AddListener(ExitedAnimationCompleted);
+                    PlaySceneBasedMenuStateExitAnimationSignal.Dispatch();
+                    SceneBasedMenuStateExitAnimationEndedSignal.AddListener(ExitedAnimationCompleted);
                 }
             }
         }
 
         void ExitedAnimationCompleted()
         {
-            MenuExitAnimationEndedSignal.RemoveListener(ExitedAnimationCompleted);
+            SceneBasedMenuStateExitAnimationEndedSignal.RemoveListener(ExitedAnimationCompleted);
             Release();
         }
     }

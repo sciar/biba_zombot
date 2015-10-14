@@ -1,12 +1,12 @@
-﻿using BibaFramework.BibaMenu;
+using BibaFramework.BibaMenu;
 using BibaFramework.BibaTag;
 using UnityEngine;
 
 namespace BibaFramework.BibaGame
 {
-    public class ARScanMediator : BaseBibaMediator
+    public class ARScanMediator : BaseSceneBasedMediator
     {
-        public override BaseBibaView View { get { return TestARView; } }
+        public override BaseSceneBasedView View { get { return TestARView; } }
 
         [Inject]
         public ARScanView TestARView { get; set; }

@@ -1,13 +1,13 @@
-﻿using BibaFramework.BibaMenu;
+using BibaFramework.BibaMenu;
 
 namespace BibaFramework.BibaGame
 {
-    public class PrivacyStatementMediator : BaseBibaMediator
+    public class PrivacyStatementMediator : BaseSceneBasedMediator
     {
         [Inject]
         public PrivacyStatementView PrivacyStatementView { get; set; }
         
-        public override BaseBibaView View { get { return PrivacyStatementView; } }
+        public override BaseSceneBasedView View { get { return PrivacyStatementView; } }
         
         public override void SetupMenu (BibaMenuState menuState)
         {

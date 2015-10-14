@@ -1,9 +1,9 @@
-﻿using BibaFramework.BibaMenu;
+using BibaFramework.BibaMenu;
 using System.Linq;
 
 namespace BibaFramework.BibaGame
 {
-    public class EquipmentSelectMediator : BaseBibaMediator
+    public class EquipmentSelectMediator : BaseSceneBasedMediator
     {
         [Inject]
         public EquipmentSelectView EquipmentSelectView { get; set; }
@@ -11,7 +11,7 @@ namespace BibaFramework.BibaGame
         [Inject]
         public EquipmentSelectedSignal EquipmentSelectedSignal { get; set; }
 
-        public override BaseBibaView View {
+        public override BaseSceneBasedView View {
             get {
                 return EquipmentSelectView;
             }

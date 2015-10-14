@@ -1,8 +1,8 @@
-﻿using BibaFramework.BibaMenu;
+using BibaFramework.BibaMenu;
 
 namespace BibaFramework.BibaGame
 {
-    public class InactiveView : BaseBibaView
+    public class InactiveView : BaseSceneBasedView
     {
         
     }

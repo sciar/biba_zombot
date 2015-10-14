@@ -5,82 +5,88 @@ namespace BibaFramework.BibaMenu
     public class ProcessNextMenuStateCommand : Command 
     {
         [Inject]
-        public BibaMenuState BibaMenuState { get; set; }
+        public BibaMenuState NextMenuState { get; set; }
 
         [Inject]
         public BibaSceneStack BibaSceneStack { get; set; }
 
         [Inject]
-        public LoadFullSceneSignal LoadFullSceneSignal { get; set; }
+        public LoadSceneBasedMenuStateSignal LoadFullSceneSignal { get; set; }
 
         [Inject]
-        public PushPopupSceneSignal PushPopupSceneSignal { get; set; }
+        public PushSceneBasedMenuStateSignal PushPopupSceneSignal { get; set; }
 
         [Inject]
-        public PopPopupSceneSignal PopPopupSceneSignal { get; set; }
+        public PopSceneBasedMenuStateSignal PopPopupSceneSignal { get; set; }
 
         [Inject]
-        public ReplacePopupSceneSignal ReplacePopupSceneSignal { get; set; }
+        public ReplaceSceneBasedMenuStateSignal ReplacePopupSceneSignal { get; set; }
 
         public override void Execute ()
         {
             //The menustate is a 
-            if (BibaMenuState.EnabledGameObject != null)
+            if (NextMenuState.MenuStateGameObject != null)
             {
-                ProcessNextMenustateAsGameObject();
+                ProcessNextMenuStateAsGameObject();
             }
             else
             {
-                ProcessNextMenustateAsGameScene();
+                ProcessNextMenuStateAsGameScene();
             }
         }
 
-        void ProcessNextMenustateAsGameObject()
-        {
-            //TODO:implement
-        }
-        
-        void ProcessNextMenustateAsGameScene()
+        void ProcessNextMenuStateAsGameObject()
         {
             if (BibaSceneStack.Count > 0)
             {
                 var lastMenuState = BibaSceneStack.Peek();
-                var nextMenuState = BibaMenuState;
+                var nextMenuState = NextMenuState;
+
+
+            }
+        }
+        
+        void ProcessNextMenuStateAsGameScene()
+        {
+            if (BibaSceneStack.Count > 0)
+            {
+                var lastMenuState = BibaSceneStack.Peek();
+                var nextMenuState = NextMenuState;
                 
                 if(lastMenuState.FullScreen && nextMenuState.FullScreen)
                 {
-                    LoadFullSceneSignal.Dispatch(BibaMenuState);
+                    LoadFullSceneSignal.Dispatch(NextMenuState);
                 }
                 else if(lastMenuState.FullScreen && nextMenuState.Popup)
                 {
-                    PushPopupSceneSignal.Dispatch(BibaMenuState);
+                    PushPopupSceneSignal.Dispatch(NextMenuState);
                 }
                 else if(lastMenuState.Popup && nextMenuState.Popup)
                 {
                     if(nextMenuState.Replace)
                     {
-                        ReplacePopupSceneSignal.Dispatch(BibaMenuState);
+                        ReplacePopupSceneSignal.Dispatch(NextMenuState);
                     }
                     else
                     {
-                        PushPopupSceneSignal.Dispatch(BibaMenuState);
+                        PushPopupSceneSignal.Dispatch(NextMenuState);
                     }
                 }
                 else if(lastMenuState.Popup && nextMenuState.FullScreen)
                 {
                     if(BibaSceneStack.Peek() == nextMenuState)
                     {
-                        PopPopupSceneSignal.Dispatch(BibaMenuState);
+                        PopPopupSceneSignal.Dispatch(NextMenuState);
                     }
                     else
                     {
-                        LoadFullSceneSignal.Dispatch(BibaMenuState);
+                        LoadFullSceneSignal.Dispatch(NextMenuState);
                     }
                 }
             } 
             else
             {
-                LoadFullSceneSignal.Dispatch(BibaMenuState);
+                LoadFullSceneSignal.Dispatch(NextMenuState);
             }
         }
     }

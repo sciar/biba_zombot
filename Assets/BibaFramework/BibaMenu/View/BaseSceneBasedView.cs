@@ -6,7 +6,7 @@ using UnityEngine;
 namespace BibaFramework.BibaMenu
 {
     [RequireComponent(typeof(Animator))]
-	public abstract class BaseBibaView : View
+	public abstract class BaseSceneBasedView : View
 	{
         private Animator _anim;
         private Animator anim {
@@ -36,6 +36,9 @@ namespace BibaFramework.BibaMenu
             {
                 anim.SetTrigger(BibaMenuConstants.BIBA_MENU_ENTRY_ANIMATION_TRIGGER);
 
+                //Unity needs one frame to transition to the animation state
+                yield return null;
+
                 while (anim.GetCurrentAnimatorStateInfo(0).IsName(BibaMenuConstants.BIBA_MENU_ENTRY_ANIMATION_STATE))
                 {
                     yield return null;
@@ -59,7 +62,10 @@ namespace BibaFramework.BibaMenu
             if (anim.runtimeAnimatorController != null && anim.HasState(0, Animator.StringToHash(BibaMenuConstants.BIBA_MENU_EXIT_ANIMATION_STATE)))
             {
                 anim.SetTrigger(BibaMenuConstants.BIBA_MENU_EXIT_ANIMATION_TRIGGER);
-                
+
+                //Unity needs one frame to transition to the animation state
+                yield return null;
+
                 while (anim.GetCurrentAnimatorStateInfo(0).IsName(BibaMenuConstants.BIBA_MENU_EXIT_ANIMATION_STATE))
                 {
                     yield return null;
