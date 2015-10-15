@@ -4,7 +4,7 @@ namespace BibaFramework.BibaGame
 {
 	public class InactiveMenuState : SceneMenuState 
     {
-        public override BibaScene GameScene {
+        public override BibaScene BibaScene {
             get {
                 return BibaScene.Inactive;
             }

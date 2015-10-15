@@ -7,22 +7,20 @@ namespace BibaFramework.BibaMenu
     public class SetMenuStateConditionSignal : Signal<MenuStateCondition, bool>{ }
 
     public class ProcessNextMenuStateSignal : Signal<BaseMenuState>{ }
+    public class PushMenuStateSignal : Signal<BaseMenuState>{ }
+    public class PopMenuStateSignal : Signal<BaseMenuState>{ }
+    public class ReplaceMenuStateSignal : Signal<BaseMenuState>{ }
 
     //MenuState - Scene based
-	public class SetupSceneMenuStateSignal : Signal<SceneMenuState>{ }
-    public class LoadSceneMenuStateSignal : Signal<SceneMenuState>{ }
-	public class PushSceneMenuStateSignal : Signal<SceneMenuState>{ }
-	public class PopSceneMenuStateSignal : Signal<SceneMenuState>{ }
-	public class ReplaceSceneMenuStateSignal : Signal<SceneMenuState>{ }
+    public class SwitchSceneMenuStateSignal : Signal<BaseMenuState>{ }
+    public class SetupSceneMenuStateSignal : Signal<BaseMenuState>{ }
+
+    public class PlayMenuStateEntryAnimationSignal : Signal { } 
+    public class PlayMenuStateExitAnimationSignal : Signal { } 
     
-    public class PlaySceneMenuStateEntryAnimationSignal : Signal { } 
-    public class PlaySceneMenuStateExitAnimationSignal : Signal { } 
-    
-    public class SceneMenuStateEntryAnimationEndedSignal : Signal { }
-    public class SceneMenuStateExitAnimationEndedSignal : Signal { }
+    public class MenuStateEntryAnimationEndedSignal : Signal { }
+    public class MenuStateExitAnimationEndedSignal : Signal { }
 
     //MenuState - Object based
-	public class PushObjectMenuStateSignal : Signal<ObjectMenuState>{ };
-	public class ReplaceObjectMenuStateSignal : Signal<ObjectMenuState>{ };
 	public class ToggleObjectMenuStateSignal : Signal<ObjectMenuState, bool>{ };
 }

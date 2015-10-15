@@ -4,13 +4,14 @@ namespace BibaFramework.BibaMenu
 {
 	public abstract class SceneMenuState : BaseMenuState 
 	{
+        public override bool FullScreen { get { return !Popup; } }
+        public bool Popup;
+
 		public override string SceneName {
 			get {
-				return GameScene.ToString();
+				return BibaScene.ToString();
 			}
 		}
-        public abstract BibaScene GameScene { get; }
-        public bool Popup;
-		public bool FullScreen { get { return !Popup; }  } 
+        public abstract BibaScene BibaScene { get; }
 	}
 }

@@ -10,16 +10,16 @@ namespace BibaFramework.BibaMenu
         public SetupSceneMenuStateSignal SetupMenuSignal { get; set; }
 
         [Inject]
-        public PlaySceneMenuStateEntryAnimationSignal PlaySceneMenuStateEntryAnimationSignal { get; set; }
+        public PlayMenuStateEntryAnimationSignal PlaySceneMenuStateEntryAnimationSignal { get; set; }
        
         [Inject]
-        public PlaySceneMenuStateExitAnimationSignal PlaySceneMenuStateExitAnimationSignal { get; set; }
+        public PlayMenuStateExitAnimationSignal PlaySceneMenuStateExitAnimationSignal { get; set; }
 
         [Inject]
-        public SceneMenuStateEntryAnimationEndedSignal SceneMenuStateEntryAnimationEndedSignal { get; set; }
+        public MenuStateEntryAnimationEndedSignal SceneMenuStateEntryAnimationEndedSignal { get; set; }
 
         [Inject]
-        public SceneMenuStateExitAnimationEndedSignal SceneMenuStateExitAnimationEndedSignal { get; set; }
+        public MenuStateExitAnimationEndedSignal SceneMenuStateExitAnimationEndedSignal { get; set; }
 
         public abstract SceneMenuStateView View { get; }
 

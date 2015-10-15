@@ -6,10 +6,10 @@ namespace BibaFramework.BibaMenu
     public class AnimateSceneMenuStateEntryCommand : Command 
     {
         [Inject]
-		public PlaySceneMenuStateEntryAnimationSignal PlaySceneMenuStateEntryAnimationSignal { get; set; }
+		public PlayMenuStateEntryAnimationSignal PlaySceneMenuStateEntryAnimationSignal { get; set; }
 
         [Inject]
-		public SceneMenuStateEntryAnimationEndedSignal SceneMenuStateEntryAnimationEndedSignal { get; set; }
+		public MenuStateEntryAnimationEndedSignal SceneMenuStateEntryAnimationEndedSignal { get; set; }
 
         [Inject]
         public BibaSceneStack BibaSceneStack { get; set; }
