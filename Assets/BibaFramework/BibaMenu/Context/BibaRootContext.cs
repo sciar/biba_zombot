@@ -50,7 +50,7 @@ namespace BibaFramework.BibaMenu
             commandBinder.Bind<StartSignal>().
                 To<LoadGameDataCommand>().
                     To<SetupAnalyticCommand>().
-                    To<SetupMonobehaviourBasedServices>().
+                    To<SetupMonoBehaviourServices>().
                     To<CheckPrivacyStatementAcceptedCommand>().
                     To<SetupEditorDebugSceneCommand>().
                     InSequence();
