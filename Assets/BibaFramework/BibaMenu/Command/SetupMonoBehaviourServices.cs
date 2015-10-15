@@ -5,7 +5,7 @@ using strange.extensions.command.impl;
 
 namespace BibaFramework.BibaMenu
 {
-    public class SetupStateMachineCommand : Command
+    public class SetupMonoBehaviourServices : Command
     {
         [Inject]
         public BibaGameModel BibaGameModel { get; set; }
@@ -15,8 +15,20 @@ namespace BibaFramework.BibaMenu
         
         public override void Execute ()
         {
+            SetupStateMachine();
+            SetupAudioService();
+        }
+
+        void SetupStateMachine()
+        {
             var stateMachine = RootContextView.GetComponentInChildren<Animator>();
             injectionBinder.Bind<Animator>().To(stateMachine).ToName(BibaMenuConstants.BIBA_STATE_MACHINE).ToSingleton().CrossContext();
+        }
+
+        void SetupAudioService()
+        {
+            var audioService = RootContextView.GetComponentInChildren<AudioServices>();
+            injectionBinder.Bind<AudioServices>().To(audioService).CrossContext();
         }
     }
 }
