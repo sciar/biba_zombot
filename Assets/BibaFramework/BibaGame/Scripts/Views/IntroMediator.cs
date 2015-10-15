@@ -2,14 +2,14 @@ using BibaFramework.BibaMenu;
 
 namespace BibaFramework.BibaGame
 {
-    public class IntroMediator : BaseSceneBasedMediator
+    public class IntroMediator : SceneMenuStateMediator
 	{
         [Inject]
         public IntroView IntroView { get; set; }
 
-        public override BaseSceneBasedView View { get { return IntroView; } }
+        public override SceneMenuStateView View { get { return IntroView; } }
 
-        public override void SetupMenu (BibaMenuState menuState)
+        public override void SetupMenu (BaseMenuState menuState)
         {
         }
 

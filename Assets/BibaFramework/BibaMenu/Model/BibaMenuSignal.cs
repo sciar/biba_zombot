@@ -1,4 +1,4 @@
-﻿using strange.extensions.signal.impl;
+using strange.extensions.signal.impl;
 
 namespace BibaFramework.BibaMenu
 {
@@ -6,22 +6,23 @@ namespace BibaFramework.BibaMenu
     public class SetMenuStateTriggerSignal : Signal<MenuStateTrigger>{ }
     public class SetMenuStateConditionSignal : Signal<MenuStateCondition, bool>{ }
 
-    public class ProcessNextMenuStateSignal : Signal<BibaMenuState>{ }
-    public class SetupMenuSignal : Signal<BibaMenuState>{ }
+    public class ProcessNextMenuStateSignal : Signal<BaseMenuState>{ }
 
     //MenuState - Scene based
-    public class LoadSceneBasedMenuStateSignal : Signal<BibaMenuState>{ }
-    public class PushSceneBasedMenuStateSignal : Signal<BibaMenuState>{ }
-    public class PopSceneBasedMenuStateSignal : Signal<BibaMenuState>{ }
-    public class ReplaceSceneBasedMenuStateSignal : Signal<BibaMenuState>{ }
+	public class SetupSceneMenuStateSignal : Signal<SceneMenuState>{ }
+    public class LoadSceneMenuStateSignal : Signal<SceneMenuState>{ }
+	public class PushSceneMenuStateSignal : Signal<SceneMenuState>{ }
+	public class PopSceneMenuStateSignal : Signal<SceneMenuState>{ }
+	public class ReplaceSceneMenuStateSignal : Signal<SceneMenuState>{ }
     
-    public class PlaySceneBasedMenuStateEntryAnimationSignal : Signal { } 
-    public class PlaySceneBasedMenuStateExitAnimationSignal : Signal { } 
+    public class PlaySceneMenuStateEntryAnimationSignal : Signal { } 
+    public class PlaySceneMenuStateExitAnimationSignal : Signal { } 
     
-    public class SceneBasedMenuStateEntryAnimationEndedSignal : Signal { }
-    public class SceneBasedMenuStateExitAnimationEndedSignal : Signal { }
+    public class SceneMenuStateEntryAnimationEndedSignal : Signal { }
+    public class SceneMenuStateExitAnimationEndedSignal : Signal { }
 
     //MenuState - Object based
-    public class EnableObjectBasedMenuStateSignal : Signal<BibaMenuState>{ };
-    public class ReplaceObjectBasedMenuStateSignal : Signal<BibaMenuState>{ };
+	public class PushObjectMenuStateSignal : Signal<ObjectMenuState>{ };
+	public class ReplaceObjectMenuStateSignal : Signal<ObjectMenuState>{ };
+	public class ToggleObjectMenuStateSignal : Signal<ObjectMenuState, bool>{ };
 }

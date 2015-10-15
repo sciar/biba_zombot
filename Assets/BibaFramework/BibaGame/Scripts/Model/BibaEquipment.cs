@@ -37,7 +37,7 @@ namespace BibaFramework.BibaGame
             return string.Format ("[BibaEquipment: EquipmentType={0} TagType={1}]", EquipmentType, TagType);
         }
 
-        public override bool Equals (object obj)
+        public new bool Equals (object obj)
         {
             return ((BibaEquipment)obj).EquipmentType == this.EquipmentType;
         }

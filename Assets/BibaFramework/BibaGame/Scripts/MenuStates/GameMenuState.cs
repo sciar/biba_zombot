@@ -2,7 +2,7 @@ using BibaFramework.BibaMenu;
 
 namespace BibaFramework.BibaGame
 {
-    public class GameMenuState : BibaMenuState 
+	public class GameMenuState : SceneMenuState 
     {
         public override BibaScene GameScene {
             get {

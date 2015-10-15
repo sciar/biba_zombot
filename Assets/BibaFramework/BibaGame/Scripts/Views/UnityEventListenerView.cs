@@ -9,7 +9,7 @@ namespace BibaFramework.BibaGame
         public Signal<bool> OnApplicationPausedSignal = new Signal<bool>();
         private bool _started;
 
-        protected virtual void Start()
+        protected override void Start()
         {
             base.Start();
             _started = true;

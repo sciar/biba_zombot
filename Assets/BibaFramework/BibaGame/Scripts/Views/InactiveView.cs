@@ -2,7 +2,7 @@ using BibaFramework.BibaMenu;
 
 namespace BibaFramework.BibaGame
 {
-    public class InactiveView : BaseSceneBasedView
+    public class InactiveView : SceneMenuStateView
     {
         
     }

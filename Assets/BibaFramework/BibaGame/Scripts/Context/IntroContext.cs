@@ -20,13 +20,13 @@ namespace BibaFramework.BibaGame
 
         protected override void BindServices ()
         {
-        }
+        }	
 
         protected override void BindViews ()
         {
             mediationBinder.Bind<IntroView>().To<IntroMediator>();
         }
-
+			
         protected override void BindCommands ()
         {         
         }

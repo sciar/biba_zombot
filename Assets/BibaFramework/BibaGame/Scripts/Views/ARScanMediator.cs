@@ -4,9 +4,9 @@ using UnityEngine;
 
 namespace BibaFramework.BibaGame
 {
-    public class ARScanMediator : BaseSceneBasedMediator
+    public class ARScanMediator : SceneMenuStateMediator
     {
-        public override BaseSceneBasedView View { get { return TestARView; } }
+        public override SceneMenuStateView View { get { return TestARView; } }
 
         [Inject]
         public ARScanView TestARView { get; set; }
@@ -17,7 +17,7 @@ namespace BibaFramework.BibaGame
         [Inject]
         public TagScannedSignal TagScannedSignal { get; set; }
 
-        public override void SetupMenu (BibaMenuState menuState)
+        public override void SetupMenu (BaseMenuState menuState)
         {
         }
 

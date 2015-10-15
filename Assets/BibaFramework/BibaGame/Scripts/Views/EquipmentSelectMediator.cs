@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace BibaFramework.BibaGame
 {
-    public class EquipmentSelectMediator : BaseSceneBasedMediator
+    public class EquipmentSelectMediator : SceneMenuStateMediator
     {
         [Inject]
         public EquipmentSelectView EquipmentSelectView { get; set; }
@@ -11,7 +11,7 @@ namespace BibaFramework.BibaGame
         [Inject]
         public EquipmentSelectedSignal EquipmentSelectedSignal { get; set; }
 
-        public override BaseSceneBasedView View {
+        public override SceneMenuStateView View {
             get {
                 return EquipmentSelectView;
             }
@@ -27,7 +27,7 @@ namespace BibaFramework.BibaGame
             EquipmentSelectView.ConfirmButton.onClick.RemoveListener(ConfirmEquipmentSelection);
         }
 
-        public override void SetupMenu (BibaMenuState menuState)
+        public override void SetupMenu (BaseMenuState menuState)
         {
         }
 

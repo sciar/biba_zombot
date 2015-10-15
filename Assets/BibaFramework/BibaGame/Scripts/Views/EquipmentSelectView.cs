@@ -4,7 +4,7 @@ using UnityEngine.UI;
 
 namespace BibaFramework.BibaGame
 {
-    public class EquipmentSelectView : BaseSceneBasedView
+    public class EquipmentSelectView : SceneMenuStateView
     {
         public Button ConfirmButton;
 
