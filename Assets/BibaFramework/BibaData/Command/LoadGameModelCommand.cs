@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace BibaFramework.BibaData
 {
-    public class LoadGameDataCommand : Command
+    public class LoadGameModelCommand : Command
     {
         [Inject]
         public IDataService LoaderService { get; set; }

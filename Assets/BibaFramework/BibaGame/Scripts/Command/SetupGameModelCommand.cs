@@ -5,7 +5,7 @@ using BibaFramework.BibaMenu;
 
 namespace BibaFramework.BibaGame
 {
-    public class CheckPrivacyStatementAcceptedCommand : Command
+    public class SetupGameModelCommand : Command
     {
         [Inject]
         public BibaGameModel BibaGameModel { get; set; }
@@ -16,6 +16,7 @@ namespace BibaFramework.BibaGame
         public override void Execute ()
         {
             SetMenuStateConditionSignal.Dispatch(MenuStateCondition.PrivacyAgreementAccepted, BibaGameModel.PrivacyPolicyAccepted);
+            SetMenuStateConditionSignal.Dispatch(MenuStateCondition.TagEnabled, BibaGameModel.TagEnabled);
         }
     }
 }

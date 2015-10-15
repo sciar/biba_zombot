@@ -15,5 +15,6 @@ namespace BibaFramework.BibaMenu
     {
         Inactive,
         PrivacyAgreementAccepted,
+        TagEnabled,
     }
 }

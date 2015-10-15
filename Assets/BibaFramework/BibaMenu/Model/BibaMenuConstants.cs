@@ -6,8 +6,6 @@ namespace BibaFramework.BibaMenu
         public const string BIBA_STATE_MACHINE = "BibaStateMachine";
         public const string FIRST_SCENE = "start.unity";
 
-        public const string OBJECT_BASED_MENU_STATE_PREFIX = "GRP_";
-
         public const string BIBA_MENU_ENTRY_ANIMATION_TRIGGER = "AnimateEntryTrigger";
         public const string BIBA_MENU_ENTRY_ANIMATION_STATE = "AnimateEntry";
         public const string BIBA_MENU_EXIT_ANIMATION_TRIGGER = "AnimateExitTrigger";

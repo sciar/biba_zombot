@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace BibaFramework.BibaGame
 {
-    public class TagSelectMenuState : SceneMenuState 
+    public class ARScanMenuState : SceneMenuState 
     {
         public override BibaScene BibaScene {
             get {

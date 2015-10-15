@@ -48,10 +48,10 @@ namespace BibaFramework.BibaMenu
         {
             //BibaGame
             commandBinder.Bind<StartSignal>().
-                To<LoadGameDataCommand>().
+                    To<LoadGameModelCommand>().
+                    To<SetupGameModelCommand>().
                     To<SetupAnalyticCommand>().
                     To<SetupMonoBehaviourServices>().
-                    To<CheckPrivacyStatementAcceptedCommand>().
                     To<SetupEditorDebugSceneCommand>().
                     InSequence();
      
