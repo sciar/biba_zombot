@@ -4,11 +4,11 @@ using System.Collections.Generic;
 
 namespace BibaFramework.BibaGame
 {
-    public class ARScanMenuState : SceneMenuState 
+	public class TagSelectMenuState : SceneMenuState 
     {
         public override BibaScene BibaScene {
             get {
-                return BibaScene.ARScan;
+                return BibaScene.TagSelect;
             }
         }
     }

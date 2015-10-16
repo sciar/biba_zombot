@@ -10,5 +10,6 @@ namespace BibaFramework.BibaGame
         Main,
         PrivacyStatement,
         Start,
+        TagSelect,
     }
 }

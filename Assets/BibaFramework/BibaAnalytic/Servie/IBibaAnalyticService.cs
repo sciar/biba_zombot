@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using BibaFramework.BibaGame;
-using BibaFramework.BibaTag;
 
 namespace BibaFramework.BibaAnalytic
 {

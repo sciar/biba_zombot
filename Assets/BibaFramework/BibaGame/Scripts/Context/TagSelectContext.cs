@@ -4,34 +4,34 @@ using strange.extensions.context.api;
 
 namespace BibaFramework.BibaGame
 {
-    public class PrivacyStatementContext : BaseBibaMenuContext 
+	public class TagSelectContext : BaseBibaMenuContext 
     {
-        public PrivacyStatementContext (MonoBehaviour view) : base(view)
+		public TagSelectContext (MonoBehaviour view) : base(view)
         {
         }
         
-        public PrivacyStatementContext (MonoBehaviour view, ContextStartupFlags flags) : base(view, flags)
+		public TagSelectContext (MonoBehaviour view, ContextStartupFlags flags) : base(view, flags)
         {
         }
-        
+
         protected override void BindModels ()
         {
         }
-        
+
         protected override void BindServices ()
         {
         }
-        
+
         protected override void BindViews ()
-        { 
-            mediationBinder.Bind<PrivacyStatementView>().To<PrivacyStatementMediator>();
+        {
+			mediationBinder.Bind<TagSelectView>().To<TagSelectMediator>();
         }
-        
+
         protected override void BindCommands ()
         {   
-            commandBinder.Bind<EndSignal>().To<EnablePrivacyStatementCommand>();
+			commandBinder.Bind<EnableTagSignal>().To<EnableTagCommand>();
         }
-        
+
         protected override void BindSignals ()
         {
         }

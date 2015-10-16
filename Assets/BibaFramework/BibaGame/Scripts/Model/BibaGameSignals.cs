@@ -1,6 +1,5 @@
 ﻿using strange.extensions.signal.impl;
 using System.Collections.Generic;
-using BibaFramework.BibaTag;
 
 namespace BibaFramework.BibaGame
 {
@@ -12,6 +11,6 @@ namespace BibaFramework.BibaGame
     public class EquipmentSelectedSignal : Signal <List<BibaEquipmentType>> { }
 
     //BibaTag
-    public class ToggleScanSignal : Signal<bool> { }
+	public class EnableTagSignal : Signal<bool> { }
     public class TagScannedSignal : Signal<BibaTagType> { }
 }

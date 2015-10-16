@@ -2,7 +2,6 @@ using System.Collections.Generic;
 using System.Text;
 using UnityEngine;
 using BibaFramework.BibaAnalytic;
-using BibaFramework.BibaData;
 using strange.extensions.command.impl;
 
 namespace BibaFramework.BibaGame

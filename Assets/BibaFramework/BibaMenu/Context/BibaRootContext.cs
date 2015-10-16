@@ -2,9 +2,7 @@ using System.Collections;
 using UnityEngine;
 using BibaFramework.BibaMenu;
 using strange.extensions.context.api;
-using BibaFramework.BibaTag;
 using BibaFramework.BibaGame;
-using BibaFramework.BibaData;
 using BibaFramework.BibaAnalytic;
 
 namespace BibaFramework.BibaMenu
@@ -47,11 +45,13 @@ namespace BibaFramework.BibaMenu
         protected override void BindCommands ()
         {
             //BibaGame
+
+			//Order important
             commandBinder.Bind<StartSignal>().
+				To<SetupMonoBehaviourServices>().
                     To<LoadGameModelCommand>().
                     To<SetupGameModelCommand>().
                     To<SetupAnalyticCommand>().
-                    To<SetupMonoBehaviourServices>().
                     To<SetupEditorDebugSceneCommand>().
                     InSequence();
      

@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using Analytics;
 using BibaFramework.BibaGame;
 using BibaFramework.BibaMenu;
-using BibaFramework.BibaTag;
 
 namespace BibaFramework.BibaAnalytic
 {

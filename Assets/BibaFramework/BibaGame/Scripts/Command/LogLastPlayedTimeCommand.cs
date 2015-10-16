@@ -1,6 +1,5 @@
 using strange.extensions.command.impl;
 using System;
-using BibaFramework.BibaData;
 using UnityEngine;
 
 namespace BibaFramework.BibaGame

@@ -1,21 +1,28 @@
 using strange.extensions.command.impl;
-using System;
 using BibaFramework.BibaMenu;
 
 namespace BibaFramework.BibaGame
 {
-    public class SetupGameModelCommand : Command
+	public class EnableTagCommand : Command
     {
+		[Inject]
+		public bool Status { get; set; }
+
         [Inject]
         public BibaGameModel BibaGameModel { get; set; }
+
+        [Inject]
+        public IDataService DataService { get; set; }
 
         [Inject]
         public SetMenuStateConditionSignal SetMenuStateConditionSignal { get; set; }
 
         public override void Execute ()
         {
-            SetMenuStateConditionSignal.Dispatch(MenuStateCondition.PrivacyAgreementAccepted, BibaGameModel.PrivacyPolicyAccepted);
-            SetMenuStateConditionSignal.Dispatch(MenuStateCondition.TagEnabled, BibaGameModel.TagEnabled);
+			BibaGameModel.TagEnabled = Status;
+            DataService.WriteGameModel();
+
+			SetMenuStateConditionSignal.Dispatch(MenuStateCondition.TagEnabled, Status);
         }
     }
 }
