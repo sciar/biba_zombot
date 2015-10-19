@@ -29,6 +29,7 @@ namespace BibaFramework.BibaGame
         
         protected override void BindCommands ()
         {   
+            commandBinder.Bind<OpenAboutBibaURLSignal>().To<OpenAboutBibaURLCommand>();
             commandBinder.Bind<EnableHelpBubblesSignal>().To<EnableHelpBubblesCommand>();
             commandBinder.Bind<EnableHowToSignal>().To<EnableHowToCommand>();
         }
