@@ -7,13 +7,13 @@ namespace BibaFramework.BibaGame
     {
         //Player Data
         public DateTime LastPlayedTime { get; set; }
-        public bool PrivacyPolicyAccepted { get; set; }
-        public bool TagEnabled { get; set; }
-        public bool ShowHowTo { get; set; }
-        public bool ShowHelpBubble { get; set; }
         public List<BibaEquipment> SelectedEquipments { get; set; }
         public List<BibaEquipment> TotalPlayedEquipments { get; set; }
 
+        public bool PrivacyEnabled { get; set; }
+        public bool TagEnabled { get; set; }
+        public bool HowToEnabled { get; set; }
+        public bool HelpBubblesEnabled { get; set; }
 
         public BibaGameModel()
         {
@@ -30,8 +30,8 @@ namespace BibaFramework.BibaGame
 
             LastPlayedTime = DateTime.MaxValue;
 
-            ShowHowTo = true;
-            ShowHelpBubble = true;
+            HowToEnabled = true;
+            HelpBubblesEnabled = true;
         }
     }
 }

@@ -14,10 +14,10 @@ namespace BibaFramework.BibaGame
 
         public override void Execute ()
         {
-            SetMenuStateConditionSignal.Dispatch(MenuStateCondition.PrivacyAgreementAccepted, BibaGameModel.PrivacyPolicyAccepted);
+            SetMenuStateConditionSignal.Dispatch(MenuStateCondition.PrivacyEnabled, BibaGameModel.PrivacyEnabled);
             SetMenuStateConditionSignal.Dispatch(MenuStateCondition.TagEnabled, BibaGameModel.TagEnabled);
-            SetMenuStateConditionSignal.Dispatch(MenuStateCondition.ShowHowTo, BibaGameModel.ShowHowTo);
-            SetMenuStateConditionSignal.Dispatch(MenuStateCondition.ShowHelpBubble, BibaGameModel.ShowHelpBubble);
+            SetMenuStateConditionSignal.Dispatch(MenuStateCondition.HowToEnabled, BibaGameModel.HowToEnabled);
+            SetMenuStateConditionSignal.Dispatch(MenuStateCondition.HelpBubblesEnabled, BibaGameModel.HelpBubblesEnabled);
         }
     }
 }

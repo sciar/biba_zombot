@@ -11,6 +11,8 @@ namespace BibaFramework.BibaGame
     public class EquipmentSelectedSignal : Signal <List<BibaEquipmentType>> { }
 
     //BibaTag
-	public class EnableTagSignal : Signal<bool> { }
+    public class EnableTagSignal : Signal<bool> { }
+    public class EnableHowToSignal : Signal<bool> { }
+    public class EnableHelpBubblesSignal : Signal<bool> { }
     public class TagScannedSignal : Signal<BibaTagType> { }
 }

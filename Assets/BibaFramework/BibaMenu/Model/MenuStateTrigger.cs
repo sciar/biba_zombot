@@ -18,9 +18,9 @@ namespace BibaFramework.BibaMenu
         Inactive,
 
         //Player Settings
-        PrivacyAgreementAccepted,
+        PrivacyEnabled,
         TagEnabled,
-        ShowHowTo,
-        ShowHelpBubble,
+        HowToEnabled,
+        HelpBubblesEnabled,
     }
 }

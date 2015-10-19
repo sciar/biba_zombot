@@ -3,8 +3,11 @@ using BibaFramework.BibaMenu;
 
 namespace BibaFramework.BibaGame
 {
-    public class EnablePrivacyStatementCommand : Command
+    public class EnableHowToCommand : Command
     {
+        [Inject]
+        public bool Status { get; set; }
+
         [Inject]
         public BibaGameModel BibaGameModel { get; set; }
 
@@ -16,10 +19,10 @@ namespace BibaFramework.BibaGame
 
         public override void Execute ()
         {
-            BibaGameModel.PrivacyEnabled = true;
+            BibaGameModel.HowToEnabled = Status;
             DataService.WriteGameModel();
 
-            SetMenuStateConditionSignal.Dispatch(MenuStateCondition.PrivacyEnabled, true);
+            SetMenuStateConditionSignal.Dispatch(MenuStateCondition.HowToEnabled, Status);
         }
     }
 }
