@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Text;
+using System.Linq;
 using UnityEngine;
 using BibaFramework.BibaAnalytic;
 using strange.extensions.command.impl;
@@ -22,11 +23,12 @@ namespace BibaFramework.BibaGame
 
         public override void Execute ()
         {
-            BibaGameModel.Equipments.Clear();
+            BibaGameModel.SelectedEquipments.Clear();
 
             foreach (var equipType in EquipmentSelected)
             {
-                BibaGameModel.Equipments.Add(new BibaEquipment(equipType));
+                BibaGameModel.SelectedEquipments.Add(new BibaEquipment(equipType));
+                BibaGameModel.TotalPlayedEquipments.Find(equip => equip.EquipmentType == equipType).Played++;
                 BibaAnalyticService.TrackEquipmentSelected(equipType);
             }
 

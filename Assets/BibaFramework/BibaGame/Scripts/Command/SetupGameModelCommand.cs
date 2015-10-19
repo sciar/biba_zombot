@@ -16,6 +16,8 @@ namespace BibaFramework.BibaGame
         {
             SetMenuStateConditionSignal.Dispatch(MenuStateCondition.PrivacyAgreementAccepted, BibaGameModel.PrivacyPolicyAccepted);
             SetMenuStateConditionSignal.Dispatch(MenuStateCondition.TagEnabled, BibaGameModel.TagEnabled);
+            SetMenuStateConditionSignal.Dispatch(MenuStateCondition.ShowHowTo, BibaGameModel.ShowHowTo);
+            SetMenuStateConditionSignal.Dispatch(MenuStateCondition.ShowHelpBubble, BibaGameModel.ShowHelpBubble);
         }
     }
 }

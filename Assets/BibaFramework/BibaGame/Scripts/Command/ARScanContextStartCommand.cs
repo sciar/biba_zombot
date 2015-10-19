@@ -14,10 +14,10 @@ namespace BibaFramework.BibaGame
 
         public override void Execute ()
         {
-            if (BibaGameModel.Equipments.Count > 0)
+            if (BibaGameModel.SelectedEquipments.Count > 0)
             {
-                var rndIndex = Random.Range(0, BibaGameModel.Equipments.Count);
-                BibaEquipmentToScan = new BibaEquipment(BibaGameModel.Equipments[rndIndex].EquipmentType);
+                var rndIndex = Random.Range(0, BibaGameModel.SelectedEquipments.Count);
+                BibaEquipmentToScan = new BibaEquipment(BibaGameModel.SelectedEquipments[rndIndex].EquipmentType);
             }
         }
     }

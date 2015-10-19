@@ -40,7 +40,7 @@ namespace BibaFramework.BibaMenuEditor
 
         protected override string OutputNameSpaceName {
             get {
-                return "BibaFramework.BibaTag";
+                return "BibaFramework.BibaGame";
             }
         }
 

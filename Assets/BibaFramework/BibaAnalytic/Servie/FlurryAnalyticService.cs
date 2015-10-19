@@ -40,7 +40,7 @@ namespace BibaFramework.BibaAnalytic
             var parameters = TrackingParams;
             parameters.Add(BibaAnalyticConstants.END_GAME_LAST_MENU_SHOWN, BibaSceneStack.Count > 0 ? BibaSceneStack.Peek().ToString() : "GameScene.Null");
 
-            foreach (var equipment in BibaGameModel.Equipments)
+            foreach (var equipment in BibaGameModel.TotalPlayedEquipments)
             {
                 parameters.Add(string.Format("{0}{1}", equipment.EquipmentType.ToString(), BibaAnalyticConstants.EQUIPMENT_PLAYED), equipment.Played.ToString());
             }

@@ -2,6 +2,7 @@ using UnityEngine;
 using BibaFramework.BibaGame;
 using BibaFramework.BibaMenu;
 using strange.extensions.command.impl;
+using ChartboostSDK;
 
 namespace BibaFramework.BibaMenu
 {
@@ -28,7 +29,14 @@ namespace BibaFramework.BibaMenu
         void SetupAudioService()
         {
             var audioService = RootContextView.GetComponentInChildren<AudioServices>();
-            injectionBinder.Bind<AudioServices>().To(audioService).CrossContext();
+            injectionBinder.Bind<AudioServices>().To(audioService).ToSingleton().CrossContext();
+        }
+
+        void SetupChartBoostService()
+        {
+            var chartBoostService = RootContextView.GetComponentInChildren<Chartboost>();
+            injectionBinder.Bind<Chartboost>().To(chartBoostService).ToSingleton().CrossContext();
+
         }
     }
 }

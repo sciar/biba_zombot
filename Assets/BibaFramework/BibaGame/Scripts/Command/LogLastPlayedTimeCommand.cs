@@ -14,7 +14,7 @@ namespace BibaFramework.BibaGame
 
         public override void Execute ()
         {
-            if (BibaGameModel.Equipments.Count > 0)
+            if (BibaGameModel.SelectedEquipments.Count > 0)
             {
                 BibaGameModel.LastPlayedTime = DateTime.UtcNow;
                 DataService.WriteGameModel();

@@ -1,20 +1,14 @@
 using System;
 using System.Linq;
+using System.Collections.Generic;
 
 namespace BibaFramework.BibaGame
 {
     public class BibaEquipment
     {
         public BibaEquipmentType EquipmentType { get; private set; }
-        public BibaTagType TagType { 
-            get {
-                if(Enum.IsDefined(typeof(BibaTagType), EquipmentType.ToString()))
-                {
-                    return ((BibaTagType)Enum.Parse(typeof(BibaTagType), EquipmentType.ToString()));
-                }
-                return BibaTagType.slide;
-            }
-        }
+        public BibaTagType TagType { get { return TagMapDict[EquipmentType]; } }
+
         public int Played { get; set; }
 
         public BibaEquipment()
@@ -40,6 +34,16 @@ namespace BibaFramework.BibaGame
         {
             return ((BibaEquipment)obj).EquipmentType == this.EquipmentType;
         }
+
+        private static readonly Dictionary<BibaEquipmentType, BibaTagType> TagMapDict = new Dictionary<BibaEquipmentType, BibaTagType>()
+        {
+            {  BibaEquipmentType.bridge, BibaTagType.orange },
+            {  BibaEquipmentType.climber, BibaTagType.red },
+            {  BibaEquipmentType.overhang, BibaTagType.purple },
+            {  BibaEquipmentType.slide, BibaTagType.yellow },
+            {  BibaEquipmentType.swing, BibaTagType.green },
+            {  BibaEquipmentType.tube, BibaTagType.blue},
+        };
     }
 
     public enum BibaEquipmentType

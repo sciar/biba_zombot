@@ -9,12 +9,18 @@ namespace BibaFramework.BibaMenu
         Yes,
         No,
         Reset,
+        Settings,
+        HowTo,
     }
 
     public enum MenuStateCondition
     {
         Inactive,
+
+        //Player Settings
         PrivacyAgreementAccepted,
         TagEnabled,
+        ShowHowTo,
+        ShowHelpBubble,
     }
 }
