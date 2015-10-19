@@ -29,6 +29,8 @@ namespace BibaFramework.BibaGame
         
         protected override void BindCommands ()
         {   
+            //TODO: bind it at round end
+            commandBinder.Bind<EndSignal>().To<CheckForChartBoostCommand>();
         }
         
         protected override void BindSignals ()

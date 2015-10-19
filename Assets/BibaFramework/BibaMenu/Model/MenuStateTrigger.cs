@@ -12,15 +12,4 @@ namespace BibaFramework.BibaMenu
         Settings,
         HowTo,
     }
-
-    public enum MenuStateCondition
-    {
-        Inactive,
-
-        //Player Settings
-        PrivacyEnabled,
-        TagEnabled,
-        HowToEnabled,
-        HelpBubblesEnabled,
-    }
 }

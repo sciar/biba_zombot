@@ -19,9 +19,9 @@ namespace BibaFramework.BibaGame
         public override void Execute ()
         {
             var timeInactive = DateTime.UtcNow - BibaGameModel.LastPlayedTime;
-            if (timeInactive >= TimeSpan.FromSeconds(BibaGameConstants.INACTIVE_SECONDS))
+            if (timeInactive >= TimeSpan.FromSeconds(BibaGameConstants.INACTIVE_INTERVAL_SECONDS))
             {
-                SetMenuStateConditionSignal.Dispatch(MenuStateCondition.Inactive, true);
+                SetMenuStateConditionSignal.Dispatch(MenuStateCondition.ShowInactive, true);
                 SetMenuStateTriggerSignal.Dispatch(MenuStateTrigger.Reset);
             }
         }

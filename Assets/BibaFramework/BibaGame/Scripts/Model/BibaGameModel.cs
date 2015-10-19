@@ -7,6 +7,8 @@ namespace BibaFramework.BibaGame
     {
         //Player Data
         public DateTime LastPlayedTime { get; set; }
+        public DateTime LastChartBoostDisplayedTime { get; set; }
+
         public List<BibaEquipment> SelectedEquipments { get; set; }
         public List<BibaEquipment> TotalPlayedEquipments { get; set; }
 
@@ -14,6 +16,7 @@ namespace BibaFramework.BibaGame
         public bool TagEnabled { get; set; }
         public bool HowToEnabled { get; set; }
         public bool HelpBubblesEnabled { get; set; }
+        public bool ChartBoostEnabled { get; set; }
 
         public BibaGameModel()
         {

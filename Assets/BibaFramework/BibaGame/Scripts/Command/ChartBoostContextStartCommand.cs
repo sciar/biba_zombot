@@ -4,7 +4,7 @@ using System;
 
 namespace BibaFramework.BibaGame
 {
-    public class InactiveContextStartCommand : Command
+    public class ChartBoostContextStartCommand : Command
     {
         [Inject]
         public SetMenuStateConditionSignal SetMenuStateConditionSignal { get; set; }
@@ -17,10 +17,10 @@ namespace BibaFramework.BibaGame
 
         public override void Execute ()
         {
-            BibaGameModel.LastPlayedTime = DateTime.MaxValue;
+            BibaGameModel.LastChartBoostDisplayedTime = DateTime.UtcNow;
             DataService.WriteGameModel();
 
-            SetMenuStateConditionSignal.Dispatch(MenuStateCondition.ShowInactive, false);
+            SetMenuStateConditionSignal.Dispatch(MenuStateCondition.ShowChartBoost, false);
         }
     }
 }
