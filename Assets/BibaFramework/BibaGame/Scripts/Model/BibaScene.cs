@@ -3,6 +3,7 @@ namespace BibaFramework.BibaGame
     public enum BibaScene
     {
         ARScan,
+        Achievements,
         BibaPresent,
         ChartBoost,
         EquipmentSelect,

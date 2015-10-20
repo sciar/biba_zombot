@@ -23,7 +23,7 @@ namespace BibaFramework.BibaMenu
 			var lastMenuState = BibaSceneStack.Pop();
 			if(lastMenuState is SceneMenuState)
 			{
-				DestroyGameView(BibaSceneStack.Pop());
+				DestroyGameView(lastMenuState);
 			}
 			else
 			{
