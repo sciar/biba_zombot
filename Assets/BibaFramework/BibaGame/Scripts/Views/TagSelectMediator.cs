@@ -22,7 +22,7 @@ namespace BibaFramework.BibaGame
 			TagSelectView.EnableTagSignal.AddListener(TagSelected);
         }
 
-        public override void RemoveSceneDependentSignals ()
+        public override void UnRegisterSceneDependentSignals ()
 		{
 			TagSelectView.EnableTagSignal.RemoveListener(TagSelected);
         }

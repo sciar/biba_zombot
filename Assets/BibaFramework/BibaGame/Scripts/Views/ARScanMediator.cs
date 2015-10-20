@@ -26,7 +26,7 @@ namespace BibaFramework.BibaGame
             TagScannedSignal.AddListener(TagScanned);
         }
         
-        public override void RemoveSceneDependentSignals ()
+        public override void UnRegisterSceneDependentSignals ()
         {
             TagScannedSignal.RemoveListener(TagScanned);
         }

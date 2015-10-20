@@ -34,7 +34,7 @@ namespace BibaFramework.BibaGame
             SettingsView.ShowHelpBubblesToggle.onValueChanged.AddListener(EnableHelpBubbles);
         }
 
-        public override void RemoveSceneDependentSignals ()
+        public override void UnRegisterSceneDependentSignals ()
         {
             SettingsView.AboutBibaButton.onClick.RemoveListener(AboutBibaButtonClicked);
             SettingsView.ShowHowToToggle.onValueChanged.RemoveListener(EnableHowTo);

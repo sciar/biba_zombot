@@ -2,12 +2,15 @@ using System;
 using System.Collections;
 using strange.extensions.mediation.impl;
 using UnityEngine;
+using BibaFramework.BibaGame;
 
 namespace BibaFramework.BibaMenu
 {
     [RequireComponent(typeof(Animator))]
-	public abstract class SceneMenuStateView : View
+	public abstract class SceneMenuStateView : View, IAudioView
 	{
+        public AudioServices AudioServices { get; set; }
+
         private Animator _anim;
         private Animator anim {
             get {

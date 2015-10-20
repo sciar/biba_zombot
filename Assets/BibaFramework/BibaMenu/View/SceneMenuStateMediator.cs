@@ -1,10 +1,11 @@
 using strange.extensions.mediation.impl;
 using strange.extensions.context.impl;
 using UnityEngine;
+using BibaFramework.BibaGame;
 
 namespace BibaFramework.BibaMenu
 {
-    public abstract class SceneMenuStateMediator : Mediator 
+    public abstract class SceneMenuStateMediator : Mediator, IAudioView
     {
         [Inject]
         public SetupSceneMenuStateSignal SetupMenuSignal { get; set; }
@@ -21,10 +22,15 @@ namespace BibaFramework.BibaMenu
         [Inject]
         public MenuStateExitAnimationEndedSignal SceneMenuStateExitAnimationEndedSignal { get; set; }
 
+        [Inject]
+        public AudioServices AudioServices { get; set; }
+
         public abstract SceneMenuStateView View { get; }
 
         public override void OnRegister ()
         {
+            View.AudioServices = AudioServices;
+
             PlaySceneMenuStateEntryAnimationSignal.AddListener(AnimateMenuEntry);
             PlaySceneMenuStateExitAnimationSignal.AddListener(AnimateMenuExit);
             SetupMenuSignal.AddListener(SetupMenu);
@@ -38,11 +44,11 @@ namespace BibaFramework.BibaMenu
             PlaySceneMenuStateExitAnimationSignal.RemoveListener(AnimateMenuExit);
             SetupMenuSignal.RemoveListener(SetupMenu);
 
-            RemoveSceneDependentSignals();
+            UnRegisterSceneDependentSignals();
         }
 
         public abstract void RegisterSceneDependentSignals();
-        public abstract void RemoveSceneDependentSignals();
+        public abstract void UnRegisterSceneDependentSignals();
         public abstract void SetupMenu(BaseMenuState menuState);
 
         void AnimateMenuEntry()

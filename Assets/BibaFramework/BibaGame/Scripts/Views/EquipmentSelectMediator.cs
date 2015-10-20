@@ -22,7 +22,7 @@ namespace BibaFramework.BibaGame
             EquipmentSelectView.ConfirmButton.onClick.AddListener(ConfirmEquipmentSelection);
         }
 
-        public override void RemoveSceneDependentSignals ()
+        public override void UnRegisterSceneDependentSignals ()
         {
             EquipmentSelectView.ConfirmButton.onClick.RemoveListener(ConfirmEquipmentSelection);
         }
