@@ -18,6 +18,8 @@ namespace BibaFramework.BibaGame
         public bool HelpBubblesEnabled { get; set; }
         public bool ChartBoostEnabled { get; set; }
 
+        public float HighScore { get; set; }
+
         public BibaGameModel()
         {
             SelectedEquipments = new List<BibaEquipment>();

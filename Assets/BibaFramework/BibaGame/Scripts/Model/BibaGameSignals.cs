@@ -10,6 +10,10 @@ namespace BibaFramework.BibaGame
 
     public class EquipmentSelectedSignal : Signal <List<BibaEquipmentType>> { }
 
+    //Game
+    public class EquipmentPlayedSignal : Signal<BibaEquipmentType> { }
+    public class TryToSetHighScoreSignal : Signal<float> { }
+
     //Settings
     public class OpenAboutBibaURLSignal : Signal { }
     public class EnableHowToSignal : Signal<bool> { }

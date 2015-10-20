@@ -11,5 +11,6 @@ namespace BibaFramework.BibaMenu
         Reset,
         Settings,
         HowTo,
+        PrivacyStatement
     }
 }

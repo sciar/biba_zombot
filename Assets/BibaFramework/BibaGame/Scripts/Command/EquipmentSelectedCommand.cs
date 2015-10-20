@@ -28,12 +28,17 @@ namespace BibaFramework.BibaGame
             foreach (var equipType in EquipmentSelected)
             {
                 BibaGameModel.SelectedEquipments.Add(new BibaEquipment(equipType));
-                BibaGameModel.TotalPlayedEquipments.Find(equip => equip.EquipmentType == equipType).Played++;
+                BibaGameModel.TotalPlayedEquipments.Find(equip => equip.EquipmentType == equipType).TimeSelected++;
                 BibaAnalyticService.TrackEquipmentSelected(equipType);
             }
 
             PrintDebugInfo();
             DataService.WriteGameModel();
+
+            foreach (var equip in BibaGameModel.TotalPlayedEquipments)
+            {
+                Debug.Log(equip.EquipmentType.ToString() + " " + equip.TimeSelected.ToString());
+            }
         }
 
         void PrintDebugInfo()

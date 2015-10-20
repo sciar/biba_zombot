@@ -9,7 +9,8 @@ namespace BibaFramework.BibaGame
         public BibaEquipmentType EquipmentType { get; private set; }
         public BibaTagType TagType { get { return TagMapDict[EquipmentType]; } }
 
-        public int Played { get; set; }
+        public int TimeSelected { get; set; }
+        public int TimePlayed { get; set; }
 
         public BibaEquipment()
         {

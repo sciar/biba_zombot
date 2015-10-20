@@ -46,7 +46,7 @@ namespace BibaFramework.BibaMenu
         {
             //BibaGame
 
-			//Order important
+			//Start setup - order is important
             commandBinder.Bind<StartSignal>().
 				To<SetupMonoBehaviourServices>().
                     To<LoadGameModelCommand>().
