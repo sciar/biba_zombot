@@ -13,6 +13,7 @@ namespace BibaFramework.BibaGame
     //Game
     public class EquipmentPlayedSignal : Signal<BibaEquipmentType> { }
     public class TryToSetHighScoreSignal : Signal<double> { }
+    public class CheckForAchievementsSignal : Signal { }
 
     //Settings
     public class OpenAboutBibaURLSignal : Signal { }

@@ -11,6 +11,7 @@ namespace BibaFramework.BibaGame
 
         public List<BibaEquipment> SelectedEquipments { get; set; }
         public List<BibaEquipment> TotalPlayedEquipments { get; set; }
+        public List<BibaAchievement> CompletedAchievements { get; set; }
 
         public bool PrivacyEnabled { get; set; }
         public bool TagEnabled { get; set; }
@@ -32,6 +33,8 @@ namespace BibaFramework.BibaGame
                 new BibaEquipment(BibaEquipmentType.swing),
                 new BibaEquipment(BibaEquipmentType.tube),
             };
+
+            CompletedAchievements = new List<BibaAchievement>();
 
             LastPlayedTime = DateTime.MaxValue;
 

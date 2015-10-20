@@ -29,6 +29,7 @@ namespace BibaFramework.BibaMenu
 
             //Create a bogus binding for the BibaGameModel because we are going to rebind it in LoadGameDataCommand
             injectionBinder.Bind<BibaGameModel>().To<BibaGameModel>();
+            injectionBinder.Bind<BibaGameConfig>().To<BibaGameConfig>();
         }
 
         protected override void BindServices ()
@@ -51,6 +52,7 @@ namespace BibaFramework.BibaMenu
 				To<SetupMonoBehaviourServices>().
                     To<LoadGameModelCommand>().
                     To<SetupGameModelCommand>().
+                    To<SetupGameConfigCommand>().
                     To<SetupAnalyticCommand>().
                     To<SetupEditorDebugSceneCommand>().
                     InSequence();
