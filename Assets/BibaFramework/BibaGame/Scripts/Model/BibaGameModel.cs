@@ -18,7 +18,7 @@ namespace BibaFramework.BibaGame
         public bool HelpBubblesEnabled { get; set; }
         public bool ChartBoostEnabled { get; set; }
 
-        public float HighScore { get; set; }
+        public double HighScore { get; set; }
 
         public BibaGameModel()
         {

@@ -5,7 +5,7 @@ namespace BibaFramework.BibaGame
     public class TryToSetHighScoreCommand : Command
     {
         [Inject]
-        public float Score { get; set; }
+        public double Score { get; set; }
 
         [Inject]
         public BibaGameModel BibaGameModel { get; set; }

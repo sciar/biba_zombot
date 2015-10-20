@@ -12,7 +12,7 @@ namespace BibaFramework.BibaGame
 
     //Game
     public class EquipmentPlayedSignal : Signal<BibaEquipmentType> { }
-    public class TryToSetHighScoreSignal : Signal<float> { }
+    public class TryToSetHighScoreSignal : Signal<double> { }
 
     //Settings
     public class OpenAboutBibaURLSignal : Signal { }
