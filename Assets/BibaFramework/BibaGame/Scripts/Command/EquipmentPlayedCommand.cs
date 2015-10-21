@@ -1,4 +1,5 @@
 using strange.extensions.command.impl;
+using BibaFramework.BibaAnalytic;
 
 namespace BibaFramework.BibaGame
 {
@@ -12,6 +13,9 @@ namespace BibaFramework.BibaGame
 
         [Inject]
         public IDataService DataService { get; set; }
+
+        [Inject]
+        public IBibaAnalyticService BibaAnalyticService { get; set; }
 
         public override void Execute ()
         {
@@ -30,6 +34,8 @@ namespace BibaFramework.BibaGame
 
             equipment.TimePlayed++;
             DataService.WriteGameModel();
+
+            BibaAnalyticService.TrackEquipmentPlayed(equipment.EquipmentType);
         }
     }
 }
