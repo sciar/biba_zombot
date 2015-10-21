@@ -21,20 +21,16 @@ namespace BibaFramework.BibaMenu
         void RemoveLastGameView()
         {
 			var lastMenuState = BibaSceneStack.Pop();
+            var lastMenuStateGO = BibaSceneStack.RemoveMenuStateGameObject(lastMenuState);
+
 			if(lastMenuState is SceneMenuState)
 			{
-				DestroyGameView(lastMenuState);
+                GameObject.Destroy(lastMenuStateGO);
 			}
 			else
 			{
 				ToggleObjectMenuStateSignal.Dispatch(lastMenuState as ObjectMenuState, false);
 			}
-        }
-
-        void DestroyGameView(BaseMenuState menuState)
-        {
-            var gameSceneGO = GameObject.Find(menuState.SceneName);
-            GameObject.Destroy(gameSceneGO);
         }
     }
 }

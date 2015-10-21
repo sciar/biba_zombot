@@ -66,9 +66,8 @@ namespace BibaFramework.BibaMenu
             //BibaMenu
             commandBinder.Bind<ProcessNextMenuStateSignal>().To<ProcessNextMenuStateCommand>();
 
-			//BibaMenu - GameScene
             commandBinder.Bind<SwitchSceneMenuStateSignal>()
-                    .To<DisableAllInputCommand>()
+                    .To<DisableTopInputCommand>()
                     .To<AnimateSceneMenuStateExitCommand>()
                     .To<RemoveAllMenuStatesCommand>()
                     .To<LoadNewMenuStateCommand>()
@@ -77,26 +76,29 @@ namespace BibaFramework.BibaMenu
                     .To<EnableTopInputCommand>().InSequence();
 
             commandBinder.Bind<PushMenuStateSignal>()
-                    .To<DisableAllInputCommand>()
+                    .To<DisableTopInputCommand>()
                     .To<LoadNewMenuStateCommand>()
                     .To<DisableTopInputCommand>()
                     .To<AnimateSceneMenuStateEntryCommand>()
                     .To<EnableTopInputCommand>().InSequence();
 
             commandBinder.Bind<PopMenuStateSignal>()
-                    .To<DisableAllInputCommand>()
+                    .To<DisableTopInputCommand>()
                     .To<AnimateSceneMenuStateExitCommand>()
                     .To<RemoveLastMenuStateCommand>()
                     .To<EnableTopInputCommand>().InSequence();
 
             commandBinder.Bind<ReplaceMenuStateSignal>()
-                    .To<DisableAllInputCommand>()    
+                    .To<DisableTopInputCommand>()    
                     .To<AnimateSceneMenuStateExitCommand>()
                     .To<RemoveLastMenuStateCommand>()
                     .To<LoadNewMenuStateCommand>()
                     .To<DisableTopInputCommand>()
                     .To<AnimateSceneMenuStateEntryCommand>()
                     .To<EnableTopInputCommand>().InSequence();
+
+            commandBinder.Bind<RemoveLastMenuStateSignal>().To<RemoveLastMenuStateCommand>();
+   
         }
 
         protected override void BindSignals ()

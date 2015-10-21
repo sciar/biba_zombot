@@ -13,8 +13,8 @@ namespace BibaFramework.BibaMenu
         {
             if (BibaSceneStack.Count > 0)
             {
-                var gameSceneGO = GameObject.Find(BibaSceneStack.Peek().SceneName);
-                gameSceneGO.GetComponentInChildren<GraphicRaycaster>().enabled = true;
+                var go = BibaSceneStack.GetTopGameObjectForTopMenuState();
+                go.GetComponentInChildren<GraphicRaycaster>().enabled = true;
             }
         }
     }

@@ -8,8 +8,8 @@ namespace BibaFramework.BibaMenu
         [Inject]
         public BibaSceneStack BibaSceneMenuStateStack { get; set; }
 
-		[Inject]
-		public ToggleObjectMenuStateSignal ToggleObjectMenuStateSignal { get; set; }
+        [Inject]
+        public RemoveLastMenuStateSignal RemoveLastMenuStateSignal { get; set; }
 
         public override void Execute ()
         {
@@ -18,25 +18,10 @@ namespace BibaFramework.BibaMenu
 
         void RemoveAllGameViews()
         {
-            foreach (var menuState in BibaSceneMenuStateStack)
+            while (BibaSceneMenuStateStack.Count > 0)
             {
-				if(menuState is SceneMenuState)
-				{
-					DestroyGameView(menuState);
-				}
-				else
-				{
-					ToggleObjectMenuStateSignal.Dispatch(menuState as ObjectMenuState, false);
-				}
+                RemoveLastMenuStateSignal.Dispatch();
             }
-
-            BibaSceneMenuStateStack.Clear();
-        }
-       
-        void DestroyGameView(BaseMenuState menuState)
-        {
-            var gameSceneGO = GameObject.Find(menuState.SceneName);
-            GameObject.Destroy(gameSceneGO);
         }
     }
 }

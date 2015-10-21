@@ -25,8 +25,6 @@ namespace BibaFramework.BibaMenu
 
         public override void Execute ()
         {
-			Debug.Log (BibaSceneStack);
-
             if (NextMenuState.FullScreen)
             {
                 ProcessFullScreenMenuState();

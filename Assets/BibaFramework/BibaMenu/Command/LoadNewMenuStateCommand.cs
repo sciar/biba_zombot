@@ -22,7 +22,7 @@ namespace BibaFramework.BibaMenu
         public override void Execute ()
         {
             PushMenuStateOnStack();
-            LoadNewMenuState();
+            ProcessNewMenuState();
         }
 
         void PushMenuStateOnStack()
@@ -34,33 +34,39 @@ namespace BibaFramework.BibaMenu
             BibaSceneStack.Push(NextMenuState);
 		}
 
-        void LoadNewMenuState()
+        void ProcessNewMenuState()
         {
             if (NextMenuState is SceneMenuState)
             {
-                LoadNewGameSceneMenuState();
+                LoadSceneMenuState();
             }
             else
             {
-                EnableNewObjectMenuState();
+                EnableObjectMenuState();
             }
         }
 		
-        void EnableNewObjectMenuState()
+        void EnableObjectMenuState()
         {
             ToggleObjectMenuStateSignal.Dispatch(NextMenuState as ObjectMenuState, true);
+            LinkMenuStateWithGameObject();
         }
 
-		void LoadNewGameSceneMenuState()
+		void LoadSceneMenuState()
         {
-			if(GameObject.Find(NextMenuState.SceneName) != null)
+			if (GameObject.Find(NextMenuState.SceneName) != null)
             {
-				SetupSceneMenuStateSignal.Dispatch(NextMenuState as SceneMenuState);
-				return;
+                SetupSceneMenuState();
+            } 
+            else
+            {
+                LoadNewSceneMenuState();
             }
-            
+        }
+
+        void LoadNewSceneMenuState()
+        {
             Retain();
-  
             new Task(LoadLevelAsync(), true);
         }
 
@@ -75,7 +81,19 @@ namespace BibaFramework.BibaMenu
         void LevelLoaded()
         {
             Release();
-			SetupSceneMenuStateSignal.Dispatch(NextMenuState as SceneMenuState);
-		}
+            SetupSceneMenuState();
+        }
+
+        void SetupSceneMenuState()
+        {
+            SetupSceneMenuStateSignal.Dispatch(NextMenuState as SceneMenuState);
+            LinkMenuStateWithGameObject();
+        }
+
+        void LinkMenuStateWithGameObject()
+        {
+            var go = GameObject.Find(NextMenuState.SceneName);
+            BibaSceneStack.LinkMenuStateWithGameObject(NextMenuState, go);
+        }
 	}
 }

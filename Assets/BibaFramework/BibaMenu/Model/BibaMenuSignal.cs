@@ -10,6 +10,7 @@ namespace BibaFramework.BibaMenu
     public class PushMenuStateSignal : Signal<BaseMenuState>{ }
     public class PopMenuStateSignal : Signal<BaseMenuState>{ }
     public class ReplaceMenuStateSignal : Signal<BaseMenuState>{ }
+    public class RemoveLastMenuStateSignal : Signal { }
 
     //MenuState - Scene based
     public class SwitchSceneMenuStateSignal : Signal<BaseMenuState>{ }
