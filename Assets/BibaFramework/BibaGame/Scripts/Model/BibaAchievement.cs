@@ -1,6 +1,7 @@
 using System;
 using System.Linq;
 using System.Collections.Generic;
+using LitJson;
 
 namespace BibaFramework.BibaGame
 {
@@ -9,7 +10,7 @@ namespace BibaFramework.BibaGame
         public string  Id { get; private set; }
         public bool Shown { get; set; }
 
-        [NonSerialized]
+        [JsonIgnore]
         public BibaAchievementConfig Config;
 
         public BibaAchievement()

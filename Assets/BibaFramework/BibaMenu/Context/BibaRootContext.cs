@@ -26,10 +26,10 @@ namespace BibaFramework.BibaMenu
         protected override void BindModels ()
         {
             injectionBinder.Bind<BibaSceneStack>().To<BibaSceneStack>().ToSingleton().CrossContext();
+            injectionBinder.Bind<BibaGameConfig>().To<BibaGameConfig>().ToSingleton().CrossContext();
 
             //Create a bogus binding for the BibaGameModel because we are going to rebind it in LoadGameDataCommand
             injectionBinder.Bind<BibaGameModel>().To<BibaGameModel>();
-            injectionBinder.Bind<BibaGameConfig>().To<BibaGameConfig>().ToSingleton().CrossContext();
         }
 
         protected override void BindServices ()
@@ -98,7 +98,6 @@ namespace BibaFramework.BibaMenu
                     .To<EnableTopInputCommand>().InSequence();
 
             commandBinder.Bind<RemoveLastMenuStateSignal>().To<RemoveLastMenuStateCommand>();
-   
         }
 
         protected override void BindSignals ()

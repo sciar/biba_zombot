@@ -1,5 +1,6 @@
 ﻿using strange.extensions.command.impl;
 using UnityEngine;
+using System;
 
 namespace BibaFramework.BibaMenu
 {
@@ -44,6 +45,11 @@ namespace BibaFramework.BibaMenu
             }
 
             var lastMenuState = BibaSceneStack.Peek();
+            if (lastMenuState == NextMenuState)
+            {
+                throw new Exception("Should not be able to transit to the same state.");
+            }
+
             if (lastMenuState.FullScreen)
             {
                 //Last MenuState is a Fullscreen SceneMenuState
