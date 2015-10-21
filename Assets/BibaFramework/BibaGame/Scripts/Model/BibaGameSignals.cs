@@ -3,14 +3,14 @@ using System.Collections.Generic;
 
 namespace BibaFramework.BibaGame
 {
+    //Game
     public class StartSignal : Signal{ }
     public class EndSignal : Signal{ }
     public class ApplicationPausedSignal : Signal{ }
     public class ApplicationUnPausedSignal : Signal{ }
+    public class GameModelUpdatedSignal : Signal { } 
 
-    public class EquipmentSelectedSignal : Signal <List<BibaEquipmentType>> { }
-
-    //Game
+    public class EquipmentSelectedSignal : Signal <BibaEquipmentType, bool> { }
     public class EquipmentPlayedSignal : Signal<BibaEquipmentType> { }
     public class TryToSetHighScoreSignal : Signal<double> { }
 

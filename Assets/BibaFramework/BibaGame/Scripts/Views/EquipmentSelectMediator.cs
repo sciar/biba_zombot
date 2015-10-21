@@ -9,7 +9,10 @@ namespace BibaFramework.BibaGame
         public EquipmentSelectView EquipmentSelectView { get; set; }
 
         [Inject]
-        public EquipmentSelectedSignal EquipmentSelectedSignal { get; set; }
+        public GameModelUpdatedSignal GameModelUpdatedSignal { get; set; }
+
+        [Inject]
+        public BibaGameModel BibaGameModel { get; set; }
 
         public override SceneMenuStateView View {
             get {
@@ -19,21 +22,21 @@ namespace BibaFramework.BibaGame
 
         public override void RegisterSceneDependentSignals ()
         {
-            EquipmentSelectView.ConfirmButton.onClick.AddListener(ConfirmEquipmentSelection);
+            GameModelUpdatedSignal.AddListener(OnGameModelUpdated);
         }
 
         public override void UnRegisterSceneDependentSignals ()
         {
-            EquipmentSelectView.ConfirmButton.onClick.RemoveListener(ConfirmEquipmentSelection);
+            GameModelUpdatedSignal.RemoveListener(OnGameModelUpdated);
         }
 
         public override void SetupMenu (BaseMenuState menuState)
         {
         }
 
-        void ConfirmEquipmentSelection()
+        void OnGameModelUpdated()
         {
-            EquipmentSelectedSignal.Dispatch(EquipmentSelectView.EquipmentSelectToggles.Where(est => est.IsOn).Select(est => est.BibaEquipmentType).ToList());
+            EquipmentSelectView.ConfirmButton.interactable = BibaGameModel.SelectedEquipments.Count > 0;
         }
     }
 }

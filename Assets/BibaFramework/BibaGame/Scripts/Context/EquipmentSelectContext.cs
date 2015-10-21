@@ -25,10 +25,13 @@ namespace BibaFramework.BibaGame
         protected override void BindViews ()
         {
             mediationBinder.Bind<EquipmentSelectView>().To<EquipmentSelectMediator>();
+            mediationBinder.Bind<EquipmentSelectToggleView>().To<EquipmentSelectToggleMediator>();
         }
 
         protected override void BindCommands ()
-        {   
+        {
+            commandBinder.Bind<StartSignal>().To<EquipmentSelectContextStartCommand>();
+            commandBinder.Bind<EndSignal>().To<EquipmentSelectContextEndCommand>();
             commandBinder.Bind<EquipmentSelectedSignal>().To<EquipmentSelectedCommand>();
         }
 

@@ -10,9 +10,13 @@ namespace BibaFramework.BibaGame
         [Inject]
         public BibaGameModel BibaGameModel { get; set; }
 
+        [Inject]
+        public GameModelUpdatedSignal GameModelUpdatedSignal { get; set; }
+
         public void WriteGameModel ()
         {
             WriteToDisk(BibaGameModel, BibaDataConstants.GAME_MODEL_DATA_PATH);
+            GameModelUpdatedSignal.Dispatch();
         }
 
         public BibaGameModel ReadGameModel ()
