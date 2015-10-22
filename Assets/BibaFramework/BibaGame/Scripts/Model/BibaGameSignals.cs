@@ -21,5 +21,6 @@ namespace BibaFramework.BibaGame
 
     //Tag
     public class EnableTagSignal : Signal<bool> { }
+    public class SetSatelliteTagToScanSignal : Signal { }
     public class TagScannedSignal : Signal<BibaTagType> { }
 }

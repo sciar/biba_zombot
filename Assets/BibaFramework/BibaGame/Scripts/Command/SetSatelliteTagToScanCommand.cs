@@ -4,9 +4,9 @@ using UnityEngine;
 
 namespace BibaFramework.BibaGame
 {
-    public class ARScanContextStartCommand : Command
+    public class SetSatelliteTagToScanCommand : Command
     {
-        [Inject]
+        [Inject(BibaGameConstants.SATELLITE_TAG_TO_SCAN)]
         public BibaEquipment BibaEquipmentToScan { get; set; }
 
         [Inject]
