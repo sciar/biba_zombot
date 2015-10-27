@@ -63,6 +63,14 @@ namespace BibaFramework.BibaAnalytic
             
             _service.LogEvent(BibaAnalyticConstants.EQUIPMENT_PLAYED_EVENT, parameters);
         }
+
+        public void TrackSatelliteTagEnabled (bool enabled)
+        {
+            var parameters = TrackingParams;
+            parameters.Add(BibaAnalyticConstants.TAG_ENABLED, enabled.ToString());
+            
+            _service.LogEvent(BibaAnalyticConstants.TAG_ENABLED_EVENT, parameters);;
+        }
        
         public void TrackSatelliteTagScanned (BibaTagType tagType)
         {

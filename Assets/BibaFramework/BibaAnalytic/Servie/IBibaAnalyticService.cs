@@ -13,6 +13,8 @@ namespace BibaFramework.BibaAnalytic
         void TrackEquipmentSelected(BibaEquipmentType equipmentType);
         //Track equipments played in a sessions
         void TrackEquipmentPlayed(BibaEquipmentType equipmentType);
+        //Track when the satellite tag is enabled
+        void TrackSatelliteTagEnabled(bool enabled);
         //Track when the satellite tag is scanned and recognized
         void TrackSatelliteTagScanned(BibaTagType tagType);
     }

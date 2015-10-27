@@ -17,6 +17,9 @@ namespace BibaFramework.BibaAnalytic
         public const string EQUIPMENT_PLAYED_EVENT = "equipment_played";
         public const string EQUIPMENT_PLAYED_TYPE = "equipment_played_type";
         public const string EQUIPMENT_PLAYED = "_played";
+        
+        public const string TAG_ENABLED_EVENT = "tag_enabled";
+        public const string TAG_ENABLED = "tag_enabled";
 
         public const string TAG_SCANNED_EVENT = "tag_scanned";
         public const string TAG_SCANNED_TYPE = "tag_type";
