@@ -85,14 +85,7 @@ namespace BibaFramework.BibaMenu
             //Popup SceneMenuState or ObjectMenuState -> Popup SceneMenuState or ObjectMenuState 
             else
             {
-                if(NextMenuState.Replace)
-                {
-                    ReplaceMenuStateSignal.Dispatch(NextMenuState);
-                }
-                else
-                {
-                    PushMenuStateSignal.Dispatch(NextMenuState);
-                }
+                ReplaceMenuStateSignal.Dispatch(NextMenuState);
             }
         }
     }
