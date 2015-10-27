@@ -36,7 +36,10 @@ namespace BibaFramework.BibaGame
 
         void OnGameModelUpdated()
         {
-            EquipmentSelectView.ConfirmButton.interactable = BibaGameModel.SelectedEquipments.Count > 0;
+            if (EquipmentSelectView.ConfirmButton != null)
+            {
+                EquipmentSelectView.ConfirmButton.interactable = BibaGameModel.SelectedEquipments.Count > 0;
+            }
         }
     }
 }
