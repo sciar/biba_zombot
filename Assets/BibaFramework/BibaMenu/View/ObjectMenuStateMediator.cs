@@ -13,6 +13,7 @@ namespace BibaFramework.BibaMenu
 
 		public override void OnRegister ()
 		{
+            ObjectMenuStateView.gameObject.SetActive(false);
 			ShowObjectBasedMenuStateSignal.AddListener(ShowObjectBasedMenuState);
 		}
 
@@ -23,10 +24,10 @@ namespace BibaFramework.BibaMenu
 
 		void ShowObjectBasedMenuState(ObjectMenuState menuState, bool status)
 		{
-			if(menuState.MenuStateGameObject != null && menuState.SceneName == this.name)
-			{
-				ObjectMenuStateView.gameObject.SetActive(status);
-			}
+			if (menuState.MenuStateGameObject != null && menuState.SceneName == this.name)
+            {
+                ObjectMenuStateView.gameObject.SetActive(status);
+            }
 		}
 	} 
 }

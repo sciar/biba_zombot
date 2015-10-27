@@ -71,8 +71,8 @@ namespace BibaFramework.BibaMenu
                     SwitchSceneMenuStateSignal.Dispatch(NextMenuState);
                 }
             }
-
         }
+
         void ProcessPopupMenuState()
         {
             var lastMenuState = BibaSceneStack.Peek();
@@ -85,7 +85,7 @@ namespace BibaFramework.BibaMenu
             //Popup SceneMenuState or ObjectMenuState -> Popup SceneMenuState or ObjectMenuState 
             else
             {
-                if(lastMenuState.Replace)
+                if(NextMenuState.Replace)
                 {
                     ReplaceMenuStateSignal.Dispatch(NextMenuState);
                 }
