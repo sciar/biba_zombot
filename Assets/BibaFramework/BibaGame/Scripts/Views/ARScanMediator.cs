@@ -17,7 +17,7 @@ namespace BibaFramework.BibaGame
         public TagScannedSignal TagScannedSignal { get; set; }
 
         [Inject]
-        public BibaGameModel BibaGameModel { get; set; }
+        public BibaSessionModel BibaSessionModel { get; set; }
 
         [Inject]
         public TagServiceInitFailedSignal TagServiceInitFailedSignal { get; set; }
@@ -67,6 +67,7 @@ namespace BibaFramework.BibaGame
             if (tagType == _tagToScan)
             {
                 SetMenuStateTriggerSignal.Dispatch(MenuStateTrigger.Yes);
+                BibaSessionModel.TagScanned = true;
             }
         }
     }

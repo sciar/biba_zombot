@@ -30,6 +30,7 @@ namespace BibaFramework.BibaMenu
 
             //Create a bogus binding for the BibaGameModel because we are going to rebind it in LoadGameDataCommand
             injectionBinder.Bind<BibaGameModel>().To<BibaGameModel>();
+            injectionBinder.Bind<BibaSessionModel>().To<BibaSessionModel>().ToSingleton().CrossContext();
         }
 
         protected override void BindServices ()

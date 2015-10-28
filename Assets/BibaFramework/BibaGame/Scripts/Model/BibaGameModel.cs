@@ -15,7 +15,6 @@ namespace BibaFramework.BibaGame
 
         public bool PrivacyEnabled { get; set; }
         public bool TagEnabled { get; set; }
-        public bool TagScanned { get; set; }
         public bool HowToEnabled { get; set; }
         public bool HelpBubblesEnabled { get; set; }
         public bool ChartBoostEnabled { get; set; }
