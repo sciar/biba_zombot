@@ -2,7 +2,7 @@ using strange.extensions.mediation.impl;
 
 namespace BibaFramework.BibaMenu
 {
-	public class ObjectMenuStateView : BaseObjectMenuStateView 
+    public abstract class BaseObjectMenuStateView : View 
 	{
 
 	} 

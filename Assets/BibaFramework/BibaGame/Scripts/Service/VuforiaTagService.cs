@@ -1,6 +1,5 @@
 ﻿using System;
 using Vuforia;
-using BibaFramework.BibaGame;
 using UnityEngine;
 
 namespace BibaFramework.BibaGame
@@ -27,14 +26,20 @@ namespace BibaFramework.BibaGame
 
         public void StartScan()
         {
-            VuforiaBehaviour.Instance.RegisterVuforiaInitErrorCallback(TagInitFailed);
-            Array.ForEach(TrackableEventHandlers, handler => handler.TrackingFoundSignal.AddListener(OnTagScanned));
+            if (VuforiaBehaviour.Instance != null)
+            {
+                VuforiaBehaviour.Instance.RegisterVuforiaInitErrorCallback(TagInitFailed);
+                Array.ForEach(TrackableEventHandlers, handler => handler.TrackingFoundSignal.AddListener(OnTagScanned));
+            }
         }
 
         public void StopScan()
         {
-            VuforiaBehaviour.Instance.UnregisterVuforiaInitErrorCallback(TagInitFailed);
-            Array.ForEach(TrackableEventHandlers, handler => handler.TrackingFoundSignal.RemoveListener(OnTagScanned));
+            if (VuforiaBehaviour.Instance != null)
+            {
+                VuforiaBehaviour.Instance.UnregisterVuforiaInitErrorCallback(TagInitFailed);
+                Array.ForEach(TrackableEventHandlers, handler => handler.TrackingFoundSignal.RemoveListener(OnTagScanned));
+            }
         }
 
         void OnTagScanned(string fileName)

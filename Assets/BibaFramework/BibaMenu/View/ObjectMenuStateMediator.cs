@@ -3,31 +3,11 @@ using UnityEngine;
 
 namespace BibaFramework.BibaMenu
 {
-	public class ObjectMenuStateMediator : Mediator 
+	public class ObjectMenuStateMediator : BaseObjectMenuStateMediator 
 	{
 		[Inject]
-		public ToggleObjectMenuStateSignal ShowObjectBasedMenuStateSignal { get; set; }
+        public ObjectMenuStateView ObjectMenuStateView { get; set; }
 
-		[Inject]
-		public ObjectMenuStateView ObjectMenuStateView { get; set; }
-
-		public override void OnRegister ()
-		{
-            ObjectMenuStateView.gameObject.SetActive(false);
-			ShowObjectBasedMenuStateSignal.AddListener(ShowObjectBasedMenuState);
-		}
-
-		public override void OnRemove ()
-		{
-			ShowObjectBasedMenuStateSignal.RemoveListener(ShowObjectBasedMenuState);
-		}
-
-		void ShowObjectBasedMenuState(ObjectMenuState menuState, bool status)
-		{
-			if (menuState.MenuStateGameObject != null && menuState.SceneName == this.name)
-            {
-                ObjectMenuStateView.gameObject.SetActive(status);
-            }
-		}
+        public override BaseObjectMenuStateView BaseObjectMenuStateView { get { return ObjectMenuStateView; } }
 	} 
 }

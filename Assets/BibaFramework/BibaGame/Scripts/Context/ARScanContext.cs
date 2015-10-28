@@ -26,6 +26,7 @@ namespace BibaFramework.BibaGame
         protected override void BindViews ()
         { 
             mediationBinder.Bind<ARScanView>().To<ARScanMediator>();
+            mediationBinder.Bind<ARScanStartView>().To<ARScanStartMediator>();
         }
         
         protected override void BindCommands ()
