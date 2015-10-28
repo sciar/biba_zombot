@@ -24,7 +24,7 @@ namespace BibaFramework.BibaGame
             }
 
             var timeInactive = DateTime.UtcNow - BibaGameModel.LastChartBoostDisplayedTime;
-            if (timeInactive >= TimeSpan.FromSeconds(BibaGameConstants.CHARTBOOST_INTERVAL_SECONDS))
+            if (timeInactive >= TimeSpan.FromSeconds(BibaGameConstants.ONE_DAY_IN_SECONDS))
             {
                 SetMenuStateConditionSignal.Dispatch(MenuStateCondition.ShowChartBoost, true);
             }
