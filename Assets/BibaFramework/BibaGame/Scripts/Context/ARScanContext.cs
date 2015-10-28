@@ -16,7 +16,6 @@ namespace BibaFramework.BibaGame
         
         protected override void BindModels ()
         {
-            injectionBinder.Bind<BibaEquipment>().To<BibaEquipment>().ToName(BibaGameConstants.SATELLITE_TAG_TO_SCAN);
         }
         
         protected override void BindServices ()
@@ -31,11 +30,12 @@ namespace BibaFramework.BibaGame
         
         protected override void BindCommands ()
         {   
-            commandBinder.Bind<StartSignal>().To<SetSatelliteTagToScanCommand>();
+            commandBinder.Bind<EndSignal>().To<ARScanContextExitedCommand>();
         }
         
         protected override void BindSignals ()
         {
+            injectionBinder.Bind<TagServiceInitFailedSignal>().To<TagServiceInitFailedSignal>().ToSingleton();
         }
     }
 }

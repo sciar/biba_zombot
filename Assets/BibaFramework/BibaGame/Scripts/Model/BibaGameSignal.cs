@@ -20,8 +20,7 @@ namespace BibaFramework.BibaGame
     public class EnableHelpBubblesSignal : Signal<bool> { }
 
     //Tag
-    public class TagServiceInitFailedSignal : Signal { } 
     public class EnableTagSignal : Signal<bool> { }
-    public class SetSatelliteTagToScanSignal : Signal { }
+    public class TagServiceInitFailedSignal : Signal { } 
     public class TagScannedSignal : Signal<BibaTagType> { }
 }

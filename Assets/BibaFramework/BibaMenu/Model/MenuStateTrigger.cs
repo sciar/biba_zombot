@@ -6,6 +6,7 @@ namespace BibaFramework.BibaMenu
         Next,
         Back,
         Scan,
+        Skip,
         Yes,
         No,
         Reset,
