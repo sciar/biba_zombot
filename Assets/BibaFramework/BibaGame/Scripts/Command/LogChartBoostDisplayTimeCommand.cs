@@ -4,7 +4,7 @@ using System;
 
 namespace BibaFramework.BibaGame
 {
-    public class ChartBoostContextStartCommand : Command
+    public class LogChartBoostDisplayTimeCommand : Command
     {
         [Inject]
         public SetMenuStateConditionSignal SetMenuStateConditionSignal { get; set; }
@@ -17,7 +17,7 @@ namespace BibaFramework.BibaGame
 
         public override void Execute ()
         {
-            BibaGameModel.LastChartBoostDisplayedTime = DateTime.UtcNow;
+            BibaGameModel.LastChartBoostTime = DateTime.UtcNow;
             DataService.WriteGameModel();
 
             SetMenuStateConditionSignal.Dispatch(MenuStateCondition.ShowChartBoost, false);

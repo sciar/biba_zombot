@@ -2,13 +2,10 @@ namespace BibaFramework.BibaMenu
 {
     public enum MenuStateCondition
     {
-        //Game variables
         ShowInactive,
         ShowChartBoost,
-
-        //Player Settings
+        ShowTagScan,
         PrivacyEnabled,
-        TagEnabled,
         HowToEnabled,
         HelpBubblesEnabled,
     }

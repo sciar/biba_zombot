@@ -17,13 +17,13 @@ namespace BibaFramework.BibaGame
 
         public override void Execute ()
         {
-            if (BibaGameModel.LastChartBoostDisplayedTime == DateTime.MaxValue)
+            if (BibaGameModel.LastChartBoostTime == DateTime.MaxValue)
             {
-                BibaGameModel.LastChartBoostDisplayedTime = DateTime.UtcNow;
+                BibaGameModel.LastChartBoostTime = DateTime.UtcNow;
                 DataService.WriteGameModel();
             }
 
-            var timeInactive = DateTime.UtcNow - BibaGameModel.LastChartBoostDisplayedTime;
+            var timeInactive = DateTime.UtcNow - BibaGameModel.LastChartBoostTime;
             if (timeInactive >= TimeSpan.FromSeconds(BibaGameConstants.ONE_DAY_IN_SECONDS))
             {
                 SetMenuStateConditionSignal.Dispatch(MenuStateCondition.ShowChartBoost, true);

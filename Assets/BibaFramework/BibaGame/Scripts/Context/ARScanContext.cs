@@ -31,6 +31,8 @@ namespace BibaFramework.BibaGame
         
         protected override void BindCommands ()
         {   
+            commandBinder.Bind<StartSignal>().To<ARScanContextStartedCommand>();
+            commandBinder.Bind<LogCameraReminderTimeSignal>().To<LogCameraReminderTimeCommand>();
             commandBinder.Bind<EndSignal>().To<ARScanContextExitedCommand>();
         }
         

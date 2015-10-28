@@ -29,6 +29,9 @@ namespace BibaFramework.BibaGame
         [Inject]
         public TagServiceInitFailedSignal TagServiceInitFailedSignal { get; set; }
 
+        [Inject]
+        public LogCameraReminderTimeSignal LogCameraReminderTimeSignal { get; set; }
+
         private BibaTagType _tagToScan;
 
 		public override void OnRegister ()
@@ -91,6 +94,7 @@ namespace BibaFramework.BibaGame
 
         void TagServiceInitFailed()
         {
+            LogCameraReminderTimeSignal.Dispatch();
             SetMenuStateTriggerSignal.Dispatch(MenuStateTrigger.No);
         }
 	} 

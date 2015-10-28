@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using BibaFramework.BibaMenu;
 using strange.extensions.context.api;
 
@@ -29,7 +29,7 @@ namespace BibaFramework.BibaGame
         
         protected override void BindCommands ()
         {
-            commandBinder.Bind<StartSignal>().To<ChartBoostContextStartCommand>();
+            commandBinder.Bind<StartSignal>().To<LogChartBoostDisplayTimeCommand>();
         }
         
         protected override void BindSignals ()

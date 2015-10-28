@@ -16,9 +16,6 @@ namespace BibaFramework.BibaGame
         public IDataService DataService { get; set; }
 
         [Inject]
-        public SetMenuStateConditionSignal SetMenuStateConditionSignal { get; set; }
-
-        [Inject]
         public IBibaAnalyticService BibaAnalyticService { get; set; } 
 
         public override void Execute ()
@@ -27,7 +24,6 @@ namespace BibaFramework.BibaGame
             DataService.WriteGameModel();
 
             BibaAnalyticService.TrackSatelliteTagEnabled(Status);
-			SetMenuStateConditionSignal.Dispatch(MenuStateCondition.TagEnabled, Status);
         }
     }
 }
