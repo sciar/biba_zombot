@@ -41,6 +41,7 @@ namespace BibaFramework.BibaMenu
 
         protected override void BindViews ()
         {
+            mediationBinder.Bind<MenuStateMachineView>().To<MenuStateMachineMediator>();
             mediationBinder.Bind<UnityEventListenerView>().To<UnityEventListenerMediator>();
         }
 
@@ -65,6 +66,7 @@ namespace BibaFramework.BibaMenu
                 To<CheckForInactiveResetCommand>().InSequence();
 
             //BibaMenu
+            commandBinder.Bind<ProcessNextMenuStateSignal>().To<ProcessNextMenuStateCommand>();
 
             commandBinder.Bind<SwitchSceneMenuStateSignal>()
                     .To<DisableTopInputCommand>()
