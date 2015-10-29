@@ -7,7 +7,7 @@ namespace BibaFramework.BibaGame
     {
         public override void Execute ()
         {
-            Application.OpenURL(BibaGameConstants.BIBA_URL);
+            Application.OpenURL(BibaGameConstants.BIBA_PRIVACY_POLICY_URL);
         }
     }
 }

@@ -59,7 +59,10 @@ namespace BibaFramework.BibaMenu
             injectionBinder.Bind<EndSignal>().To<EndSignal>().ToSingleton();
 
             commandBinder.Bind<SetMenuStateTriggerSignal>().To<SetMenuStateTriggerCommand>();
-            commandBinder.Bind<SetMenuStateConditionSignal>().To<SetMenuStateConditionCommand>();	
+            commandBinder.Bind<SetMenuStateConditionSignal>().To<SetMenuStateConditionCommand>();
+            commandBinder.Bind<ProcessNextMenuStateSignal>().To<ProcessNextMenuStateCommand>();
+
+            mediationBinder.Bind<MenuStateMachineView>().To<MenuStateMachineMediator>();
         }
 
         protected abstract void BindModels();

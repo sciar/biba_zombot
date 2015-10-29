@@ -14,6 +14,9 @@ namespace BibaFramework.BibaAnalytic
         [Inject]
         public BibaSceneStack BibaSceneStack { get; set; }
 
+        [Inject]
+        public BibaWeatherService BibaWeatherService { get; set; }
+
         private Flurry _service;
 
         public FlurryAnalyticService(string iosKey, string androidKey)
@@ -78,6 +81,17 @@ namespace BibaFramework.BibaAnalytic
             parameters.Add(BibaAnalyticConstants.TAG_SCANNED_TYPE, tagType.ToString());
 
             _service.LogEvent(BibaAnalyticConstants.TAG_SCANNED_EVENT, parameters);
+        }
+
+        public void TrackWeatherInfo()
+        {
+            var parameters = TrackingParams;
+            
+            parameters.Add(BibaAnalyticConstants.WEATHER_TEMPERATURE, BibaWeatherService.WeatherInfo.Temperature.ToString("F2"));
+            parameters.Add(BibaAnalyticConstants.WEATHER_DESCRIPTION, BibaWeatherService.WeatherInfo.WeatherDescription);
+            parameters.Add(BibaAnalyticConstants.WEATHER_WIND_SPEED, BibaWeatherService.WeatherInfo.WindSpeed.ToString("F2"));
+
+            _service.LogEvent(BibaAnalyticConstants.WEATHER_EVENT, parameters);
         }
 
         public Dictionary<string, string> TrackingParams {

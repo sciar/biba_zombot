@@ -36,11 +36,11 @@ namespace BibaFramework.BibaMenu
         protected override void BindServices ()
         {
             injectionBinder.Bind<IDataService>().To<JSONDataService>().ToSingleton().CrossContext();
+            injectionBinder.Bind<BibaWeatherService>().To<BibaWeatherService>().ToSingleton().CrossContext();
         }
 
         protected override void BindViews ()
         {
-            mediationBinder.Bind<MenuStateMachineView>().To<MenuStateMachineMediator>();
             mediationBinder.Bind<UnityEventListenerView>().To<UnityEventListenerMediator>();
         }
 
@@ -54,7 +54,7 @@ namespace BibaFramework.BibaMenu
                     To<LoadGameModelCommand>().
                     To<SetupGameModelCommand>().
                     To<SetupGameConfigCommand>().
-                    To<SetupAnalyticCommand>().
+                    To<SetupServicesCommand>().
                     To<SetupEditorDebugSceneCommand>().
                     InSequence();
      
@@ -65,7 +65,6 @@ namespace BibaFramework.BibaMenu
                 To<CheckForInactiveResetCommand>().InSequence();
 
             //BibaMenu
-            commandBinder.Bind<ProcessNextMenuStateSignal>().To<ProcessNextMenuStateCommand>();
 
             commandBinder.Bind<SwitchSceneMenuStateSignal>()
                     .To<DisableTopInputCommand>()

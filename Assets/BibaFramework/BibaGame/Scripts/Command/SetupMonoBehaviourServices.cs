@@ -5,7 +5,7 @@ using strange.extensions.command.impl;
 using ChartboostSDK;
 using BibaFramework.BibaAnalytic;
 
-namespace BibaFramework.BibaMenu
+namespace BibaFramework.BibaGame
 {
     public class SetupMonoBehaviourServices : Command
     {

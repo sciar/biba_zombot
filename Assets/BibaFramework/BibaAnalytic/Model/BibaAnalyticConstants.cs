@@ -23,5 +23,12 @@ namespace BibaFramework.BibaAnalytic
 
         public const string TAG_SCANNED_EVENT = "tag_scanned";
         public const string TAG_SCANNED_TYPE = "tag_type";
+
+        public const string WEATHER_EVENT = "weather";
+        public const string WEATHER_TEMPERATURE = "weather_temperature";
+        public const string WEATHER_DESCRIPTION = "weather_description";
+        public const string WEATHER_WIND_SPEED = "weather_wind_speed";
+
+        public const string WEATHER_API_KEY = "69e7f849ba55efb65fffccbbb2ea1eba";
     }
 }

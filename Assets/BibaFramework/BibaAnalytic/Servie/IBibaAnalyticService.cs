@@ -17,5 +17,7 @@ namespace BibaFramework.BibaAnalytic
         void TrackSatelliteTagEnabled(bool enabled);
         //Track when the satellite tag is scanned and recognized
         void TrackSatelliteTagScanned(BibaTagType tagType);
+        //Track weather information
+        void TrackWeatherInfo();
     }
 }

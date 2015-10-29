@@ -1,19 +1,26 @@
+using BibaFramework.BibaAnalytic;
 using strange.extensions.command.impl;
-using BibaFramework.BibaMenu;
+using System.Collections;
 using UnityEngine;
 using BibaFramework.Utility;
-using System.Collections;
+using System;
 
 namespace BibaFramework.BibaGame
 {
-    public class EnableLocationServiceCommand : Command
+    public class LogLocationRelatedInfoCommand : Command
     {
+        [Inject]
+        public BibaWeatherService BibaWeatherService { get; set; }
+
+        [Inject]
+        public IBibaAnalyticService BibaAnalyticService { get; set; }
+
         public override void Execute ()
-        {
-            new Task(StartLocationService(), true);
+        { 
+            new Task(RetrieveLocationInfo(), true);
         }
 
-        IEnumerator StartLocationService()
+        IEnumerator RetrieveLocationInfo()
         {
             // First, check if user has location service enabled
             if (!Input.location.isEnabledByUser)
@@ -49,8 +56,19 @@ namespace BibaFramework.BibaGame
                 Debug.Log("Location: " + Input.location.lastData.latitude + " " + Input.location.lastData.longitude + " " + Input.location.lastData.altitude + " " + Input.location.lastData.horizontalAccuracy + " " + Input.location.lastData.timestamp);
             }
 
+            TrackLocationInfo();
+
             // Stop service if there is no need to query location updates continuously
             Input.location.Stop();
+        }
+
+        void TrackLocationInfo()
+        {
+            BibaWeatherService.RetrieveWeatherInfo();
+            if (BibaWeatherService.WeatherInfo != null)
+            {
+                BibaAnalyticService.TrackWeatherInfo();
+            }
         }
     }
 }
