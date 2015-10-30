@@ -36,7 +36,6 @@ namespace BibaFramework.BibaMenu
         protected override void BindServices ()
         {
             injectionBinder.Bind<IDataService>().To<JSONDataService>().ToSingleton().CrossContext();
-            injectionBinder.Bind<BibaWeatherService>().To<BibaWeatherService>().ToSingleton().CrossContext();
         }
 
         protected override void BindViews ()

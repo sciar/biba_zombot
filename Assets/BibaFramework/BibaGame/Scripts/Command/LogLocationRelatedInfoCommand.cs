@@ -1,16 +1,22 @@
-using BibaFramework.BibaAnalytic;
-using strange.extensions.command.impl;
 using System.Collections;
 using UnityEngine;
+using BibaFramework.BibaAnalytic;
 using BibaFramework.Utility;
+using LitJson;
+using strange.extensions.command.impl;
 using System;
 
 namespace BibaFramework.BibaGame
 {
     public class LogLocationRelatedInfoCommand : Command
     {
-        [Inject]
-        public BibaWeatherService BibaWeatherService { get; set; }
+        private const string WEATHER_API_CALL_FORMATTED = "http://api.openweathermap.org/data/2.5/weather?lat={0}&lon={1}&units=imperial&appid=" + BibaAnalyticConstants.WEATHER_API_KEY;
+        
+        private const string WEATHER = "weather";
+        private const string MAIN = "main";
+        private const string TEMP = "temp";
+        private const string WIND = "wind";
+        private const string SPEED = "speed";
 
         [Inject]
         public IBibaAnalyticService BibaAnalyticService { get; set; }
@@ -54,21 +60,31 @@ namespace BibaFramework.BibaGame
             {
                 // Access granted and location value could be retrieved
                 Debug.Log("Location: " + Input.location.lastData.latitude + " " + Input.location.lastData.longitude + " " + Input.location.lastData.altitude + " " + Input.location.lastData.horizontalAccuracy + " " + Input.location.lastData.timestamp);
-            }
+              
+                var locInfo = Input.location.lastData;
+                var www = new WWW(string.Format(WEATHER_API_CALL_FORMATTED, locInfo.latitude, locInfo.longitude));
+                
+                yield return www;
 
-            TrackLocationInfo();
+                var weatherInfo = ProcessWeatherJSON(www.text);
+                BibaAnalyticService.TrackWeatherInfo(weatherInfo);                
+            }
 
             // Stop service if there is no need to query location updates continuously
             Input.location.Stop();
         }
 
-        void TrackLocationInfo()
+        BibaWeatherInfo ProcessWeatherJSON(string text)
         {
-            BibaWeatherService.RetrieveWeatherInfo();
-            if (BibaWeatherService.WeatherInfo != null)
-            {
-                BibaAnalyticService.TrackWeatherInfo();
-            }
+            JsonData jsonData = JsonMapper.ToObject(text);
+            
+            var weatherInfo = new BibaWeatherInfo();
+            weatherInfo.TimeStamp = DateTime.UtcNow;
+            weatherInfo.Temperature = (float) jsonData[MAIN][TEMP];
+            weatherInfo.WeatherDescription = jsonData[WEATHER][0][MAIN].ToString();
+            weatherInfo.WindSpeed = (float) jsonData[WIND][SPEED];
+
+            return weatherInfo;
         }
     }
 }
