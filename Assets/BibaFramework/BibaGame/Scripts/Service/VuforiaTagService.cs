@@ -12,15 +12,9 @@ namespace BibaFramework.BibaGame
         [Inject]
         public TagServiceInitFailedSignal TagServiceInitFailedSignal { get; set; }
 
-        private BibaTrackableEventHandler[] _trackableEventHandlers;
         private BibaTrackableEventHandler[] TrackableEventHandlers {
             get {
-                if(_trackableEventHandlers == null)
-                {
-                    _trackableEventHandlers = VuforiaBehaviour.Instance.GetComponentsInChildren<BibaTrackableEventHandler>();
-                   
-                }
-                return _trackableEventHandlers;
+                return VuforiaBehaviour.Instance.GetComponentsInChildren<BibaTrackableEventHandler>();
             }
         }
 

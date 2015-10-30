@@ -46,6 +46,7 @@ namespace BibaFramework.BibaGame
         #region PRIVATE_METHODS
         private void OnTrackingFound()
         {
+            Debug.Log(mTrackableBehaviour.TrackableName + " tag is scanned.");
             TrackingFoundSignal.Dispatch(mTrackableBehaviour.TrackableName);
         }
 
