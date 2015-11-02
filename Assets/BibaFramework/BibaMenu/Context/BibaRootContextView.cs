@@ -6,6 +6,7 @@ namespace BibaFramework.BibaMenu
 {
     public class BibaRootContextView : ContextView
     {
+        public GameObject EventSystemObject;
         private static BibaRootContextView _instance;
 
         void Awake()
@@ -14,8 +15,10 @@ namespace BibaFramework.BibaMenu
             {
                 _instance = this;
                 context = new BibaRootContext(this);
-                DontDestroyOnLoad(gameObject);
 
+                //Delay the initialization of the input system since it creates buggy behaviour due to other BibaRoot in the samescene
+                EventSystemObject.gameObject.SetActive(true);
+                DontDestroyOnLoad(gameObject);
             }
             else
             {

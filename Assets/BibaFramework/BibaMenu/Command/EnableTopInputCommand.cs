@@ -13,8 +13,12 @@ namespace BibaFramework.BibaMenu
         {
             if (BibaSceneStack.Count > 0)
             {
-                var go = BibaSceneStack.GetTopGameObjectForTopMenuState();
-                go.GetComponentInChildren<GraphicRaycaster>().enabled = true;
+                var raycasters = BibaSceneStack.GetTopGameObjectForTopMenuState().GetComponentsInChildren<GraphicRaycaster>(true);
+                
+                foreach(var raycaster in raycasters)
+                {
+                    raycaster.enabled = true;
+                }
             }
         }
     }
