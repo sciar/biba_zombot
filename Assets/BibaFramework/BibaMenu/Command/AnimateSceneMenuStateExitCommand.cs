@@ -6,9 +6,6 @@ namespace BibaFramework.BibaMenu
     public class AnimateSceneMenuStateExitCommand : Command 
     {
         [Inject]
-		public PlayMenuStateExitAnimationSignal PlaySceneMenuStateExitAnimationSignal { get; set; }
-
-        [Inject]
 		public MenuStateExitAnimationEndedSignal SceneMenuStateExitAnimationEndedSignal { get; set; }
 
         [Inject]
@@ -21,10 +18,18 @@ namespace BibaFramework.BibaMenu
                 var menuState = BibaSceneStack.Peek();
                 if (menuState != null && menuState is SceneMenuState)
                 {
-                    Retain();
-                    
-					PlaySceneMenuStateExitAnimationSignal.Dispatch();
-					SceneMenuStateExitAnimationEndedSignal.AddListener(ExitedAnimationCompleted);
+                    var menuStateGo = BibaSceneStack.GetTopGameObjectForTopMenuState();
+                    if(menuStateGo != null)
+                    {
+                        var menuStateMediator = menuStateGo.GetComponent<SceneMenuStateMediator>();
+                        if(menuStateMediator != null)
+                        {
+                            Retain();
+                            
+                            menuStateMediator.AnimateMenuExit();
+                            SceneMenuStateExitAnimationEndedSignal.AddListener(ExitedAnimationCompleted);
+                        }
+                    }
                 }
             }
         }

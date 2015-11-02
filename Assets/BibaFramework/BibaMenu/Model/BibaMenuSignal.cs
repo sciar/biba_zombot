@@ -15,9 +15,6 @@ namespace BibaFramework.BibaMenu
     //MenuState - Scene based
     public class SwitchSceneMenuStateSignal : Signal<BaseMenuState>{ }
     public class SetupSceneMenuStateSignal : Signal<BaseMenuState>{ }
-
-    public class PlayMenuStateEntryAnimationSignal : Signal { } 
-    public class PlayMenuStateExitAnimationSignal : Signal { } 
     
     public class MenuStateEntryAnimationEndedSignal : Signal { }
     public class MenuStateExitAnimationEndedSignal : Signal { }

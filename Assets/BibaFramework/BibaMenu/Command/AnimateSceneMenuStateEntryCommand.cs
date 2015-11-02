@@ -6,9 +6,6 @@ namespace BibaFramework.BibaMenu
     public class AnimateSceneMenuStateEntryCommand : Command 
     {
         [Inject]
-		public PlayMenuStateEntryAnimationSignal PlaySceneMenuStateEntryAnimationSignal { get; set; }
-
-        [Inject]
 		public MenuStateEntryAnimationEndedSignal SceneMenuStateEntryAnimationEndedSignal { get; set; }
 
         [Inject]
@@ -16,13 +13,24 @@ namespace BibaFramework.BibaMenu
 
         public override void Execute ()
         {
-            var menuState = BibaSceneStack.Peek();
-            if (menuState != null && menuState is SceneMenuState)
+            if (BibaSceneStack.Count > 0)
             {
-                Retain();
+                var menuState = BibaSceneStack.Peek();
+                if (menuState != null && menuState is SceneMenuState)
+                {
+                    var menuStateGo = BibaSceneStack.GetTopGameObjectForTopMenuState();
+                    if(menuStateGo != null)
+                    {
+                        var menuStateMediator = menuStateGo.GetComponent<SceneMenuStateMediator>();
+                        if(menuStateMediator != null)
+                        {
+                            Retain();
 
-				PlaySceneMenuStateEntryAnimationSignal.Dispatch();
-				SceneMenuStateEntryAnimationEndedSignal.AddListener(MenuEntryAnimationCompleted);
+                            menuStateMediator.AnimateMenuEntry();
+                            SceneMenuStateEntryAnimationEndedSignal.AddListener(MenuEntryAnimationCompleted);
+                        }
+                    }
+                }
             }
         }
 

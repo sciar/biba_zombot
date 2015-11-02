@@ -80,8 +80,8 @@ namespace BibaFramework.BibaMenu
 
         void LevelLoaded()
         {
-            Release();
             SetupSceneMenuState();
+            Release();
         }
 
         void SetupSceneMenuState()
