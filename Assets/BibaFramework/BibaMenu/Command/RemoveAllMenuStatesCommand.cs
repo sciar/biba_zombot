@@ -1,27 +1,49 @@
 using UnityEngine;
 using strange.extensions.command.impl;
+using System.Collections;
+using BibaFramework.Utility;
 
 namespace BibaFramework.BibaMenu
 {
     public class RemoveAllMenuStatesCommand : Command 
     {
         [Inject]
-        public BibaSceneStack BibaSceneMenuStateStack { get; set; }
-
+        public BibaSceneStack BibaSceneStack { get; set; }
+        
         [Inject]
-        public RemoveLastMenuStateSignal RemoveLastMenuStateSignal { get; set; }
-
+        public ToggleObjectMenuStateSignal ToggleObjectMenuStateSignal { get; set; }
+        
         public override void Execute ()
         {
-            RemoveAllGameViews();
+            if (BibaSceneStack.Count > 0)
+            {
+                Retain();
+                new Task(WaitToDestoryAllObjects(), true);
+            }
         }
 
-        void RemoveAllGameViews()
+        IEnumerator WaitToDestoryAllObjects()
         {
-            while (BibaSceneMenuStateStack.Count > 0)
+            while (BibaSceneStack.Count > 0)
             {
-                RemoveLastMenuStateSignal.Dispatch();
+                var lastMenuStateGO = BibaSceneStack.GetTopGameObjectForTopMenuState();
+                var lastMenuState = BibaSceneStack.Pop();
+    
+                if(lastMenuState is SceneMenuState)
+                {
+                    GameObject.Destroy(lastMenuStateGO);
+                    while(lastMenuStateGO != null)
+                    {
+                        yield return null;
+                    }
+                }
+                else
+                {
+                    ToggleObjectMenuStateSignal.Dispatch(lastMenuState as ObjectMenuState, false);
+                }
             }
+
+            Release();
         }
     }
 }

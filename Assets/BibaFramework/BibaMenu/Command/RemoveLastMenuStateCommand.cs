@@ -1,5 +1,7 @@
 using UnityEngine;
 using strange.extensions.command.impl;
+using System.Collections;
+using BibaFramework.Utility;
 
 namespace BibaFramework.BibaMenu
 {
@@ -10,6 +12,7 @@ namespace BibaFramework.BibaMenu
 
 		[Inject]
 		public ToggleObjectMenuStateSignal ToggleObjectMenuStateSignal { get; set; }
+
         public override void Execute ()
         {
             if (BibaSceneStack.Count > 0)
@@ -20,17 +23,28 @@ namespace BibaFramework.BibaMenu
 
         void RemoveLastGameView()
         {
-			var lastMenuState = BibaSceneStack.Pop();
-            var lastMenuStateGO = BibaSceneStack.RemoveMenuStateGameObject(lastMenuState);
+            var lastMenuStateGO = BibaSceneStack.GetTopGameObjectForTopMenuState();
+            var lastMenuState = BibaSceneStack.Pop();
 
 			if(lastMenuState is SceneMenuState)
 			{
-                GameObject.Destroy(lastMenuStateGO);
+                Retain();
+                new Task(WaitTilObjectDestroy(lastMenuStateGO), true);
 			}
 			else
 			{
 				ToggleObjectMenuStateSignal.Dispatch(lastMenuState as ObjectMenuState, false);
 			}
+        }
+
+        IEnumerator WaitTilObjectDestroy(GameObject go)
+        {
+            GameObject.Destroy(go);
+            while (go != null)
+            {
+                yield return null;
+            }
+            Release();
         }
     }
 }

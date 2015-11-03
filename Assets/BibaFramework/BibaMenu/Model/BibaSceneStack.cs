@@ -19,13 +19,6 @@ namespace BibaFramework.BibaMenu
             return _stateGameObjectDictionary[this.Peek()];
         }
 
-        public GameObject RemoveMenuStateGameObject(BaseMenuState menuState)
-        {
-            var go = _stateGameObjectDictionary [menuState];
-            _stateGameObjectDictionary.Remove(menuState);
-            return go;
-        }
-
 		public override string ToString ()
     	{
 			var sb = new StringBuilder();

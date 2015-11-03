@@ -68,7 +68,7 @@ namespace BibaFramework.BibaMenu
             commandBinder.Bind<ProcessNextMenuStateSignal>().To<ProcessNextMenuStateCommand>();
 
             commandBinder.Bind<SwitchSceneMenuStateSignal>()
-                    .To<DisableTopInputCommand>()
+                    .To<DisableAllInputCommand>()
                     .To<AnimateSceneMenuStateExitCommand>()
                     .To<RemoveAllMenuStatesCommand>()
                     .To<LoadNewMenuStateCommand>()
@@ -77,20 +77,20 @@ namespace BibaFramework.BibaMenu
                     .To<EnableTopInputCommand>().InSequence();
 
             commandBinder.Bind<PushMenuStateSignal>()
-                    .To<DisableTopInputCommand>()
+                .To<DisableAllInputCommand>()
                     .To<LoadNewMenuStateCommand>()
                     .To<DisableTopInputCommand>()
                     .To<AnimateSceneMenuStateEntryCommand>()
                     .To<EnableTopInputCommand>().InSequence();
 
             commandBinder.Bind<PopMenuStateSignal>()
-                    .To<DisableTopInputCommand>()
+                .To<DisableAllInputCommand>()
                     .To<AnimateSceneMenuStateExitCommand>()
                     .To<RemoveLastMenuStateCommand>()
                     .To<EnableTopInputCommand>().InSequence();
 
             commandBinder.Bind<ReplaceMenuStateSignal>()
-                    .To<DisableTopInputCommand>()    
+                .To<DisableAllInputCommand>()    
                     .To<AnimateSceneMenuStateExitCommand>()
                     .To<RemoveLastMenuStateCommand>()
                     .To<LoadNewMenuStateCommand>()
