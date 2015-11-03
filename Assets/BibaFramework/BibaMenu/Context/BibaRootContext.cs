@@ -107,8 +107,6 @@ namespace BibaFramework.BibaMenu
             injectionBinder.Bind<GameModelUpdatedSignal>().To<GameModelUpdatedSignal>().ToSingleton().CrossContext();
 
             injectionBinder.Bind<SetupSceneMenuStateSignal>().ToSingleton().CrossContext();
-            injectionBinder.Bind<PlayMenuStateEntryAnimationSignal>().ToSingleton().CrossContext();
-            injectionBinder.Bind<PlayMenuStateExitAnimationSignal>().ToSingleton().CrossContext();
             injectionBinder.Bind<MenuStateEntryAnimationEndedSignal>().ToSingleton().CrossContext();
             injectionBinder.Bind<MenuStateExitAnimationEndedSignal>().ToSingleton().CrossContext();
 			
