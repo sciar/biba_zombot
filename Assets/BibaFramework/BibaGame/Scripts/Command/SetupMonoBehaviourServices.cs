@@ -16,6 +16,7 @@ namespace BibaFramework.BibaGame
         {
             SetupStateMachine();
             SetupAudioService();
+            SetupChartBoostService();
         }
 
         void SetupStateMachine()

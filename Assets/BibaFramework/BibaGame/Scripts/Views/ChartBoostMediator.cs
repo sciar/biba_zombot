@@ -1,4 +1,6 @@
 using BibaFramework.BibaMenu;
+using BibaFramework.BibaAnalytic;
+using ChartboostSDK;
 
 namespace BibaFramework.BibaGame
 {
@@ -6,6 +8,12 @@ namespace BibaFramework.BibaGame
 	{
         [Inject]
         public ChartBoostView ChartBoostView { get; set; }
+
+        [Inject]
+        public ChartBoostService ChartBoostService { get; set; }
+
+        [Inject]
+        public SetMenuStateTriggerSignal SetMenuStateTriggerSignal { get; set; }
 
         public override SceneMenuStateView View { get { return ChartBoostView; } }
 
@@ -15,10 +23,17 @@ namespace BibaFramework.BibaGame
 
         public override void RegisterSceneDependentSignals ()
         {
+            ChartBoostService.didDismissInterstitial += CharBoostDismissed;
         }
 
         public override void UnRegisterSceneDependentSignals ()
         {
+            ChartBoostService.didDismissInterstitial -= CharBoostDismissed;
+        }
+
+        void CharBoostDismissed(CBLocation location)
+        {
+            SetMenuStateTriggerSignal.Dispatch(MenuStateTrigger.Next);
         }
 	}
 }

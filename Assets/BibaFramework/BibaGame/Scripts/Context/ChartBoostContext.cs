@@ -29,7 +29,7 @@ namespace BibaFramework.BibaGame
         
         protected override void BindCommands ()
         {
-            commandBinder.Bind<StartSignal>().To<LogChartBoostDisplayTimeCommand>();
+            commandBinder.Bind<StartSignal>().To<LogChartBoostDisplayTimeCommand>().To<ShowInterstitialCommand>();
         }
         
         protected override void BindSignals ()
