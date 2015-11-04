@@ -8,7 +8,7 @@ using System;
 
 namespace BibaFramework.BibaGame
 {
-    public class LogLocationRelatedInfoCommand : Command
+    public class LogLocationInfoCommand : Command
     {
         private const string WEATHER_API_CALL_FORMATTED = "http://api.openweathermap.org/data/2.5/weather?lat={0}&lon={1}&units=imperial&appid=" + BibaAnalyticConstants.WEATHER_API_KEY;
         
@@ -21,8 +21,12 @@ namespace BibaFramework.BibaGame
         [Inject]
         public IBibaAnalyticService BibaAnalyticService { get; set; }
 
+        [Inject]
+        public BibaSessionModel BibaSessionModel { get; set; } 
+
         public override void Execute ()
         { 
+            Debug.Log(LatLongToQuadKey(-123, 49, 11, startRect));
             new Task(RetrieveLocationInfo(), true);
         }
 
@@ -60,7 +64,8 @@ namespace BibaFramework.BibaGame
             {
                 // Access granted and location value could be retrieved
                 Debug.Log("Location: " + Input.location.lastData.latitude + " " + Input.location.lastData.longitude + " " + Input.location.lastData.altitude + " " + Input.location.lastData.horizontalAccuracy + " " + Input.location.lastData.timestamp);
-              
+                SotreSessionLatLong();
+
                 var locInfo = Input.location.lastData;
                 var www = new WWW(string.Format(WEATHER_API_CALL_FORMATTED, locInfo.latitude, locInfo.longitude));
                 
@@ -72,6 +77,11 @@ namespace BibaFramework.BibaGame
 
             // Stop service if there is no need to query location updates continuously
             Input.location.Stop();
+        }
+
+        void SotreSessionLatLong()
+        {
+            BibaSessionModel.QuadTileId = LatLongToQuadKey(Input.location.lastData.longitude, Input.location.lastData.latitude, BibaAnalyticConstants.MAP_LEVEL_OF_DETAIL, startRect);//TileSystem.LatLongToQuadKey((double)Input.location.lastData.latitude, (double)Input.location.lastData.longitude, BibaAnalyticConstants.MAP_LEVEL_OF_DETAIL);
         }
 
         BibaWeatherInfo ProcessWeatherJSON(string text)
@@ -86,5 +96,62 @@ namespace BibaFramework.BibaGame
 
             return weatherInfo;
         }
+
+        private readonly Rect startRect = new Rect(-180f,90f,360f,180f);
+        
+        private string LatLongToQuadKey(float lon, float lat, int level, Rect currentRect, string currentString="")
+        {
+            Vector2 location = new Vector2 (lon,lat);
+            
+            if(level > 0)
+            {
+                Debug.LogWarning(string.Format("Long: {0}, Lat: {1}, Current String: {2}, Current Rect: X-{3}, Y-{4}, Width-{5}, Height-{6}", lon, lat, currentString, currentRect.x, currentRect.y, currentRect.width, currentRect.height));
+                
+                level--;
+                
+                //rect to right down
+                var halfOfWidth = currentRect.width / 2;
+                var halfOfHeight = currentRect.height / 2;
+
+                Rect rect1=new Rect(currentRect.position.x, currentRect.position.y,  halfOfWidth, halfOfHeight);
+                Rect rect2=new Rect(currentRect.position.x + halfOfWidth, currentRect.position.y, halfOfWidth, halfOfHeight);
+                Rect rect3=new Rect(currentRect.position.x,  currentRect.position.y - halfOfHeight, halfOfWidth, halfOfHeight);
+                Rect rect4=new Rect(currentRect.position.x + halfOfWidth, currentRect.position.y - halfOfHeight, halfOfWidth, halfOfHeight);
+                
+                if(rect1.Contains(location))
+                {
+                    currentRect=rect1;
+                    currentString+="00";
+                    return LatLongToQuadKey(lon,lat,level, currentRect, currentString);
+                }
+                else if(rect2.Contains(location))
+                {
+                    currentRect=rect2;
+                    currentString+="01";
+                    return LatLongToQuadKey(lon,lat,level, currentRect, currentString);
+                }
+                else if(rect3.Contains(location))
+                {
+                    currentRect=rect3; 
+                    currentString+="10";
+                    return LatLongToQuadKey(lon,lat,level, currentRect, currentString);
+                }
+                else if(rect4.Contains(location))
+                {
+                    currentRect=rect4;
+                    currentString+="11";
+                    return LatLongToQuadKey(lon,lat,level, currentRect, currentString);
+                }
+                else
+                {
+                    return "error, couldn't find the coord in my rects";
+                }
+            }
+            else
+            {
+                return currentString;
+            }
+        }
+
     }
 }

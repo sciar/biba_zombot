@@ -4,6 +4,7 @@ using Analytics;
 using BibaFramework.BibaGame;
 using BibaFramework.BibaMenu;
 using UnityEngine;
+using BibaFramework.Utility;
 
 namespace BibaFramework.BibaAnalytic
 {
@@ -13,16 +14,19 @@ namespace BibaFramework.BibaAnalytic
         public BibaGameModel BibaGameModel { get; set; }
 
         [Inject]
+        public BibaSessionModel BibaSessionModel { get; set; }
+
+        [Inject]
         public BibaSceneStack BibaSceneStack { get; set; }
 
         private Flurry _service;
-
-        public FlurryAnalyticService(string iosKey, string androidKey)
+       
+        public void StartSession(string iosKey, string androidKey)
         {
             _service = Flurry.Instance;
             _service.SetLogLevel(LogLevel.All);
             _service.StartSession(iosKey, androidKey);
-
+            
             TrackStartSession();
         }
 
@@ -94,12 +98,22 @@ namespace BibaFramework.BibaAnalytic
 
         public Dictionary<string, string> TrackingParams {
             get {
-                return new Dictionary<string, string>() {
-                    {BibaAnalyticConstants.SESSION_ID, SystemInfo.deviceUniqueIdentifier},
-                    {BibaAnalyticConstants.DEVICE_MODEL, SystemInfo.deviceModel},
-                    {BibaAnalyticConstants.DEVICE_OS, SystemInfo.operatingSystem},
+                var result = new Dictionary<string, string>() {
                     {BibaAnalyticConstants.TIME_STAMP, DateTime.Now.ToString()}
                 };
+
+                if(BibaSessionModel != null)
+                {
+                    result.Add(BibaAnalyticConstants.SESSION_ID, BibaSessionModel.UDID);
+                    result.Add(BibaAnalyticConstants.DEVICE_MODEL, BibaSessionModel.DeviceModel);
+                    result.Add(BibaAnalyticConstants.DEVICE_OS, BibaSessionModel.DeviceOS);
+
+                    if(!string.IsNullOrEmpty(BibaSessionModel.QuadTileId))
+                    {
+                        result.Add(BibaAnalyticConstants.QUADTILE_ID, BibaSessionModel.QuadTileId); 
+                    }
+                }
+                return result;
             }
         }
     }

@@ -36,6 +36,7 @@ namespace BibaFramework.BibaMenu
         protected override void BindServices ()
         {
             injectionBinder.Bind<IDataService>().To<JSONDataService>().ToSingleton().CrossContext();
+            injectionBinder.Bind<IBibaAnalyticService>().To<FlurryAnalyticService>().ToSingleton().CrossContext();
         }
 
         protected override void BindViews ()
@@ -52,9 +53,9 @@ namespace BibaFramework.BibaMenu
             commandBinder.Bind<StartSignal>().
 				To<SetupMonoBehaviourServices>().
                     To<LoadGameModelCommand>().
-                    To<SetupGameModelCommand>().
+                    To<SetupModelsCommand>().
                     To<SetupGameConfigCommand>().
-                    To<SetupServicesCommand>().
+                    To<SetupTrackingCommand>().
                     To<SetupEditorDebugSceneCommand>().
                     InSequence();
      

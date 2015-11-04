@@ -33,5 +33,8 @@ namespace BibaFramework.BibaAnalytic
         public const string WEATHER_WIND_SPEED = "weather_wind_speed";
 
         public const string WEATHER_API_KEY = "69e7f849ba55efb65fffccbbb2ea1eba";
+
+        public const string QUADTILE_ID = "quadtile_id";
+        public const int MAP_LEVEL_OF_DETAIL = 11;
     }
 }

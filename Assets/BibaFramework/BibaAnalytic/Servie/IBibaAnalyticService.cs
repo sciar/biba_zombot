@@ -5,6 +5,9 @@ namespace BibaFramework.BibaAnalytic
 {
     public interface IBibaAnalyticService
     {
+        //Start the service
+        void StartSession(string iosKey, string androidKey);
+
         //Track the start of a game session, and other relevant informations
         void TrackStartSession();
         //Track the end of a game session, session length, the last game scene the user is on
