@@ -2,6 +2,9 @@ namespace BibaFramework.BibaAnalytic
 {
     public class BibaAnalyticConstants
     {
+        public const string SESSION_ID = "udid";
+        public const string DEVICE_MODEL = "device_model";
+        public const string DEVICE_OS = "device_os";
         public const string TIME_STAMP = "time_stamp";
 
         public const string START_SESSION_EVENT = "start_session";

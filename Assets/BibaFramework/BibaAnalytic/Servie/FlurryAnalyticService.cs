@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Analytics;
 using BibaFramework.BibaGame;
 using BibaFramework.BibaMenu;
+using UnityEngine;
 
 namespace BibaFramework.BibaAnalytic
 {
@@ -93,7 +94,10 @@ namespace BibaFramework.BibaAnalytic
 
         public Dictionary<string, string> TrackingParams {
             get {
-                return new Dictionary<string, string>() { 
+                return new Dictionary<string, string>() {
+                    {BibaAnalyticConstants.SESSION_ID, SystemInfo.deviceUniqueIdentifier},
+                    {BibaAnalyticConstants.DEVICE_MODEL, SystemInfo.deviceModel},
+                    {BibaAnalyticConstants.DEVICE_OS, SystemInfo.operatingSystem},
                     {BibaAnalyticConstants.TIME_STAMP, DateTime.Now.ToString()}
                 };
             }
