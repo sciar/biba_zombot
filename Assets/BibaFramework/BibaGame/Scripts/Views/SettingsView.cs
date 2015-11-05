@@ -7,6 +7,5 @@ namespace BibaFramework.BibaGame
     {
         public Toggle ShowHowToToggle;
         public Toggle ShowHelpBubblesToggle;
-        public Button AboutBibaButton;
     }
 }
