@@ -5,6 +5,7 @@ namespace BibaFramework.BibaMenu
         ShowInactive,
         ShowChartBoost,
         ShowTagScan,
+		ShowBibaPresent,
         PrivacyEnabled,
         HowToEnabled,
         HelpBubblesEnabled,
