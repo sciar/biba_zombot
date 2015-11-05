@@ -7,24 +7,27 @@ using UnityEngine;
 
 namespace BibaFramework.BibaAnalytic
 {
-    public class FlurryAnalyticService : IBibaAnalyticService
+    public class FlurryAnalyticService : IAnalyticService
     {
         [Inject]
         public BibaGameModel BibaGameModel { get; set; }
+
+		[Inject]
+		public BibaSessionModel BibaSessionModel { get; set; }
 
         [Inject]
         public BibaSceneStack BibaSceneStack { get; set; }
 
         private Flurry _service;
 
-        public FlurryAnalyticService(string iosKey, string androidKey)
-        {
-            _service = Flurry.Instance;
-            _service.SetLogLevel(LogLevel.All);
-            _service.StartSession(iosKey, androidKey);
+		public void StartTracking (string iosKey, string androidKey)
+    	{
+			_service = Flurry.Instance;
+			_service.SetLogLevel(LogLevel.All);
+			_service.StartSession(iosKey, androidKey);
 
-            TrackStartSession();
-        }
+			TrackStartSession();
+    	}
 
         ~FlurryAnalyticService()
         {
@@ -94,12 +97,18 @@ namespace BibaFramework.BibaAnalytic
 
         public Dictionary<string, string> TrackingParams {
             get {
-                return new Dictionary<string, string>() {
-                    {BibaAnalyticConstants.SESSION_ID, SystemInfo.deviceUniqueIdentifier},
-                    {BibaAnalyticConstants.DEVICE_MODEL, SystemInfo.deviceModel},
-                    {BibaAnalyticConstants.DEVICE_OS, SystemInfo.operatingSystem},
+                var param = new Dictionary<string, string>() {
                     {BibaAnalyticConstants.TIME_STAMP, DateTime.Now.ToString()}
                 };
+
+				if(BibaSessionModel != null && BibaSessionModel.SessionInfo != null)
+				{
+					param.Add(BibaAnalyticConstants.SESSION_ID, BibaSessionModel.SessionInfo.UUID);
+					param.Add(BibaAnalyticConstants.DEVICE_MODEL, BibaSessionModel.SessionInfo.DeviceModel);
+					param.Add(BibaAnalyticConstants.DEVICE_OS, BibaSessionModel.SessionInfo.DeviceOS);
+				}
+
+				return param;
             }
         }
     }

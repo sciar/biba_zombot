@@ -3,8 +3,10 @@ using BibaFramework.BibaGame;
 
 namespace BibaFramework.BibaAnalytic
 {
-    public interface IBibaAnalyticService
+    public interface IAnalyticService
     {
+		//Setup keys and start tracking
+		void StartTracking(string iosKey, string androidKey);
         //Track the start of a game session, and other relevant informations
         void TrackStartSession();
         //Track the end of a game session, session length, the last game scene the user is on
