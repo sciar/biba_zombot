@@ -9,12 +9,18 @@ namespace BibaFramework.BibaGame
     {   
         public BibaEquipmentType EquipmentType;
         public int TimePlayed;
-        public string Description;
+        public string DescriptionPrefix;
+        public string DescriptionSuffix;
+        public string Description { get { return DescriptionPrefix + DescriptionSuffix; } }
 
         public string Id {
             get {
                 return string.Format("{0}_{1}", EquipmentType.ToString(), TimePlayed.ToString());
             }
+        }
+
+        public virtual bool CanBeCompleted(int timePlayed) {
+            return timePlayed >= TimePlayed;
         }
     }
 }

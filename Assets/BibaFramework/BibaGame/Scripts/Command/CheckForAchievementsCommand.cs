@@ -24,7 +24,7 @@ namespace BibaFramework.BibaGame
             foreach (var config in unFinishedAchievementConfig)
             {
                 var equipment = BibaGameModel.TotalPlayedEquipments.Find(equip => equip.EquipmentType == config.EquipmentType);
-                if(equipment.TimePlayed >= config.TimePlayed)
+                if(config.CanBeCompleted(equipment.TimePlayed))
                 {
                     //New achievement obtained
                     var newAchievement = new BibaAchievement(config);
