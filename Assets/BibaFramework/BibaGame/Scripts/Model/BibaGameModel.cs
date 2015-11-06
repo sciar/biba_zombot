@@ -5,7 +5,7 @@ namespace BibaFramework.BibaGame
 {
     public class BibaGameModel
     {
-        //Player Data
+        //Persisted Player Data
         public DateTime LastPlayedTime { get; set; }
         public DateTime LastChartBoostTime { get; set; }
         public DateTime LastCameraReminderTime { get; set; }

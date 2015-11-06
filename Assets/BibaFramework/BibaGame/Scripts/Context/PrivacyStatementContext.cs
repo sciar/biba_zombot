@@ -28,7 +28,8 @@ namespace BibaFramework.BibaGame
         }
         
         protected override void BindCommands ()
-        {   
+		{   
+			commandBinder.Bind<OpenAboutBibaURLSignal>().To<OpenAboutBibaURLCommand>();
             commandBinder.Bind<EndSignal>().To<EnablePrivacyStatementCommand>().To<EnableLocationServiceCommand>();
         }
         

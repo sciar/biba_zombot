@@ -8,9 +8,6 @@ namespace BibaFramework.BibaGame
         public SettingsView SettingsView { get; set; }
 
         [Inject]
-        public OpenAboutBibaURLSignal OpenAboutBibaURLSignal { get; set; }
-
-        [Inject]
         public EnableHelpBubblesSignal EnableHelpBubblesSignal { get; set; }
 
         [Inject]
@@ -29,21 +26,14 @@ namespace BibaFramework.BibaGame
 
         public override void RegisterSceneDependentSignals ()
         {
-            SettingsView.AboutBibaButton.onClick.AddListener(AboutBibaButtonClicked);
             SettingsView.ShowHowToToggle.onValueChanged.AddListener(EnableHowTo);
             SettingsView.ShowHelpBubblesToggle.onValueChanged.AddListener(EnableHelpBubbles);
         }
 
         public override void UnRegisterSceneDependentSignals ()
         {
-            SettingsView.AboutBibaButton.onClick.RemoveListener(AboutBibaButtonClicked);
             SettingsView.ShowHowToToggle.onValueChanged.RemoveListener(EnableHowTo);
             SettingsView.ShowHelpBubblesToggle.onValueChanged.RemoveListener(EnableHelpBubbles);
-        }
-
-        void AboutBibaButtonClicked()
-        {
-            OpenAboutBibaURLSignal.Dispatch();
         }
 
         void EnableHowTo(bool status)

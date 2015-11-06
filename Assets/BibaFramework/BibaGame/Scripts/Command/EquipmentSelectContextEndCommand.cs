@@ -11,7 +11,7 @@ namespace BibaFramework.BibaGame
         public BibaGameModel BibaGameModel { get; set; }
 
         [Inject]
-        public IBibaAnalyticService AnalyticService { get; set; }
+        public IAnalyticService AnalyticService { get; set; }
 
         public override void Execute ()
         {

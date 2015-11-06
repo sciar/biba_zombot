@@ -19,7 +19,7 @@ namespace BibaFramework.BibaGame
         private const string SPEED = "speed";
 
         [Inject]
-        public IBibaAnalyticService BibaAnalyticService { get; set; }
+        public IAnalyticService BibaAnalyticService { get; set; }
 
         [Inject]
         public BibaSessionModel BibaSessionModel { get; set; } 

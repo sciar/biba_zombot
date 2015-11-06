@@ -5,35 +5,36 @@ using UnityEngine;
 
 namespace BibaFramework.BibaGame
 {
-    public class SetupModelsCommand : Command
+    public class SetupGameModelCommand : Command
     {
         [Inject]
         public BibaGameModel BibaGameModel { get; set; }
 
-        [Inject]
-        public BibaSessionModel BibaSessionModel { get; set; }
+		[Inject]
+		public BibaSessionModel BibaSessionModel { get; set; }
 
         [Inject]
         public SetMenuStateConditionSignal SetMenuStateConditionSignal { get; set; }
 
         public override void Execute ()
         {
-            SetupByGameModel();
-            SetupSessionModel();
+			SetupGameModel();
+			SetupSessionModel();
         }
 
-        void SetupByGameModel()
-        {
-            SetMenuStateConditionSignal.Dispatch(MenuStateCondition.PrivacyEnabled, BibaGameModel.PrivacyEnabled);
-            SetMenuStateConditionSignal.Dispatch(MenuStateCondition.HowToEnabled, BibaGameModel.HowToEnabled);
-            SetMenuStateConditionSignal.Dispatch(MenuStateCondition.HelpBubblesEnabled, BibaGameModel.HelpBubblesEnabled);
-        }
+		void SetupGameModel()
+		{
+			SetMenuStateConditionSignal.Dispatch(MenuStateCondition.PrivacyEnabled, BibaGameModel.PrivacyEnabled);
+			SetMenuStateConditionSignal.Dispatch(MenuStateCondition.HowToEnabled, BibaGameModel.HowToEnabled);
+			SetMenuStateConditionSignal.Dispatch(MenuStateCondition.HelpBubblesEnabled, BibaGameModel.HelpBubblesEnabled);
+		}
 
-        void SetupSessionModel()
-        {
-            BibaSessionModel.UDID = SystemInfo.deviceUniqueIdentifier;
-            BibaSessionModel.DeviceOS = SystemInfo.operatingSystem;
-            BibaSessionModel.DeviceModel = SystemInfo.deviceModel;
-        }
+		void SetupSessionModel()
+		{
+			BibaSessionModel.SessionInfo = new SessionInfo();
+			BibaSessionModel.SessionInfo.UUID = SystemInfo.deviceUniqueIdentifier;
+			BibaSessionModel.SessionInfo.DeviceModel = SystemInfo.deviceModel;
+			BibaSessionModel.SessionInfo.DeviceOS = SystemInfo.operatingSystem;
+		}
     }
 }

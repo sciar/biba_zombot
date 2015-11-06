@@ -4,31 +4,30 @@ using Analytics;
 using BibaFramework.BibaGame;
 using BibaFramework.BibaMenu;
 using UnityEngine;
-using BibaFramework.Utility;
 
 namespace BibaFramework.BibaAnalytic
 {
-    public class FlurryAnalyticService : IBibaAnalyticService
+    public class FlurryAnalyticService : IAnalyticService
     {
         [Inject]
         public BibaGameModel BibaGameModel { get; set; }
 
-        [Inject]
-        public BibaSessionModel BibaSessionModel { get; set; }
+		[Inject]
+		public BibaSessionModel BibaSessionModel { get; set; }
 
         [Inject]
         public BibaSceneStack BibaSceneStack { get; set; }
 
         private Flurry _service;
-       
-        public void StartSession(string iosKey, string androidKey)
-        {
-            _service = Flurry.Instance;
-            _service.SetLogLevel(LogLevel.All);
-            _service.StartSession(iosKey, androidKey);
-            
-            TrackStartSession();
-        }
+
+		public void StartTracking (string iosKey, string androidKey)
+    	{
+			_service = Flurry.Instance;
+			_service.SetLogLevel(LogLevel.All);
+			_service.StartSession(iosKey, androidKey);
+
+			TrackStartSession();
+    	}
 
         ~FlurryAnalyticService()
         {
@@ -98,22 +97,18 @@ namespace BibaFramework.BibaAnalytic
 
         public Dictionary<string, string> TrackingParams {
             get {
-                var result = new Dictionary<string, string>() {
+                var param = new Dictionary<string, string>() {
                     {BibaAnalyticConstants.TIME_STAMP, DateTime.Now.ToString()}
                 };
 
-                if(BibaSessionModel != null)
-                {
-                    result.Add(BibaAnalyticConstants.SESSION_ID, BibaSessionModel.UDID);
-                    result.Add(BibaAnalyticConstants.DEVICE_MODEL, BibaSessionModel.DeviceModel);
-                    result.Add(BibaAnalyticConstants.DEVICE_OS, BibaSessionModel.DeviceOS);
+				if(BibaSessionModel != null && BibaSessionModel.SessionInfo != null)
+				{
+					param.Add(BibaAnalyticConstants.SESSION_ID, BibaSessionModel.SessionInfo.UUID);
+					param.Add(BibaAnalyticConstants.DEVICE_MODEL, BibaSessionModel.SessionInfo.DeviceModel);
+					param.Add(BibaAnalyticConstants.DEVICE_OS, BibaSessionModel.SessionInfo.DeviceOS);
+				}
 
-                    if(!string.IsNullOrEmpty(BibaSessionModel.QuadTileId))
-                    {
-                        result.Add(BibaAnalyticConstants.QUADTILE_ID, BibaSessionModel.QuadTileId); 
-                    }
-                }
-                return result;
+				return param;
             }
         }
     }
