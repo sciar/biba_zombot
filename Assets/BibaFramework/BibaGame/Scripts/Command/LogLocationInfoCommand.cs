@@ -1,15 +1,16 @@
+using System;
 using System.Collections;
 using UnityEngine;
 using BibaFramework.BibaAnalytic;
 using BibaFramework.Utility;
 using LitJson;
 using strange.extensions.command.impl;
-using System;
 
 namespace BibaFramework.BibaGame
 {
     public class LogLocationInfoCommand : Command
     {
+        private readonly Rect MERCATOR_RECT = new Rect(-180f,-90f,360f,180f);
         private const string WEATHER_API_CALL_FORMATTED = "http://api.openweathermap.org/data/2.5/weather?lat={0}&lon={1}&units=imperial&appid=" + BibaAnalyticConstants.WEATHER_API_KEY;
         
         private const string WEATHER = "weather";
@@ -26,7 +27,7 @@ namespace BibaFramework.BibaGame
 
         public override void Execute ()
         { 
-            Debug.Log(LatLongToQuadKey(-123, 49, 11, startRect));
+            BibaSessionModel.SessionInfo.QuadTileId = LatLongToQuadKey((float)121.565418, (float)25.032969);
             new Task(RetrieveLocationInfo(), true);
         }
 
@@ -81,7 +82,7 @@ namespace BibaFramework.BibaGame
 
         void SotreSessionLatLong()
         {
-            BibaSessionModel.QuadTileId = LatLongToQuadKey(Input.location.lastData.longitude, Input.location.lastData.latitude, BibaAnalyticConstants.MAP_LEVEL_OF_DETAIL, startRect);//TileSystem.LatLongToQuadKey((double)Input.location.lastData.latitude, (double)Input.location.lastData.longitude, BibaAnalyticConstants.MAP_LEVEL_OF_DETAIL);
+            BibaSessionModel.SessionInfo.QuadTileId = LatLongToQuadKey(Input.location.lastData.longitude, Input.location.lastData.latitude, BibaAnalyticConstants.MAP_LEVEL_OF_DETAIL);
         }
 
         BibaWeatherInfo ProcessWeatherJSON(string text)
@@ -96,62 +97,53 @@ namespace BibaFramework.BibaGame
 
             return weatherInfo;
         }
-
-        private readonly Rect startRect = new Rect(-180f,90f,360f,180f);
         
-        private string LatLongToQuadKey(float lon, float lat, int level, Rect currentRect, string currentString="")
+        string LatLongToQuadKey(float lon, float lat, int level = BibaAnalyticConstants.MAP_LEVEL_OF_DETAIL)
         {
             Vector2 location = new Vector2 (lon,lat);
-            
-            if(level > 0)
+
+            var resultStr = "";
+            var currentRect = MERCATOR_RECT;
+
+            for (int i = level; i > 0; i--)
             {
-                Debug.LogWarning(string.Format("Long: {0}, Lat: {1}, Current String: {2}, Current Rect: X-{3}, Y-{4}, Width-{5}, Height-{6}", lon, lat, currentString, currentRect.x, currentRect.y, currentRect.width, currentRect.height));
-                
-                level--;
-                
-                //rect to right down
+                //Debug.LogWarning(string.Format("Long:{0}, Lat:{1}, Current String:{2}, Current Rect: xMin:{3}, yMin:{4}, xMax:{5}, yMax:{6}", location.x, location.y, resultStr, currentRect.xMin, currentRect.yMin, currentRect.xMax, currentRect.yMax));
+
+                //Unity's rect xMin, yMin is actually the bottom-left in vector2 coordinate
                 var halfOfWidth = currentRect.width / 2;
                 var halfOfHeight = currentRect.height / 2;
-
-                Rect rect1=new Rect(currentRect.position.x, currentRect.position.y,  halfOfWidth, halfOfHeight);
-                Rect rect2=new Rect(currentRect.position.x + halfOfWidth, currentRect.position.y, halfOfWidth, halfOfHeight);
-                Rect rect3=new Rect(currentRect.position.x,  currentRect.position.y - halfOfHeight, halfOfWidth, halfOfHeight);
-                Rect rect4=new Rect(currentRect.position.x + halfOfWidth, currentRect.position.y - halfOfHeight, halfOfWidth, halfOfHeight);
                 
+                var rect1=new Rect(currentRect.xMin, currentRect.yMin + halfOfHeight,  halfOfWidth, halfOfHeight);
+                var rect2=new Rect(currentRect.xMin + halfOfWidth, currentRect.yMin + halfOfHeight, halfOfWidth, halfOfHeight);
+                var rect3=new Rect(currentRect.xMin,  currentRect.yMin, halfOfWidth, halfOfHeight);
+                var rect4=new Rect(currentRect.xMin + halfOfWidth, currentRect.yMin, halfOfWidth, halfOfHeight);
+
                 if(rect1.Contains(location))
                 {
                     currentRect=rect1;
-                    currentString+="00";
-                    return LatLongToQuadKey(lon,lat,level, currentRect, currentString);
+                    resultStr+="00";
                 }
                 else if(rect2.Contains(location))
                 {
                     currentRect=rect2;
-                    currentString+="01";
-                    return LatLongToQuadKey(lon,lat,level, currentRect, currentString);
+                    resultStr+="01";
                 }
                 else if(rect3.Contains(location))
                 {
                     currentRect=rect3; 
-                    currentString+="10";
-                    return LatLongToQuadKey(lon,lat,level, currentRect, currentString);
+                    resultStr+="10";
                 }
                 else if(rect4.Contains(location))
                 {
                     currentRect=rect4;
-                    currentString+="11";
-                    return LatLongToQuadKey(lon,lat,level, currentRect, currentString);
+                    resultStr+="11";
                 }
                 else
                 {
-                    return "error, couldn't find the coord in my rects";
+                    return string.Empty;
                 }
             }
-            else
-            {
-                return currentString;
-            }
-        }
-
+            return Convert.ToInt32(resultStr, 2).ToString();
+        }   
     }
 }
