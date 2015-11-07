@@ -1,20 +1,32 @@
-using strange.extensions.mediation.impl;
-using BibaFramework.BibaMenu;
-using System.Collections.Generic;
-using UnityEngine.UI;
-using UnityEngine;
 using System;
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.UI;
+using BibaFramework.BibaMenu;
+using strange.extensions.mediation.impl;
 
 namespace BibaFramework.BibaGame
 {
 	public class ARScanStartView : BaseObjectMenuStateView 
 	{
+        public float CompleteWaitTime = 1f;
+
         public List<ARTagInfo> TagInfos;
         public Text TagText;
         public Image TagIcon;
+        public GameObject Spinner;
+        public GameObject CheckMark;
 
         public GameObject ARCameraPrefab;
         private GameObject _arCamera;
+
+        protected override void Start()
+        {
+            base.Start();
+            Spinner.gameObject.SetActive(true);
+            CheckMark.gameObject.SetActive(false);
+        }
 
         public void SetupTag(BibaTagType TagType)
         {  
@@ -28,6 +40,20 @@ namespace BibaFramework.BibaGame
         {
             DestroyCamera();
             _arCamera = Instantiate(ARCameraPrefab);
+        }
+
+        public void CompleteScan(Action onComplete)
+        {
+            StartCoroutine(WaitAndComplete(onComplete));
+        }
+
+        IEnumerator WaitAndComplete(Action onComplete)
+        {
+            Spinner.gameObject.SetActive(false);
+            CheckMark.gameObject.SetActive(true);
+
+            yield return new WaitForSeconds(CompleteWaitTime);
+            onComplete();
         }
 
         public void DestroyCamera()

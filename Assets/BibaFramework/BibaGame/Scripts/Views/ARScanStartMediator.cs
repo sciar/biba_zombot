@@ -86,10 +86,14 @@ namespace BibaFramework.BibaGame
             if (tagType == _tagToScan)
             {
                 BibaTagService.StopScan();
-
-                SetMenuStateTriggerSignal.Dispatch(MenuStateTrigger.Yes);
-                BibaSessionModel.TagScanned = true;
+                ARScanStartView.CompleteScan(ScanCompleted);
             }
+        }
+
+        void ScanCompleted()
+        {
+            SetMenuStateTriggerSignal.Dispatch(MenuStateTrigger.Yes);
+            BibaSessionModel.TagScanned = true;
         }
 
         void TagServiceInitFailed()

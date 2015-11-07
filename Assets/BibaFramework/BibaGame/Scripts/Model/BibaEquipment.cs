@@ -21,6 +21,7 @@ namespace BibaFramework.BibaGame
         public BibaEquipment(BibaEquipmentType equipmentType)
         {
             EquipmentType = equipmentType;
+            TimesPlayed = new List<DateTime>();
         }
 
         public void Play()
