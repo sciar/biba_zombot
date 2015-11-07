@@ -32,7 +32,7 @@ namespace BibaFramework.BibaGame
                 equipment = BibaGameModel.TotalPlayedEquipments[equipmentIndex];
             }
 
-            equipment.TimePlayed++;
+            equipment.Play();
             DataService.WriteGameModel();
 
             BibaAnalyticService.TrackEquipmentPlayed(equipment.EquipmentType);

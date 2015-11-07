@@ -18,9 +18,5 @@ namespace BibaFramework.BibaGame
                 return string.Format("{0}_{1}", EquipmentType.ToString(), TimePlayed.ToString());
             }
         }
-
-        public virtual bool CanBeCompleted(int timePlayed) {
-            return timePlayed >= TimePlayed;
-        }
     }
 }

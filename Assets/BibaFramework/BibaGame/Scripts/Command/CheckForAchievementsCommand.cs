@@ -2,6 +2,7 @@ using strange.extensions.command.impl;
 using BibaFramework.BibaMenu;
 using System;
 using System.Linq;
+using System.Collections.Generic;
 
 namespace BibaFramework.BibaGame
 {
@@ -18,13 +19,13 @@ namespace BibaFramework.BibaGame
 
         public override void Execute ()
         {
-            var unFinishedAchievementConfig = BibaGameConfig.AchievementConfigs.Where(config => BibaGameModel.CompletedAchievements.FindIndex(completedAchievement => completedAchievement.Id == config.Id) == -1);
+            var unFinishedAchievementsConfig = AchievementsToCheck;
 
             //Check settings all unFinished achievements
-            foreach (var config in unFinishedAchievementConfig)
+            foreach (var config in unFinishedAchievementsConfig)
             {
                 var equipment = BibaGameModel.TotalPlayedEquipments.Find(equip => equip.EquipmentType == config.EquipmentType);
-                if(config.CanBeCompleted(equipment.TimePlayed))
+                if(IsAchievementCompleted(equipment, config))
                 {
                     //New achievement obtained
                     var newAchievement = new BibaAchievement(config);
@@ -32,6 +33,17 @@ namespace BibaFramework.BibaGame
                     DataService.WriteGameModel();
                 }
             }
+        }
+
+        protected virtual IEnumerable<BibaAchievementConfig> AchievementsToCheck {
+            get {
+                return BibaGameConfig.AchievementConfigs.Where(config => BibaGameModel.CompletedAchievements.FindIndex(completedAchievement => completedAchievement.Id == config.Id) == -1);
+            }
+        }
+
+        protected virtual bool IsAchievementCompleted(BibaEquipment equipment, BibaAchievementConfig config)
+        {
+            return equipment.NumberOfTimePlayed >= config.TimePlayed;
         }
     }
 }

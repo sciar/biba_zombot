@@ -9,8 +9,10 @@ namespace BibaFramework.BibaGame
         public BibaEquipmentType EquipmentType { get; private set; }
         public BibaTagType TagType { get { return TagMapDict[EquipmentType]; } }
 
-        public int TimeSelected { get; set; }
-        public int TimePlayed { get; set; }
+        public List<DateTime> TimesPlayed { get; set; }
+        public int NumberOfTimePlayed { get { return TimesPlayed.Count; } }
+
+        public int NumberOfTimeSelected { get; set; }
 
         public BibaEquipment()
         {
@@ -21,9 +23,9 @@ namespace BibaFramework.BibaGame
             EquipmentType = equipmentType;
         }
 
-        BibaTagType FindBibaTagType(string enumPrefix)
+        public void Play()
         {
-            return Enum.GetValues(typeof(BibaTagType)).Cast<BibaTagType>().ToList().Find(tagType => tagType.ToString().Equals(enumPrefix + this.GetType().Name, StringComparison.InvariantCultureIgnoreCase));
+            TimesPlayed.Add(DateTime.UtcNow);
         }
 
         public override string ToString ()
@@ -43,7 +45,7 @@ namespace BibaFramework.BibaGame
             {  BibaEquipmentType.overhang, BibaTagType.purple },
             {  BibaEquipmentType.slide, BibaTagType.yellow },
             {  BibaEquipmentType.swing, BibaTagType.green },
-            {  BibaEquipmentType.tube, BibaTagType.blue},
+            {  BibaEquipmentType.tube, BibaTagType.blue },
         };
     }
 

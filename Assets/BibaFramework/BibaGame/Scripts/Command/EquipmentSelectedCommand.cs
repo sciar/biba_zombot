@@ -21,7 +21,7 @@ namespace BibaFramework.BibaGame
             if (Status)
             {
                 BibaGameModel.SelectedEquipments.Add(new BibaEquipment(BibaEquipmentType));
-                BibaGameModel.TotalPlayedEquipments.Find(equip => equip.EquipmentType == BibaEquipmentType).TimeSelected++;
+                BibaGameModel.TotalPlayedEquipments.Find(equip => equip.EquipmentType == BibaEquipmentType).NumberOfTimeSelected++;
             } 
             else
             {
@@ -29,7 +29,7 @@ namespace BibaFramework.BibaGame
                 if(indexToRemove != -1)
                 {
                     BibaGameModel.SelectedEquipments.RemoveAt(indexToRemove);
-                    BibaGameModel.TotalPlayedEquipments.Find(equip => equip.EquipmentType == BibaEquipmentType).TimeSelected--;
+                    BibaGameModel.TotalPlayedEquipments.Find(equip => equip.EquipmentType == BibaEquipmentType).NumberOfTimeSelected--;
                 }
             }
 

@@ -46,7 +46,7 @@ namespace BibaFramework.BibaAnalytic
 
             foreach (var equipment in BibaGameModel.TotalPlayedEquipments)
             {
-                parameters.Add(string.Format("{0}{1}", equipment.EquipmentType.ToString(), BibaAnalyticConstants.EQUIPMENT_PLAYED), equipment.TimeSelected.ToString());
+                parameters.Add(string.Format("{0}{1}", equipment.EquipmentType.ToString(), BibaAnalyticConstants.EQUIPMENT_PLAYED), equipment.NumberOfTimeSelected.ToString());
             }
 
             _service.LogEvent(BibaAnalyticConstants.END_SESSION_EVENT, parameters);

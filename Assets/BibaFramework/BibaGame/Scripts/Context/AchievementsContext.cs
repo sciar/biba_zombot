@@ -29,7 +29,7 @@ namespace BibaFramework.BibaGame
 			
         protected override void BindCommands ()
         {    
-            commandBinder.Bind<StartSignal>().To<CheckForAchievementsCommand>();
+            commandBinder.Bind<StartSignal>().To<CheckForAchievementsCommand>().To<CheckForSeasonalAchievementsCommand>().InSequence();
         }
 
         protected override void BindSignals ()
