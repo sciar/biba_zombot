@@ -35,7 +35,7 @@ namespace BibaFramework.BibaGame
             }
         }
 
-        protected virtual IEnumerable<BibaAchievementConfig> AchievementsToCheck {
+        protected IEnumerable<BibaAchievementConfig> AchievementsToCheck {
             get {
                 return BibaGameConfig.AchievementConfigs.Where(config => BibaGameModel.CompletedAchievements.FindIndex(completedAchievement => completedAchievement.Id == config.Id) == -1);
             }
@@ -43,7 +43,7 @@ namespace BibaFramework.BibaGame
 
         protected virtual bool IsAchievementCompleted(BibaEquipment equipment, BibaAchievementConfig config)
         {
-            return equipment.NumberOfTimePlayed >= config.TimePlayed;
+            return equipment.NumberOfTimePlayed >= config.TimePlayed && !(config is BibaSeasonalAchievementConfig);
         }
     }
 }
