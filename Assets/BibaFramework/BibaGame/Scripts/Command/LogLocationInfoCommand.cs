@@ -27,8 +27,10 @@ namespace BibaFramework.BibaGame
 
         public override void Execute ()
         { 
-            BibaSessionModel.SessionInfo.QuadTileId = LatLongToQuadKey((float)121.565418, (float)25.032969);
-            new Task(RetrieveLocationInfo(), true);
+            if (BibaUtility.CheckForInternetConnection())
+            {
+                new Task(RetrieveLocationInfo(), true);
+            }
         }
 
         IEnumerator RetrieveLocationInfo()
