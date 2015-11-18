@@ -15,6 +15,9 @@ namespace BibaFramework.BibaGame
 
         public override SceneMenuStateView View { get { return ChartBoostView; } }
 
+        private const int ATTEMPT_ALLOW = 1;
+        private int _attempt;
+
         private int _answer = -1;
         private string QuestionInEnglish {
             get {
@@ -50,14 +53,35 @@ namespace BibaFramework.BibaGame
         void AgeGateConfirm(string inputValue)
         {
             var result = inputValue == _answer.ToString();
+            _attempt++;
+
             if (result)
             {
+                ProcessRightAnswer();
+            }
+            else
+            {
+                ProcessWrongAnswer();
+            }
+        }
+
+        void ProcessRightAnswer()
+        {
+            ChartBoostView.IncorrectText.gameObject.SetActive(false);
+            Chartboost.didPassAgeGate(true);
+            SetMenuStateTriggerSignal.Dispatch(MenuStateTrigger.Next);
+        }
+
+        void ProcessWrongAnswer()
+        {
+            ChartBoostView.IncorrectText.gameObject.SetActive(true);
+            
+            if (_attempt >= ATTEMPT_ALLOW)
+            {
+                Chartboost.didPassAgeGate(false);   
                 SetMenuStateTriggerSignal.Dispatch(MenuStateTrigger.Next);
             }
-
-            ChartBoostView.IncorrectText.gameObject.SetActive(!result);
-            Chartboost.didPassAgeGate(result);
-        }
+        }         
 
         private static class NumberString
         {
