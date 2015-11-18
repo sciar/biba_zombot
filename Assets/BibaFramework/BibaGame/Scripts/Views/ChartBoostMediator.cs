@@ -76,7 +76,7 @@ namespace BibaFramework.BibaGame
         {
             ChartBoostView.IncorrectText.gameObject.SetActive(true);
             
-            if (_attempt >= ATTEMPT_ALLOW)
+            if (_attempt > ATTEMPT_ALLOW)
             {
                 Chartboost.didPassAgeGate(false);   
                 SetMenuStateTriggerSignal.Dispatch(MenuStateTrigger.Next);
