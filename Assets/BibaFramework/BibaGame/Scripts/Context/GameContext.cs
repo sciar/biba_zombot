@@ -30,9 +30,10 @@ namespace BibaFramework.BibaGame
         protected override void BindCommands ()
         {   
             //TODO: bind it at round end
+            commandBinder.Bind<StartSignal>().To<CheckForChartBoostCommand>();
             commandBinder.Bind<EquipmentPlayedSignal>().To<EquipmentPlayedCommand>();
             commandBinder.Bind<TryToSetHighScoreSignal>().To<TryToSetHighScoreCommand>();
-            commandBinder.Bind<EndSignal>().To<CheckForChartBoostCommand>().To<CheckForAchievementsCommand>().To<CheckForSeasonalAchievementsCommand>().InSequence();
+            commandBinder.Bind<EndSignal>().To<CheckForAchievementsCommand>().To<CheckForSeasonalAchievementsCommand>().InSequence();
         }
         
         protected override void BindSignals ()
