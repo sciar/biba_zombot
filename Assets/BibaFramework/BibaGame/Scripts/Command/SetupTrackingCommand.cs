@@ -19,7 +19,6 @@ namespace BibaFramework.BibaGame
         {
             SetupStateMachine();
             SetupAudioService();
-            SetupChartBoostService();
 			SetupAnalyticService();
         }
 
@@ -33,12 +32,6 @@ namespace BibaFramework.BibaGame
         {
             var audioService = RootContextView.GetComponentInChildren<AudioServices>();
             injectionBinder.Bind<AudioServices>().To(audioService).ToSingleton().CrossContext();
-        }
-
-        void SetupChartBoostService()
-        {
-            var chartBoostService = RootContextView.GetComponentInChildren<ChartBoostService>();
-            injectionBinder.Bind<ChartBoostService>().To(chartBoostService).ToSingleton().CrossContext();
         }
 
 		void SetupAnalyticService()

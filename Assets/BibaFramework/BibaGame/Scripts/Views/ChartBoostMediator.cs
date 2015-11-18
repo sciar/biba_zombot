@@ -1,6 +1,7 @@
 using BibaFramework.BibaMenu;
 using BibaFramework.BibaAnalytic;
 using ChartboostSDK;
+using UnityEngine;
 
 namespace BibaFramework.BibaGame
 {
@@ -10,12 +11,20 @@ namespace BibaFramework.BibaGame
         public ChartBoostView ChartBoostView { get; set; }
 
         [Inject]
-        public ChartBoostService ChartBoostService { get; set; }
-
-        [Inject]
         public SetMenuStateTriggerSignal SetMenuStateTriggerSignal { get; set; }
 
         public override SceneMenuStateView View { get { return ChartBoostView; } }
+
+        private int _answer = -1;
+        private string QuestionInEnglish {
+            get {
+                if(_answer == -1)
+                {
+                    _answer = Random.Range(0, 1000);
+                }
+                return NumberString.GetString(_answer);
+            }
+        }
 
         public override void SetupMenu (BaseMenuState menuState)
         {
@@ -23,17 +32,62 @@ namespace BibaFramework.BibaGame
 
         public override void RegisterSceneDependentSignals ()
         {
-            ChartBoostService.didDismissInterstitial += CharBoostDismissed;
+            ChartBoostView.AgeGateResponsedSignal.AddListener(AgeGateConfirm);
+            Chartboost.didPauseClickForConfirmation += ShowParentalGate;
         }
 
         public override void UnRegisterSceneDependentSignals ()
         {
-            ChartBoostService.didDismissInterstitial -= CharBoostDismissed;
+            ChartBoostView.AgeGateResponsedSignal.RemoveListener(AgeGateConfirm);
+            Chartboost.didPauseClickForConfirmation -= ShowParentalGate;
         }
 
-        void CharBoostDismissed(CBLocation location)
+        void ShowParentalGate()
         {
-            SetMenuStateTriggerSignal.Dispatch(MenuStateTrigger.Next);
+            ChartBoostView.ShowAgeGate(QuestionInEnglish);
+        }
+
+        void AgeGateConfirm(string inputValue)
+        {
+            var result = inputValue == _answer.ToString();
+            if (result)
+            {
+                SetMenuStateTriggerSignal.Dispatch(MenuStateTrigger.Next);
+            }
+
+            ChartBoostView.IncorrectText.gameObject.SetActive(!result);
+            Chartboost.didPassAgeGate(result);
+        }
+
+        private static class NumberString
+        {
+            static string[] _words =
+            {
+                "Zero",
+                "One",
+                "Two",
+                "Three",
+                "Four",
+                "Five",
+                "Six",
+                "Seven",
+                "Eight",
+                "Nine",
+                "Ten"
+            };
+            
+            public static string GetString(int value)
+            {
+                var result = _words[value % 10] + " ";
+
+                var number = value;
+                while (number / 10 > 0)
+                {
+                    number = number / 10;
+                    result = result.Insert(0, _words[number % 10] + " ");
+                }
+                return result;
+            }
         }
 	}
 }

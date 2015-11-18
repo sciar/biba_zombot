@@ -6,12 +6,10 @@ namespace BibaFramework.BibaGame
 {
     public class ShowInterstitialCommand : Command
     {
-        [Inject]
-        public ChartBoostService ChartBoostService { get; set; }
-
         public override void Execute ()
         {
-            ChartBoostService.showInterstitial(CBLocation.Default);
+            Chartboost.setShouldPauseClickForConfirmation(true);
+            Chartboost.showInterstitial(CBLocation.Default);
         }
     }
 }
