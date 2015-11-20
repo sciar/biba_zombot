@@ -20,7 +20,8 @@ namespace BibaFramework.BibaMenuEditor
 
 	public class BibaSceneEnumHelperWindow : BibaEnumHelper
 	{
-        protected override string[] EnumStrings { get { return UnitySceneFiles.Select(sceneFile => Path.GetFileNameWithoutExtension(sceneFile)).ToArray(); } }
+        private string[] UnitySceneFiles { get { return Directory.GetFiles(_inputDir, "*.unity"); } }
+        protected override List<string> EnumStrings { get { return UnitySceneFiles.Select(sceneFile => Path.GetFileNameWithoutExtension(sceneFile)).ToList(); } }
         protected override string OutputFileName { get { return "BibaScene.cs"; } }
         protected override string OutputClassName { get { return "BibaScene"; } }
         protected override string OutputNameSpaceName { get { return "BibaFramework.BibaGame"; } }
@@ -49,7 +50,5 @@ namespace BibaFramework.BibaMenuEditor
             EditorBuildSettings.scenes = scenesToAdd.ToArray();    
             AssetDatabase.Refresh ();
         }
-
-        private string[] UnitySceneFiles { get { return Directory.GetFiles(_inputDir, "*.unity"); } }
 	}
 }

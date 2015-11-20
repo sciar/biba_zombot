@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using UnityEditor;
 using UnityEngine;
@@ -7,7 +8,7 @@ namespace BibaFramework.BibaMenuEditor
 {
 	public abstract class BibaEnumHelper : EditorWindow
 	{
-        protected abstract string[] EnumStrings { get; }
+        protected abstract List<string> EnumStrings { get; }
         protected abstract string OutputFileName { get; }
         protected abstract string OutputClassName { get; }
         protected abstract string OutputNameSpaceName { get; }
@@ -56,7 +57,7 @@ namespace BibaFramework.BibaMenuEditor
         {
             var outputPath = Path.Combine (_outputDir, OutputFileName);
             
-            HelperMethods.WriteEnumFile(OutputNameSpaceName, OutputClassName, EnumStrings.ToList(), outputPath);
+            HelperMethods.WriteEnumFile(OutputNameSpaceName, OutputClassName, EnumStrings, outputPath);
             AssetDatabase.Refresh ();
         }
 	}
