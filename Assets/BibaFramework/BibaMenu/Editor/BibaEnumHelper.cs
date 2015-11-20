@@ -42,17 +42,37 @@ namespace BibaFramework.BibaMenuEditor
             }
             EditorGUILayout.EndHorizontal ();
             
-            var validPath = Directory.Exists(_inputDir) && _outputDir.StartsWith(Application.dataPath);
-            
+            var validPath = Directory.Exists(_inputDir) && _outputDir.StartsWith(Application.dataPath); 
             GUI.enabled = validPath;
             if (GUILayout.Button ("Generate " + OutputFileName)) 
             {
+                ReformatFilenames();
+
                 GenerateEnums();
                 GenerateAdditionalSettings();
             }
             GUI.enabled = true;
         }
-        
+
+        void ReformatFilenames()
+        {
+            var allFiles = Directory.GetFiles(_inputDir);
+            for (int i = 0; i < allFiles.Length; i++)
+            {
+                var file = allFiles[i];
+                var directoryPath = Directory.GetParent(file).FullName;
+
+                var oldFilename = Path.GetFileName(file);
+                var oldFilePath = Path.Combine(directoryPath, oldFilename);
+
+                var newFilename = oldFilename.Replace(" ", "_").Replace("-", "_");
+                var newFilePath = Path.Combine(directoryPath, newFilename);
+
+                File.Move(oldFilePath, newFilePath);
+            }
+            AssetDatabase.Refresh();
+        }
+
         void GenerateEnums()
         {
             var outputPath = Path.Combine (_outputDir, OutputFileName);

@@ -19,6 +19,7 @@ namespace BibaFramework.BibaMenuEditor
             generatedLines.Add(SpaceString(indent) + "public enum " + enumName);
             generatedLines.Add(SpaceString(indent) + "{");
 
+            enumsToWrite.Insert(0, "none");
             enumsToWrite.ForEach(e => generatedLines.Add(SpaceString(indent * 2) + e + ","));
 
             generatedLines.Add(SpaceString(indent) + "}");
