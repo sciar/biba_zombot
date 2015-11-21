@@ -21,6 +21,7 @@ namespace BibaFramework.BibaGame
     public class OpenAboutBibaURLSignal : Signal { }
     public class EnableHowToSignal : Signal<bool> { }
     public class EnableHelpBubblesSignal : Signal<bool> { }
+    public class ResetGameModelSignal : Signal { }
 
     //Tag
     public class EnableTagSignal : Signal<bool> { }

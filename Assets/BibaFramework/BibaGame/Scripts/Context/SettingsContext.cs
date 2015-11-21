@@ -25,12 +25,14 @@ namespace BibaFramework.BibaGame
         protected override void BindViews ()
         { 
             mediationBinder.Bind<SettingsView>().To<SettingsMediator>();
+            mediationBinder.Bind<ResetButtonView>().To<ResetButtonMediator>();
         }
         
         protected override void BindCommands ()
         {   
             commandBinder.Bind<EnableHelpBubblesSignal>().To<EnableHelpBubblesCommand>();
             commandBinder.Bind<EnableHowToSignal>().To<EnableHowToCommand>();
+            commandBinder.Bind<ResetGameModelSignal>().To<ResetGameModelCommand>();
         }
         
         protected override void BindSignals ()

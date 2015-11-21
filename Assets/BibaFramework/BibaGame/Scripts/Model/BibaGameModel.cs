@@ -23,8 +23,17 @@ namespace BibaFramework.BibaGame
 
         public BibaGameModel()
         {
-            SelectedEquipments = new List<BibaEquipment>();
+            Reset();
+        }
 
+        public void Reset()
+        {
+            LastPlayedTime = DateTime.MaxValue;
+            LastChartBoostTime = DateTime.MinValue;
+            LastCameraReminderTime = DateTime.MinValue;
+
+            SelectedEquipments = new List<BibaEquipment>();
+            
             TotalPlayedEquipments = new List<BibaEquipment>() {
                 new BibaEquipment(BibaEquipmentType.bridge),
                 new BibaEquipment(BibaEquipmentType.climber),
@@ -33,13 +42,15 @@ namespace BibaFramework.BibaGame
                 new BibaEquipment(BibaEquipmentType.swing),
                 new BibaEquipment(BibaEquipmentType.tube),
             };
-
+            
             CompletedAchievements = new List<BibaAchievement>();
 
-            LastPlayedTime = DateTime.MaxValue;
-
+            PrivacyEnabled = false;
+            TagEnabled = false;
             HowToEnabled = true;
             HelpBubblesEnabled = true;
+
+            HighScore = 0;
         }
     }
 }
