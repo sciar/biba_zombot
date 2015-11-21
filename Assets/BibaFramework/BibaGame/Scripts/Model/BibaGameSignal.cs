@@ -14,6 +14,9 @@ namespace BibaFramework.BibaGame
     public class EquipmentPlayedSignal : Signal<BibaEquipmentType> { }
     public class TryToSetHighScoreSignal : Signal<double> { }
 
+    public class PlayBibaBGMSignal : Signal<BibaBGM>{ };
+    public class PlayBibaSFXSignal : Signal<BibaSFX>{ };
+
     //Settings
     public class OpenAboutBibaURLSignal : Signal { }
     public class EnableHowToSignal : Signal<bool> { }

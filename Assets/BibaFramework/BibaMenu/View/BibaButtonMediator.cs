@@ -14,6 +14,9 @@ namespace BibaFramework.BibaMenu
 		[Inject]
 		public AudioServices audioServices { get; set; }
 
+        [Inject]
+        public PlayBibaSFXSignal PlayBibaSFXSignal { get; set; }
+
         public override void OnRegister ()
         {
             BibaButtonView.ButtonClickedSignal.AddListener(SendMenuStateTrigger);
@@ -31,9 +34,9 @@ namespace BibaFramework.BibaMenu
             SetMenuStateTriggerSignal.Dispatch(stateTrigger);
         }
 
-		void PlaySFX(string sfxName)
+		void PlaySFX(BibaSFX sfx)
 		{
-			audioServices.PlaySFX (sfxName);
+            PlayBibaSFXSignal.Dispatch(sfx);
 		}
     }
 }

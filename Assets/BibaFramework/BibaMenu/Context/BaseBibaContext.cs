@@ -58,8 +58,13 @@ namespace BibaFramework.BibaMenu
             injectionBinder.Bind<StartSignal>().To<StartSignal>().ToSingleton();
             injectionBinder.Bind<EndSignal>().To<EndSignal>().ToSingleton();
 
+            //Menu
             commandBinder.Bind<SetMenuStateTriggerSignal>().To<SetMenuStateTriggerCommand>();
             commandBinder.Bind<SetMenuStateConditionSignal>().To<SetMenuStateConditionCommand>();
+
+            //Audio
+            commandBinder.Bind<PlayBibaBGMSignal>().To<PlayBGMCommand>();
+            commandBinder.Bind<PlayBibaSFXSignal>().To<PlaySFXCommand>();
         }
 
         protected abstract void BindModels();
