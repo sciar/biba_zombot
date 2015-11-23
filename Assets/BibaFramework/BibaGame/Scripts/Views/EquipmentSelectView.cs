@@ -5,6 +5,6 @@ namespace BibaFramework.BibaGame
 {
     public class EquipmentSelectView : SceneMenuStateView
     {
-        public Button ConfirmButton;
+        public BibaButtonView ConfirmButton;
     }
 }

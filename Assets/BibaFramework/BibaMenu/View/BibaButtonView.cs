@@ -10,6 +10,7 @@ namespace BibaFramework.BibaMenu
     public class BibaButtonView : View
     {
         private Button _button;
+        public Button Button { get { return _button; } }
 
         public MenuStateTrigger MenuStateTrigger;
         public Signal<MenuStateTrigger> ButtonClickedSignal = new Signal<MenuStateTrigger>();
