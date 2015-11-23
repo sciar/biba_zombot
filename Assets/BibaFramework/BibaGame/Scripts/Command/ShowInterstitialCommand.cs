@@ -13,6 +13,11 @@ namespace BibaFramework.BibaGame
 
         public override void Execute ()
         {
+#if UNITY_EDITOR
+            SetMenuStateTriggerSignal.Dispatch(MenuStateTrigger.Next);
+            return;
+#endif
+
             if (BibaUtility.CheckForInternetConnection())
             {
                 Chartboost.setShouldPauseClickForConfirmation(true);
