@@ -31,18 +31,21 @@ namespace BibaFramework.BibaGame
 
         public override void SetupMenu (BaseMenuState menuState)
         {
+
         }
 
         public override void RegisterSceneDependentSignals ()
         {
             ChartBoostView.AgeGateResponsedSignal.AddListener(AgeGateConfirm);
             Chartboost.didPauseClickForConfirmation += ShowParentalGate;
+            Chartboost.didCloseInterstitial += SkipChartBoost;
         }
 
         public override void UnRegisterSceneDependentSignals ()
         {
             ChartBoostView.AgeGateResponsedSignal.RemoveListener(AgeGateConfirm);
             Chartboost.didPauseClickForConfirmation -= ShowParentalGate;
+            Chartboost.didCloseInterstitial -= SkipChartBoost;
         }
 
         void ShowParentalGate()
@@ -81,7 +84,12 @@ namespace BibaFramework.BibaGame
                 Chartboost.didPassAgeGate(false);   
                 SetMenuStateTriggerSignal.Dispatch(MenuStateTrigger.Next);
             }
-        }         
+        }
+
+        void SkipChartBoost(CBLocation location)
+        {
+            SetMenuStateTriggerSignal.Dispatch(MenuStateTrigger.Next);
+        }
 
         private static class NumberString
         {
