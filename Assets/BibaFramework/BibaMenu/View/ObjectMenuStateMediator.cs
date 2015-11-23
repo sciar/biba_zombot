@@ -9,5 +9,8 @@ namespace BibaFramework.BibaMenu
         public ObjectMenuStateView ObjectMenuStateView { get; set; }
 
         public override BaseObjectMenuStateView BaseObjectMenuStateView { get { return ObjectMenuStateView; } }
-	} 
+
+        protected override void MenuStateObjectEnabled(){ }
+        protected override void MenuStateObjectDisabled(){ }
+    } 
 }

@@ -34,25 +34,21 @@ namespace BibaFramework.BibaGame
 
         private BibaTagType _tagToScan;
 
-		public override void OnRegister ()
-		{
-            base.OnRegister();
-
+        protected override void RegisterMenuStateDependentSignals() 
+        { 
             TagScannedSignal.AddListener(TagScanned);
             TagServiceInitFailedSignal.AddListener(TagServiceInitFailed);
-
+            
             SetupTagToScan();
         }
 
-        public override void OnRemove ()
+        protected override void UnRegisterMenuStateDependentSignals() 
         {
-            base.OnRemove();
-
             TagScannedSignal.RemoveListener(TagScanned);
             TagServiceInitFailedSignal.RemoveListener(TagServiceInitFailed);
         }
 
-        void OnEnable()
+        protected override void MenuStateObjectEnabled()
         {
             if (ARScanStartView != null)
             {
@@ -61,7 +57,7 @@ namespace BibaFramework.BibaGame
             }
         }
 
-        void OnDisable()
+        protected override void MenuStateObjectDisabled()
         {
             if (ARScanStartView != null)
             {
