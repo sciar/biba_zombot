@@ -17,8 +17,9 @@ namespace BibaFramework.BibaMenu
 		protected override void BindBaseComponents ()
 		{
 			base.BindBaseComponents ();
-	
-			mediationBinder.Bind<BibaButtonView>().To<BibaButtonMediator>();
+    
+            mediationBinder.Bind<BibaButtonView>().To<BibaButtonMediator>();
+            mediationBinder.Bind<URLButtonView>().To<URLButtonMediator>();
 			mediationBinder.Bind<ObjectMenuStateView>().To<ObjectMenuStateMediator>();
 		}
 	}

@@ -7,9 +7,6 @@ namespace BibaFramework.BibaGame
     {
         [Inject]
         public PrivacyStatementView PrivacyStatementView { get; set; }
-        
-		[Inject]
-		public OpenAboutBibaURLSignal OpenAboutBibaURLSignal { get; set; }
 
         public override SceneMenuStateView View { get { return PrivacyStatementView; } }
         
@@ -19,17 +16,10 @@ namespace BibaFramework.BibaGame
 
         public override void RegisterSceneDependentSignals ()
         {
-			PrivacyStatementView.OpenURLButton.onClick.AddListener(OpenUrlButtonClicked);
         }
         
         public override void UnRegisterSceneDependentSignals ()
 		{
-			PrivacyStatementView.OpenURLButton.onClick.RemoveListener(OpenUrlButtonClicked);
         }
-
-		void OpenUrlButtonClicked()
-		{
-			OpenAboutBibaURLSignal.Dispatch();
-		}
     }
 }

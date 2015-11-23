@@ -18,7 +18,7 @@ namespace BibaFramework.BibaGame
     public class PlayBibaSFXSignal : Signal<BibaSFX>{ };
 
     //Settings
-    public class OpenAboutBibaURLSignal : Signal { }
+    public class OpenURLSignal : Signal<string> { }
     public class EnableHowToSignal : Signal<bool> { }
     public class EnableHelpBubblesSignal : Signal<bool> { }
     public class ResetGameModelSignal : Signal { }
