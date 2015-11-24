@@ -25,7 +25,7 @@ namespace BibaFramework.BibaMenu
         
         void ShowObjectBasedMenuState(ObjectMenuState menuState, bool status)
         {
-            if (menuState.MenuStateGameObject != null && menuState.SceneName == this.name)
+            if (this != null && menuState.MenuStateGameObject != null && menuState.SceneName == this.name)
             {
                 BaseObjectMenuStateView.gameObject.SetActive(status);
                 
