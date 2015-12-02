@@ -16,13 +16,20 @@ namespace BibaFramework.BibaGame
         [Inject]
         public SetMenuStateConditionSignal SetMenuStateConditionSignal { get; set; }
 
+		[Inject]
+		public BibaSceneStack BibaSceneStack { get; set; }
+
         public override void Execute ()
         {
             var timeInactive = DateTime.UtcNow - BibaGameModel.LastPlayedTime;
             if (timeInactive >= TimeSpan.FromSeconds(BibaGameConstants.ONE_HOUR_IN_SECONDS) && BibaGameModel.SelectedEquipments.Count > 0)
             {
                 SetMenuStateConditionSignal.Dispatch(MenuStateCondition.ShowInactive, true);
-                SetMenuStateTriggerSignal.Dispatch(MenuStateTrigger.Reset);
+
+				if(BibaSceneStack.Count > 0 && !BibaSceneStack.Peek() is IntroMenuState)
+				{
+					SetMenuStateTriggerSignal.Dispatch(MenuStateTrigger.Reset);
+				} 
             }
         }
     }
