@@ -29,6 +29,7 @@ namespace BibaFramework.BibaGame
         { 
             if (BibaUtility.CheckForInternetConnection())
             {
+                Retain();
                 new Task(RetrieveLocationInfo(), true);
             }
         }
@@ -80,6 +81,8 @@ namespace BibaFramework.BibaGame
 
             // Stop service if there is no need to query location updates continuously
             Input.location.Stop();
+
+            Release();
         }
 
         void SotreSessionLatLong()

@@ -4,6 +4,7 @@ using System.Text;
 using UnityEngine;
 using BestHTTP;
 using strange.extensions.command.impl;
+using LitJson;
 
 namespace BibaFramework.BibaGame
 {
@@ -28,27 +29,25 @@ namespace BibaFramework.BibaGame
             //TODO: extract the http request if more requests are needed
             if (BibaSessionModel.SessionInfo != null && !string.IsNullOrEmpty(BibaSessionModel.SessionInfo.QuadTileId))
             {
+                Retain();
+
                 var jsonData = "{\"" + QUADTILE_ID + "\":\"" + BibaSessionModel.SessionInfo.QuadTileId + "\"}";
 
                 var requestURI = string.Format(BACKEND_REGION_QUADTILE_REQUEST, BibaSessionModel.SessionInfo.QuadTileId);
                 var request = new HTTPRequest(new Uri(requestURI), HTTPMethods.Put, false, RequestCompleted);
-                request.SetHeader("Content-Type","application/json");
-                request.RawData = Encoding.ASCII.GetBytes(jsonData);
+                request.SetHeader("Content-Type","application/json; charset=UTF-8");
+                request.RawData = Encoding.UTF8.GetBytes(jsonData);
 
-                #if UNITY_EDITOR
                 request.UseAlternateSSL = true;
-                #endif
-
                 request.DisableRetry = false;
                 request.Send();
-
-                Retain();
             }
         }
 
         void RequestCompleted(HTTPRequest request, HTTPResponse response)
         {
             //TODO: do something with the response
+            Debug.Log(response.DataAsText);
             Release();
         }
     }
