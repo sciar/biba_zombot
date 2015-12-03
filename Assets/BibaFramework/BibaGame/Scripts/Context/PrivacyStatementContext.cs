@@ -29,7 +29,7 @@ namespace BibaFramework.BibaGame
         
         protected override void BindCommands ()
 		{   
-            commandBinder.Bind<EndSignal>().To<EnablePrivacyStatementCommand>().To<EnableLocationServiceCommand>();
+            commandBinder.Bind<EndSignal>().To<EnablePrivacyStatementCommand>().To<LogLocationInfoCommand>();
         }
         
         protected override void BindSignals ()

@@ -26,7 +26,6 @@ namespace BibaFramework.BibaGame
 
         public override void Execute ()
         {
-            //TODO: extract the http request if more requests are needed
             if (BibaSessionModel.SessionInfo != null && !string.IsNullOrEmpty(BibaSessionModel.SessionInfo.QuadTileId))
             {
                 Retain();
@@ -46,8 +45,11 @@ namespace BibaFramework.BibaGame
 
         void RequestCompleted(HTTPRequest request, HTTPResponse response)
         {
-            //TODO: do something with the response
-            Debug.Log(response.DataAsText);
+            if (response != null)
+            {
+                Debug.Log(response.DataAsText);
+            }
+
             Release();
         }
     }

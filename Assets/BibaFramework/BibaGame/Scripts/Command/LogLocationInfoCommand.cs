@@ -5,6 +5,7 @@ using BibaFramework.BibaAnalytic;
 using BibaFramework.Utility;
 using LitJson;
 using strange.extensions.command.impl;
+using BestHTTP;
 
 namespace BibaFramework.BibaGame
 {
@@ -25,13 +26,11 @@ namespace BibaFramework.BibaGame
         [Inject]
         public BibaSessionModel BibaSessionModel { get; set; } 
 
+        //This call also prompt the enable GPS request for the frist time.
         public override void Execute ()
         { 
-            if (BibaUtility.CheckForInternetConnection())
-            {
-                Retain();
-                new Task(RetrieveLocationInfo(), true);
-            }
+            Retain();
+            new Task(RetrieveLocationInfo(), true);
         }
 
         IEnumerator RetrieveLocationInfo()
@@ -71,16 +70,24 @@ namespace BibaFramework.BibaGame
                 SotreSessionLatLong();
 
                 var locInfo = Input.location.lastData;
-                var www = new WWW(string.Format(WEATHER_API_CALL_FORMATTED, locInfo.latitude, locInfo.longitude));
-                
-                yield return www;
+                var weatherAPIUrl = string.Format(WEATHER_API_CALL_FORMATTED, locInfo.latitude, locInfo.longitude);
 
-                var weatherInfo = ProcessWeatherJSON(www.text);
-                BibaAnalyticService.TrackWeatherInfo(weatherInfo);                
+                var httpRequest = new HTTPRequest(new Uri(weatherAPIUrl), HTTPMethods.Get, false, RequestCompleted);
+                httpRequest.Send();
             }
 
             // Stop service if there is no need to query location updates continuously
             Input.location.Stop();
+        }
+
+        void RequestCompleted(HTTPRequest request, HTTPResponse response)
+        {
+            if (response != null)
+            {
+                Debug.Log(response.DataAsText);
+                var weatherInfo = ProcessWeatherJSON(response.DataAsText);
+                BibaAnalyticService.TrackWeatherInfo(weatherInfo);  
+            }
 
             Release();
         }
