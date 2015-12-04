@@ -29,8 +29,10 @@ namespace BibaFramework.BibaGame
         //This call also prompt the enable GPS request for the frist time.
         public override void Execute ()
         { 
+            #if !UNITY_EDITOR
             Retain();
             new Task(RetrieveLocationInfo(), true);
+            #endif  
         }
 
         IEnumerator RetrieveLocationInfo()

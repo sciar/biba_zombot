@@ -26,6 +26,7 @@ namespace BibaFramework.BibaGame
 
         public override void Execute ()
         {
+            #if !UNITY_EDITOR
             if (BibaSessionModel.SessionInfo != null && !string.IsNullOrEmpty(BibaSessionModel.SessionInfo.QuadTileId))
             {
                 Retain();
@@ -41,6 +42,7 @@ namespace BibaFramework.BibaGame
                 request.DisableRetry = false;
                 request.Send();
             }
+            #endif
         }
 
         void RequestCompleted(HTTPRequest request, HTTPResponse response)
