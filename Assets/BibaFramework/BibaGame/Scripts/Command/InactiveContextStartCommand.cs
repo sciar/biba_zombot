@@ -17,9 +17,6 @@ namespace BibaFramework.BibaGame
 
         public override void Execute ()
         {
-            BibaGameModel.LastPlayedTime = DateTime.MaxValue;
-            DataService.WriteGameModel();
-
             SetMenuStateConditionSignal.Dispatch(MenuStateCondition.ShowInactive, false);
         }
     }
