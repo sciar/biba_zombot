@@ -16,7 +16,8 @@ namespace BibaFramework.BibaGame
 
         public override void SetupMenu (BaseMenuState menuState)
         {
-            InactiveView.Text.text = string.Format(INACTIVE_MSG, BibaGameModel.LastPlayedTime.ToShortDateString(), BibaGameModel.LastPlayedTime.ToShortTimeString());
+            var lastPlayedTimeLocal = BibaGameModel.LastPlayedTime.ToLocalTime();
+            InactiveView.Text.text = string.Format(INACTIVE_MSG, lastPlayedTimeLocal.ToShortDateString(), lastPlayedTimeLocal.ToShortTimeString());
         }
 
         public override void RegisterSceneDependentSignals ()
