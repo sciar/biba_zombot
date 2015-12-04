@@ -4,7 +4,7 @@ using UnityEngine;
 namespace BibaFramework.BibaMenu
 {
     public abstract class BaseObjectMenuStateMediator : Mediator 
-	{
+    {
         [Inject]
         public ToggleObjectMenuStateSignal ToggleObjectMenuStateSignal { get; set; }
         
@@ -26,14 +26,15 @@ namespace BibaFramework.BibaMenu
         void ShowObjectBasedMenuState(ObjectMenuState menuState, bool status)
         {
             if (this != null && menuState.MenuStateGameObject != null && menuState.SceneName == this.name)
-            {
-                BaseObjectMenuStateView.gameObject.SetActive(status);
-                
+            {   
                 if (status)
                 {
+                    BaseObjectMenuStateView.FadeIn();
                     MenuStateObjectEnabled();
-                } else
+                } 
+                else
                 {
+                    BaseObjectMenuStateView.FadeOut();
                     MenuStateObjectDisabled();
                 }
             }
@@ -43,5 +44,5 @@ namespace BibaFramework.BibaMenu
         protected abstract void MenuStateObjectDisabled();
         protected virtual void RegisterMenuStateDependentSignals() { }
         protected virtual void UnRegisterMenuStateDependentSignals() { }
-	} 
+    } 
 }
