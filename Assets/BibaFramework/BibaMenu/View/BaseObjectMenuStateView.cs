@@ -8,7 +8,7 @@ namespace BibaFramework.BibaMenu
 	{
 		public CanvasGroup CanvasGroup { get { return GetComponent<CanvasGroup>(); } }
 
-		public void FadeIn()
+		public virtual void AnimateEntry()
 		{
 			gameObject.SetActive(true);
 			if(CanvasGroup != null)
@@ -18,7 +18,7 @@ namespace BibaFramework.BibaMenu
 			}
 		}
 
-		public void FadeOut()
+		public virtual void AnimateExit()
 		{
 			if(CanvasGroup != null)
 			{	

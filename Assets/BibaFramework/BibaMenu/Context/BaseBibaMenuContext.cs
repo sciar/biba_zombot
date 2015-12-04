@@ -20,7 +20,8 @@ namespace BibaFramework.BibaMenu
     
             mediationBinder.Bind<BibaButtonView>().To<BibaButtonMediator>();
             mediationBinder.Bind<URLButtonView>().To<URLButtonMediator>();
-			mediationBinder.Bind<ObjectMenuStateView>().To<ObjectMenuStateMediator>();
+            mediationBinder.Bind<ObjectMenuStateView>().To<ObjectMenuStateMediator>();
+            mediationBinder.Bind<PanelMenuStateView>().To<PanelMenuStateMediator>();
 		}
 	}
 }

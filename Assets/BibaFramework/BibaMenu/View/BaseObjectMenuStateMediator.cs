@@ -29,12 +29,12 @@ namespace BibaFramework.BibaMenu
             {   
                 if (status)
                 {
-                    BaseObjectMenuStateView.FadeIn();
+                    BaseObjectMenuStateView.AnimateEntry();
                     MenuStateObjectEnabled();
                 } 
                 else
                 {
-                    BaseObjectMenuStateView.FadeOut();
+                    BaseObjectMenuStateView.AnimateExit();
                     MenuStateObjectDisabled();
                 }
             }
