@@ -4,7 +4,7 @@ using UnityEditor;
 
 namespace BibaFramework.BibaMenuEditor
 {
-	public class BibaAutomatedBuild
+	public static class BibaAutomatedBuild
 	{
 		private const string IOS_OUTPUT_PATH = "Build/iOS";
 		private const string ANDROID_OUTPUT_PATH = "Build/Android";
