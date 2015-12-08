@@ -1,0 +1,56 @@
+﻿using System.Collections.Generic;
+using System.IO;
+using UnityEditor;
+
+namespace BibaFramework.BibaMenuEditor
+{
+	public class BibaAutomatedBuild
+	{
+		private const string IOS_OUTPUT_PATH = "Build/iOS";
+		private const string ANDROID_OUTPUT_PATH = "Build/Android";
+		private const string ANDROID_APK = "android.apk";
+
+		[MenuItem("Biba/CI/Build iOS")]
+		public static void BuildIOS ()
+		{
+			// Get filename
+			var path = IOS_OUTPUT_PATH;
+
+			// Create output directory
+			Directory.CreateDirectory (path);
+
+			// Build player
+			BuildPipeline.BuildPlayer(GetScenes(), path, BuildTarget.iOS, BuildOptions.None);
+		}
+
+		[MenuItem("Biba/CI/Build Android")]
+		public static void BuildAndroid ()
+		{
+			// Get filename
+			var path = ANDROID_OUTPUT_PATH;
+			
+			// Create output directory
+			Directory.CreateDirectory (path);
+			
+			// Build player
+			BuildPipeline.BuildPlayer(GetScenes(), Path.Combine(path, ANDROID_APK), BuildTarget.Android, BuildOptions.None);
+		}
+
+		static string[] GetScenes()
+		{
+			var scenes = new List<string>();
+			foreach (var scene in EditorBuildSettings.scenes)
+			{
+				if (scene == null)
+				{
+					continue;
+				}
+				if (scene.enabled)
+				{
+					scenes.Add(scene.path);
+				}
+			}
+			return scenes.ToArray();
+		}
+	}
+}
