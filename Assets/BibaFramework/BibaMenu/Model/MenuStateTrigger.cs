@@ -14,5 +14,6 @@ namespace BibaFramework.BibaMenu
         HowTo,
         PrivacyStatement,
         Achievements,
+        None, // Use this to if no MenuStateTransition is required
     }
 }
