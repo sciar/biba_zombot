@@ -19,13 +19,35 @@ namespace BibaFramework.BibaMenuEditor
             generatedLines.Add(SpaceString(indent) + "public enum " + enumName);
             generatedLines.Add(SpaceString(indent) + "{");
 
-            enumsToWrite.Insert(0, "none");
+            enumsToWrite.Insert(0, "None");
             enumsToWrite.ForEach(e => generatedLines.Add(SpaceString(indent * 2) + e + ","));
 
             generatedLines.Add(SpaceString(indent) + "}");
 
             generatedLines.Add("}");
 
+            File.WriteAllLines (outputPath, generatedLines.ToArray());
+        }
+
+        public static void WriteConstStringFile(string nameSpace, string className, List<string> enumsToWrite, string outputPath)
+        {
+            var indent = 4;
+            
+            var generatedLines = new List<string> ();
+            
+            generatedLines.Add("namespace " + nameSpace);
+            generatedLines.Add("{");
+            
+            generatedLines.Add(SpaceString(indent) + "public class " + className);
+            generatedLines.Add(SpaceString(indent) + "{");
+            
+            enumsToWrite.Insert(0, "None");
+            enumsToWrite.ForEach(e => generatedLines.Add(SpaceString(indent * 2) + "public const string " + e + " = \"" + e + "\";" ));
+            
+            generatedLines.Add(SpaceString(indent) + "}");
+            
+            generatedLines.Add("}");
+            
             File.WriteAllLines (outputPath, generatedLines.ToArray());
         }
 

@@ -6,7 +6,7 @@ namespace BibaFramework.BibaGame
 {
     public class ARScanMenuState : SceneMenuState 
     {
-        public override BibaScene BibaScene {
+        public override string SceneName {
             get {
                 return BibaScene.ARScan;
             }

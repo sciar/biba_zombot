@@ -10,7 +10,7 @@ namespace BibaFramework.BibaMenuEditor
 {
 	public class BibaSceneEnumHelper : MonoBehaviour 
 	{
-        [MenuItem ("Biba/Enum Helpers/Create BibaScene Enums")]
+        [MenuItem ("Biba/String Constant Helper/BibaScene Constants")]
 		static void InitSceneHelper()
 		{
 			var window = EditorWindow.GetWindow<BibaSceneEnumHelperWindow> ();
@@ -49,6 +49,11 @@ namespace BibaFramework.BibaMenuEditor
 
             EditorBuildSettings.scenes = scenesToAdd.ToArray();    
             AssetDatabase.Refresh ();
+        }
+
+        protected override void WriteToFile (string outputPath)
+        {
+            WriteConstStringToFile(outputPath);
         }
 	}
 }

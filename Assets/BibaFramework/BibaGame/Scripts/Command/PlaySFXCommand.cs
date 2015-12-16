@@ -7,19 +7,19 @@ namespace BibaFramework.BibaGame
     public class PlaySFXCommand : Command
     {
         [Inject]
-        public BibaSFX BibaSFX { get; set; }
+        public string SFXName { get; set; }
 
         [Inject]
         public AudioServices AudioServices { get; set; }
 
         public override void Execute ()
         {
-            if (BibaSFX == BibaSFX.none)
+            if (SFXName == BibaSFX.None)
             {
                 return;
             }
 
-            AudioServices.PlaySFX(BibaSFX.ToString());
+            AudioServices.PlaySFX(SFXName);
         }
     }
 }

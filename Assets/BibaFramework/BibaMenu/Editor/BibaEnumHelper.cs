@@ -13,8 +13,6 @@ namespace BibaFramework.BibaMenuEditor
         protected abstract string OutputClassName { get; }
         protected abstract string OutputNameSpaceName { get; }
 
-        protected virtual void GenerateAdditionalSettings() { }
-
         protected string _inputDir = string.Empty;
         private string _outputDir = string.Empty;
         
@@ -48,7 +46,7 @@ namespace BibaFramework.BibaMenuEditor
             {
                 ReformatFilenames();
 
-                GenerateEnums();
+                GenerateConstantFile();
                 GenerateAdditionalSettings();
             }
             GUI.enabled = true;
@@ -73,12 +71,24 @@ namespace BibaFramework.BibaMenuEditor
             AssetDatabase.Refresh();
         }
 
-        void GenerateEnums()
+        void GenerateConstantFile()
         {
-            var outputPath = Path.Combine (_outputDir, OutputFileName);
-            
-            HelperMethods.WriteEnumFile(OutputNameSpaceName, OutputClassName, EnumStrings, outputPath);
-            AssetDatabase.Refresh ();
+            WriteToFile(Path.Combine(_outputDir, OutputFileName));
+            AssetDatabase.Refresh();
         }
+
+        protected abstract void WriteToFile(string outputPath);
+
+        protected void WriteEnumToFile(string outputPath)
+        {
+            HelperMethods.WriteEnumFile(OutputNameSpaceName, OutputClassName, EnumStrings, outputPath);
+        }
+
+        protected void WriteConstStringToFile(string outputPath)
+        {
+            HelperMethods.WriteConstStringFile(OutputNameSpaceName, OutputClassName, EnumStrings, outputPath);
+        }
+
+        protected virtual void GenerateAdditionalSettings() { }
 	}
 }

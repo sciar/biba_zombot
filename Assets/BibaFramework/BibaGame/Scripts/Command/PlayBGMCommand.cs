@@ -7,19 +7,19 @@ namespace BibaFramework.BibaGame
     public class PlayBGMCommand : Command
     {
         [Inject]
-        public BibaBGM BibaBGM { get; set; }
+        public string BGMName { get; set; }
 
         [Inject]
         public AudioServices AudioServices { get; set; }
 
         public override void Execute ()
         {
-            if (BibaBGM == BibaBGM.none)
+            if (BGMName == BibaBGM.None)
             {
                 return;
             }
 
-            AudioServices.PlayBGM(BibaBGM.ToString());
+            AudioServices.PlayBGM(BGMName);
         }
     }
 }

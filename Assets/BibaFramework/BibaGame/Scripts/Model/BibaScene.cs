@@ -1,20 +1,21 @@
 namespace BibaFramework.BibaGame
 {
-    public enum BibaScene
+    public class BibaScene
     {
-        ARScan,
-        Achievements,
-        BibaPresent,
-        ChartBoost,
-        EquipmentSelect,
-        Game,
-        HowTo,
-        Inactive,
-        Intro,
-        Main,
-        PrivacyStatement,
-        Settings,
-        Start,
-        TagSelect,
+        public const string None = "None";
+        public const string ARScan = "ARScan";
+        public const string Achievements = "Achievements";
+        public const string BibaPresent = "BibaPresent";
+        public const string ChartBoost = "ChartBoost";
+        public const string EquipmentSelect = "EquipmentSelect";
+        public const string Game = "Game";
+        public const string HowTo = "HowTo";
+        public const string Inactive = "Inactive";
+        public const string Intro = "Intro";
+        public const string Main = "Main";
+        public const string PrivacyStatement = "PrivacyStatement";
+        public const string Settings = "Settings";
+        public const string Start = "Start";
+        public const string TagSelect = "TagSelect";
     }
 }

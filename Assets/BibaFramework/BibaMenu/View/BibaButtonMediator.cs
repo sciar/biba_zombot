@@ -29,12 +29,12 @@ namespace BibaFramework.BibaMenu
 			BibaButtonView.PlaySFXSignal.RemoveListener (PlaySFX);
         }
 
-        void SendMenuStateTrigger(MenuStateTrigger stateTrigger)
+        void SendMenuStateTrigger(string stateTrigger)
         {
             SetMenuStateTriggerSignal.Dispatch(stateTrigger);
         }
 
-		void PlaySFX(BibaSFX sfx)
+		void PlaySFX(string sfx)
 		{
             PlayBibaSFXSignal.Dispatch(sfx);
 		}

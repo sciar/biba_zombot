@@ -1,7 +1,7 @@
 namespace BibaFramework.BibaGame
 {
-    public enum BibaSFX
+    public class BibaSFX
     {
-        none,
+        public const string None = "None";
     }
 }

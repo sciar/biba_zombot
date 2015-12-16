@@ -4,7 +4,7 @@ namespace BibaFramework.BibaGame
 {
 	public class GameMenuState : SceneMenuState 
     {
-        public override BibaScene BibaScene {
+        public override string SceneName {
             get {
                 return BibaScene.Game;
             }

@@ -3,8 +3,8 @@ using strange.extensions.signal.impl;
 namespace BibaFramework.BibaMenu
 {
     //BibaMenu
-    public class SetMenuStateTriggerSignal : Signal<MenuStateTrigger>{ }
-    public class SetMenuStateConditionSignal : Signal<MenuStateCondition, bool>{ }
+    public class SetMenuStateTriggerSignal : Signal<string>{ }
+    public class SetMenuStateConditionSignal : Signal<string, bool>{ }
 
     public class ProcessNextMenuStateSignal : Signal<BaseMenuState>{ }
     public class PushMenuStateSignal : Signal<BaseMenuState>{ }

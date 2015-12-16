@@ -6,7 +6,7 @@ namespace BibaFramework.BibaMenu
     public class SetMenuStateConditionCommand : Command
     {
         [Inject]
-        public MenuStateCondition MenuStateCondition { get; set; }
+        public string MenuStateCondition { get; set; }
 
         [Inject]
         public bool Status { get; set; }
@@ -16,7 +16,7 @@ namespace BibaFramework.BibaMenu
 
         public override void Execute ()
         {
-            StateMachine.SetBool(MenuStateCondition.ToString(), Status);
+            StateMachine.SetBool(MenuStateCondition, Status);
         }
     }
 }

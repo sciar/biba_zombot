@@ -15,28 +15,26 @@ namespace BibaFramework.BibaMenu
 
         [HideInInspector]
         public string MenuStateTriggerString;
-        public MenuStateTrigger MenuStateTrigger;
-    
+        
         [HideInInspector]
-        public string BibaSFXString;
-        public BibaSFX BibaSFX;
+        public string SFXString;
 
-        public Signal<MenuStateTrigger> ButtonClickedSignal = new Signal<MenuStateTrigger>();
-        public Signal<BibaSFX> PlaySFXSignal = new Signal<BibaSFX>();
+        public Signal<string> ButtonClickedSignal = new Signal<string>();
+        public Signal<string> PlaySFXSignal = new Signal<string>();
 
         protected override void Start()
         {
             _button = (Button)GetComponent<Button>();
             _button.onClick.AddListener(() => {
 				
-                if(MenuStateTrigger != MenuStateTrigger.None)
+                if(!string.IsNullOrEmpty(MenuStateTriggerString) && MenuStateTriggerString != MenuStateTrigger.None)
                 {
-                    ButtonClickedSignal.Dispatch(MenuStateTrigger);
+                    ButtonClickedSignal.Dispatch(MenuStateTriggerString);
                 }
 
-                if(BibaSFX != BibaSFX.none)
+                if(!string.IsNullOrEmpty(SFXString) && SFXString != BibaSFX.None)
                 {
-                    PlaySFXSignal.Dispatch(BibaSFX);
+                    PlaySFXSignal.Dispatch(SFXString);
                 }
 			});	
         }

@@ -1,4 +1,4 @@
-﻿using System.IO;
+using System.IO;
 using UnityEngine;
 using UnityEditor;
 using System.Linq;
@@ -8,7 +8,7 @@ namespace BibaFramework.BibaMenuEditor
 {
 	public class BibaTagEnumHelper : MonoBehaviour 
 	{
-		[MenuItem ("Biba/Enum Helpers/Create BibaTag Enums")]
+		[MenuItem ("Biba/Enum Helper/BibaTag Enums")]
 		static void InitTagHelper()
 		{
 			var window = EditorWindow.GetWindow<BibaTagEnumHelperWindow> ();
@@ -26,5 +26,10 @@ namespace BibaFramework.BibaMenuEditor
         protected override string OutputFileName { get { return "BibaTagType.cs"; } }
         protected override string OutputClassName { get { return "BibaTagType"; } }
         protected override string OutputNameSpaceName { get { return "BibaFramework.BibaGame"; } }
+
+        protected override void WriteToFile (string outputPath)
+        {
+            WriteEnumToFile(outputPath);
+        }
 	}
 }

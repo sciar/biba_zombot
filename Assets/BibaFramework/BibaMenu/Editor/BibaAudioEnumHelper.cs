@@ -8,14 +8,14 @@ namespace BibaFramework.BibaMenuEditor
 {
     public class BibaAudioEnumHelper : MonoBehaviour 
 	{
-		[MenuItem ("Biba/Enum Helpers/Create BibaBGM Enums")]
+        [MenuItem ("Biba/String Constant Helper/BibaBGM Constants")]
 		static void InitBGMHelper()
 		{
             var window = EditorWindow.GetWindow<BibaBGMEnumHelperWindow> ();
 			window.Show ();
 		}
 
-        [MenuItem ("Biba/Enum Helpers/Create BibaSFX Enums")]
+        [MenuItem ("Biba/String Constant Helper/BibaSFX Constants")]
         static void InitSFXHelper()
         {
             var window = EditorWindow.GetWindow<BibaSFXEnumHelperWindow> ();
@@ -47,6 +47,11 @@ namespace BibaFramework.BibaMenuEditor
             } 
         }
         protected override string OutputNameSpaceName { get { return "BibaFramework.BibaGame"; } }
+
+        protected override void WriteToFile (string outputPath)
+        {
+            WriteConstStringToFile(outputPath);
+        }
 	}
 
     public class BibaBGMEnumHelperWindow: BibaAudioEnumHelperWindow
