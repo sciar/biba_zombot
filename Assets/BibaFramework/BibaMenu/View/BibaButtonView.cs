@@ -6,8 +6,7 @@ using BibaFramework.BibaGame;
 
 namespace BibaFramework.BibaMenu
 {
-    [ExecuteInEditMode]
-    [RequireComponent (typeof(Button))]
+    [RequireComponent(typeof(Button))]
     public class BibaButtonView : View
     {
         private Button _button;

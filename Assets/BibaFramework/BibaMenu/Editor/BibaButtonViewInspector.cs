@@ -25,47 +25,12 @@ namespace BibaFramework.BibaMenuEditor
         
         void DisplayMenuStateTriggerDropdown()
         {
-            var constantStrings = GetConstantFieldNames<MenuStateTrigger>().ToArray();
-            
-            var _indexSelected = Array.IndexOf(constantStrings, ButtonView.MenuStateTriggerString);
-            _indexSelected = EditorGUILayout.Popup("MenuState to Trigger", _indexSelected, constantStrings);
-            
-            if (_indexSelected == -1)
-            {
-                ButtonView.MenuStateTriggerString = MenuStateTrigger.None;
-            }
-            else
-            {
-                ButtonView.MenuStateTriggerString = constantStrings[_indexSelected];
-            }
+            ButtonView.MenuStateTriggerString = BibaInspectorHelper.DisplayStringArrayDropdown<MenuStateTrigger>(ButtonView.MenuStateTriggerString, "MenuStateTrigger to Activate", MenuStateTrigger.None);
         }
 
         void DisplaySFXDropdown()
         {
-            var constantStrings = GetConstantFieldNames<BibaSFX>().ToArray();
-            var _indexSelected = Array.IndexOf(constantStrings, ButtonView.SFXString);
-            _indexSelected = EditorGUILayout.Popup("SFX to Play", _indexSelected, constantStrings);
-            
-            if (_indexSelected == -1)
-            {
-                ButtonView.SFXString = BibaSFX.None;
-            }
-            else
-            {
-                ButtonView.SFXString = constantStrings[_indexSelected];
-            }
-        }
-        
-        List<string> GetConstantFieldNames<T>()
-        {   
-            var result = new List<string>();
-
-            var allFields = typeof(T).GetFields();
-            foreach (var field in allFields)
-            {
-                result.Add(field.Name);
-            }
-            return result;
+            ButtonView.SFXString = BibaInspectorHelper.DisplayStringArrayDropdown<BibaSFX>(ButtonView.SFXString, "SFX to Play", BibaSFX.None);
         }
     }
 }
