@@ -80,6 +80,7 @@ namespace BibaFramework.BibaMenu
 
         void LevelLoaded()
         {
+            Screen.orientation = ((SceneMenuState)NextMenuState).Orientation;
             SetupSceneMenuState();
             Release();
         }
