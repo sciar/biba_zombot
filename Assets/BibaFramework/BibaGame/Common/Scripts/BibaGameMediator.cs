@@ -27,7 +27,6 @@ namespace BibaFramework.BibaGame
 
         public override void SetupSceneDependentMenu ()
 		{
-			//throw new System.NotImplementedException ();
 		}
 
 		public override SceneMenuStateView View {

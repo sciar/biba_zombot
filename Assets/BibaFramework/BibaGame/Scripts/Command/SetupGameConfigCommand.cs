@@ -14,10 +14,17 @@ namespace BibaFramework.BibaGame
 
         public override void Execute ()
         {
-            SetupAchievementConfig();
+            SetFramerate();
+            SetAchievementConfig();
         }
 
-        void SetupAchievementConfig()
+        void SetFramerate()
+        {
+            Application.targetFrameRate = 60;
+            QualitySettings.vSyncCount = 0;
+        }
+
+        void SetAchievementConfig()
         {
             var configs = Resources.LoadAll<BibaAchievementConfig>(BibaDataConstants.RESOURCE_FOLDER_ACHIEVEMENT_CONFIG_DATA_PATH);
             BibaGameConfig.AchievementConfigs = configs.ToList();
