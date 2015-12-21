@@ -9,7 +9,7 @@ namespace BibaFramework.BibaGame
 
         public override SceneMenuStateView View { get { return StartView; } }
 
-        public override void SetupMenu (BaseMenuState menuState)
+        public override void SetupSceneDependentMenu ()
         {
         }
 

@@ -20,24 +20,21 @@ namespace BibaFramework.BibaMenu
         public override void OnRegister ()
         {
             BibaButtonView.ButtonClickedSignal.AddListener(SendMenuStateTrigger);
-			BibaButtonView.PlaySFXSignal.AddListener (PlaySFX);
         }
 
         public override void OnRemove ()
         {
             BibaButtonView.ButtonClickedSignal.RemoveListener(SendMenuStateTrigger);
-			BibaButtonView.PlaySFXSignal.RemoveListener (PlaySFX);
         }
 
         void SendMenuStateTrigger(string stateTrigger)
         {
             SetMenuStateTriggerSignal.Dispatch(stateTrigger);
-        }
 
-		void PlaySFX(string sfx)
-		{
-            PlayBibaSFXSignal.Dispatch(sfx);
-		}
+            if(BibaButtonView.SFXString != BibaSFX.None)
+            {
+                PlayBibaSFXSignal.Dispatch(BibaButtonView.SFXString);
+            }
+        }
     }
 }
-

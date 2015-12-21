@@ -27,7 +27,7 @@ namespace BibaFramework.BibaGame
 			TagSelectView.EnableTagSignal.RemoveListener(TagSelected);
         }
 
-        public override void SetupMenu (BaseMenuState menuState)	
+        public override void SetupSceneDependentMenu ()	
         {
         }
 

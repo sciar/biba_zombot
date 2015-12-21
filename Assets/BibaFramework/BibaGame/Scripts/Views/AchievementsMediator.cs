@@ -12,7 +12,7 @@ namespace BibaFramework.BibaGame
 
         public override SceneMenuStateView View { get { return AchievementsView; } }
 
-        public override void SetupMenu (BaseMenuState menuState)
+        public override void SetupSceneDependentMenu ()
         {
             AchievementsView.AchievementText.text = BibaGameModel.CompletedAchievements.Count.ToString() + " achievements completed.";
         }

@@ -18,7 +18,7 @@ namespace BibaFramework.BibaGame
 
         public override SceneMenuStateView View { get { return SettingsView; } }
 
-        public override void SetupMenu (BaseMenuState menuState)
+        public override void SetupSceneDependentMenu ()
         {
             SettingsView.ShowHowToToggle.isOn = BibaGameModel.HowToEnabled;
             SettingsView.ShowHelpBubblesToggle.isOn = BibaGameModel.HelpBubblesEnabled;

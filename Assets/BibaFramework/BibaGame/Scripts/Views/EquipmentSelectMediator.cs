@@ -30,7 +30,7 @@ namespace BibaFramework.BibaGame
             GameModelUpdatedSignal.RemoveListener(OnGameModelUpdated);
         }
 
-        public override void SetupMenu (BaseMenuState menuState)
+        public override void SetupSceneDependentMenu ()
         {
         }
 

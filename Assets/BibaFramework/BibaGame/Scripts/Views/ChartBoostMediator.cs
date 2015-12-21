@@ -29,7 +29,7 @@ namespace BibaFramework.BibaGame
             }
         }
 
-        public override void SetupMenu (BaseMenuState menuState)
+        public override void SetupSceneDependentMenu ()
         {
 
         }

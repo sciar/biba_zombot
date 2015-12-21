@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using BibaFramework.BibaGame;
+﻿using UnityEditor;
 using BibaFramework.BibaMenu;
-using UnityEditor;
-using UnityEngine;
+using BibaFramework.BibaGame;
 
 namespace BibaFramework.BibaMenuEditor
 {
@@ -17,20 +13,10 @@ namespace BibaFramework.BibaMenuEditor
         {
             base.OnInspectorGUI();
 
-            DisplayMenuStateTriggerDropdown();
-            DisplaySFXDropdown();
+            ButtonView.MenuStateTriggerString = BibaInspectorHelper.DisplayStringArrayDropdown<MenuStateTrigger>(ButtonView.MenuStateTriggerString, "MenuStateTrigger to Activate", MenuStateTrigger.None);
+            ButtonView.SFXString = BibaInspectorHelper.DisplayStringArrayDropdown<BibaSFX>(ButtonView.SFXString, "SFX to Play", BibaSFX.None);
 
             EditorUtility.SetDirty(target);
-        }
-        
-        void DisplayMenuStateTriggerDropdown()
-        {
-            ButtonView.MenuStateTriggerString = BibaInspectorHelper.DisplayStringArrayDropdown<MenuStateTrigger>(ButtonView.MenuStateTriggerString, "MenuStateTrigger to Activate", MenuStateTrigger.None);
-        }
-
-        void DisplaySFXDropdown()
-        {
-            ButtonView.SFXString = BibaInspectorHelper.DisplayStringArrayDropdown<BibaSFX>(ButtonView.SFXString, "SFX to Play", BibaSFX.None);
         }
     }
 }

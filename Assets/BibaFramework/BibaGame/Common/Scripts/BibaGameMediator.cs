@@ -25,7 +25,7 @@ namespace BibaFramework.BibaGame
 			service.WriteGameModel ();
 		}
 
-		public override void SetupMenu (BaseMenuState menuState)
+        public override void SetupSceneDependentMenu ()
 		{
 			//throw new System.NotImplementedException ();
 		}

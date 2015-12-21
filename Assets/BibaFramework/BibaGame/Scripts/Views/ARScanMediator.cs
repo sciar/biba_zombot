@@ -10,7 +10,7 @@ namespace BibaFramework.BibaGame
         [Inject]
         public ARScanView ARScanView { get; set; }
 
-        public override void SetupMenu (BaseMenuState menuState)
+        public override void SetupSceneDependentMenu ()
         {
         }
 
