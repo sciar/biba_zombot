@@ -24,10 +24,8 @@ namespace BibaFramework.BibaGame
             else
             {
                 //If the CameraDisabled reminder is shown less than a day ago 
-                if((DateTime.UtcNow - BibaGameModel.LastCameraReminderTime) < new TimeSpan(0,0,BibaGameConstants.ONE_DAY_IN_SECONDS))
-                {
-                    shouldSkipTag = true;
-                }
+                var timeSinceLastCameraReminder = DateTime.UtcNow - BibaGameModel.LastCameraReminderTime;
+                shouldSkipTag = timeSinceLastCameraReminder < BibaGameConstants.AR_REMINDER_DURATION;
             }
 
             SetMenuStateConditionSignal.Dispatch(MenuStateCondition.ShowTagScan, !shouldSkipTag);

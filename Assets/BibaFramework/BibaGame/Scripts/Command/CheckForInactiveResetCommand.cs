@@ -22,11 +22,11 @@ namespace BibaFramework.BibaGame
         public override void Execute ()
         {
             var timeInactive = DateTime.UtcNow - BibaGameModel.LastPlayedTime;
-            if (timeInactive >= TimeSpan.FromSeconds(BibaGameConstants.ONE_HOUR_IN_SECONDS) && BibaGameModel.SelectedEquipments.Count > 0)
+            if (timeInactive >= BibaGameConstants.INACTIVE_DURATION && BibaGameModel.SelectedEquipments.Count > 0)
             {
                 SetMenuStateConditionSignal.Dispatch(MenuStateCondition.ShowInactive, true);
 
-				if(BibaSceneStack.Count > 0 && !BibaSceneStack.Peek() is IntroMenuState)
+				if(BibaSceneStack.Count > 0 && BibaSceneStack.Peek().GetType() != typeof(IntroMenuState))
 				{
 					SetMenuStateTriggerSignal.Dispatch(MenuStateTrigger.Reset);
 				} 
