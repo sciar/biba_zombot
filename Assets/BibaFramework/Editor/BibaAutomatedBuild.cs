@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.IO;
 using UnityEditor;
@@ -36,7 +37,10 @@ namespace BibaFramework.BibaMenuEditor
 			Directory.CreateDirectory (path);
 			
             // Set Build Number
-            Int32.TryParse(Environment.GetCommandLineArgs() [System.Environment.GetCommandLineArgs().Length - 1], out PlayerSettings.Android.bundleVersionCode);
+            int versionNumber = -1;
+            Int32.TryParse(Environment.GetCommandLineArgs() [System.Environment.GetCommandLineArgs().Length - 1], out versionNumber);
+
+            PlayerSettings.Android.bundleVersionCode = versionNumber;
 
 			// Build player
 			BuildPipeline.BuildPlayer(GetScenes(), Path.Combine(path, ANDROID_APK), BuildTarget.Android, BuildOptions.None);
