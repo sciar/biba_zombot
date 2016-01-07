@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.IO;
 using UnityEditor;
 
@@ -19,6 +19,9 @@ namespace BibaFramework.BibaMenuEditor
 			// Create output directory
 			Directory.CreateDirectory (path);
 
+            // Set Build Number
+            PlayerSettings.iOS.buildNumber = Environment.GetCommandLineArgs() [System.Environment.GetCommandLineArgs().Length - 1];
+
 			// Build player
 			BuildPipeline.BuildPlayer(GetScenes(), path, BuildTarget.iOS, BuildOptions.None);
 		}
@@ -32,6 +35,9 @@ namespace BibaFramework.BibaMenuEditor
 			// Create output directory
 			Directory.CreateDirectory (path);
 			
+            // Set Build Number
+            Int32.TryParse(Environment.GetCommandLineArgs() [System.Environment.GetCommandLineArgs().Length - 1], out PlayerSettings.Android.bundleVersionCode);
+
 			// Build player
 			BuildPipeline.BuildPlayer(GetScenes(), Path.Combine(path, ANDROID_APK), BuildTarget.Android, BuildOptions.None);
 		}
