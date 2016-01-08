@@ -20,6 +20,8 @@ namespace BibaFramework.BibaMenu
 
         public Signal<string> ButtonClickedSignal = new Signal<string>();
 
+        public Signal<string> PlaySFXSignal = new Signal<string>();
+
         protected override void Start()
         {
             _button = (Button)GetComponent<Button>();
@@ -28,6 +30,11 @@ namespace BibaFramework.BibaMenu
                 if(!string.IsNullOrEmpty(MenuStateTriggerString) && MenuStateTriggerString != MenuStateTrigger.None)
                 {
                     ButtonClickedSignal.Dispatch(MenuStateTriggerString);
+                }
+
+                if(SFXString != BibaSFX.None)
+                {
+                    PlaySFXSignal.Dispatch(SFXString);
                 }
 			});	
         }
