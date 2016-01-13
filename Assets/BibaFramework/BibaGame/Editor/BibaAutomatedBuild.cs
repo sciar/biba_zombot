@@ -42,7 +42,7 @@ namespace BibaFramework.BibaMenuEditor
         static void BuildPlayer(string path, BuildTarget target)
         {
             // Create output directory
-            Directory.CreateDirectory (path);
+            Directory.CreateDirectory (Path.GetDirectoryName(path));
             
             // Build player
             BuildPipeline.BuildPlayer(GetScenes(), path, target, BuildOptions.None);
