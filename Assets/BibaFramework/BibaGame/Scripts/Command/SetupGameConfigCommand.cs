@@ -26,7 +26,7 @@ namespace BibaFramework.BibaGame
 
         void SetAchievementConfig()
         {
-            var configs = Resources.LoadAll<BibaAchievementConfig>(BibaDataConstants.RESOURCE_FOLDER_ACHIEVEMENT_CONFIG_DATA_PATH);
+            var configs = Resources.LoadAll<BibaAchievementConfig>(BibaDataConstants.RESOURCE_FOLDER_ACHIEVEMENT_CONFIG_RELATIVE_PATH);
             BibaGameConfig.AchievementConfigs = configs.ToList();
 
             foreach (var config in BibaGameConfig.AchievementConfigs)

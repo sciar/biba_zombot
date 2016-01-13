@@ -1,7 +1,6 @@
 using System;
-using UnityEngine;
-using BibaFramework.Utility;
 using System.Collections.Generic;
+using UnityEngine;
 
 namespace BibaFramework.BibaGame
 {
@@ -13,10 +12,15 @@ namespace BibaFramework.BibaGame
         public string DescriptionSuffix;
         public string Description { get { return DescriptionPrefix + " " + DescriptionSuffix; } }
 
-        public string Id {
+        public virtual string Id {
             get {
-                return string.Format("{0}:{1}_{2}", name, EquipmentType.ToString(), TimePlayed.ToString());
+                return GenerateId(EquipmentType, TimePlayed);
             }
+        }
+
+        public static string GenerateId(BibaEquipmentType equipmentType, int timePlayed)
+        {
+            return string.Format(BibaGameConstants.BASIC_ACHIEVEMENT_ID_FORMATTED, equipmentType.ToString(), timePlayed.ToString());
         }
 
         private static readonly Dictionary<BibaEquipmentType, string> _prefixDict = new Dictionary<BibaEquipmentType, string>()
