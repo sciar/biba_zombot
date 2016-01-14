@@ -7,7 +7,6 @@ namespace BibaFramework.BibaGame
 
         //GameSettings
         public const string RESOURCE_ACHIEVEMENT_CONFIG_FOLDER_PATH = "AchievementConfig/";
-        public const string RESOURCE_LOCALIZATION_FILE_PATH = "Localization/" + LOCALIZATION_FILE;
-        public const string LOCALIZATION_FILE = "localization";
+        public const string RESOURCE_LOCALIZATION_FILE_PATH = "Localization/localization";
     }
 }

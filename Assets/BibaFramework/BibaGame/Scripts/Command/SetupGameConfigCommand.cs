@@ -17,7 +17,6 @@ namespace BibaFramework.BibaGame
         {
             SetFramerate();
             SetAchievementConfig();
-            SetLocalizationDictionary();
         }
 
         void SetFramerate()
@@ -39,32 +38,6 @@ namespace BibaFramework.BibaGame
                     BibaGameModel.CompletedAchievements[index].Config = config;
                 }
             }
-        }
-
-        void SetLocalizationDictionary()
-        {
-            var localizationSettings = Resources.Load<BibaLocalizationSettings>(BibaDataConstants.RESOURCE_LOCALIZATION_FILE_PATH);
-            var localizationDict = new Dictionary<string, Dictionary<SystemLanguage, string>>();
-
-            foreach (var localization in localizationSettings.Localizations)
-            {
-                if(!localizationDict.ContainsKey(localization.Key))
-                {
-                    localizationDict.Add(localization.Key, new Dictionary<SystemLanguage, string>());
-                }
-
-                var localizationKeyDictionary = localizationDict[localization.Key];
-                if(!localizationKeyDictionary.ContainsKey(localization.Language))
-                {
-                    localizationKeyDictionary.Add(localization.Language, localization.Text);
-                }
-                else
-                {
-                    localizationKeyDictionary[localization.Language] = localization.Text;
-                }
-            }
-
-            injectionBinder.Bind<Dictionary<string, Dictionary<SystemLanguage, string>>>().To(localizationDict).ToName(BibaDataConstants.LOCALIZATION_FILE).ToSingleton().CrossContext();
         }
     }
 }

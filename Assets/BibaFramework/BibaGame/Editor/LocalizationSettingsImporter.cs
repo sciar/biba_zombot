@@ -13,9 +13,6 @@ namespace BibaFramework.BibaMenuEditor
         private const string LOCALIZATION_SETTINGS_SPREADSHEET_NAME = "Biba Localization";
         private const string LOCALIZATION_SETTINGS_WORKSHEET_NAME = "Common";
 
-        private const string LOCALIZATION_SETTINGS_PROJECT_PATH = "Assets/Resources/" + BibaDataConstants.RESOURCE_LOCALIZATION_FILE_PATH + ".asset";
-
-
         [MenuItem("Biba/CI/Load Localization Settings")]
         public static void CreateLocalizationSettings ()
         {
@@ -38,8 +35,10 @@ namespace BibaFramework.BibaMenuEditor
             var localizationSettings = Resources.Load<BibaLocalizationSettings>(BibaDataConstants.RESOURCE_LOCALIZATION_FILE_PATH);
             if (localizationSettings == null)
             {
-                localizationSettings = (BibaLocalizationSettings)ScriptableObjectUtility.CreateAsset<BibaLocalizationSettings>(LOCALIZATION_SETTINGS_PROJECT_PATH);
+                localizationSettings = (BibaLocalizationSettings)ScriptableObjectUtility.CreateAsset<BibaLocalizationSettings>(BibaEditorConstants.LOCALIZATION_SETTINGS_PROJECT_PATH);
             }
+
+            localizationSettings.Localizations.Clear();
 
             foreach (ListEntry row in entries)
             {
@@ -78,6 +77,7 @@ namespace BibaFramework.BibaMenuEditor
                 }
             }
 
+            AssetDatabase.SaveAssets();
             AssetDatabase.Refresh();
         }
 	}

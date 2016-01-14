@@ -13,10 +13,10 @@ namespace BibaFramework.BibaMenuEditor
         {
             base.OnInspectorGUI();
 
-            BaseMenuState.EnterBGM = BibaInspectorHelper.DisplayStringArrayDropdown<BibaBGM>(BaseMenuState.EnterBGM, "Enter BGM:", BibaBGM.None);
-            BaseMenuState.ExitBGM = BibaInspectorHelper.DisplayStringArrayDropdown<BibaBGM>(BaseMenuState.ExitBGM, "Exit BGM:", BibaBGM.None);
-            BaseMenuState.EnterSFX = BibaInspectorHelper.DisplayStringArrayDropdown<BibaSFX>(BaseMenuState.EnterSFX, "Enter SFX:", BibaSFX.None);
-            BaseMenuState.ExitSFX = BibaInspectorHelper.DisplayStringArrayDropdown<BibaSFX>(BaseMenuState.ExitSFX, "Exit SFX:", BibaSFX.None);
+            BaseMenuState.EnterBGM = BibaInspectorHelper.DisplayConstantStringArrayDropdown<BibaBGM>(BaseMenuState.EnterBGM, "Enter BGM:", BibaBGM.None);
+            BaseMenuState.ExitBGM = BibaInspectorHelper.DisplayConstantStringArrayDropdown<BibaBGM>(BaseMenuState.ExitBGM, "Exit BGM:", BibaBGM.None);
+            BaseMenuState.EnterSFX = BibaInspectorHelper.DisplayConstantStringArrayDropdown<BibaSFX>(BaseMenuState.EnterSFX, "Enter SFX:", BibaSFX.None);
+            BaseMenuState.ExitSFX = BibaInspectorHelper.DisplayConstantStringArrayDropdown<BibaSFX>(BaseMenuState.ExitSFX, "Exit SFX:", BibaSFX.None);
 
             EditorUtility.SetDirty(target);
         }

@@ -19,6 +19,7 @@ namespace BibaFramework.BibaMenu
 			base.BindBaseComponents ();
     
             mediationBinder.Bind<BibaButtonView>().To<BibaButtonMediator>();
+            mediationBinder.Bind<BibaLocalizedTextView>().To<BibaLocalizedTextMediator>();
             mediationBinder.Bind<URLButtonView>().To<URLButtonMediator>();
             mediationBinder.Bind<ObjectMenuStateView>().To<ObjectMenuStateMediator>();
             mediationBinder.Bind<PanelMenuStateView>().To<PanelMenuStateMediator>();

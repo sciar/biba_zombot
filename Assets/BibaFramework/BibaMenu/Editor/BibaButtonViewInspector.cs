@@ -13,8 +13,8 @@ namespace BibaFramework.BibaMenuEditor
         {
             base.OnInspectorGUI();
 
-            ButtonView.MenuStateTriggerString = BibaInspectorHelper.DisplayStringArrayDropdown<MenuStateTrigger>(ButtonView.MenuStateTriggerString, "MenuStateTrigger to Activate", MenuStateTrigger.None);
-            ButtonView.SFXString = BibaInspectorHelper.DisplayStringArrayDropdown<BibaSFX>(ButtonView.SFXString, "SFX to Play", BibaSFX.None);
+            ButtonView.MenuStateTriggerString = BibaInspectorHelper.DisplayConstantStringArrayDropdown<MenuStateTrigger>(ButtonView.MenuStateTriggerString, "MenuStateTrigger to Activate", MenuStateTrigger.None);
+            ButtonView.SFXString = BibaInspectorHelper.DisplayConstantStringArrayDropdown<BibaSFX>(ButtonView.SFXString, "SFX to Play", BibaSFX.None);
 
             EditorUtility.SetDirty(target);
         }

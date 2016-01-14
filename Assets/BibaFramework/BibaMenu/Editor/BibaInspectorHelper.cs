@@ -6,20 +6,24 @@ namespace BibaFramework.BibaMenuEditor
 {
     public class BibaInspectorHelper
     {
-        public static string DisplayStringArrayDropdown<T>(string currentValue, string titleToDisplay, string defaultValue = "")
+        public static string DisplayStringArrayDropdown(string[] stringArray, string currentValue, string titleToDisplay, string defaultValue = "")
         {
-            var constantStrings = GetConstantFieldNames<T>().ToArray();
-            var _indexSelected = Array.IndexOf(constantStrings, currentValue);
-
-            _indexSelected = EditorGUILayout.Popup(titleToDisplay, _indexSelected, constantStrings);
-            if (_indexSelected == -1)
+            var indexSelected = Array.IndexOf(stringArray, currentValue);
+            
+            indexSelected = EditorGUILayout.Popup(titleToDisplay, indexSelected, stringArray);
+            if (indexSelected == -1)
             {
                 return defaultValue;
             }
             else
             {
-                return constantStrings[_indexSelected];
+                return stringArray[indexSelected];
             }
+        }
+
+        public static string DisplayConstantStringArrayDropdown<T>(string currentValue, string titleToDisplay, string defaultValue = "")
+        {
+            return DisplayStringArrayDropdown(GetConstantFieldNames<T>().ToArray(), currentValue, titleToDisplay, defaultValue);
         }
 
         static List<string> GetConstantFieldNames<T>()
