@@ -18,7 +18,5 @@ namespace BibaFramework.BibaGame
         {
             return string.Format(BibaGameConstants.SEASONAL_ACHIEVEMENT_ID_FORMATTED, equipmentType.ToString(), timePlayed.ToString(), startDate.ToString(), endDate.ToString());
         }
-
-
     }
 }

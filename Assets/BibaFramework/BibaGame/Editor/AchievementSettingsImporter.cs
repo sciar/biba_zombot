@@ -24,6 +24,8 @@ namespace BibaFramework.BibaMenuEditor
         private const string REGEX_GROUP_ENDDATE = "endDate";
         private const string DATETIME_PARSE_EXACT = "MM/dd";
 
+        private const string ACHIEVEMENT_CONFIG_FOLDER_PROJECT_PATH = "Assets/Resources/" + BibaDataConstants.RESOURCE_ACHIEVEMENT_CONFIG_FOLDER_PATH + "achievement.asset";
+        
         [MenuItem("Biba/CI/Load Achievement Settings")]
         public static void CreateAchievementAsset ()
         {
@@ -108,7 +110,6 @@ namespace BibaFramework.BibaMenuEditor
                 LocalConfigDict.Add(configToWrite.Id, configToWrite);
             }
             configToWrite.DescriptionSuffix = description;
-            EditorUtility.SetDirty(configToWrite);
         }
         #endregion
 
@@ -165,7 +166,6 @@ namespace BibaFramework.BibaMenuEditor
                 LocalConfigDict.Add(configToWrite.Id, configToWrite);
             }
             configToWrite.DescriptionSuffix = description;
-            EditorUtility.SetDirty(configToWrite);
         }
         #endregion
 
@@ -179,7 +179,7 @@ namespace BibaFramework.BibaMenuEditor
                 {
                     _localConfigDict = new Dictionary<string, BibaAchievementConfig>();
 
-                    var configs = Resources.LoadAll<BibaAchievementConfig>(BibaDataConstants.RESOURCE_FOLDER_ACHIEVEMENT_CONFIG_RELATIVE_PATH);
+                    var configs = Resources.LoadAll<BibaAchievementConfig>(BibaDataConstants.RESOURCE_ACHIEVEMENT_CONFIG_FOLDER_PATH);
                     foreach (var config in configs)
                     {
                         _localConfigDict.Add(config.Id, config);
@@ -191,7 +191,7 @@ namespace BibaFramework.BibaMenuEditor
 
         static TConfig CreateAchievementConfig<TConfig>(BibaEquipmentType equipmentType, int timePlayed) where TConfig : BibaAchievementConfig
         {
-            var configToWrite = (TConfig)ScriptableObjectUtility.CreateAsset<TConfig>(BibaDataConstants.RESOURCE_FOLDER_ACHIEVEMENT_CONFIG_PROJECT_PATH);
+            var configToWrite = (TConfig)ScriptableObjectUtility.CreateAsset<TConfig>(ACHIEVEMENT_CONFIG_FOLDER_PROJECT_PATH);
             configToWrite.EquipmentType = equipmentType;
             configToWrite.TimePlayed = timePlayed;
             return configToWrite;
