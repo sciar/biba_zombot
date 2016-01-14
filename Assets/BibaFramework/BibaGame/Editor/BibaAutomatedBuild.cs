@@ -14,8 +14,6 @@ namespace BibaFramework.BibaMenuEditor
 		[MenuItem("Biba/CI/Build iOS")]
 		public static void BuildIOS ()
 		{
-            AchievementSettingsImporter.CreateAchievementAsset();
-
             // Set Build Number
             PlayerSettings.iOS.buildNumber = Environment.GetCommandLineArgs() [System.Environment.GetCommandLineArgs().Length - 1];
           
@@ -27,8 +25,6 @@ namespace BibaFramework.BibaMenuEditor
 		[MenuItem("Biba/CI/Build Android")]
 		public static void BuildAndroid ()
 		{
-            AchievementSettingsImporter.CreateAchievementAsset();
-
             // Set Build Number
             int versionNumber = -1;
             Int32.TryParse(Environment.GetCommandLineArgs() [System.Environment.GetCommandLineArgs().Length - 1], out versionNumber);
@@ -37,10 +33,13 @@ namespace BibaFramework.BibaMenuEditor
             // Get filename
             var path = Path.Combine(ANDROID_OUTPUT_PATH, ANDROID_APK);
             BuildPlayer(path, BuildTarget.Android);
-		}
+        }
 
         static void BuildPlayer(string path, BuildTarget target)
         {
+            AchievementSettingsImporter.CreateAchievementAsset();
+            LocalizationSettingsImporter.CreateLocalizationSettings();
+
             // Create output directory
             Directory.CreateDirectory (Path.GetDirectoryName(path));
             
