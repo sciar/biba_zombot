@@ -21,18 +21,14 @@ namespace BibaFramework.BibaGame
             SetMenuStateTriggerSignal.Dispatch(MenuStateTrigger.Next);
             return;
 #endif
+			if (!BibaUtility.CheckForInternetConnection ()) 
+			{
+				SetMenuStateTriggerSignal.Dispatch(MenuStateTrigger.Next);
+				return;
+			}
+
             Retain();
             new Task(WaitForScreenOrientation(), true);
-
-            if (BibaUtility.CheckForInternetConnection())
-            {
-                Chartboost.setShouldPauseClickForConfirmation(true);
-                Chartboost.showInterstitial(CBLocation.Default);
-            }
-            else
-            {
-                SetMenuStateTriggerSignal.Dispatch(MenuStateTrigger.Next);
-            }
         }
 
         IEnumerator WaitForScreenOrientation()
@@ -44,6 +40,16 @@ namespace BibaFramework.BibaGame
                 {
                     yield return null;
                 }
+
+				if (BibaUtility.CheckForInternetConnection())
+				{
+					Chartboost.setShouldPauseClickForConfirmation(true);
+					Chartboost.showInterstitial(CBLocation.Default);
+				}
+				else
+				{
+					SetMenuStateTriggerSignal.Dispatch(MenuStateTrigger.Next);
+				}
             }
 
             Release();
