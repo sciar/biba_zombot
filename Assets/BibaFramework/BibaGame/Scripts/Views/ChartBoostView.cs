@@ -1,8 +1,8 @@
 using BibaFramework.BibaMenu;
-using UnityEngine;
-using UnityEngine.UI;
 using strange.extensions.signal.impl;
 using UnityEngine.EventSystems;
+using UnityEngine;
+using UnityEngine.UI;
 
 namespace BibaFramework.BibaGame
 {
@@ -33,13 +33,6 @@ namespace BibaFramework.BibaGame
         {
             AgeGateObject.SetActive(true);
             QuestionText.text = answerInEnglish;
-        }
-
-        void OnEnable() 
-        {
-            Screen.orientation = ScreenOrientation.Portrait;
-            Application.targetFrameRate = 60;
-            QualitySettings.vSyncCount = 0;
         }
 
         void AgeGateSubmitted(string value)
