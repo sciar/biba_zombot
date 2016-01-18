@@ -10,6 +10,8 @@ namespace BibaFramework.BibaMenuEditor
 		private const string IOS_OUTPUT_PATH = "Build/iOS";
 		private const string ANDROID_OUTPUT_PATH = "Build/Android";
 		private const string ANDROID_APK = "android.apk";
+        private const string KEYSTORE_PASSWORD = "#sling2Rock!";
+
 
 		[MenuItem("Biba/CI/Build iOS")]
 		public static void BuildIOS ()
@@ -29,6 +31,10 @@ namespace BibaFramework.BibaMenuEditor
             int versionNumber = -1;
             Int32.TryParse(Environment.GetCommandLineArgs() [System.Environment.GetCommandLineArgs().Length - 1], out versionNumber);
             PlayerSettings.Android.bundleVersionCode = versionNumber;
+
+            PlayerSettings.Android.keystorePass = KEYSTORE_PASSWORD;
+            PlayerSettings.Android.keyaliasName = PlayerSettings.Android.keyaliasName; 
+            PlayerSettings.Android.keyaliasPass = KEYSTORE_PASSWORD;
 
             // Get filename
             var path = Path.Combine(ANDROID_OUTPUT_PATH, ANDROID_APK);
