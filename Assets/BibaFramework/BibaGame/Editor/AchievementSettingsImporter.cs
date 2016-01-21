@@ -185,7 +185,14 @@ namespace BibaFramework.BibaMenuEditor
                     var configs = Resources.LoadAll<BibaAchievementConfig>(BibaDataConstants.RESOURCE_ACHIEVEMENT_CONFIG_FOLDER_PATH);
                     foreach (var config in configs)
                     {
-                        _localConfigDict.Add(config.Id, config);
+                        if(!_localConfigDict.ContainsKey(config.Id))
+                        {
+                            _localConfigDict.Add(config.Id, config);
+                        }
+                        else
+                        {
+                            _localConfigDict[config.Id] = config;
+                        }
                     }
                 }
                 return _localConfigDict;
