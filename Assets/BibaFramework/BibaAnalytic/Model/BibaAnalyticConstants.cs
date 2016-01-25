@@ -2,7 +2,9 @@ namespace BibaFramework.BibaAnalytic
 {
     public class BibaAnalyticConstants
     {
-        public const string SESSION_ID = "udid";
+        public const string UDID = "udid";
+        public const string SESSION_ID = "session_id";
+        public const string QUADTILE_ID = "quadtile_id";
         public const string DEVICE_MODEL = "device_model";
         public const string DEVICE_OS = "device_os";
         public const string TIME_STAMP = "time_stamp";
@@ -34,7 +36,6 @@ namespace BibaFramework.BibaAnalytic
 
         public const string WEATHER_API_KEY = "69e7f849ba55efb65fffccbbb2ea1eba";
 
-        public const string QUADTILE_ID = "quadtile_id";
         public const int MAP_LEVEL_OF_DETAIL = 11;
     }
 }

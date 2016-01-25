@@ -103,9 +103,15 @@ namespace BibaFramework.BibaAnalytic
 
 				if(BibaSessionModel != null && BibaSessionModel.SessionInfo != null)
 				{
-					param.Add(BibaAnalyticConstants.SESSION_ID, BibaSessionModel.SessionInfo.UUID);
-					param.Add(BibaAnalyticConstants.DEVICE_MODEL, BibaSessionModel.SessionInfo.DeviceModel);
-					param.Add(BibaAnalyticConstants.DEVICE_OS, BibaSessionModel.SessionInfo.DeviceOS);
+					param.Add(BibaAnalyticConstants.UDID, BibaSessionModel.SessionInfo.UUID);
+                    param.Add(BibaAnalyticConstants.SESSION_ID, BibaSessionModel.SessionInfo.SessionID);
+                    param.Add(BibaAnalyticConstants.DEVICE_MODEL, BibaSessionModel.SessionInfo.DeviceModel);
+                    param.Add(BibaAnalyticConstants.DEVICE_OS, BibaSessionModel.SessionInfo.DeviceOS);
+
+                    if(!string.IsNullOrEmpty(BibaSessionModel.SessionInfo.QuadTileId))
+                    {
+                        param.Add(BibaAnalyticConstants.QUADTILE_ID, BibaSessionModel.SessionInfo.QuadTileId);
+                    }
 				}
 
 				return param;

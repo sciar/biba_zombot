@@ -69,7 +69,7 @@ namespace BibaFramework.BibaGame
             {
                 // Access granted and location value could be retrieved
                 Debug.Log("Location: " + Input.location.lastData.latitude + " " + Input.location.lastData.longitude + " " + Input.location.lastData.altitude + " " + Input.location.lastData.horizontalAccuracy + " " + Input.location.lastData.timestamp);
-                SotreSessionLatLong();
+                StoreSessionLatLong();
 
                 var locInfo = Input.location.lastData;
                 var weatherAPIUrl = string.Format(WEATHER_API_CALL_FORMATTED, locInfo.latitude, locInfo.longitude);
@@ -94,7 +94,7 @@ namespace BibaFramework.BibaGame
             Release();
         }
 
-        void SotreSessionLatLong()
+        void StoreSessionLatLong()
         {
             BibaSessionModel.SessionInfo.QuadTileId = LatLongToQuadKey(Input.location.lastData.longitude, Input.location.lastData.latitude, BibaAnalyticConstants.MAP_LEVEL_OF_DETAIL);
         }

@@ -13,6 +13,7 @@ namespace BibaFramework.BibaGame
 	public class SessionInfo	
 	{
 		public string UUID { get; set; }
+        public string SessionID { get; set; }
 		public string DeviceModel { get; set; }
 		public string DeviceOS { get; set; }
         public string QuadTileId { get; set; }
