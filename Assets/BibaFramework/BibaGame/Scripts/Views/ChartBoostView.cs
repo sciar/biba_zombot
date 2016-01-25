@@ -26,11 +26,12 @@ namespace BibaFramework.BibaGame
 
         protected override void OnDestroy()
         {
+            base.OnDestroy();
             InputField.onEndEdit.RemoveListener(AgeGateSubmitted);
         }
 
         public void ShowAgeGate(string answerInEnglish)
-        {
+        { 
             AgeGateObject.SetActive(true);
             QuestionText.text = answerInEnglish;
         }

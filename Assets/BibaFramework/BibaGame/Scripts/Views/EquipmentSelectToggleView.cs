@@ -28,6 +28,7 @@ namespace BibaFramework.BibaGame
 
         protected override void OnDestroy()
         {
+            base.OnDestroy();
             _toggle.onValueChanged.RemoveListener(ToggleStatusChanged);
         }
 
