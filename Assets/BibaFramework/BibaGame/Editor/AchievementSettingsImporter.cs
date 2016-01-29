@@ -110,7 +110,7 @@ namespace BibaFramework.BibaMenuEditor
             }
 
             configToWrite.DescriptionSuffix = description;
-            EditorUtility.SetDirty(configToWrite);
+            EditorUtility.SetDirty((BibaAchievementConfig)configToWrite);
         }
         #endregion
 
