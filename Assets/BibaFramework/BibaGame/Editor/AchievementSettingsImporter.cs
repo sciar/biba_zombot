@@ -169,6 +169,7 @@ namespace BibaFramework.BibaMenuEditor
                 LocalConfigDict.Add(configToWrite.Id, configToWrite);
             }
             configToWrite.DescriptionSuffix = description;
+            EditorUtility.SetDirty(configToWrite);
         }
         #endregion
 
