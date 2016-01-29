@@ -9,11 +9,15 @@ namespace BibaFramework.BibaGame
 {
     public class ShowInterstitialCommand : Command
     {
+        private const float CHART_BOOST_TIME_OUT = 5;
+
         [Inject]
         public SetMenuStateTriggerSignal SetMenuStateTriggerSignal { get; set; }
 
         [Inject]
         public BibaSceneStack BibaSceneStack { get; set; }
+
+        private bool _loadedChartboost = false;
 
         public override void Execute ()
         {
@@ -21,38 +25,50 @@ namespace BibaFramework.BibaGame
             SetMenuStateTriggerSignal.Dispatch(MenuStateTrigger.Next);
             return;
 #endif
-			if (!BibaUtility.CheckForInternetConnection ()) 
-			{
-				SetMenuStateTriggerSignal.Dispatch(MenuStateTrigger.Next);
-				return;
-			}
-
+            //On a device and has internet
             Retain();
-            new Task(WaitForScreenOrientation(), true);
+            new Task(WaitForOrientationAndLoadChartboost(), true);
         }
 
-        IEnumerator WaitForScreenOrientation()
+        IEnumerator WaitForOrientationAndLoadChartboost()
         {
             var menuState = BibaSceneStack.Peek();
-            if(menuState is SceneMenuState)
+            if (menuState is SceneMenuState && BibaUtility.CheckForInternetConnection())
             {
                 while(Screen.orientation != ((SceneMenuState) menuState).Orientation)
                 {
                     yield return null;
                 }
 
-				if (BibaUtility.CheckForInternetConnection())
-				{
-					Chartboost.setShouldPauseClickForConfirmation(true);
-					Chartboost.showInterstitial(CBLocation.Default);
-				}
-				else
-				{
-					SetMenuStateTriggerSignal.Dispatch(MenuStateTrigger.Next);
-				}
+                Chartboost.setShouldPauseClickForConfirmation(true);
+                Chartboost.showInterstitial(CBLocation.Default);
+                
+                Chartboost.didDisplayInterstitial += InterstitialLoaded;
+                
+                var timeLapsed = 0f;
+                while (timeLapsed < CHART_BOOST_TIME_OUT && !_loadedChartboost)
+                {
+                    timeLapsed += Time.deltaTime;
+                    yield return null;
+                }
+                
+                Chartboost.didDisplayInterstitial -= InterstitialLoaded;
+                
+                if (!_loadedChartboost)
+                {
+                    SetMenuStateTriggerSignal.Dispatch(MenuStateTrigger.Next);
+                }
             }
-
+            else
+            {
+                SetMenuStateTriggerSignal.Dispatch(MenuStateTrigger.Next);
+            }
             Release();
+        }
+
+        void InterstitialLoaded(CBLocation location)
+        {
+            _loadedChartboost = true;
         }
     }
 }
