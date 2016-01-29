@@ -24,11 +24,11 @@ namespace BibaFramework.BibaMenuEditor
         private const string REGEX_GROUP_ENDDATE = "endDate";
         private const string DATETIME_PARSE_EXACT = "MM/dd";
 
-
-        
         [MenuItem("Biba/CI/Load Achievement Settings")]
         public static void CreateAchievementAsset ()
         {
+            _localConfigDict = null;
+
             ImportBasicAchievementSettings();
             ImportSeasonalAchievementSettings();
 
@@ -39,8 +39,6 @@ namespace BibaFramework.BibaMenuEditor
         #region Seasonal Achievement
         static void ImportSeasonalAchievementSettings()
         {
-            _localConfigDict = null;
-
             var entries = GoogleSpreadsheetImporter.GetListEntries(ACHIEVEMENT_SETTINGS_SPREADSHEET_NAME, SEASONAL_ACHIEVEMENT_SETTINGS_WORKSHEET_NAME);
             if (entries == null)
             {
@@ -68,13 +66,12 @@ namespace BibaFramework.BibaMenuEditor
 
                 for(var i = 2; i < row.Elements.Count; i++)
                 {
-                    var cell = row.Elements[i];  
-
-                    var equipment = row.Title.Text;
-                    var timePlayed = Regex.Match(cell.LocalName, REGEX_TIME_PLAYED).Groups[1].Value;
-                    var description = cell.Value;
-                    
-                    ParseListEntryForSeasonalAchievement(equipment, timePlayed, description, dateMatchGroups[REGEX_GROUP_STARTDATE].Value, dateMatchGroups[REGEX_GROUP_ENDDATE].Value);
+                    var cell = row.Elements[i];
+                    ParseListEntryForSeasonalAchievement(row.Title.Text, 
+                                                         Regex.Match(cell.LocalName, REGEX_TIME_PLAYED).Groups[1].Value, 
+                                                         cell.Value, 
+                                                         dateMatchGroups[REGEX_GROUP_STARTDATE].Value, 
+                                                         dateMatchGroups[REGEX_GROUP_ENDDATE].Value);
                 }
             }
         }
@@ -101,17 +98,19 @@ namespace BibaFramework.BibaMenuEditor
             var achievementId = BibaSeasonalAchievementConfig.GenerateId(equipmentType, timePlayed, startDateVector2, endDateVector2);
             if (LocalConfigDict.ContainsKey(achievementId))
             {
-                configToWrite = (BibaSeasonalAchievementConfig) LocalConfigDict [achievementId];
+                configToWrite = LocalConfigDict[achievementId] as BibaSeasonalAchievementConfig;
             }
             else
             {
                 configToWrite = CreateAchievementConfig<BibaSeasonalAchievementConfig>(equipmentType, timePlayed);
-                configToWrite.StartDate = startDateVector2;
-                configToWrite.EndDate = endDateVector2;
-
                 LocalConfigDict.Add(configToWrite.Id, configToWrite);
             }
+
             configToWrite.DescriptionSuffix = description;
+
+            configToWrite.StartDate = startDateVector2;
+            configToWrite.EndDate = endDateVector2;
+
             EditorUtility.SetDirty(configToWrite);
         }
         #endregion
@@ -135,12 +134,7 @@ namespace BibaFramework.BibaMenuEditor
                 for(var i = 1; i < row.Elements.Count; i++)
                 {
                     var cell = row.Elements[i];
-                    
-                    var equipment = row.Title.Text;
-                    var timePlayed = Regex.Match(cell.LocalName, REGEX_TIME_PLAYED).Groups[1].Value;
-                    var description = cell.Value;
-
-                    ParseListEntryForBasicAchievement(equipment, timePlayed, description);
+                    ParseListEntryForBasicAchievement(row.Title.Text, Regex.Match(cell.LocalName, REGEX_TIME_PLAYED).Groups[1].Value, cell.Value);
                 }
             }
         }
@@ -168,6 +162,7 @@ namespace BibaFramework.BibaMenuEditor
                 configToWrite = CreateAchievementConfig<BibaAchievementConfig>(equipmentType, timePlayed);
                 LocalConfigDict.Add(configToWrite.Id, configToWrite);
             }
+
             configToWrite.DescriptionSuffix = description;
             EditorUtility.SetDirty(configToWrite);
         }
