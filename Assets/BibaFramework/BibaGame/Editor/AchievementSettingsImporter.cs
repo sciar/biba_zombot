@@ -27,8 +27,6 @@ namespace BibaFramework.BibaMenuEditor
         [MenuItem("Biba/CI/Load Achievement Settings")]
         public static void CreateAchievementAsset ()
         {
-            _localConfigDict = null;
-
             ImportBasicAchievementSettings();
             ImportSeasonalAchievementSettings();
 
@@ -39,6 +37,8 @@ namespace BibaFramework.BibaMenuEditor
         #region Seasonal Achievement
         static void ImportSeasonalAchievementSettings()
         {
+            _localConfigDict = null;
+
             var entries = GoogleSpreadsheetImporter.GetListEntries(ACHIEVEMENT_SETTINGS_SPREADSHEET_NAME, SEASONAL_ACHIEVEMENT_SETTINGS_WORKSHEET_NAME);
             if (entries == null)
             {
@@ -103,14 +103,13 @@ namespace BibaFramework.BibaMenuEditor
             else
             {
                 configToWrite = CreateAchievementConfig<BibaSeasonalAchievementConfig>(equipmentType, timePlayed);
+                configToWrite.StartDate = startDateVector2;
+                configToWrite.EndDate = endDateVector2;
+
                 LocalConfigDict.Add(configToWrite.Id, configToWrite);
             }
 
             configToWrite.DescriptionSuffix = description;
-
-            configToWrite.StartDate = startDateVector2;
-            configToWrite.EndDate = endDateVector2;
-
             EditorUtility.SetDirty(configToWrite);
         }
         #endregion
