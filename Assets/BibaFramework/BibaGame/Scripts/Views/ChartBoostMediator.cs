@@ -37,15 +37,23 @@ namespace BibaFramework.BibaGame
         public override void RegisterSceneDependentSignals ()
         {
             ChartBoostView.AgeGateResponsedSignal.AddListener(AgeGateConfirm);
-            Chartboost.didPauseClickForConfirmation += ShowParentalGate;
-            Chartboost.didCloseInterstitial += SkipChartBoost;
         }
 
         public override void UnRegisterSceneDependentSignals ()
         {
             ChartBoostView.AgeGateResponsedSignal.RemoveListener(AgeGateConfirm);
+        }
+        
+        void OnEnable() 
+        {
+            Chartboost.didCloseInterstitial += SkipChartBoost;
+            Chartboost.didPauseClickForConfirmation += ShowParentalGate;
+        }
+
+        void OnDisable() 
+        {
             Chartboost.didPauseClickForConfirmation -= ShowParentalGate;
-			Chartboost.didCloseInterstitial -= SkipChartBoost;
+            Chartboost.didCloseInterstitial -= SkipChartBoost;
         }
 
         void ShowParentalGate()
