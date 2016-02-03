@@ -14,6 +14,7 @@ namespace BibaFramework.BibaGame
         public List<BibaEquipment> TotalPlayedEquipments { get; set; }
         public List<BibaAchievement> CompletedAchievements { get; set; }
 
+        public int FrameworkVersion { get; set; }
         public bool PrivacyEnabled { get; set; }
         public bool TagEnabled { get; set; }
         public bool HowToEnabled { get; set; }

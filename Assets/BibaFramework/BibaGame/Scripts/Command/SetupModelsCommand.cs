@@ -2,6 +2,7 @@ using strange.extensions.command.impl;
 using System;
 using BibaFramework.BibaMenu;
 using UnityEngine;
+using System.Collections.Generic;
 
 namespace BibaFramework.BibaGame
 {
@@ -16,10 +17,14 @@ namespace BibaFramework.BibaGame
         [Inject]
         public SetMenuStateConditionSignal SetMenuStateConditionSignal { get; set; }
 
+        [Inject]
+        public IDataService DataService { get; set; }
+
         public override void Execute ()
         {
 			SetupGameModel();
 			SetupSessionModel();
+            CheckForGameModelMigration();
         }
 
 		void SetupGameModel()
@@ -37,5 +42,21 @@ namespace BibaFramework.BibaGame
 			BibaSessionModel.SessionInfo.DeviceModel = SystemInfo.deviceModel;
 			BibaSessionModel.SessionInfo.DeviceOS = SystemInfo.operatingSystem;
 		}
+
+        //Where we handle the migration of BibaGameModel
+        void CheckForGameModelMigration()
+        {
+            if (BibaGameModel.FrameworkVersion < BibaGameConstants.FRAMEWORK_VERSION)
+            {
+                //Reset Achievements since we changed the way AchievementId is stored
+                if(BibaGameModel.FrameworkVersion == 0)
+                {
+                    BibaGameModel.CompletedAchievements = new List<BibaAchievement>();
+                }
+
+                BibaGameModel.FrameworkVersion = BibaGameConstants.FRAMEWORK_VERSION;
+                DataService.WriteGameModel();
+            }
+        }
     }
 }
