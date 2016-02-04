@@ -14,8 +14,6 @@ namespace BibaFramework.BibaMenu
 
         protected override void Start()
         {
-            gameObject.SetActive(Debug.isDebugBuild);
-
             _button = (Button)GetComponent<Button>();
             _button.onClick.AddListener(() =>{
                 ResetSignal.Dispatch();
