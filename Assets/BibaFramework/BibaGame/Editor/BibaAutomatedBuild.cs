@@ -8,10 +8,13 @@ namespace BibaFramework.BibaMenuEditor
 	public static class BibaAutomatedBuild
 	{
 		private const string IOS_OUTPUT_PATH = "Build/iOS";
+
 		private const string ANDROID_OUTPUT_PATH = "Build/Android";
 		private const string ANDROID_APK = "android.apk";
         private const string KEYSTORE_PASSWORD = "#sling2Rock!";
 
+		private const string ANDROID_SDK_FOLDER_KEY = "AndroidSdkRoot";
+		private const string ANDROID_SDK_FOLDER_PATH = "/Users/Jenkins/Library/Android/sdk";
 
 		[MenuItem("Biba/CI/Build iOS")]
 		public static void BuildIOS ()
@@ -32,9 +35,13 @@ namespace BibaFramework.BibaMenuEditor
             Int32.TryParse(Environment.GetCommandLineArgs() [System.Environment.GetCommandLineArgs().Length - 1], out versionNumber);
             PlayerSettings.Android.bundleVersionCode = versionNumber;
 
+			// Set KeyStore
             PlayerSettings.Android.keystorePass = KEYSTORE_PASSWORD;
             PlayerSettings.Android.keyaliasName = PlayerSettings.Android.keyaliasName; 
             PlayerSettings.Android.keyaliasPass = KEYSTORE_PASSWORD;
+
+			// Set SDK path
+			EditorPrefs.SetString(ANDROID_SDK_FOLDER_KEY, ANDROID_SDK_FOLDER_PATH);
 
             // Get filename
             var path = Path.Combine(ANDROID_OUTPUT_PATH, ANDROID_APK);
