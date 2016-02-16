@@ -10,7 +10,7 @@ namespace BibaFramework.BibaMenuEditor
 {
 	public class BibaSceneEnumHelper : MonoBehaviour 
 	{
-        [MenuItem ("Biba/String Constant Helper/BibaScene Constants")]
+        [MenuItem ("Biba/Helper/BibaScene Constants")]
 		static void InitSceneHelper()
 		{
 			var window = EditorWindow.GetWindow<BibaSceneEnumHelperWindow> ();

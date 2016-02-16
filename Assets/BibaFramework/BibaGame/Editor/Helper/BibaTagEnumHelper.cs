@@ -8,7 +8,7 @@ namespace BibaFramework.BibaMenuEditor
 {
 	public class BibaTagEnumHelper : MonoBehaviour 
 	{
-		[MenuItem ("Biba/Enum Helper/BibaTag Enums")]
+		[MenuItem ("Biba/Helper/BibaTag Enums")]
 		static void InitTagHelper()
 		{
 			var window = EditorWindow.GetWindow<BibaTagEnumHelperWindow> ();

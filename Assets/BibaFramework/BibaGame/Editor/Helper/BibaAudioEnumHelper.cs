@@ -8,14 +8,14 @@ namespace BibaFramework.BibaMenuEditor
 {
     public class BibaAudioEnumHelper : MonoBehaviour 
 	{
-        [MenuItem ("Biba/String Constant Helper/BibaBGM Constants")]
+        [MenuItem ("Biba/Helper/BibaBGM Constants")]
 		static void InitBGMHelper()
 		{
             var window = EditorWindow.GetWindow<BibaBGMEnumHelperWindow> ();
 			window.Show ();
 		}
 
-        [MenuItem ("Biba/String Constant Helper/BibaSFX Constants")]
+        [MenuItem ("Biba/Helper/BibaSFX Constants")]
         static void InitSFXHelper()
         {
             var window = EditorWindow.GetWindow<BibaSFXEnumHelperWindow> ();
