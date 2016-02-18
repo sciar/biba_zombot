@@ -3,13 +3,12 @@ using UnityEditor;
 using BibaFramework.BibaGame;
 using BibaFramework.BibaNetwork;
 using System.IO;
-using AssetBundles;
 
 namespace BibaFramework.BibaMenuEditor
 {
     public class AssetBundleHelper : MonoBehaviour 
 	{
-		[MenuItem ("Biba/CI/Build Special Scenes AssetBundle")]
+        [MenuItem ("Biba/CI/AssetBundles/Build Special Scenes")]
 		static void BuildSpecialScenes()
 		{
             BuildSpecialScenesAssetBundles();
@@ -29,7 +28,7 @@ namespace BibaFramework.BibaMenuEditor
             var sceneFilePaths = Directory.GetFiles(BibaEditorConstants.SCENE_ASSETBUNDLES_INPUT_PATH);
             foreach (var filePath in sceneFilePaths)
             {
-                var shortFilePath = filePath.Replace(Application.dataPath,"Assets");
+                var shortFilePath = filePath.Replace(Application.dataPath, "Assets");
                 if(shortFilePath.EndsWith(BibaEditorConstants.UNITY3D_EXTENSION))
                 {
                     var sceneFileName = Path.GetFileNameWithoutExtension(shortFilePath);
@@ -45,6 +44,7 @@ namespace BibaFramework.BibaMenuEditor
                             FileName = sceneFileName,
                             Version = 0
                         };
+                        manifest.Lines.Add(manifestLine);
                     }
                     manifestLine.Version++;
 
@@ -53,7 +53,7 @@ namespace BibaFramework.BibaMenuEditor
 
             jsonDataService.WriteToDisk<BibaManifest>(manifest, BibaEditorConstants.MANIFEST_PATH);
 
-            BuildScript.BuildAssetBundles();
+            BuildPipeline.BuildAssetBundles (BibaEditorConstants.SCENE_ASSETBUNDLES_OUTPUT_PATH, BuildAssetBundleOptions.None, EditorUserBuildSettings.activeBuildTarget);
 
             AssetDatabase.SaveAssets();
             AssetDatabase.Refresh();
