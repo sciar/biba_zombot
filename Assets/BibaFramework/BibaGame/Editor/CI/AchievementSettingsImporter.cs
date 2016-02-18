@@ -84,7 +84,6 @@ namespace BibaFramework.BibaMenuEditor
 
             var startDate = DateTime.ParseExact(startDateString, BibaEditorConstants.DATETIME_PARSE_EXACT_FORMAT, CultureInfo.InvariantCulture);
             var endDate = DateTime.ParseExact(endDateString, BibaEditorConstants.DATETIME_PARSE_EXACT_FORMAT, CultureInfo.InvariantCulture);
-            var achievementId = BibaSeasonalAchievementConfig.GenerateId(equipmentType, timePlayed, startDate, endDate);
 
             var configToWrite = new BibaSeasonalAchievementConfig() {
                 EquipmentType = equipmentType,

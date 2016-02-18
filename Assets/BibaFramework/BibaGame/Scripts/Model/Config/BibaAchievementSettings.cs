@@ -11,6 +11,8 @@ namespace BibaFramework.BibaGame
 
     public class BibaAchievementConfig
     {   
+        private const string BASIC_ACHIEVEMENT_ID_FORMATTED = "achievement_{0}_{1}";
+       
         public BibaEquipmentType EquipmentType;
         public int TimePlayed;
         public string DescriptionPrefix { get { return _prefixDict [EquipmentType]; } }
@@ -19,13 +21,8 @@ namespace BibaFramework.BibaGame
 
         public virtual string Id {
             get {
-                return GenerateId(EquipmentType, TimePlayed);
+                return string.Format(BASIC_ACHIEVEMENT_ID_FORMATTED, EquipmentType.ToString(), TimePlayed.ToString());
             }
-        }
-
-        public static string GenerateId(BibaEquipmentType equipmentType, int timePlayed)
-        {
-            return string.Format(BibaGameConstants.BASIC_ACHIEVEMENT_ID_FORMATTED, equipmentType.ToString(), timePlayed.ToString());
         }
 
         private static readonly Dictionary<BibaEquipmentType, string> _prefixDict = new Dictionary<BibaEquipmentType, string>()
@@ -41,18 +38,14 @@ namespace BibaFramework.BibaGame
 
     public class BibaSeasonalAchievementConfig : BibaAchievementConfig
     {   
+        private const string SEASONAL_ACHIEVEMENT_ID_FORMATTED = "seasonal_achievement_{0}_{1}_{2}_{3}";
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
 
         public override string Id {
             get {
-                return GenerateId(EquipmentType, TimePlayed, StartDate, EndDate);
+                return string.Format(SEASONAL_ACHIEVEMENT_ID_FORMATTED, EquipmentType.ToString(), TimePlayed.ToString(), StartDate.ToString(), EndDate.ToString());
             }
-        }
-        
-        public static string GenerateId(BibaEquipmentType equipmentType, int timePlayed, DateTime startDate, DateTime endDate)
-        {
-            return string.Format(BibaGameConstants.SEASONAL_ACHIEVEMENT_ID_FORMATTED, equipmentType.ToString(), timePlayed.ToString(), startDate.ToString(), endDate.ToString());
         }
     }
 }

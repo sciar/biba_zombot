@@ -10,9 +10,6 @@ namespace BibaFramework.BibaGame
         public const string BIBA_URL = "http://www.playbiba.com";
         public const string BIBA_PRIVACY_URL = "http://www.playbiba.com/privacy-policy";
 
-        public const string BASIC_ACHIEVEMENT_ID_FORMATTED = "achievement_{0}_{1}";
-        public const string SEASONAL_ACHIEVEMENT_ID_FORMATTED = "seasonal_achievement_{0}_{1}_{2}_{3}";
-
         private const int ONE_DAY_IN_SECONDS = 86400; //1 day
         private const int ONE_HOUR_IN_SECONDS = 3600; //1 hr
 

@@ -1,7 +1,7 @@
 ﻿using System;
-using Vuforia;
-using UnityEngine;
 using System.Collections.Generic;
+using UnityEngine;
+using Vuforia;
 
 namespace BibaFramework.BibaGame
 {
@@ -10,11 +10,10 @@ namespace BibaFramework.BibaGame
         [Inject]
         public IDataService DataService { get; set; }
 
-        private Dictionary<string, Dictionary<SystemLanguage, string>> _localizationDict;
+        private Dictionary<string, Dictionary<SystemLanguage, string>> _localizationDict  = new Dictionary<string, Dictionary<SystemLanguage, string>>();
 
         public LocalizationService()
         {
-            _localizationDict = new Dictionary<string, Dictionary<SystemLanguage, string>>();
             var localizationSettings = DataService.ReadFromDisk<BibaLocalizationSettings>(BibaDataConstants.LOCALIZATION_SETTINGS_PATH);
             
             foreach (var localization in localizationSettings.Localizations)
