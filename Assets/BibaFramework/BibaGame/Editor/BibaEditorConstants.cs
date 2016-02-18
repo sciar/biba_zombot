@@ -1,7 +1,14 @@
+using UnityEngine;
+
 namespace BibaFramework.BibaGame
 {
     public class BibaEditorConstants
     {
+        public static readonly string SCENE_ASSETBUNDLES_INPUT_PATH = Application.dataPath + "/BibaContent/Input";
+        public static readonly string SCENE_ASSETBUNDLES_OUTPUT_PATH = Application.dataPath + "/BibaContent/Output";
+        public static readonly string MANIFEST_PATH = SCENE_ASSETBUNDLES_OUTPUT_PATH + "/manifest.txt";
+        public const string UNITY3D_EXTENSION = ".unity";
+
         //Google Doc Settings
         public const string REGEX_STARTDATE_ENDDATE = "(?<startDate>(0[1-9]|1[0-2])[/](0[1-9]|[1-2][0-9]|3[0-1]))[ ]*-[ ]*(?<endDate>(0[1-9]|1[0-2])[/](0[1-9]|[1-2][0-9]|3[0-1]))";
         public const string REGEX_GROUP_STARTDATE = "startDate";
