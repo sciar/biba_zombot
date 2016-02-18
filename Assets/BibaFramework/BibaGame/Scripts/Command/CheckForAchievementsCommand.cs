@@ -37,7 +37,7 @@ namespace BibaFramework.BibaGame
 
         protected IEnumerable<BibaAchievementConfig> AchievementsToCheck {
             get {
-                return BibaGameConfig.AchievementConfigs.Where(config => BibaGameModel.CompletedAchievements.FindIndex(completedAchievement => completedAchievement.Id == config.Id) == -1);
+                return BibaGameConfig.BibaAchievementSettings.AchievementSettings.Where(config => BibaGameModel.CompletedAchievements.FindIndex(completedAchievement => completedAchievement.Id == config.Id) == -1);
             }
         }
 

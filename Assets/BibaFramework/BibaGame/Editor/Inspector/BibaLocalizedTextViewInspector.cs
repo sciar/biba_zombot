@@ -16,7 +16,8 @@ namespace BibaFramework.BibaMenuEditor
             get {
                 if(settings == null)
                 {
-                    settings = AssetDatabase.LoadAssetAtPath<BibaLocalizationSettings>(BibaEditorConstants.LOCALIZATION_SETTINGS_PROJECT_PATH);
+                    var dataService = new JSONDataService();
+                    settings = dataService.ReadFromDisk<BibaLocalizationSettings>(BibaDataConstants.LOCALIZATION_SETTINGS_PATH);
                 }
                 return settings;
             }

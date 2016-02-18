@@ -4,6 +4,7 @@ namespace BibaFramework.BibaGame
 {
     public class BibaGameConstants
     {
+        public const string BIBA_GAME_NAME = "BibaFramework";
         public const int FRAMEWORK_VERSION = 1;
 
         public const string BIBA_URL = "http://www.playbiba.com";

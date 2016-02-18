@@ -13,10 +13,13 @@ namespace BibaFramework.BibaMenuEditor
         private const string LOCALIZATION_SETTINGS_SPREADSHEET_NAME = "Biba Localization";
         private const string LOCALIZATION_SETTINGS_WORKSHEET_NAME = "Common";
 
-        [MenuItem("Biba/CI/Load Localization Settings")]
+        [MenuItem("Biba/Google Drive/Load Localization Settings")]
         public static void CreateLocalizationSettings ()
         {
             ImportSettings();
+
+            AssetDatabase.SaveAssets();
+            AssetDatabase.Refresh();
         }
 
         static void ImportSettings()
@@ -32,14 +35,7 @@ namespace BibaFramework.BibaMenuEditor
 
         static void ParseLocalizationSettings(AtomEntryCollection entries)
         {
-            var localizationSettings = Resources.Load<BibaLocalizationSettings>(BibaDataConstants.RESOURCE_LOCALIZATION_FILE_PATH);
-            if (localizationSettings == null)
-            {
-                localizationSettings = (BibaLocalizationSettings)ScriptableObjectUtility.CreateAsset<BibaLocalizationSettings>(BibaEditorConstants.LOCALIZATION_SETTINGS_PROJECT_PATH);
-            }
-
-            localizationSettings.Localizations.Clear();
-
+            var settings = new BibaLocalizationSettings();
             foreach (ListEntry row in entries)
             {
                 var key = row.Elements[0].Value;
@@ -67,7 +63,7 @@ namespace BibaFramework.BibaMenuEditor
                             Text = text
                         };
 
-                        localizationSettings.Localizations.Add(localization);
+                        settings.Localizations.Add(localization);
                     }
                     catch(Exception)
                     {
@@ -77,8 +73,8 @@ namespace BibaFramework.BibaMenuEditor
                 }
             }
 
-            AssetDatabase.SaveAssets();
-            AssetDatabase.Refresh();
+            var jsonDataService = new JSONDataService();
+            jsonDataService.WriteToDisk<BibaLocalizationSettings>(settings, BibaDataConstants.LOCALIZATION_SETTINGS_PATH);
         }
-	}
+    }
 }

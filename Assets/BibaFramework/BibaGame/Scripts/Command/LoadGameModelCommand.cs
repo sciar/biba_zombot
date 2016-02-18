@@ -1,6 +1,4 @@
 using strange.extensions.command.impl;
-using BibaFramework.BibaGame;
-using UnityEngine;
 
 namespace BibaFramework.BibaGame
 {
@@ -10,6 +8,11 @@ namespace BibaFramework.BibaGame
         public IDataService LoaderService { get; set; }
 
         public override void Execute ()
+        {
+            LoadGameModel();
+        }
+
+        void LoadGameModel()
         {
             var gameModel = LoaderService.ReadGameModel();
             injectionBinder.Unbind<BibaGameModel>();

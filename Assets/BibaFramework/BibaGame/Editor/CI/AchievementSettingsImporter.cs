@@ -1,14 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Globalization;
-using System.IO;
 using System.Text.RegularExpressions;
 using BibaFramework.BibaGame;
-using BibaFramework.Utility;
 using Google.GData.Client;
 using Google.GData.Spreadsheets;
 using UnityEditor;
-using UnityEngine;
 
 namespace BibaFramework.BibaMenuEditor
 {
@@ -16,29 +12,27 @@ namespace BibaFramework.BibaMenuEditor
 	{
         private const string ACHIEVEMENT_SETTINGS_SPREADSHEET_NAME = "Fun Metrics";
         private const string ACHIEVEMENT_SETTINGS_WORKSHEET_NAME = "1-2 Theme Feats";
-        private const string REGEX_TIME_PLAYED = "played([1-9][0-9]*)";
-
         private const string SEASONAL_ACHIEVEMENT_SETTINGS_WORKSHEET_NAME = "1-3 Themed Feats for Holiday Season";
-        private const string REGEX_STARTDATE_ENDDATE = "(?<startDate>(0[1-9]|1[0-2])[/](0[1-9]|[1-2][0-9]|3[0-1]))[ ]*-[ ]*(?<endDate>(0[1-9]|1[0-2])[/](0[1-9]|[1-2][0-9]|3[0-1]))";
-        private const string REGEX_GROUP_STARTDATE = "startDate";
-        private const string REGEX_GROUP_ENDDATE = "endDate";
-        private const string DATETIME_PARSE_EXACT = "MM/dd";
 
-        [MenuItem("Biba/CI/Load Achievement Settings")]
+        private static BibaAchievementSettings _achievementSettings;
+
+        [MenuItem("Biba/Google Drive/Load Achievement Settings")]
         public static void CreateAchievementAsset ()
         {
+            _achievementSettings = new BibaAchievementSettings();
+
             ImportBasicAchievementSettings();
             ImportSeasonalAchievementSettings();
 
-            AssetDatabase.SaveAssets();
+            var jsonDataService = new JSONDataService();
+            jsonDataService.WriteToDisk<BibaAchievementSettings>(_achievementSettings, BibaDataConstants.ACHIEVEMENT_SETTINGS_PATH);
+
             AssetDatabase.Refresh();
         }
 
         #region Seasonal Achievement
         static void ImportSeasonalAchievementSettings()
         {
-            _localConfigDict = null;
-
             var entries = GoogleSpreadsheetImporter.GetListEntries(ACHIEVEMENT_SETTINGS_SPREADSHEET_NAME, SEASONAL_ACHIEVEMENT_SETTINGS_WORKSHEET_NAME);
             if (entries == null)
             {
@@ -58,7 +52,7 @@ namespace BibaFramework.BibaMenuEditor
                     continue;
                 }
 
-                var dateMatchGroups = Regex.Match(durationText, REGEX_STARTDATE_ENDDATE).Groups;
+                var dateMatchGroups = Regex.Match(durationText, BibaEditorConstants.REGEX_STARTDATE_ENDDATE).Groups;
                 if(dateMatchGroups.Count == 0)
                 {
                     continue;
@@ -68,10 +62,10 @@ namespace BibaFramework.BibaMenuEditor
                 {
                     var cell = row.Elements[i];
                     ParseListEntryForSeasonalAchievement(row.Title.Text, 
-                                                         Regex.Match(cell.LocalName, REGEX_TIME_PLAYED).Groups[1].Value, 
+                                                         Regex.Match(cell.LocalName, BibaEditorConstants.REGEX_TIME_PLAYED).Groups[1].Value, 
                                                          cell.Value, 
-                                                         dateMatchGroups[REGEX_GROUP_STARTDATE].Value, 
-                                                         dateMatchGroups[REGEX_GROUP_ENDDATE].Value);
+                                                         dateMatchGroups[BibaEditorConstants.REGEX_GROUP_STARTDATE].Value, 
+                                                         dateMatchGroups[BibaEditorConstants.REGEX_GROUP_ENDDATE].Value);
                 }
             }
         }
@@ -88,29 +82,19 @@ namespace BibaFramework.BibaMenuEditor
             var equipmentType = (BibaEquipmentType)Enum.Parse(typeof(BibaEquipmentType), equipmentString);
             var timePlayed = Convert.ToInt32(timePlayedString);
 
-            var startDate = DateTime.ParseExact(startDateString, DATETIME_PARSE_EXACT, CultureInfo.InvariantCulture);
-            var startDateVector2 = new Vector2(startDate.Month, startDate.Day);
+            var startDate = DateTime.ParseExact(startDateString, BibaEditorConstants.DATETIME_PARSE_EXACT_FORMAT, CultureInfo.InvariantCulture);
+            var endDate = DateTime.ParseExact(endDateString, BibaEditorConstants.DATETIME_PARSE_EXACT_FORMAT, CultureInfo.InvariantCulture);
+            var achievementId = BibaSeasonalAchievementConfig.GenerateId(equipmentType, timePlayed, startDate, endDate);
 
-            var endDate = DateTime.ParseExact(endDateString, DATETIME_PARSE_EXACT, CultureInfo.InvariantCulture);
-            var endDateVector2 = new Vector2(endDate.Month, endDate.Day);
+            var configToWrite = new BibaSeasonalAchievementConfig() {
+                EquipmentType = equipmentType,
+                TimePlayed = timePlayed,
+                StartDate = startDate,
+                EndDate = endDate,
+                DescriptionSuffix = description
+            };
 
-            BibaSeasonalAchievementConfig configToWrite;
-            var achievementId = BibaSeasonalAchievementConfig.GenerateId(equipmentType, timePlayed, startDateVector2, endDateVector2);
-            if (LocalConfigDict.ContainsKey(achievementId))
-            {
-                configToWrite = LocalConfigDict[achievementId] as BibaSeasonalAchievementConfig;
-            }
-            else
-            {
-                configToWrite = CreateAchievementConfig<BibaSeasonalAchievementConfig>(equipmentType, timePlayed);
-                configToWrite.StartDate = startDateVector2;
-                configToWrite.EndDate = endDateVector2;
-
-                LocalConfigDict.Add(configToWrite.Id, configToWrite);
-            }
-
-            configToWrite.DescriptionSuffix = description;
-            EditorUtility.SetDirty((BibaAchievementConfig)configToWrite);
+            _achievementSettings.AchievementSettings.Add(configToWrite);
         }
         #endregion
 
@@ -133,7 +117,7 @@ namespace BibaFramework.BibaMenuEditor
                 for(var i = 1; i < row.Elements.Count; i++)
                 {
                     var cell = row.Elements[i];
-                    ParseListEntryForBasicAchievement(row.Title.Text, Regex.Match(cell.LocalName, REGEX_TIME_PLAYED).Groups[1].Value, cell.Value);
+                    ParseListEntryForBasicAchievement(row.Title.Text, Regex.Match(cell.LocalName, BibaEditorConstants.REGEX_TIME_PLAYED).Groups[1].Value, cell.Value);
                 }
             }
         }
@@ -150,56 +134,13 @@ namespace BibaFramework.BibaMenuEditor
             var equipmentType = (BibaEquipmentType)Enum.Parse(typeof(BibaEquipmentType), equipmentString);
             var timePlayed = Convert.ToInt32(timePlayedString);
             
-            BibaAchievementConfig configToWrite;
-            var achievementId = BibaAchievementConfig.GenerateId(equipmentType, timePlayed);
-            if (LocalConfigDict.ContainsKey(achievementId))
-            {
-                configToWrite = LocalConfigDict [achievementId];
-            } 
-            else
-            {
-                configToWrite = CreateAchievementConfig<BibaAchievementConfig>(equipmentType, timePlayed);
-                LocalConfigDict.Add(configToWrite.Id, configToWrite);
-            }
+            var configToWrite = new BibaSeasonalAchievementConfig() {
+                EquipmentType = equipmentType,
+                TimePlayed = timePlayed,
+                DescriptionSuffix = description
+            };
 
-            configToWrite.DescriptionSuffix = description;
-            EditorUtility.SetDirty(configToWrite);
-        }
-        #endregion
-
-        #region Common
-        private static Dictionary<string, BibaAchievementConfig> _localConfigDict;
-        static Dictionary<string, BibaAchievementConfig> LocalConfigDict
-        {
-            get 
-            {    
-                if(_localConfigDict == null)
-                {
-                    _localConfigDict = new Dictionary<string, BibaAchievementConfig>();
-
-                    var configs = Resources.LoadAll<BibaAchievementConfig>(BibaDataConstants.RESOURCE_ACHIEVEMENT_CONFIG_FOLDER_PATH);
-                    foreach (var config in configs)
-                    {
-                        if(!_localConfigDict.ContainsKey(config.Id))
-                        {
-                            _localConfigDict.Add(config.Id, config);
-                        }
-                        else
-                        {
-                            _localConfigDict[config.Id] = config;
-                        }
-                    }
-                }
-                return _localConfigDict;
-            }
-        }
-
-        static TConfig CreateAchievementConfig<TConfig>(BibaEquipmentType equipmentType, int timePlayed) where TConfig : BibaAchievementConfig
-        {
-            var configToWrite = (TConfig)ScriptableObjectUtility.CreateAsset<TConfig>(BibaEditorConstants.ACHIEVEMENT_CONFIG_FOLDER_PROJECT_PATH);
-            configToWrite.EquipmentType = equipmentType;
-            configToWrite.TimePlayed = timePlayed;
-            return configToWrite;
+            _achievementSettings.AchievementSettings.Add(configToWrite);
         }
         #endregion
 	}

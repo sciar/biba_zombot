@@ -7,12 +7,15 @@ namespace BibaFramework.BibaGame
 {
     public class LocalizationService
     {
+        [Inject]
+        public IDataService DataService { get; set; }
+
         private Dictionary<string, Dictionary<SystemLanguage, string>> _localizationDict;
 
         public LocalizationService()
         {
             _localizationDict = new Dictionary<string, Dictionary<SystemLanguage, string>>();
-            var localizationSettings = Resources.Load<BibaLocalizationSettings>(BibaDataConstants.RESOURCE_LOCALIZATION_FILE_PATH);
+            var localizationSettings = DataService.ReadFromDisk<BibaLocalizationSettings>(BibaDataConstants.LOCALIZATION_SETTINGS_PATH);
             
             foreach (var localization in localizationSettings.Localizations)
             {

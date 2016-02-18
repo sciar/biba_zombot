@@ -13,10 +13,14 @@ namespace BibaFramework.BibaGame
         [Inject]
         public BibaGameModel BibaGameModel { get; set; }
 
+        [Inject]
+        public IDataService LoaderService { get; set; }
+
         public override void Execute ()
         {
             SetFramerate();
-            SetAchievementConfig();
+            LoadAchievementSettings();
+            LoadSpecialSceneSettings();
         }
 
         void SetFramerate()
@@ -25,12 +29,18 @@ namespace BibaFramework.BibaGame
             QualitySettings.vSyncCount = 0;
         }
 
-        void SetAchievementConfig()
+        void LoadSpecialSceneSettings()
         {
-            var configs = Resources.LoadAll<BibaAchievementConfig>(BibaDataConstants.RESOURCE_ACHIEVEMENT_CONFIG_FOLDER_PATH);
-            BibaGameConfig.AchievementConfigs = configs.ToList();
+            var sceneSettings = LoaderService.ReadFromDisk<BibaSpecialSceneSettings>(BibaDataConstants.SPECIAL_SCENE_SETTINGS_PATH);
+            BibaGameConfig.BibaSpecialSceneSettings = sceneSettings;
+        }
 
-            foreach (var config in BibaGameConfig.AchievementConfigs)
+        void LoadAchievementSettings()
+        {
+            var configs = LoaderService.ReadFromDisk<BibaAchievementSettings>(BibaDataConstants.ACHIEVEMENT_SETTINGS_PATH);
+            BibaGameConfig.BibaAchievementSettings = configs;
+
+            foreach (var config in BibaGameConfig.BibaAchievementSettings.AchievementSettings)
             {
                 var index = BibaGameModel.CompletedAchievements.FindIndex(achievement => achievement.Id == config.Id);
                 if(index != -1)

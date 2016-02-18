@@ -2,7 +2,11 @@ namespace BibaFramework.BibaGame
 {
     public class BibaEditorConstants
     {
-        public const string ACHIEVEMENT_CONFIG_FOLDER_PROJECT_PATH = "Assets/Resources/" + BibaDataConstants.RESOURCE_ACHIEVEMENT_CONFIG_FOLDER_PATH + "achievement.asset";
-        public const string LOCALIZATION_SETTINGS_PROJECT_PATH = "Assets/Resources/" + BibaDataConstants.RESOURCE_LOCALIZATION_FILE_PATH + ".asset";
+        //Google Doc Settings
+        public const string REGEX_STARTDATE_ENDDATE = "(?<startDate>(0[1-9]|1[0-2])[/](0[1-9]|[1-2][0-9]|3[0-1]))[ ]*-[ ]*(?<endDate>(0[1-9]|1[0-2])[/](0[1-9]|[1-2][0-9]|3[0-1]))";
+        public const string REGEX_GROUP_STARTDATE = "startDate";
+        public const string REGEX_GROUP_ENDDATE = "endDate";
+        public const string REGEX_TIME_PLAYED = "played([1-9][0-9]*)";
+        public const string DATETIME_PARSE_EXACT_FORMAT = "MM/dd";
     }
 }
