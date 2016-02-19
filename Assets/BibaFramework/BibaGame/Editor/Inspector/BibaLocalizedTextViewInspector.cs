@@ -4,7 +4,7 @@ using BibaFramework.BibaMenu;
 using UnityEditor;
 using UnityEngine;
 
-namespace BibaFramework.BibaMenuEditor
+namespace BibaFramework.BibaEditor
 {
     [CustomEditor(typeof(BibaLocalizedTextView))]
     public class BibaLocalizedTextViewInspector : Editor 

@@ -2,7 +2,7 @@
 using UnityEditor;
 using System.IO;
 
-namespace BibaFramework.BibaMenuEditor
+namespace BibaFramework.BibaEditor
 {
 	[InitializeOnLoad]
 	public class PreloadGooglePlaySigningAlias

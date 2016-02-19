@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using UnityEditor;
 
-namespace BibaFramework.BibaMenuEditor
+namespace BibaFramework.BibaEditor
 {
 	public static class BibaAutomatedBuild
 	{

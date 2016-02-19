@@ -6,7 +6,7 @@ using Google.GData.Client;
 using Google.GData.Spreadsheets;
 using UnityEditor;
 
-namespace BibaFramework.BibaMenuEditor
+namespace BibaFramework.BibaEditor
 {
     public class AchievementSettingsImporter
 	{

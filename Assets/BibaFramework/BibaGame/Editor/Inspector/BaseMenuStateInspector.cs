@@ -2,7 +2,7 @@
 using BibaFramework.BibaMenu;
 using BibaFramework.BibaGame;
 
-namespace BibaFramework.BibaMenuEditor
+namespace BibaFramework.BibaEditor
 {
     [CustomEditor(typeof(BaseMenuState), true)]
     public class BaseMenuStateInspector : Editor 

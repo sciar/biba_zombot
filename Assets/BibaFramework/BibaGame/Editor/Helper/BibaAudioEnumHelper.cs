@@ -4,7 +4,7 @@ using UnityEditor;
 using System.Linq;
 using System.Collections.Generic;
 
-namespace BibaFramework.BibaMenuEditor
+namespace BibaFramework.BibaEditor
 {
     public class BibaAudioEnumHelper : MonoBehaviour 
 	{

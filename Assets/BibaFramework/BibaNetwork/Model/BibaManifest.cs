@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using UnityEngine;
 
 namespace BibaFramework.BibaNetwork
 {
@@ -11,5 +12,6 @@ namespace BibaFramework.BibaNetwork
     {
         public string FileName { get; set; }
         public int Version { get; set; }
+        public string HashCode { get; set; }
     }
 }

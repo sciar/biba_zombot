@@ -6,7 +6,7 @@ using Google.GData.Spreadsheets;
 using UnityEditor;
 using UnityEngine;
 
-namespace BibaFramework.BibaMenuEditor
+namespace BibaFramework.BibaEditor
 {
     public class LocalizationSettingsImporter
 	{

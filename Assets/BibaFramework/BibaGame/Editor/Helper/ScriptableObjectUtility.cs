@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEditor;
 using System.IO;
 
-namespace BibaFramework.Utility
+namespace BibaFramework.BibaEditor
 {
     //Imported from http://wiki.unity3d.com/index.php?title=CreateScriptableObjectAsset by Robin Pan
     public static class ScriptableObjectUtility

@@ -5,7 +5,7 @@ using BibaFramework.BibaMenu;
 using UnityEditor;
 using UnityEngine;
 
-namespace BibaFramework.BibaMenuEditor
+namespace BibaFramework.BibaEditor
 {
     [CustomEditor(typeof(BibaMenuContextView))]
     public class BibaMenuContextViewInspector : Editor 

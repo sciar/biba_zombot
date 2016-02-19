@@ -6,7 +6,7 @@ using BibaFramework.BibaMenu;
 using UnityEditor;
 using UnityEngine;
 
-namespace BibaFramework.BibaMenuEditor
+namespace BibaFramework.BibaEditor
 {
 	public class BibaSceneEnumHelper : MonoBehaviour 
 	{

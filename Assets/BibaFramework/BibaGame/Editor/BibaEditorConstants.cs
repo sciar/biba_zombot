@@ -1,12 +1,13 @@
 using UnityEngine;
+using UnityEditor;
 
-namespace BibaFramework.BibaGame
+namespace BibaFramework.BibaEditor
 {
     public class BibaEditorConstants
     {
         public static readonly string SCENE_ASSETBUNDLES_INPUT_PATH = Application.dataPath + "/BibaContent/Input";
-        public static readonly string SCENE_ASSETBUNDLES_OUTPUT_PATH = Application.dataPath + "/BibaContent/Output";
-        public static readonly string MANIFEST_PATH = SCENE_ASSETBUNDLES_OUTPUT_PATH + "/manifest.txt";
+        public static readonly string BIBA_CONTENT_OUTPUT_PATH = Application.dataPath + "/BibaContent/Output/" + EditorUserBuildSettings.activeBuildTarget;
+        public static readonly string MANIFEST_PATH = BIBA_CONTENT_OUTPUT_PATH + "/manifest.txt";
         public const string UNITY3D_EXTENSION = ".unity";
 
         //Google Doc Settings
