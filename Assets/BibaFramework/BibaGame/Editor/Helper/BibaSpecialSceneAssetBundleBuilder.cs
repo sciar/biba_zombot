@@ -6,6 +6,7 @@ using BibaFramework.BibaGame;
 using BibaFramework.BibaNetwork;
 using UnityEditor;
 using UnityEngine;
+using System.Collections.Generic;
 
 namespace BibaFramework.BibaEditor
 {
@@ -22,7 +23,6 @@ namespace BibaFramework.BibaEditor
             UpdateAssetBundleNameForSceneFiles();
             BuildAssetBundles();
             UpdateManifestForAssetBundles();
-
             AssetDatabase.Refresh();
         }
 
@@ -51,7 +51,7 @@ namespace BibaFramework.BibaEditor
             foreach (var filePath in sceneFilePaths)
             {
                 var shortFilePath = filePath.Replace(Application.dataPath, "Assets");
-                if(shortFilePath.EndsWith(BibaEditorConstants.UNITY3D_EXTENSION))
+                if(shortFilePath.EndsWith(BibaEditorConstants.UNITY_EXTENSION))
                 {
                     var sceneFileName = Path.GetFileNameWithoutExtension(shortFilePath);
 
@@ -66,13 +66,17 @@ namespace BibaFramework.BibaEditor
         {
             Directory.CreateDirectory(BibaEditorConstants.BIBA_CONTENT_OUTPUT_PATH);
             BuildPipeline.BuildAssetBundles (BibaEditorConstants.BIBA_CONTENT_OUTPUT_PATH, BuildAssetBundleOptions.UncompressedAssetBundle, EditorUserBuildSettings.activeBuildTarget);
+       
+            //Rename the built bundles
+            var builtBundleFiles = Directory.GetFiles(BibaEditorConstants.BIBA_CONTENT_OUTPUT_PATH).Where(filePath => !filePath.Contains(".")).ToList();
+            builtBundleFiles.ForEach(file => File.Move(file, file + BibaEditorConstants.UNITY3D_EXTENSION));
         }
 
         static void UpdateManifestForAssetBundles()
         {
             var manifest = BibaManifest;
-            var assetBundleFilePaths = Directory.GetFiles(BibaEditorConstants.BIBA_CONTENT_OUTPUT_PATH).Where(filePath => !filePath.Contains("."));
-            foreach (var filePath in assetBundleFilePaths)
+            var assetBundleFiles = Directory.GetFiles(BibaEditorConstants.BIBA_CONTENT_OUTPUT_PATH).Where(filePath => filePath.EndsWith(BibaEditorConstants.UNITY3D_EXTENSION));
+            foreach (var filePath in assetBundleFiles)
             {
                 var shortFilePath = filePath.Replace(Application.dataPath, "Assets");
                 var manifestLine = manifest.Lines.Find(line => line.FileName == shortFilePath);
