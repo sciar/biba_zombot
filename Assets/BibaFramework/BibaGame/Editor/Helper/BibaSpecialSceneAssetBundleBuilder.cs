@@ -1,4 +1,7 @@
+using System;
 using System.Collections;
+using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Security.Cryptography;
@@ -6,7 +9,6 @@ using BibaFramework.BibaGame;
 using BibaFramework.BibaNetwork;
 using UnityEditor;
 using UnityEngine;
-using System.Collections.Generic;
 
 namespace BibaFramework.BibaEditor
 {
@@ -23,7 +25,9 @@ namespace BibaFramework.BibaEditor
             UpdateAssetBundleNameForSceneFiles();
             BuildAssetBundles();
             UpdateManifestForAssetBundles();
+
             AssetDatabase.Refresh();
+            UploadManifestAndBundle();
         }
 
         static BibaManifest _bibaManifest;
@@ -69,7 +73,14 @@ namespace BibaFramework.BibaEditor
        
             //Rename the built bundles
             var builtBundleFiles = Directory.GetFiles(BibaEditorConstants.BIBA_CONTENT_OUTPUT_PATH).Where(filePath => !filePath.Contains(".")).ToList();
-            builtBundleFiles.ForEach(file => File.Move(file, file + BibaEditorConstants.UNITY3D_EXTENSION));
+            builtBundleFiles.ForEach((file) => {
+                var destFile = file + BibaEditorConstants.UNITY3D_EXTENSION;
+                if(File.Exists(destFile))
+                {
+                    File.Delete(destFile);
+                }
+                File.Move(file, file + BibaEditorConstants.UNITY3D_EXTENSION);
+            });
         }
 
         static void UpdateManifestForAssetBundles()
@@ -78,12 +89,12 @@ namespace BibaFramework.BibaEditor
             var assetBundleFiles = Directory.GetFiles(BibaEditorConstants.BIBA_CONTENT_OUTPUT_PATH).Where(filePath => filePath.EndsWith(BibaEditorConstants.UNITY3D_EXTENSION));
             foreach (var filePath in assetBundleFiles)
             {
-                var shortFilePath = filePath.Replace(Application.dataPath, "Assets");
-                var manifestLine = manifest.Lines.Find(line => line.FileName == shortFilePath);
+                var fileName = Path.GetFileName(filePath);
+                var manifestLine = manifest.Lines.Find(line => line.FileName == fileName);
                 if(manifestLine == null)
                 {
                     manifestLine = new ManifestLine(){
-                        FileName = shortFilePath,
+                        FileName = fileName,
                         Version = 0
                     };
                     manifest.Lines.Add(manifestLine);
@@ -107,6 +118,24 @@ namespace BibaFramework.BibaEditor
                 {
                     return System.Text.Encoding.Default.GetString(md5.ComputeHash(stream));
                 }
+            }
+        }
+
+        static void UploadManifestAndBundle()
+        {
+            try
+            {
+                var process = new Process();
+                process.StartInfo.FileName = BibaEditorConstants.MONO_PATH;
+                process.StartInfo.WorkingDirectory = Path.GetDirectoryName(BibaEditorConstants.S3UPLOADER_PATH);
+                process.StartInfo.Arguments = Path.GetFileName(BibaEditorConstants.S3UPLOADER_PATH) + " " + BibaDataConstants.CI_GAME_ID;
+                process.StartInfo.CreateNoWindow = false;
+                process.StartInfo.UseShellExecute = false;
+                process.Start();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
             }
         }
 	}
