@@ -5,6 +5,7 @@ namespace BibaFramework.BibaNetwork
 {
     public class BibaManifest
     {
+        public int Version { get; set; }
         public List<ManifestLine> Lines = new List<ManifestLine>();
     }
 
@@ -13,5 +14,6 @@ namespace BibaFramework.BibaNetwork
         public string FileName { get; set; }
         public int Version { get; set; }
         public string HashCode { get; set; }
+        public bool OptionalDownload { get; set; }
     }
 }

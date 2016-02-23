@@ -32,7 +32,12 @@ namespace BibaFramework.BibaGame
         public void WriteToDisk<T>(T objectToWrite, string path)
         {
             Debug.Log(string.Format("Writing: {0} with Hashcode: {1} to Path:{2}", objectToWrite.GetType().Name, objectToWrite.GetHashCode(), path));
-            
+
+            if(!Directory.Exists(Path.GetDirectoryName(path)))
+            {
+                Directory.CreateDirectory(Path.GetDirectoryName(path));
+            }
+
             var jsonStr = JsonMapper.ToJson(objectToWrite);
             File.WriteAllText(path, jsonStr);
         }
@@ -44,7 +49,6 @@ namespace BibaFramework.BibaGame
             {
                 return JsonMapper.ToObject<T>(File.ReadAllText(path));
             }
-
             return Activator.CreateInstance<T>(); 
         }
     }

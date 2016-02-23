@@ -4,9 +4,6 @@ namespace BibaFramework.BibaGame
 {
     public class BibaDataConstants
     {
-        //Overwrite for different games
-        public const string CI_GAME_ID = "biba-framework";
-
         //GameModel
         public const string GAME_MODEL_DATA_PATH = "gamemodel.txt";
 

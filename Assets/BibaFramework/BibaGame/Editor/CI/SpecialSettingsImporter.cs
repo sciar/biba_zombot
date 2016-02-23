@@ -2,6 +2,7 @@ using System;
 using System.Globalization;
 using System.Text.RegularExpressions;
 using BibaFramework.BibaGame;
+using BibaFramework.BibaNetwork;
 using Google.GData.Client;
 using Google.GData.Spreadsheets;
 using UnityEditor;
@@ -12,7 +13,7 @@ namespace BibaFramework.BibaEditor
     public class SpecialSettingsImporter
 	{
         private const string SETTINGS_SPREADSHEET_NAME = "Biba Specialized Scenes";
-        private const string SETTINGS_WORKSHEET_NAME = BibaDataConstants.CI_GAME_ID;
+        private const string SETTINGS_WORKSHEET_NAME = BibaContentConstants.CI_GAME_ID;
 
         [MenuItem("Biba/Google Drive/Load Special Scene Settings")]
         public static void LoadSpecialSceneSettings ()

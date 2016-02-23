@@ -34,7 +34,6 @@ namespace BibaFramework.BibaEditor
         static BibaManifest BibaManifest
         {       
             get {
-                
                 if(_bibaManifest == null)
                 {
                     var jsonDataService = new JSONDataService();
@@ -43,6 +42,7 @@ namespace BibaFramework.BibaEditor
                     if (_bibaManifest == null)
                     {
                         _bibaManifest = new BibaManifest();
+                        _bibaManifest.Version = 0;
                     }
                 }
                 return _bibaManifest;
@@ -128,7 +128,7 @@ namespace BibaFramework.BibaEditor
                 var process = new Process();
                 process.StartInfo.FileName = BibaEditorConstants.MONO_PATH;
                 process.StartInfo.WorkingDirectory = Path.GetDirectoryName(BibaEditorConstants.S3UPLOADER_PATH);
-                process.StartInfo.Arguments = Path.GetFileName(BibaEditorConstants.S3UPLOADER_PATH) + " " + BibaDataConstants.CI_GAME_ID;
+                process.StartInfo.Arguments = Path.GetFileName(BibaEditorConstants.S3UPLOADER_PATH) + " " + BibaContentConstants.CI_GAME_ID;
                 process.StartInfo.CreateNoWindow = false;
                 process.StartInfo.UseShellExecute = false;
                 process.Start();
