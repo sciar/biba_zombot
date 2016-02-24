@@ -12,7 +12,7 @@ namespace BibaFramework.BibaEditor
 {
     public class SpecialSettingsImporter
 	{
-        private const string SETTINGS_SPREADSHEET_NAME = "Biba Specialized Scenes";
+        private const string SETTINGS_SPREADSHEET_NAME = "Biba Timed Scenes";
         private const string SETTINGS_WORKSHEET_NAME = BibaContentConstants.CI_GAME_ID;
 
         [MenuItem("Biba/Google Drive/Load Special Scene Settings")]
@@ -74,7 +74,7 @@ namespace BibaFramework.BibaEditor
                 sceneSetting.StartDate = startDate;
                 sceneSetting.EndDate = endDate;
 
-                settings.SpcialSceneSettings.Add(sceneSetting);
+                settings.TimeSpecialSceneSettings.Add(sceneSetting);
             }
 
             var jsonDataService = new JSONDataService();

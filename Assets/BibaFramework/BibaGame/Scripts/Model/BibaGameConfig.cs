@@ -6,6 +6,5 @@ namespace BibaFramework.BibaGame
     public class BibaGameConfig
     {
         public BibaAchievementSettings BibaAchievementSettings { get; set; }
-        public BibaSpecialSceneSettings BibaSpecialSceneSettings { get; set; }
     }
 }

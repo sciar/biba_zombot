@@ -59,9 +59,9 @@ namespace BibaFramework.BibaNetwork
             }
         }
 
-        public void DownloadFromCDN()
+        public void UpdateFromCDN()
         {
-            GetObject(BibaContentConstants.GetContentRelativePath(BibaContentConstants.MANIFEST_FILENAME), ManifestRetrieved);
+            GetText(BibaContentConstants.GetContentRelativePath(BibaContentConstants.MANIFEST_FILENAME), ManifestRetrieved);
         }
 
         void ManifestRetrieved(string remoteManifestString)
@@ -81,12 +81,7 @@ namespace BibaFramework.BibaNetwork
 
                     if((localLine == null || localLine.Version < remoteLine.Version) && !remoteLine.OptionalDownload)
                     {
-                        GetObject(BibaContentConstants.GetContentRelativePath(remoteFileName), (dataString) => {
-                            if(!string.IsNullOrEmpty(dataString))
-                            {
-                                File.WriteAllText(BibaContentConstants.GetPersistedContentFilePath(remoteFileName), dataString);
-                            }
-                        });
+                        GetBinary(BibaContentConstants.GetContentRelativePath(remoteFileName), BibaContentConstants.GetPersistedContentFilePath(remoteFileName));
                     }
                 }
                 _localManifest  = remoteManifest;
@@ -94,10 +89,10 @@ namespace BibaFramework.BibaNetwork
             }
         }
         
-        void GetObject(string objectFileName, Action<string> callBack)
+        void GetText(string objectFileName, Action<string> callBack = null)
         {
             Debug.Log(string.Format("fetching {0} from bucket {1}", objectFileName, S3BucketName));
-            
+
             Client.GetObjectAsync(S3BucketName, objectFileName, (responseObj) => {
                 string data = null;
                 var response = responseObj.Response;
@@ -108,7 +103,43 @@ namespace BibaFramework.BibaNetwork
                         data = reader.ReadToEnd();
                     }
                 }
-                callBack(data);
+
+                if(callBack != null)
+                {
+                    callBack(data);
+                }
+            });
+        }
+
+        void GetBinary(string objectFileName, string savePath, Action<string> callBack = null)
+        {
+            Debug.Log(string.Format("fetching {0} from bucket {1}", objectFileName, S3BucketName));
+
+            Client.GetObjectAsync(S3BucketName, objectFileName, (responseObj) => {
+                var response = responseObj.Response;
+                if (response.ResponseStream != null)
+                {
+                    using (Stream s = response.ResponseStream)
+                    {
+                        using (FileStream fs = new FileStream(savePath, FileMode.Create, FileAccess.Write))
+                        {
+                            byte[] data = new byte[32768];
+                            int bytesRead = 0;
+                            do
+                            {
+                                bytesRead = s.Read(data, 0, data.Length);
+                                fs.Write(data, 0, bytesRead);
+                            }
+                            while (bytesRead > 0);
+                            fs.Flush();
+                        }
+                    }
+                }
+
+                if(callBack != null)
+                {
+                    callBack(savePath);
+                }
             });
         }
     }

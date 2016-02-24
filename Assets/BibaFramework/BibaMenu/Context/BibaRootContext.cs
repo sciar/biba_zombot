@@ -1,10 +1,10 @@
 using System.Collections;
 using UnityEngine;
-using BibaFramework.BibaMenu;
-using strange.extensions.context.api;
-using BibaFramework.BibaGame;
 using BibaFramework.BibaAnalytic;
+using BibaFramework.BibaGame;
+using BibaFramework.BibaMenu;
 using BibaFramework.BibaNetwork;
+using strange.extensions.context.api;
 
 namespace BibaFramework.BibaMenu
 {
@@ -38,8 +38,9 @@ namespace BibaFramework.BibaMenu
 		{
 			injectionBinder.Bind<IAnalyticService>().To<FlurryAnalyticService>().ToSingleton().CrossContext();
 			injectionBinder.Bind<IDataService>().To<JSONDataService>().ToSingleton().CrossContext();
-            injectionBinder.Bind<LocalizationService>().To<LocalizationService>().ToSingleton().CrossContext();
             injectionBinder.Bind<ICDNService>().To<BibaCDNService>().ToSingleton().CrossContext();
+            injectionBinder.Bind<LocalizationService>().To<LocalizationService>().ToSingleton().CrossContext();
+            injectionBinder.Bind<SpecialSceneLoaderService>().To<SpecialSceneLoaderService>().ToSingleton().CrossContext();
         }
 
         protected override void BindViews ()

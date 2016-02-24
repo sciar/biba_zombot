@@ -2,6 +2,7 @@ using strange.extensions.command.impl;
 using UnityEngine;
 using System.Linq;
 using System.Collections.Generic;
+using BibaFramework.BibaNetwork;
 
 namespace BibaFramework.BibaGame
 {
@@ -16,23 +17,21 @@ namespace BibaFramework.BibaGame
         [Inject]
         public IDataService LoaderService { get; set; }
 
+        [Inject]
+        public ICDNService CDNService { get; set; }
+
         public override void Execute ()
         {
+            CDNService.UpdateFromCDN();
+
             SetFramerate();
             LoadAchievementSettings();
-            LoadSpecialSceneSettings();
         }
 
         void SetFramerate()
         {
             Application.targetFrameRate = 60;
             QualitySettings.vSyncCount = 0;
-        }
-
-        void LoadSpecialSceneSettings()
-        {
-            var sceneSettings = LoaderService.ReadFromDisk<BibaSpecialSceneSettings>(BibaDataConstants.SPECIAL_SCENE_SETTINGS_PATH);
-            BibaGameConfig.BibaSpecialSceneSettings = sceneSettings;
         }
 
         void LoadAchievementSettings()

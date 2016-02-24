@@ -2,6 +2,10 @@ using System.Collections;
 using UnityEngine;
 using BibaFramework.Utility;
 using strange.extensions.command.impl;
+using BibaFramework.BibaGame;
+using BibaFramework.BibaNetwork;
+using System;
+using System.IO;
 
 namespace BibaFramework.BibaMenu
 {
@@ -18,6 +22,9 @@ namespace BibaFramework.BibaMenu
 
         [Inject]
         public ToggleObjectMenuStateSignal ToggleObjectMenuStateSignal { get; set; }
+
+        [Inject]
+        public SpecialSceneLoaderService SpecialSceneLoaderService { get; set; }
 
         public override void Execute ()
         {
@@ -72,9 +79,30 @@ namespace BibaFramework.BibaMenu
 
         IEnumerator LoadLevelAsync()
         {
-			AsyncOperation asyncOp = Application.LoadLevelAdditiveAsync(NextMenuState.SceneName);
-            yield return asyncOp;
+            AsyncOperation asyncOp;
+            var specialSceneId = SpecialSceneLoaderService.LookForSpecialSceneToShow(NextMenuState.SceneName);
+            var persistedFilePath = BibaContentConstants.GetPersistedContentFilePath(specialSceneId + BibaContentConstants.UNITY3D_EXTENSION);
+            if (!string.IsNullOrEmpty(specialSceneId) && File.Exists(persistedFilePath))
+            {
+                persistedFilePath = "file:///" +  persistedFilePath;
 
+                var www = new WWW(persistedFilePath);
+               
+                yield return www;
+                www.assetBundle.LoadAsset(specialSceneId);
+
+                asyncOp = Application.LoadLevelAdditiveAsync(specialSceneId);
+                yield return asyncOp;
+
+                www.assetBundle.Unload(false);
+            } 
+            else
+            {
+                asyncOp = Application.LoadLevelAdditiveAsync(NextMenuState.SceneName);
+                yield return asyncOp;
+            }
+
+            yield return asyncOp;
             LevelLoaded();
         }
 

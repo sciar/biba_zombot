@@ -69,24 +69,25 @@ namespace BibaFramework.BibaEditor
         static void BuildAssetBundles()
         {
             Directory.CreateDirectory(BibaEditorConstants.BIBA_CONTENT_OUTPUT_PATH);
-            BuildPipeline.BuildAssetBundles (BibaEditorConstants.BIBA_CONTENT_OUTPUT_PATH, BuildAssetBundleOptions.UncompressedAssetBundle, EditorUserBuildSettings.activeBuildTarget);
+            BuildPipeline.BuildAssetBundles (BibaEditorConstants.BIBA_CONTENT_OUTPUT_PATH, BuildAssetBundleOptions.None, EditorUserBuildSettings.activeBuildTarget);
        
             //Rename the built bundles
             var builtBundleFiles = Directory.GetFiles(BibaEditorConstants.BIBA_CONTENT_OUTPUT_PATH).Where(filePath => !filePath.Contains(".")).ToList();
             builtBundleFiles.ForEach((file) => {
-                var destFile = file + BibaEditorConstants.UNITY3D_EXTENSION;
-                if(File.Exists(destFile))
+                var newPath = file + BibaContentConstants.UNITY3D_EXTENSION;
+                if(File.Exists(newPath))
                 {
-                    File.Delete(destFile);
+                    File.Delete(newPath);
                 }
-                File.Move(file, file + BibaEditorConstants.UNITY3D_EXTENSION);
+                File.Move(file, newPath);
             });
         }
 
         static void UpdateManifestForAssetBundles()
         {
+            var manifestUpdated = false;
             var manifest = BibaManifest;
-            var assetBundleFiles = Directory.GetFiles(BibaEditorConstants.BIBA_CONTENT_OUTPUT_PATH).Where(filePath => filePath.EndsWith(BibaEditorConstants.UNITY3D_EXTENSION));
+            var assetBundleFiles = Directory.GetFiles(BibaEditorConstants.BIBA_CONTENT_OUTPUT_PATH).Where(filePath => filePath.EndsWith(BibaContentConstants.UNITY3D_EXTENSION));
             foreach (var filePath in assetBundleFiles)
             {
                 var fileName = Path.GetFileName(filePath);
@@ -105,9 +106,16 @@ namespace BibaFramework.BibaEditor
                 {
                     manifestLine.HashCode = assetBundleHash;
                     manifestLine.Version++;
-                    new JSONDataService().WriteToDisk<BibaManifest>(BibaManifest, BibaEditorConstants.MANIFEST_PATH);
+
+                    manifestUpdated = true;
                 }
              }
+
+            if (manifestUpdated)
+            {
+                BibaManifest.Version++;
+                new JSONDataService().WriteToDisk<BibaManifest>(BibaManifest, BibaEditorConstants.MANIFEST_PATH);
+            }
         }
 
         static string GetHashString(string filePath)

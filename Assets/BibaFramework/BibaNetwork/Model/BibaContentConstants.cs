@@ -18,8 +18,9 @@ namespace BibaFramework.BibaNetwork
         private static readonly string PLATFORM_FOLDER = "Android";
         #endif
 
-        public static readonly string MANIFEST_FILENAME = "manifest.txt";
-
+        public const string MANIFEST_FILENAME = "manifest.txt";
+        public const string UNITY3D_EXTENSION = ".unity3d";
+        
         public static string GetContentRelativePath(string fileName)
         {
             return PLATFORM_FOLDER + "/" + fileName;
@@ -30,7 +31,7 @@ namespace BibaFramework.BibaNetwork
             return Application.dataPath + "/Resources/" + GetContentRelativePath(fileName);
         }
 
-        public static string GetOnDiskContentFilePath(string fileName)
+        public static string GetPersistedContentFilePath(string fileName)
         {
             return Application.persistentDataPath + "/" + GetContentRelativePath(fileName);
         }

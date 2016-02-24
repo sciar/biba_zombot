@@ -4,6 +4,6 @@ namespace BibaFramework.BibaNetwork
 {
 	public interface ICDNService
     {
-        void DownloadFromCDN();
+        void UpdateFromCDN();
 	}
 }
