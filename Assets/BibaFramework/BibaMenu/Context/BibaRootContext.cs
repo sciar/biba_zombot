@@ -27,7 +27,6 @@ namespace BibaFramework.BibaMenu
         protected override void BindModels ()
         {
             injectionBinder.Bind<BibaSceneStack>().To<BibaSceneStack>().ToSingleton().CrossContext();
-            injectionBinder.Bind<BibaGameConfig>().To<BibaGameConfig>().ToSingleton().CrossContext();
 
             //Create a bogus binding for the BibaGameModel because we are going to rebind it in LoadGameDataCommand
             injectionBinder.Bind<BibaGameModel>().To<BibaGameModel>();
@@ -40,6 +39,7 @@ namespace BibaFramework.BibaMenu
 			injectionBinder.Bind<IDataService>().To<JSONDataService>().ToSingleton().CrossContext();
             injectionBinder.Bind<ICDNService>().To<BibaCDNService>().ToSingleton().CrossContext();
             injectionBinder.Bind<LocalizationService>().To<LocalizationService>().ToSingleton().CrossContext();
+            injectionBinder.Bind<AchievementService>().To<AchievementService>().ToSingleton().CrossContext();
             injectionBinder.Bind<SpecialSceneLoaderService>().To<SpecialSceneLoaderService>().ToSingleton().CrossContext();
         }
 

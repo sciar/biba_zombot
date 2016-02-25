@@ -17,6 +17,7 @@ namespace BibaFramework.BibaNetwork
         public IDataService DataService { get; set; }
        
         private AWSCredentials _credentials;
+
         private AWSCredentials Credentials
         {
             get
@@ -30,6 +31,7 @@ namespace BibaFramework.BibaNetwork
         }
         
         private IAmazonS3 _s3Client;
+
         private IAmazonS3 Client
         {
             get
@@ -45,11 +47,12 @@ namespace BibaFramework.BibaNetwork
         private string S3BucketName { get { return BibaContentConstants.CI_GAME_ID; } }
 
         private BibaManifest _localManifest;
-        private BibaManifest LocalManifest 
+
+        private BibaManifest LocalManifest
         {
-            get 
+            get
             {
-                if(_localManifest == null)
+                if (_localManifest == null)
                 {
                     var persistedManifest = DataService.ReadFromDisk<BibaManifest>(BibaContentConstants.GetPersistedContentFilePath(BibaContentConstants.MANIFEST_FILENAME));
                     var resourceManifest = DataService.ReadFromDisk<BibaManifest>(BibaContentConstants.GetResourceContentFilePath(BibaContentConstants.MANIFEST_FILENAME));
@@ -74,17 +77,17 @@ namespace BibaFramework.BibaNetwork
             var remoteManifest = JsonMapper.ToObject<BibaManifest>(remoteManifestString);
             if (remoteManifest != null && remoteManifest.Version > LocalManifest.Version)
             {
-                foreach(var remoteLine in remoteManifest.Lines)
+                foreach (var remoteLine in remoteManifest.Lines)
                 {
                     var remoteFileName = remoteLine.FileName;
                     var localLine = LocalManifest.Lines.Find(line => line.FileName == remoteFileName);
 
-                    if((localLine == null || localLine.Version < remoteLine.Version) && !remoteLine.OptionalDownload)
+                    if ((localLine == null || localLine.Version < remoteLine.Version) && !remoteLine.OptionalDownload)
                     {
                         GetBinary(BibaContentConstants.GetContentRelativePath(remoteFileName), BibaContentConstants.GetPersistedContentFilePath(remoteFileName));
                     }
                 }
-                _localManifest  = remoteManifest;
+                _localManifest = remoteManifest;
                 DataService.WriteToDisk<BibaManifest>(_localManifest, BibaContentConstants.GetPersistedContentFilePath(BibaContentConstants.MANIFEST_FILENAME));
             }
         }
@@ -104,7 +107,7 @@ namespace BibaFramework.BibaNetwork
                     }
                 }
 
-                if(callBack != null)
+                if (callBack != null)
                 {
                     callBack(data);
                 }
@@ -129,14 +132,13 @@ namespace BibaFramework.BibaNetwork
                             {
                                 bytesRead = s.Read(data, 0, data.Length);
                                 fs.Write(data, 0, bytesRead);
-                            }
-                            while (bytesRead > 0);
+                            } while (bytesRead > 0);
                             fs.Flush();
                         }
                     }
                 }
 
-                if(callBack != null)
+                if (callBack != null)
                 {
                     callBack(savePath);
                 }

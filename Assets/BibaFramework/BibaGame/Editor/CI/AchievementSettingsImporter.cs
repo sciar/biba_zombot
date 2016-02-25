@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Globalization;
 using System.Text.RegularExpressions;
 using BibaFramework.BibaGame;
@@ -10,7 +10,7 @@ namespace BibaFramework.BibaEditor
 {
     public class AchievementSettingsImporter
 	{
-        private const string ACHIEVEMENT_SETTINGS_SPREADSHEET_NAME = "Fun Metrics";
+        private const string ACHIEVEMENT_SETTINGS_SPREADSHEET_NAME = "Biba Cross Game Fun Metrics";
         private const string ACHIEVEMENT_SETTINGS_WORKSHEET_NAME = "1-2 Theme Feats";
         private const string SEASONAL_ACHIEVEMENT_SETTINGS_WORKSHEET_NAME = "1-3 Themed Feats for Holiday Season";
 
@@ -93,7 +93,7 @@ namespace BibaFramework.BibaEditor
                 DescriptionSuffix = description
             };
 
-            _achievementSettings.AchievementSettings.Add(configToWrite);
+            _achievementSettings.SeasonalAchievementSettings.Add(configToWrite);
         }
         #endregion
 
@@ -133,13 +133,13 @@ namespace BibaFramework.BibaEditor
             var equipmentType = (BibaEquipmentType)Enum.Parse(typeof(BibaEquipmentType), equipmentString);
             var timePlayed = Convert.ToInt32(timePlayedString);
             
-            var configToWrite = new BibaSeasonalAchievementConfig() {
+            var configToWrite = new BibaAchievementConfig() {
                 EquipmentType = equipmentType,
                 TimePlayed = timePlayed,
                 DescriptionSuffix = description
             };
 
-            _achievementSettings.AchievementSettings.Add(configToWrite);
+            _achievementSettings.BasicAchievementSettings.Add(configToWrite);
         }
         #endregion
 	}
