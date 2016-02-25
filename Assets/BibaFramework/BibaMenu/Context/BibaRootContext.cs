@@ -40,7 +40,7 @@ namespace BibaFramework.BibaMenu
             injectionBinder.Bind<ICDNService>().To<BibaCDNService>().ToSingleton().CrossContext();
             injectionBinder.Bind<LocalizationService>().To<LocalizationService>().ToSingleton().CrossContext();
             injectionBinder.Bind<AchievementService>().To<AchievementService>().ToSingleton().CrossContext();
-            injectionBinder.Bind<SpecialSceneLoaderService>().To<SpecialSceneLoaderService>().ToSingleton().CrossContext();
+            injectionBinder.Bind<SpecialSceneService>().To<SpecialSceneService>().ToSingleton().CrossContext();
         }
 
         protected override void BindViews ()

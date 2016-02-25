@@ -24,7 +24,7 @@ namespace BibaFramework.BibaMenu
         public ToggleObjectMenuStateSignal ToggleObjectMenuStateSignal { get; set; }
 
         [Inject]
-        public SpecialSceneLoaderService SpecialSceneLoaderService { get; set; }
+        public SpecialSceneService SpecialSceneLoaderService { get; set; }
 
         public override void Execute ()
         {
@@ -84,7 +84,7 @@ namespace BibaFramework.BibaMenu
             var persistedFilePath = BibaContentConstants.GetPersistedContentFilePath(specialSceneId + BibaContentConstants.UNITY3D_EXTENSION);
             if (!string.IsNullOrEmpty(specialSceneId) && File.Exists(persistedFilePath))
             {
-                persistedFilePath = "file:///" +  persistedFilePath;
+                persistedFilePath = "file://" +  persistedFilePath;
 
                 var www = new WWW(persistedFilePath);
                

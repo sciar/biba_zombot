@@ -6,7 +6,7 @@ using BibaFramework.BibaNetwork;
 
 namespace BibaFramework.BibaGame
 {
-    public class SpecialSceneLoaderService
+    public class SpecialSceneService
     {
         [Inject]
         public IDataService LoaderService { get; set; }
@@ -31,12 +31,7 @@ namespace BibaFramework.BibaGame
                 return result;
             }
 
-            result =  CheckForTimedBasedScene(nextScene);
-            if (!string.IsNullOrEmpty(result))
-            {
-                return result;
-            }
-            return string.Empty;
+            return CheckForTimedBasedScene(nextScene);
         }
 
         string CheckForTimedBasedScene(string nextScene)
@@ -44,7 +39,6 @@ namespace BibaFramework.BibaGame
             var result = SpecialSceneSettings.TimeSpecialSceneSettings.Find(setting => setting.SceneName == nextScene && 
                                                                         DateTime.UtcNow >= setting.StartDate &&
                                                                         DateTime.UtcNow <= setting.EndDate);
-
             return result != null ? result.Id : string.Empty;
         }
 

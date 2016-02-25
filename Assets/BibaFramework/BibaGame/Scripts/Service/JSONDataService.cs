@@ -45,10 +45,20 @@ namespace BibaFramework.BibaGame
         public T ReadFromDisk<T>(string path)
         {
             Debug.Log(string.Format("Reading: {0}", path));
+
+            //Check if file is accessible in the fileSystem
             if (File.Exists(path))
             {
                 return JsonMapper.ToObject<T>(File.ReadAllText(path));
             }
+
+            //Check in the Resources folder if not found in the file system
+            var textAsset = Resources.Load<TextAsset>(Path.GetFileNameWithoutExtension(path));
+            if (textAsset != null && !string.IsNullOrEmpty(textAsset.text))
+            {
+                return JsonMapper.ToObject<T>(textAsset.text);
+            }
+
             return Activator.CreateInstance<T>(); 
         }
     }
