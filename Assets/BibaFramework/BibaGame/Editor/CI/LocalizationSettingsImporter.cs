@@ -5,13 +5,14 @@ using Google.GData.Client;
 using Google.GData.Spreadsheets;
 using UnityEditor;
 using UnityEngine;
+using BibaFramework.BibaNetwork;
 
 namespace BibaFramework.BibaEditor
 {
     public class LocalizationSettingsImporter
 	{
         private const string LOCALIZATION_SETTINGS_SPREADSHEET_NAME = "Biba Localization";
-        private const string LOCALIZATION_SETTINGS_WORKSHEET_NAME = "Common";
+        private const string LOCALIZATION_SETTINGS_WORKSHEET_NAME = BibaContentConstants.CI_GAME_ID;
 
         [MenuItem("Biba/Google Drive/Load Localization Settings")]
         public static void CreateLocalizationSettings ()
