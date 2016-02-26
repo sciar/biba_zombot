@@ -10,7 +10,7 @@ namespace BibaFramework.BibaEditor
 {
     public class AchievementSettingsImporter
 	{
-        private const string ACHIEVEMENT_SETTINGS_SPREADSHEET_NAME = "Biba Cross Game Fun Metrics";
+        private const string ACHIEVEMENT_SETTINGS_SPREADSHEET_NAME = "Biba Fun Metrics";
         private const string ACHIEVEMENT_SETTINGS_WORKSHEET_NAME = "1-2 Theme Feats";
         private const string SEASONAL_ACHIEVEMENT_SETTINGS_WORKSHEET_NAME = "1-3 Themed Feats for Holiday Season";
 
