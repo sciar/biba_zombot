@@ -45,7 +45,9 @@ namespace BibaFramework.BibaGame
             foreach (var config in InCompletedAchievements)
             {
                 var equipment = BibaGameModel.TotalPlayedEquipments.Find(equip => equip.EquipmentType == config.EquipmentType);
-                if(IsBasicAchievementCompleted(equipment, config))
+
+                if((config is BibaAchievementConfig && IsBasicAchievementCompleted(equipment, config)) ||
+                   (config is BibaSeasonalAchievementConfig && IsSeasonalAchievementCompleted(equipment, config)))
                 {
                     //New achievement obtained
                     var newAchievement = new BibaAchievement(config);
@@ -57,7 +59,7 @@ namespace BibaFramework.BibaGame
 
         bool IsBasicAchievementCompleted(BibaEquipment equipment, BibaAchievementConfig config)
         {
-            return equipment.NumberOfTimePlayed >= config.TimePlayed && !(config is BibaSeasonalAchievementConfig);
+            return equipment.NumberOfTimePlayed >= config.TimePlayed;
         }
 
         bool IsSeasonalAchievementCompleted(BibaEquipment equipment, BibaAchievementConfig config)
