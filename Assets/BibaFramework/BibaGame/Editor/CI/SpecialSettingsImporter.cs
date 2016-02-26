@@ -46,7 +46,13 @@ namespace BibaFramework.BibaEditor
                     continue;
                 }
 
-                var durationText = row.Elements[1].Value;
+                var sceneText = row.Elements[1].Value;
+                if(string.IsNullOrEmpty(sceneText))
+                {
+                    continue;
+                }
+
+                var durationText = row.Elements[2].Value;
                 if(string.IsNullOrEmpty(durationText))
                 {
                     continue;
@@ -60,12 +66,6 @@ namespace BibaFramework.BibaEditor
 
                 var startDate = DateTime.ParseExact(dateMatchGroups[BibaEditorConstants.REGEX_GROUP_STARTDATE].Value, BibaEditorConstants.DATETIME_PARSE_EXACT_FORMAT, CultureInfo.InvariantCulture);     
                 var endDate = DateTime.ParseExact(dateMatchGroups[BibaEditorConstants.REGEX_GROUP_ENDDATE].Value, BibaEditorConstants.DATETIME_PARSE_EXACT_FORMAT, CultureInfo.InvariantCulture);
-
-                var sceneText = row.Elements[2].Value;
-                if(string.IsNullOrEmpty(sceneText))
-                {
-                    continue;
-                }
 
                 var sceneSetting = new TimedSceneSetting();
 
