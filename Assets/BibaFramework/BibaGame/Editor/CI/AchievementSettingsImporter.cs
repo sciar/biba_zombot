@@ -93,7 +93,7 @@ namespace BibaFramework.BibaEditor
                 DescriptionSuffix = description
             };
 
-            _achievementSettings.SeasonalAchievementSettings.Add(configToWrite);
+            _achievementSettings.AchievementSettings.Add(configToWrite);
         }
         #endregion
 
@@ -139,7 +139,7 @@ namespace BibaFramework.BibaEditor
                 DescriptionSuffix = description
             };
 
-            _achievementSettings.BasicAchievementSettings.Add(configToWrite);
+            _achievementSettings.AchievementSettings.Add(configToWrite);
         }
         #endregion
 	}

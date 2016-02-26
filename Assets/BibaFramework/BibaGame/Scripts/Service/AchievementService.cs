@@ -19,16 +19,7 @@ namespace BibaFramework.BibaGame
                 {
                     _settings = DataService.ReadFromDisk<BibaAchievementSettings>(BibaDataConstants.ACHIEVEMENT_SETTINGS_PATH);
 
-                    foreach (var setting in _settings.BasicAchievementSettings)
-                    {
-                        var index = BibaGameModel.CompletedAchievements.FindIndex(achievement => achievement.Id == setting.Id);
-                        if(index != -1)
-                        {
-                            BibaGameModel.CompletedAchievements[index].Config = setting;
-                        }
-                    }
-
-                    foreach (var setting in _settings.SeasonalAchievementSettings)
+                    foreach (var setting in _settings.AchievementSettings)
                     {
                         var index = BibaGameModel.CompletedAchievements.FindIndex(achievement => achievement.Id == setting.Id);
                         if(index != -1)
@@ -44,10 +35,7 @@ namespace BibaFramework.BibaGame
         private IEnumerable<BibaAchievementConfig> InCompletedAchievements {
             get 
             {
-                var incompeltedBasicAchievements = _settings.BasicAchievementSettings.Where(config => BibaGameModel.CompletedAchievements.FindIndex(completedAchievement => completedAchievement.Id == config.Id) == -1);
-                var incompeltedSeasonalAchievements = _settings.SeasonalAchievementSettings.Where(config => BibaGameModel.CompletedAchievements.FindIndex(completedAchievement => completedAchievement.Id == config.Id) == -1);
-
-                return incompeltedBasicAchievements.Union(incompeltedSeasonalAchievements as IEnumerable<BibaAchievementConfig>);
+                return Settings.AchievementSettings.Where(config => BibaGameModel.CompletedAchievements.FindIndex(completedAchievement => completedAchievement.Id == config.Id) == -1);
             }
         }
 

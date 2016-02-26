@@ -6,8 +6,7 @@ namespace BibaFramework.BibaGame
 {
     public class BibaAchievementSettings
     {
-        public List<BibaAchievementConfig> BasicAchievementSettings = new List<BibaAchievementConfig>();
-        public List<BibaSeasonalAchievementConfig> SeasonalAchievementSettings = new List<BibaSeasonalAchievementConfig>();
+        public List<BibaAchievementConfig> AchievementSettings = new List<BibaAchievementConfig>();
     }
 
     public class BibaAchievementConfig
