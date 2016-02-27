@@ -16,7 +16,7 @@ namespace BibaFramework.BibaEditor
 		private const string ANDROID_SDK_FOLDER_KEY = "AndroidSdkRoot";
 		private const string ANDROID_SDK_FOLDER_PATH = "/Users/Jenkins/Library/Android/sdk";
 
-		[MenuItem("Biba/CI/Build iOS")]
+		[MenuItem("Biba/Build Jobs/Build iOS")]
 		public static void BuildIOS ()
 		{
             // Set Build Number
@@ -27,7 +27,7 @@ namespace BibaFramework.BibaEditor
             BuildPlayer(path, BuildTarget.iOS);
 		}
 
-		[MenuItem("Biba/CI/Build Android")]
+        [MenuItem("Biba/Build Jobs/Build Android")]
 		public static void BuildAndroid ()
 		{
             // Set Build Number
@@ -50,8 +50,8 @@ namespace BibaFramework.BibaEditor
 
         static void BuildPlayer(string path, BuildTarget target)
         {
-            AchievementSettingsImporter.CreateAchievementAsset();
-            LocalizationSettingsImporter.CreateLocalizationSettings();
+            BibaAchievementImporter.CreateAchievementAsset();
+            BibaLocalizationImporter.CreateLocalizationSettings();
 
             // Create output directory
             Directory.CreateDirectory (Path.GetDirectoryName(path));

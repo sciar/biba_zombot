@@ -10,12 +10,12 @@ using UnityEngine;
 
 namespace BibaFramework.BibaEditor
 {
-    public class SpecialSettingsImporter
+    public class BibaSpecialSceneImporter
 	{
         private const string SETTINGS_SPREADSHEET_NAME = "Biba Timed Scenes";
         private const string SETTINGS_WORKSHEET_NAME = BibaContentConstants.CI_GAME_ID;
 
-        [MenuItem("Biba/Google Drive/Load Special Scene Settings")]
+        [MenuItem("Biba/Load Settings/Load Special Scene Settings")]
         public static void LoadSpecialSceneSettings ()
         {
             ImportSpecialSceneSettings();
@@ -78,7 +78,7 @@ namespace BibaFramework.BibaEditor
             }
 
             var jsonDataService = new JSONDataService();
-            jsonDataService.WriteToDisk<BibaSpecialSceneSettings>(settings, BibaDataConstants.SPECIAL_SCENE_SETTINGS_PATH);
+            jsonDataService.WriteToDisk<BibaSpecialSceneSettings>(settings, BibaEditorConstants.GetContentOutputPath(BibaContentConstants.SPECIAL_SCENE_SETTINGS_FILE));
         }
 	}
 }

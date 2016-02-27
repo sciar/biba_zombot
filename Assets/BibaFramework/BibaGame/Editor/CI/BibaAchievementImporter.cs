@@ -5,10 +5,11 @@ using BibaFramework.BibaGame;
 using Google.GData.Client;
 using Google.GData.Spreadsheets;
 using UnityEditor;
+using BibaFramework.BibaNetwork;
 
 namespace BibaFramework.BibaEditor
 {
-    public class AchievementSettingsImporter
+    public class BibaAchievementImporter
 	{
         private const string ACHIEVEMENT_SETTINGS_SPREADSHEET_NAME = "Biba Fun Metrics";
         private const string ACHIEVEMENT_SETTINGS_WORKSHEET_NAME = "1-2 Theme Feats";
@@ -16,7 +17,7 @@ namespace BibaFramework.BibaEditor
 
         private static BibaAchievementSettings _achievementSettings;
 
-        [MenuItem("Biba/Google Drive/Load Achievement Settings")]
+        [MenuItem("Biba/Load Settings/Load Achievement Settings")]
         public static void CreateAchievementAsset ()
         {
             _achievementSettings = new BibaAchievementSettings();
@@ -25,7 +26,7 @@ namespace BibaFramework.BibaEditor
             ImportSeasonalAchievementSettings();
 
             var jsonDataService = new JSONDataService();
-            jsonDataService.WriteToDisk<BibaAchievementSettings>(_achievementSettings, BibaDataConstants.ACHIEVEMENT_SETTINGS_PATH);
+            jsonDataService.WriteToDisk<BibaAchievementSettings>(_achievementSettings, BibaEditorConstants.GetContentOutputPath(BibaContentConstants.ACHIEVEMENT_SETTINGS_FILE));
 
             AssetDatabase.Refresh();
         }

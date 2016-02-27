@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using BibaFramework.BibaNetwork;
 
 namespace BibaFramework.BibaGame
 {
@@ -11,13 +12,20 @@ namespace BibaFramework.BibaGame
         [Inject]
         public BibaGameModel BibaGameModel { get; set; }
 
+        [Inject]
+        public ICDNService CDNService { get; set; }
+
         private BibaAchievementSettings _settings;
         private BibaAchievementSettings Settings {
             get 
             {
                 if(_settings == null)
                 {
-                    _settings = DataService.ReadFromDisk<BibaAchievementSettings>(BibaDataConstants.ACHIEVEMENT_SETTINGS_PATH);
+                    var filePath = CDNService.ShouldLoadFromResources ? 
+                        BibaContentConstants.GetResourceContentFilePath(BibaContentConstants.ACHIEVEMENT_SETTINGS_FILE) :
+                            BibaContentConstants.GetPersistedContentFilePath(BibaContentConstants.ACHIEVEMENT_SETTINGS_FILE);
+
+                    _settings = DataService.ReadFromDisk<BibaAchievementSettings>(filePath);
 
                     foreach (var setting in _settings.AchievementSettings)
                     {

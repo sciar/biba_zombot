@@ -1,7 +1,7 @@
-using LitJson;
+using System;
 using System.IO;
 using UnityEngine;
-using System;
+using LitJson;
 
 namespace BibaFramework.BibaGame
 {
@@ -15,7 +15,7 @@ namespace BibaFramework.BibaGame
 
         public void WriteGameModel ()
         {
-            var path = Path.Combine(Application.persistentDataPath, BibaDataConstants.GAME_MODEL_DATA_PATH);
+            var path = Path.Combine(Application.persistentDataPath, BibaGameConstants.GAME_MODEL_DATA_PATH);
 
             WriteToDisk(BibaGameModel, path);
             GameModelUpdatedSignal.Dispatch();
@@ -23,7 +23,7 @@ namespace BibaFramework.BibaGame
 
         public BibaGameModel ReadGameModel ()
         {
-            var path = Path.Combine(Application.persistentDataPath, BibaDataConstants.GAME_MODEL_DATA_PATH);
+            var path = Path.Combine(Application.persistentDataPath, BibaGameConstants.GAME_MODEL_DATA_PATH);
 
             BibaGameModel = ReadFromDisk<BibaGameModel>(path);
             return BibaGameModel;

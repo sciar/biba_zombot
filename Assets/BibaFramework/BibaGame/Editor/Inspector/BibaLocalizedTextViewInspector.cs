@@ -3,6 +3,7 @@ using BibaFramework.BibaGame;
 using BibaFramework.BibaMenu;
 using UnityEditor;
 using UnityEngine;
+using BibaFramework.BibaNetwork;
 
 namespace BibaFramework.BibaEditor
 {
@@ -17,7 +18,7 @@ namespace BibaFramework.BibaEditor
                 if(settings == null)
                 {
                     var dataService = new JSONDataService();
-                    settings = dataService.ReadFromDisk<BibaLocalizationSettings>(BibaDataConstants.LOCALIZATION_SETTINGS_PATH);
+                    settings = dataService.ReadFromDisk<BibaLocalizationSettings>(BibaContentConstants.GetResourceContentFilePath(BibaContentConstants.LOCALIZATION_SETTINGS_FILE));
                 }
                 return settings;
             }

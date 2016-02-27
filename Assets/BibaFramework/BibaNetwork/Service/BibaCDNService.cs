@@ -31,7 +31,6 @@ namespace BibaFramework.BibaNetwork
         }
         
         private IAmazonS3 _s3Client;
-
         private IAmazonS3 Client
         {
             get
@@ -47,18 +46,27 @@ namespace BibaFramework.BibaNetwork
         private string S3BucketName { get { return BibaContentConstants.CI_GAME_ID; } }
 
         private BibaManifest _localManifest;
-
         private BibaManifest LocalManifest
         {
             get
             {
                 if (_localManifest == null)
                 {
-                    var persistedManifest = DataService.ReadFromDisk<BibaManifest>(BibaContentConstants.GetPersistedContentFilePath(BibaContentConstants.MANIFEST_FILENAME));
-                    var resourceManifest = DataService.ReadFromDisk<BibaManifest>(BibaContentConstants.GetResourceContentFilePath(BibaContentConstants.MANIFEST_FILENAME));
-                    _localManifest = (persistedManifest == null || persistedManifest.Version < resourceManifest.Version) ? resourceManifest : persistedManifest;
+                    _localManifest =  DataService.ReadFromDisk<BibaManifest>(ShouldLoadFromResources ? 
+                                                                             BibaContentConstants.GetResourceContentFilePath (BibaContentConstants.MANIFEST_FILENAME) : 
+                                                                             BibaContentConstants.GetPersistedContentFilePath(BibaContentConstants.MANIFEST_FILENAME));
                 }
                 return _localManifest;
+            }
+        }
+
+        public bool ShouldLoadFromResources 
+        {
+            get 
+            {
+                var persistedManifest = DataService.ReadFromDisk<BibaManifest>(BibaContentConstants.GetPersistedContentFilePath(BibaContentConstants.MANIFEST_FILENAME));
+                var resourceManifest = DataService.ReadFromDisk<BibaManifest>(BibaContentConstants.GetResourceContentFilePath(BibaContentConstants.MANIFEST_FILENAME));
+                return (persistedManifest == null || persistedManifest.Version < resourceManifest.Version);
             }
         }
 

@@ -11,13 +11,17 @@ namespace BibaFramework.BibaGame
         [Inject]
         public IDataService LoaderService { get; set; }
 
+        [Inject]
+        public ICDNService CDNService { get; set; }
+
         private BibaSpecialSceneSettings _specialSceneSettings;
         private BibaSpecialSceneSettings SpecialSceneSettings {
             get 
             {
                 if(_specialSceneSettings == null)
                 {
-                    _specialSceneSettings = LoaderService.ReadFromDisk<BibaSpecialSceneSettings>(BibaDataConstants.SPECIAL_SCENE_SETTINGS_PATH);
+                    var filePath = CDNService.ShouldLoadFromResources ? BibaContentConstants.GetResourceContentFilePath(BibaContentConstants.SPECIAL_SCENE_SETTINGS_FILE) : BibaContentConstants.GetPersistedContentFilePath(BibaContentConstants.SPECIAL_SCENE_SETTINGS_FILE);
+                    _specialSceneSettings = LoaderService.ReadFromDisk<BibaSpecialSceneSettings>(filePath);
                 }
                 return _specialSceneSettings;
             }

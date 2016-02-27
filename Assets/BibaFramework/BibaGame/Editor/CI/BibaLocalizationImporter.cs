@@ -1,20 +1,20 @@
 ﻿using System;
 using BibaFramework.BibaGame;
+using BibaFramework.BibaNetwork;
 using BibaFramework.Utility;
 using Google.GData.Client;
 using Google.GData.Spreadsheets;
 using UnityEditor;
 using UnityEngine;
-using BibaFramework.BibaNetwork;
 
 namespace BibaFramework.BibaEditor
 {
-    public class LocalizationSettingsImporter
+    public class BibaLocalizationImporter
 	{
         private const string LOCALIZATION_SETTINGS_SPREADSHEET_NAME = "Biba Localization";
         private const string LOCALIZATION_SETTINGS_WORKSHEET_NAME = BibaContentConstants.CI_GAME_ID;
 
-        [MenuItem("Biba/Google Drive/Load Localization Settings")]
+        [MenuItem("Biba/Load Settings/Load Localization Settings")]
         public static void CreateLocalizationSettings ()
         {
             ImportSettings();
@@ -75,7 +75,7 @@ namespace BibaFramework.BibaEditor
             }
 
             var jsonDataService = new JSONDataService();
-            jsonDataService.WriteToDisk<BibaLocalizationSettings>(settings, BibaDataConstants.LOCALIZATION_SETTINGS_PATH);
+            jsonDataService.WriteToDisk<BibaLocalizationSettings>(settings, BibaEditorConstants.GetContentOutputPath(BibaContentConstants.LOCALIZATION_SETTINGS_FILE));
         }
     }
 }

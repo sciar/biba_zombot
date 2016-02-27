@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Vuforia;
+using BibaFramework.BibaNetwork;
 
 namespace BibaFramework.BibaGame
 {
@@ -10,36 +11,49 @@ namespace BibaFramework.BibaGame
         [Inject]
         public IDataService DataService { get; set; }
 
-        private Dictionary<string, Dictionary<SystemLanguage, string>> _localizationDict  = new Dictionary<string, Dictionary<SystemLanguage, string>>();
+        [Inject]
+        public ICDNService CDNService { get; set; }
 
-        public LocalizationService()
-        {
-            var localizationSettings = DataService.ReadFromDisk<BibaLocalizationSettings>(BibaDataConstants.LOCALIZATION_SETTINGS_PATH);
-            
-            foreach (var localization in localizationSettings.Localizations)
-            {
-                if(!_localizationDict.ContainsKey(localization.Key))
+        private Dictionary<string, Dictionary<SystemLanguage, string>> _localizationDict;
+        private Dictionary<string, Dictionary<SystemLanguage, string>> LocalizationDict {
+            get {
+                if(_localizationDict == null)
                 {
-                    _localizationDict.Add(localization.Key, new Dictionary<SystemLanguage, string>());
+                    _localizationDict = new Dictionary<string, Dictionary<SystemLanguage, string>>();
+
+                    var filePath = CDNService.ShouldLoadFromResources ? 
+                        BibaContentConstants.GetResourceContentFilePath(BibaContentConstants.ACHIEVEMENT_SETTINGS_FILE) :
+                            BibaContentConstants.GetPersistedContentFilePath(BibaContentConstants.ACHIEVEMENT_SETTINGS_FILE);
+
+                    var localizationSettings = DataService.ReadFromDisk<BibaLocalizationSettings>(filePath);
+
+                    foreach (var localization in localizationSettings.Localizations)
+                    {
+                        if(!_localizationDict.ContainsKey(localization.Key))
+                        {
+                            _localizationDict.Add(localization.Key, new Dictionary<SystemLanguage, string>());
+                        }
+                        
+                        var localizationKeyDictionary = _localizationDict[localization.Key];
+                        if(!localizationKeyDictionary.ContainsKey(localization.Language))
+                        {
+                            localizationKeyDictionary.Add(localization.Language, localization.Text);
+                        }
+                        else
+                        {
+                            localizationKeyDictionary[localization.Language] = localization.Text;
+                        }
+                    }
                 }
-                
-                var localizationKeyDictionary = _localizationDict[localization.Key];
-                if(!localizationKeyDictionary.ContainsKey(localization.Language))
-                {
-                    localizationKeyDictionary.Add(localization.Language, localization.Text);
-                }
-                else
-                {
-                    localizationKeyDictionary[localization.Language] = localization.Text;
-                }
+                return _localizationDict;
             }
         }
 
         public string GetText(string key)
         {
-            if (_localizationDict.ContainsKey(key))
+            if (LocalizationDict.ContainsKey(key))
             {
-                var keyDict = _localizationDict [key];
+                var keyDict = LocalizationDict [key];
                 return keyDict.ContainsKey(Application.systemLanguage) ? keyDict [Application.systemLanguage] : keyDict [SystemLanguage.English];
             } 
             else
