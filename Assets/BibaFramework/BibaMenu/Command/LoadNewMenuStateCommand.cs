@@ -11,6 +11,8 @@ namespace BibaFramework.BibaMenu
 {
     public class LoadNewMenuStateCommand : Command 
     {
+        private const string FILE_SUFFIX = "file://";
+
         [Inject]
         public SetupSceneMenuStateSignal SetupSceneMenuStateSignal { get; set; } 
 
@@ -84,7 +86,7 @@ namespace BibaFramework.BibaMenu
             var persistedFilePath = BibaContentConstants.GetPersistedContentFilePath(specialSceneId + BibaContentConstants.UNITY3D_EXTENSION);
             if (!string.IsNullOrEmpty(specialSceneId) && File.Exists(persistedFilePath))
             {
-                persistedFilePath = "file://" +  persistedFilePath;
+                persistedFilePath = FILE_SUFFIX +  persistedFilePath;
 
                 var www = new WWW(persistedFilePath);
                

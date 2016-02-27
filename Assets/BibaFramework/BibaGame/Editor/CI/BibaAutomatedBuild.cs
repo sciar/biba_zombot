@@ -50,9 +50,6 @@ namespace BibaFramework.BibaEditor
 
         static void BuildPlayer(string path, BuildTarget target)
         {
-            BibaAchievementImporter.CreateAchievementAsset();
-            BibaLocalizationImporter.CreateLocalizationSettings();
-
             // Create output directory
             Directory.CreateDirectory (Path.GetDirectoryName(path));
             
