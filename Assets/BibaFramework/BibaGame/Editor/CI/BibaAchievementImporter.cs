@@ -2,10 +2,10 @@ using System;
 using System.Globalization;
 using System.Text.RegularExpressions;
 using BibaFramework.BibaGame;
+using BibaFramework.BibaNetwork;
 using Google.GData.Client;
 using Google.GData.Spreadsheets;
 using UnityEditor;
-using BibaFramework.BibaNetwork;
 
 namespace BibaFramework.BibaEditor
 {

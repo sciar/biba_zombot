@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using BibaFramework.BibaMenu;
 using strange.extensions.context.api;
+using BibaFramework.BibaNetwork;
 
 namespace BibaFramework.BibaGame
 {
@@ -28,7 +29,8 @@ namespace BibaFramework.BibaGame
         }
 			
         protected override void BindCommands ()
-        {         
+        {
+            commandBinder.Bind<StartSignal>().To<UpdateFromCDNCommand>();
         }
 
         protected override void BindSignals ()
