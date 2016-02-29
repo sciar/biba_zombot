@@ -103,9 +103,6 @@ namespace BibaFramework.BibaMenu
                     .To<EnableTopInputCommand>().InSequence();
 
             commandBinder.Bind<RemoveLastMenuStateSignal>().To<RemoveLastMenuStateCommand>();
-
-            //BibaNetwork
-            commandBinder.Bind<ContentUpdatedFromCDNSignal>().To<ContentUpdatedFromCDNCommand>();
         }
 
         protected override void BindSignals ()
@@ -116,8 +113,8 @@ namespace BibaFramework.BibaMenu
             injectionBinder.Bind<SetupSceneMenuStateSignal>().ToSingleton().CrossContext();
             injectionBinder.Bind<MenuStateEntryAnimationEndedSignal>().ToSingleton().CrossContext();
             injectionBinder.Bind<MenuStateExitAnimationEndedSignal>().ToSingleton().CrossContext();
-			
-			injectionBinder.Bind<ToggleObjectMenuStateSignal>().ToSingleton().CrossContext();
+            
+            injectionBinder.Bind<ToggleObjectMenuStateSignal>().ToSingleton().CrossContext();
 
             //BibaTag
             injectionBinder.Bind<TagScannedSignal>().ToSingleton().CrossContext();

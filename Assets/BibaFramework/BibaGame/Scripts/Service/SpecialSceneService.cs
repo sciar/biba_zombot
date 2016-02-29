@@ -22,17 +22,39 @@ namespace BibaFramework.BibaGame
             {
                 if (_specialSceneSettings == null)
                 {
-                    ReloadSettings();
+                    ReloadContent();
                 }
                 return _specialSceneSettings;
             }
         }
 
-        public void ReloadSettings()
+        #region - IContentUpdated
+        public bool ShouldLoadFromResources 
         {
-            var filePath = CDNService.ShouldLoadFromResources ? BibaContentConstants.GetResourceContentFilePath(BibaContentConstants.SPECIAL_SCENE_SETTINGS_FILE) : BibaContentConstants.GetPersistedPath(BibaContentConstants.SPECIAL_SCENE_SETTINGS_FILE);
-            _specialSceneSettings = LoaderService.ReadFromDisk<BibaSpecialSceneSettings>(filePath);
+            get 
+            {
+                var persistedManifest = LoaderService.ReadFromDisk<BibaManifest>(BibaContentConstants.GetPersistedPath(BibaContentConstants.MANIFEST_FILENAME));
+                var persistedManifestLine = persistedManifest.Lines.Find(line => line.FileName == BibaContentConstants.SPECIAL_SCENE_SETTINGS_FILE);
+                
+                var resourceManifest = LoaderService.ReadFromDisk<BibaManifest>(BibaContentConstants.GetResourceContentFilePath(BibaContentConstants.MANIFEST_FILENAME));
+                var resourceManifestLine = resourceManifest.Lines.Find(line => line.FileName == BibaContentConstants.SPECIAL_SCENE_SETTINGS_FILE);
+                
+                return persistedManifestLine == null || persistedManifestLine.Version <= resourceManifestLine.Version;
+            }
         }
+        public string ContentFilePath 
+        {
+            get 
+            {
+                return ShouldLoadFromResources ? BibaContentConstants.GetResourceContentFilePath(BibaContentConstants.SPECIAL_SCENE_SETTINGS_FILE) : 
+                    BibaContentConstants.GetPersistedPath(BibaContentConstants.SPECIAL_SCENE_SETTINGS_FILE);
+            }
+        }
+        public void ReloadContent()
+        {
+            _specialSceneSettings = LoaderService.ReadFromDisk<BibaSpecialSceneSettings>(ContentFilePath);
+        }
+        #endregion
 
         public string LookForSpecialSceneToShow(string nextScene)
         {

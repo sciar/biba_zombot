@@ -7,12 +7,12 @@ using Amazon.Runtime;
 using Amazon.S3;
 using Amazon.S3.Model;
 using BibaFramework.BibaGame;
-using LitJson;
 using BibaFramework.BibaNetwork;
+using LitJson;
 
 namespace BibaFramework.BibaNetwork
 {
-    public class BibaCDNService : ICDNService
+    public class BibaCDNService : ICDNService, IContentUpdated
     {
         [Inject]
         public IDataService DataService { get; set; }
@@ -50,6 +50,21 @@ namespace BibaFramework.BibaNetwork
 
         private BibaManifest _localManifest;
 
+        #region - IContentUpdated
+        public void ReloadContent ()
+        {
+            _localManifest =  DataService.ReadFromDisk<BibaManifest>(ContentFilePath);
+        }
+
+        public string ContentFilePath 
+        {
+            get 
+            {
+                return ShouldLoadFromResources ?  BibaContentConstants.GetResourceContentFilePath (BibaContentConstants.MANIFEST_FILENAME) : 
+                        BibaContentConstants.GetPersistedPath(BibaContentConstants.MANIFEST_FILENAME);
+            }
+        }
+
         public bool ShouldLoadFromResources 
         {
             get 
@@ -59,15 +74,15 @@ namespace BibaFramework.BibaNetwork
                 return (persistedManifest == null || persistedManifest.Version < resourceManifest.Version);
             }
         }
+        #endregion
 
+        #region - ICDNService
         public void UpdateFromCDN()
         {
-            _localManifest =  DataService.ReadFromDisk<BibaManifest>(ShouldLoadFromResources ? 
-                                                                     BibaContentConstants.GetResourceContentFilePath (BibaContentConstants.MANIFEST_FILENAME) : 
-                                                                     BibaContentConstants.GetPersistedPath(BibaContentConstants.MANIFEST_FILENAME));
-            
+            ReloadContent();
             RetrieveAndWriteData(BibaContentConstants.GetRelativePath(BibaContentConstants.MANIFEST_FILENAME), BibaContentConstants.GetPersistedPath(BibaContentConstants.MANIFEST_FILENAME), ManifestRetrieved);
         }
+        #endregion
 
         void ManifestRetrieved(string remoteManifestString)
         {

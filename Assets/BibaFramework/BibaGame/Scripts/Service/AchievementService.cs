@@ -21,20 +21,45 @@ namespace BibaFramework.BibaGame
             {
                 if(_settings == null)
                 {
-                    ReloadSettings();
+                    ReloadContent();
                 }
                 return _settings;
             }
         }
 
-        public void ReloadSettings()
+        #region - IContentUpdated
+        public bool ShouldLoadFromResources 
         {
-            var filePath = CDNService.ShouldLoadFromResources ? 
-                BibaContentConstants.GetResourceContentFilePath(BibaContentConstants.ACHIEVEMENT_SETTINGS_FILE) :
-                    BibaContentConstants.GetPersistedPath(BibaContentConstants.ACHIEVEMENT_SETTINGS_FILE);
-            
-            _settings = DataService.ReadFromDisk<BibaAchievementSettings>(filePath);
-            
+            get 
+            {
+                var persistedManifest = DataService.ReadFromDisk<BibaManifest>(BibaContentConstants.GetPersistedPath(BibaContentConstants.MANIFEST_FILENAME));
+                var persistedManifestLine = persistedManifest.Lines.Find(line => line.FileName == BibaContentConstants.ACHIEVEMENT_SETTINGS_FILE);
+                
+                var resourceManifest = DataService.ReadFromDisk<BibaManifest>(BibaContentConstants.GetResourceContentFilePath(BibaContentConstants.MANIFEST_FILENAME));
+                var resourceManifestLine = resourceManifest.Lines.Find(line => line.FileName == BibaContentConstants.ACHIEVEMENT_SETTINGS_FILE);
+                
+                return persistedManifestLine == null || persistedManifestLine.Version <= resourceManifestLine.Version;
+            }
+        }
+
+        public string ContentFilePath 
+        {
+            get 
+            {
+                return ShouldLoadFromResources ? BibaContentConstants.GetResourceContentFilePath(BibaContentConstants.ACHIEVEMENT_SETTINGS_FILE) :
+                        BibaContentConstants.GetPersistedPath(BibaContentConstants.ACHIEVEMENT_SETTINGS_FILE);
+            }
+        }
+
+        public void ReloadContent()
+        {
+            _settings = DataService.ReadFromDisk<BibaAchievementSettings>(ContentFilePath);
+            UpdateGameModel();
+        }
+        #endregion
+
+        void UpdateGameModel()
+        {
             foreach (var setting in _settings.AchievementSettings)
             {
                 var index = BibaGameModel.CompletedAchievements.FindIndex(achievement => achievement.Id == setting.Id);

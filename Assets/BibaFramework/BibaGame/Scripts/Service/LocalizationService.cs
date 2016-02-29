@@ -14,29 +14,47 @@ namespace BibaFramework.BibaGame
         public ICDNService CDNService { get; set; }
 
         private Dictionary<string, Dictionary<SystemLanguage, string>> _localizationDict;
-
         private Dictionary<string, Dictionary<SystemLanguage, string>> LocalizationDict
         {
             get
             {
                 if (_localizationDict == null)
                 {
-                    ReloadSettings();
+                    ReloadContent();
                 }
                 return _localizationDict;
             }
         }
 
-        public void ReloadSettings()
+        #region - IContentUpdated
+        public bool ShouldLoadFromResources 
+        {
+            get 
+            {
+                var persistedManifest = DataService.ReadFromDisk<BibaManifest>(BibaContentConstants.GetPersistedPath(BibaContentConstants.MANIFEST_FILENAME));
+                var persistedManifestLine = persistedManifest.Lines.Find(line => line.FileName == BibaContentConstants.LOCALIZATION_SETTINGS_FILE);
+
+                var resourceManifest = DataService.ReadFromDisk<BibaManifest>(BibaContentConstants.GetResourceContentFilePath(BibaContentConstants.MANIFEST_FILENAME));
+                var resourceManifestLine = resourceManifest.Lines.Find(line => line.FileName == BibaContentConstants.LOCALIZATION_SETTINGS_FILE);
+
+                return persistedManifestLine == null || persistedManifestLine.Version <= resourceManifestLine.Version;
+            }
+        }
+
+        public string ContentFilePath 
+        {
+            get 
+            {
+                return ShouldLoadFromResources ? BibaContentConstants.GetResourceContentFilePath(BibaContentConstants.LOCALIZATION_SETTINGS_FILE) :
+                    BibaContentConstants.GetPersistedPath(BibaContentConstants.LOCALIZATION_SETTINGS_FILE);
+            }
+        }
+
+        public void ReloadContent()
         {
             _localizationDict = new Dictionary<string, Dictionary<SystemLanguage, string>>();
             
-            var filePath = CDNService.ShouldLoadFromResources ? 
-                BibaContentConstants.GetResourceContentFilePath(BibaContentConstants.ACHIEVEMENT_SETTINGS_FILE) :
-                    BibaContentConstants.GetPersistedPath(BibaContentConstants.ACHIEVEMENT_SETTINGS_FILE);
-            
-            var localizationSettings = DataService.ReadFromDisk<BibaLocalizationSettings>(filePath);
-            
+            var localizationSettings = DataService.ReadFromDisk<BibaLocalizationSettings>(ContentFilePath);
             foreach (var localization in localizationSettings.Localizations)
             {
                 if (!_localizationDict.ContainsKey(localization.Key))
@@ -54,6 +72,7 @@ namespace BibaFramework.BibaGame
                 }
             }
         }
+        #endregion
 
         public string GetText(string key)
         {

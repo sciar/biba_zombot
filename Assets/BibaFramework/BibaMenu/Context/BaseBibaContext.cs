@@ -5,6 +5,7 @@ using strange.extensions.command.impl;
 using strange.extensions.context.api;
 using strange.extensions.context.impl;
 using BibaFramework.BibaGame;
+using BibaFramework.BibaNetwork;
 
 namespace BibaFramework.BibaMenu
 {
@@ -68,6 +69,9 @@ namespace BibaFramework.BibaMenu
             //Audio
             commandBinder.Bind<PlayBibaBGMSignal>().To<PlayBGMCommand>();
             commandBinder.Bind<PlayBibaSFXSignal>().To<PlaySFXCommand>();
+
+            //BibaNetwork
+            commandBinder.Bind<ContentUpdatedFromCDNSignal>().To<ContentUpdatedFromCDNCommand>();
         }
 
         protected abstract void BindModels();
