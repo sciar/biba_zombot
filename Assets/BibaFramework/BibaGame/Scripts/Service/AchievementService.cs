@@ -4,7 +4,7 @@ using BibaFramework.BibaNetwork;
 
 namespace BibaFramework.BibaGame
 {
-    public class AchievementService
+    public class AchievementService : IContentUpdated
     {
         [Inject]
         public IDataService DataService { get; set; }
@@ -21,22 +21,27 @@ namespace BibaFramework.BibaGame
             {
                 if(_settings == null)
                 {
-                    var filePath = CDNService.ShouldLoadFromResources ? 
-                        BibaContentConstants.GetResourceContentFilePath(BibaContentConstants.ACHIEVEMENT_SETTINGS_FILE) :
-                            BibaContentConstants.GetPersistedContentFilePath(BibaContentConstants.ACHIEVEMENT_SETTINGS_FILE);
-
-                    _settings = DataService.ReadFromDisk<BibaAchievementSettings>(filePath);
-
-                    foreach (var setting in _settings.AchievementSettings)
-                    {
-                        var index = BibaGameModel.CompletedAchievements.FindIndex(achievement => achievement.Id == setting.Id);
-                        if(index != -1)
-                        {
-                            BibaGameModel.CompletedAchievements[index].Config = setting;
-                        }
-                    }
+                    ReloadSettings();
                 }
                 return _settings;
+            }
+        }
+
+        public void ReloadSettings()
+        {
+            var filePath = CDNService.ShouldLoadFromResources ? 
+                BibaContentConstants.GetResourceContentFilePath(BibaContentConstants.ACHIEVEMENT_SETTINGS_FILE) :
+                    BibaContentConstants.GetPersistedPath(BibaContentConstants.ACHIEVEMENT_SETTINGS_FILE);
+            
+            _settings = DataService.ReadFromDisk<BibaAchievementSettings>(filePath);
+            
+            foreach (var setting in _settings.AchievementSettings)
+            {
+                var index = BibaGameModel.CompletedAchievements.FindIndex(achievement => achievement.Id == setting.Id);
+                if(index != -1)
+                {
+                    BibaGameModel.CompletedAchievements[index].Config = setting;
+                }
             }
         }
 

@@ -7,8 +7,8 @@ using UnityEngine;
 namespace BibaFramework.BibaEditor
 {
     public class BibaAssetBundleBuilder : MonoBehaviour 
-	{
-        [MenuItem ("Biba/Content Generation/Build Special Scenes")]
+	{    
+        [MenuItem ("Biba/Content Generation/Generate AssetBundles", false, 3)]
 		static void BuildSpecialScenes()
 		{
             BuildSpecialScenesAssetBundles();
@@ -43,7 +43,7 @@ namespace BibaFramework.BibaEditor
             Directory.CreateDirectory(outputFolder);
             BuildPipeline.BuildAssetBundles (outputFolder, BuildAssetBundleOptions.None, EditorUserBuildSettings.activeBuildTarget);
        
-            //Rename the built bundles
+            //Add assetBundle extension to the files
             var builtBundleFiles = Directory.GetFiles(outputFolder).Where(filePath => !filePath.Contains(".")).ToList();
             builtBundleFiles.ForEach((file) => {
                 var newPath = file + BibaContentConstants.UNITY3D_EXTENSION;

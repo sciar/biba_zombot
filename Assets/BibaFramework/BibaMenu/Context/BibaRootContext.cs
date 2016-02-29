@@ -103,6 +103,9 @@ namespace BibaFramework.BibaMenu
                     .To<EnableTopInputCommand>().InSequence();
 
             commandBinder.Bind<RemoveLastMenuStateSignal>().To<RemoveLastMenuStateCommand>();
+
+            //BibaNetwork
+            commandBinder.Bind<ContentUpdatedFromCDNSignal>().To<ContentUpdatedFromCDNCommand>();
         }
 
         protected override void BindSignals ()

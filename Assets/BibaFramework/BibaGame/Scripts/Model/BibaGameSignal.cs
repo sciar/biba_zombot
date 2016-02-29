@@ -8,7 +8,8 @@ namespace BibaFramework.BibaGame
     public class EndSignal : Signal{ }
     public class ApplicationPausedSignal : Signal{ }
     public class ApplicationUnPausedSignal : Signal{ }
-    public class GameModelUpdatedSignal : Signal { } 
+    public class GameModelUpdatedSignal : Signal { }
+    public class ContentUpdatedFromCDNSignal : Signal<string> { }
 
     public class EquipmentSelectedSignal : Signal <BibaEquipmentType, bool> { }
     public class EquipmentPlayedSignal : Signal<BibaEquipmentType> { }

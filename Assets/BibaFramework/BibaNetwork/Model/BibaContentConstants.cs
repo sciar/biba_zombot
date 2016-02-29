@@ -25,19 +25,19 @@ namespace BibaFramework.BibaNetwork
         public const string TEXT_EXTENSION = ".txt";
         public const string UNITY3D_EXTENSION = ".unity3d";
         
-        public static string GetContentRelativePath(string fileName)
+        public static string GetRelativePath(string fileName)
         {
             return PLATFORM_FOLDER + "/" + fileName;
         }
 
         public static string GetResourceContentFilePath(string fileName)
         {
-            return Application.dataPath + "/Resources/" + GetContentRelativePath(fileName);
+            return Application.dataPath + "/Resources/" + GetRelativePath(fileName);
         }
 
-        public static string GetPersistedContentFilePath(string fileName)
+        public static string GetPersistedPath(string fileName)
         {
-            return Application.persistentDataPath + "/" + GetContentRelativePath(fileName);
+            return Application.persistentDataPath + "/" + GetRelativePath(fileName);
         }
     }
 }

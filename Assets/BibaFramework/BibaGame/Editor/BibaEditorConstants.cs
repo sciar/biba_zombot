@@ -9,7 +9,7 @@ namespace BibaFramework.BibaEditor
         public static readonly string SCENE_ASSETBUNDLES_INPUT_PATH = Application.dataPath + "/BibaContent/Input";
         public static string GetContentOutputPath(string fileName)
         {
-            return  Application.dataPath + "/BibaContent/Output/" + BibaContentConstants.GetContentRelativePath(fileName);
+            return  Application.dataPath + "/BibaContent/Output/" + BibaContentConstants.GetRelativePath(fileName);
         }
         public const string UNITY_EXTENSION = ".unity";
         public const string S3UPLOADER_PATH = "S3Uploader/S3Uploader.exe";

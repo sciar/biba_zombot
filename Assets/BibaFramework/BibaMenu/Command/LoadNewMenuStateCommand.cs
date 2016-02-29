@@ -83,7 +83,7 @@ namespace BibaFramework.BibaMenu
         {
             AsyncOperation asyncOp;
             var specialSceneId = SpecialSceneLoaderService.LookForSpecialSceneToShow(NextMenuState.SceneName);
-            var persistedFilePath = BibaContentConstants.GetPersistedContentFilePath(specialSceneId + BibaContentConstants.UNITY3D_EXTENSION);
+            var persistedFilePath = BibaContentConstants.GetPersistedPath(specialSceneId + BibaContentConstants.UNITY3D_EXTENSION);
             if (!string.IsNullOrEmpty(specialSceneId) && File.Exists(persistedFilePath))
             {
                 persistedFilePath = FILE_SUFFIX +  persistedFilePath;

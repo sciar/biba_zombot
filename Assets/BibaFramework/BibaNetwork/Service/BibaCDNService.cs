@@ -8,6 +8,7 @@ using Amazon.S3;
 using Amazon.S3.Model;
 using BibaFramework.BibaGame;
 using LitJson;
+using BibaFramework.BibaNetwork;
 
 namespace BibaFramework.BibaNetwork
 {
@@ -16,8 +17,10 @@ namespace BibaFramework.BibaNetwork
         [Inject]
         public IDataService DataService { get; set; }
        
-        private AWSCredentials _credentials;
+        [Inject]
+        public ContentUpdatedFromCDNSignal ContentUpdatedFromCDNSignal { get; set; }
 
+        private AWSCredentials _credentials;
         private AWSCredentials Credentials
         {
             get
@@ -46,25 +49,12 @@ namespace BibaFramework.BibaNetwork
         private string S3BucketName { get { return BibaContentConstants.CI_GAME_ID; } }
 
         private BibaManifest _localManifest;
-        private BibaManifest LocalManifest
-        {
-            get
-            {
-                if (_localManifest == null)
-                {
-                    _localManifest =  DataService.ReadFromDisk<BibaManifest>(ShouldLoadFromResources ? 
-                                                                             BibaContentConstants.GetResourceContentFilePath (BibaContentConstants.MANIFEST_FILENAME) : 
-                                                                             BibaContentConstants.GetPersistedContentFilePath(BibaContentConstants.MANIFEST_FILENAME));
-                }
-                return _localManifest;
-            }
-        }
 
         public bool ShouldLoadFromResources 
         {
             get 
             {
-                var persistedManifest = DataService.ReadFromDisk<BibaManifest>(BibaContentConstants.GetPersistedContentFilePath(BibaContentConstants.MANIFEST_FILENAME));
+                var persistedManifest = DataService.ReadFromDisk<BibaManifest>(BibaContentConstants.GetPersistedPath(BibaContentConstants.MANIFEST_FILENAME));
                 var resourceManifest = DataService.ReadFromDisk<BibaManifest>(BibaContentConstants.GetResourceContentFilePath(BibaContentConstants.MANIFEST_FILENAME));
                 return (persistedManifest == null || persistedManifest.Version < resourceManifest.Version);
             }
@@ -72,7 +62,11 @@ namespace BibaFramework.BibaNetwork
 
         public void UpdateFromCDN()
         {
-            GetText(BibaContentConstants.GetContentRelativePath(BibaContentConstants.MANIFEST_FILENAME), ManifestRetrieved);
+            _localManifest =  DataService.ReadFromDisk<BibaManifest>(ShouldLoadFromResources ? 
+                                                                     BibaContentConstants.GetResourceContentFilePath (BibaContentConstants.MANIFEST_FILENAME) : 
+                                                                     BibaContentConstants.GetPersistedPath(BibaContentConstants.MANIFEST_FILENAME));
+            
+            RetrieveAndWriteData(BibaContentConstants.GetRelativePath(BibaContentConstants.MANIFEST_FILENAME), BibaContentConstants.GetPersistedPath(BibaContentConstants.MANIFEST_FILENAME), ManifestRetrieved);
         }
 
         void ManifestRetrieved(string remoteManifestString)
@@ -82,47 +76,22 @@ namespace BibaFramework.BibaNetwork
                 return;
             }
 
-            var remoteManifest = JsonMapper.ToObject<BibaManifest>(remoteManifestString);
-            if (remoteManifest != null && remoteManifest.Version > LocalManifest.Version)
+            var remoteManifest = DataService.ReadFromDisk<BibaManifest>(BibaContentConstants.GetPersistedPath(BibaContentConstants.MANIFEST_FILENAME));
+            if (remoteManifest != null && remoteManifest.Version > _localManifest.Version)
             {
                 foreach (var remoteLine in remoteManifest.Lines)
                 {
-                    var remoteFileName = remoteLine.FileName;
-                    var localLine = LocalManifest.Lines.Find(line => line.FileName == remoteFileName);
-
+                    var localLine = _localManifest.Lines.Find(line => line.FileName == remoteLine.FileName);
                     if ((localLine == null || localLine.Version < remoteLine.Version) && !remoteLine.OptionalDownload)
                     {
-                        GetBinary(BibaContentConstants.GetContentRelativePath(remoteFileName), BibaContentConstants.GetPersistedContentFilePath(remoteFileName));
+                        RetrieveAndWriteData(BibaContentConstants.GetRelativePath(remoteLine.FileName), BibaContentConstants.GetPersistedPath(remoteLine.FileName));
                     }
                 }
                 _localManifest = remoteManifest;
-                DataService.WriteToDisk<BibaManifest>(_localManifest, BibaContentConstants.GetPersistedContentFilePath(BibaContentConstants.MANIFEST_FILENAME));
             }
         }
-        
-        void GetText(string objectFileName, Action<string> callBack = null)
-        {
-            Debug.Log(string.Format("fetching {0} from bucket {1}", objectFileName, S3BucketName));
 
-            Client.GetObjectAsync(S3BucketName, objectFileName, (responseObj) => {
-                string data = null;
-                var response = responseObj.Response;
-                if (response.ResponseStream != null)
-                {
-                    using (var reader = new StreamReader(response.ResponseStream))
-                    {
-                        data = reader.ReadToEnd();
-                    }
-                }
-
-                if (callBack != null)
-                {
-                    callBack(data);
-                }
-            });
-        }
-
-        void GetBinary(string objectFileName, string savePath, Action<string> callBack = null)
+        void RetrieveAndWriteData(string objectFileName, string savePath, Action<string> callBack = null)
         {
             Debug.Log(string.Format("fetching {0} from bucket {1}", objectFileName, S3BucketName));
 
@@ -142,6 +111,8 @@ namespace BibaFramework.BibaNetwork
                                 fs.Write(data, 0, bytesRead);
                             } while (bytesRead > 0);
                             fs.Flush();
+
+                            ContentUpdatedFromCDNSignal.Dispatch(objectFileName);
                         }
                     }
                 }

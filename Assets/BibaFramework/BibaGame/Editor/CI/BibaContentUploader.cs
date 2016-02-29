@@ -2,41 +2,52 @@ using System;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Security.Cryptography;
 using BibaFramework.BibaGame;
 using BibaFramework.BibaNetwork;
 using UnityEditor;
 using UnityEngine;
-using System.Security.Cryptography;
 
 namespace BibaFramework.BibaEditor
 {
     public class BibaContentUploader : MonoBehaviour 
 	{
-        [MenuItem ("Biba/Content Generation/Upload Content to S3")]
-		static void UploadContent()
-		{
-            UploadManifestAndBundle();
-		}
-
-        [MenuItem ("Biba/Content Generation/Copy Content to Resources")]
+        [MenuItem ("Biba/Content Generation/Copy Content to Resources", false, 0)]
         static void CopyToResources()
         {
             CopyContentToResources();
             AssetDatabase.Refresh();
         }
-
+        
         static void CopyContentToResources()
         {
             var outputFolder = Path.GetDirectoryName(BibaEditorConstants.GetContentOutputPath(""));
             var resourceFolder = Path.GetDirectoryName(BibaContentConstants.GetResourceContentFilePath(""));
             Directory.Delete(resourceFolder, true);
             FileUtil.CopyFileOrDirectory(outputFolder, resourceFolder);
-
-            var filesToDelete = Directory.GetFiles(resourceFolder,"*", SearchOption.AllDirectories).Where(fileName => !fileName.EndsWith(BibaContentConstants.UNITY3D_EXTENSION) && !fileName.EndsWith(BibaContentConstants.TEXT_EXTENSION)).ToList();
+            
+            var filesToDelete = Directory.GetFiles(resourceFolder,"*", SearchOption.AllDirectories).Where(fileName => !fileName.EndsWith(BibaContentConstants.UNITY3D_EXTENSION) && 
+                                                                                                          !fileName.EndsWith(BibaContentConstants.TEXT_EXTENSION)).ToList();
             foreach (var file in filesToDelete)
             {
                 File.Delete(file);
             }
+        }
+
+        [MenuItem ("Biba/Content Generation/Generate Manifest and Upload Content to S3", false, 1)]
+        static void UploadContent()
+        {
+            UploadManifestAndBundle();
+            AssetDatabase.Refresh();
+        }
+
+        [MenuItem ("Biba/Content Generation/Generate Settings from GoogleDrive", false, 2)]
+        static void LoadSettings()
+        {
+            BibaLocalizationImporter.CreateLocalizationSettings();
+            BibaAchievementImporter.CreateAchievementSettings();
+            BibaSpecialSceneImporter.CreateSpecialSceneSettings();
+            AssetDatabase.Refresh();
         }
 
         static BibaManifest _bibaManifest;
@@ -56,7 +67,7 @@ namespace BibaFramework.BibaEditor
             }
         }
 
-        public static void UploadManifestAndBundle()
+        static void UploadManifestAndBundle()
         {
             UpdateManifestForAssetBundles();
             try
@@ -80,7 +91,8 @@ namespace BibaFramework.BibaEditor
             var outputFolder = Path.GetDirectoryName(BibaEditorConstants.GetContentOutputPath(""));
             var manifestUpdated = false;
             var manifest = BibaManifest;
-            var filesToUpload = Directory.GetFiles(outputFolder).Where(filePath => filePath.EndsWith(BibaContentConstants.UNITY3D_EXTENSION) || filePath.EndsWith(BibaContentConstants.TEXT_EXTENSION));
+            var filesToUpload = Directory.GetFiles(outputFolder).Where(filePath => (filePath.EndsWith(BibaContentConstants.UNITY3D_EXTENSION) || filePath.EndsWith(BibaContentConstants.TEXT_EXTENSION)) &&
+                                                                                    !filePath.EndsWith(BibaContentConstants.MANIFEST_FILENAME));
             foreach (var filePath in filesToUpload)
             {
                 var fileName = Path.GetFileName(filePath);

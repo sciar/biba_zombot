@@ -6,7 +6,7 @@ using BibaFramework.BibaNetwork;
 
 namespace BibaFramework.BibaGame
 {
-    public class SpecialSceneService
+    public class SpecialSceneService : IContentUpdated
     {
         [Inject]
         public IDataService LoaderService { get; set; }
@@ -15,16 +15,23 @@ namespace BibaFramework.BibaGame
         public ICDNService CDNService { get; set; }
 
         private BibaSpecialSceneSettings _specialSceneSettings;
-        private BibaSpecialSceneSettings SpecialSceneSettings {
-            get 
+
+        private BibaSpecialSceneSettings SpecialSceneSettings
+        {
+            get
             {
-                if(_specialSceneSettings == null)
+                if (_specialSceneSettings == null)
                 {
-                    var filePath = CDNService.ShouldLoadFromResources ? BibaContentConstants.GetResourceContentFilePath(BibaContentConstants.SPECIAL_SCENE_SETTINGS_FILE) : BibaContentConstants.GetPersistedContentFilePath(BibaContentConstants.SPECIAL_SCENE_SETTINGS_FILE);
-                    _specialSceneSettings = LoaderService.ReadFromDisk<BibaSpecialSceneSettings>(filePath);
+                    ReloadSettings();
                 }
                 return _specialSceneSettings;
             }
+        }
+
+        public void ReloadSettings()
+        {
+            var filePath = CDNService.ShouldLoadFromResources ? BibaContentConstants.GetResourceContentFilePath(BibaContentConstants.SPECIAL_SCENE_SETTINGS_FILE) : BibaContentConstants.GetPersistedPath(BibaContentConstants.SPECIAL_SCENE_SETTINGS_FILE);
+            _specialSceneSettings = LoaderService.ReadFromDisk<BibaSpecialSceneSettings>(filePath);
         }
 
         public string LookForSpecialSceneToShow(string nextScene)
@@ -41,8 +48,8 @@ namespace BibaFramework.BibaGame
         string CheckForTimedBasedScene(string nextScene)
         {
             var result = SpecialSceneSettings.TimeSpecialSceneSettings.Find(setting => setting.SceneName == nextScene && 
-                                                                        DateTime.UtcNow >= setting.StartDate &&
-                                                                        DateTime.UtcNow <= setting.EndDate);
+                DateTime.UtcNow >= setting.StartDate &&
+                DateTime.UtcNow <= setting.EndDate);
             return result != null ? result.Id : string.Empty;
         }
 

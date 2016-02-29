@@ -16,7 +16,7 @@ namespace BibaFramework.BibaEditor
         private const string SETTINGS_WORKSHEET_NAME = BibaContentConstants.CI_GAME_ID;
 
         [MenuItem("Biba/Load Settings/Load Special Scene Settings")]
-        public static void LoadSpecialSceneSettings ()
+        public static void CreateSpecialSceneSettings ()
         {
             ImportSpecialSceneSettings();
 
