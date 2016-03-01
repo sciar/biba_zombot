@@ -12,8 +12,13 @@ namespace BibaFramework.BibaEditor
 {
     public class BibaSpecialSceneImporter
 	{
-        private const string SETTINGS_SPREADSHEET_NAME = "Biba Timed Scenes";
-        private const string SETTINGS_WORKSHEET_NAME = BibaContentConstants.CI_GAME_ID;
+        private const string TIMEDSCENE_SPREADSHEET_NAME = "Biba Timed Scenes";
+        private const string LOCALESCENE_SPREADSHEET_NAME = "Biba Locale Based Scenes";
+        private const string WORKSHEET_NAME = BibaContentConstants.CI_GAME_ID;
+
+        private const string REGEX_VECTOR2 = "(?<longtitude>-?[0-9.]*),[ ]?(?<latitude>-?[0-9.]*)";
+        private const string REGEX_LONGTITUDE = "longtitude";
+        private const string REGEX_LATITUDE = "latitude";
 
         [MenuItem("Biba/Load Settings/Load Special Scene Settings")]
         public static void CreateSpecialSceneSettings ()
@@ -26,18 +31,30 @@ namespace BibaFramework.BibaEditor
 
         static void ImportSpecialSceneSettings()
         {
-            var entries = GoogleSpreadsheetImporter.GetListEntries(SETTINGS_SPREADSHEET_NAME, SETTINGS_WORKSHEET_NAME);
-            if (entries == null)
+            var settings = new BibaSpecialSceneSettings();
+
+            var timedEntries = GoogleSpreadsheetImporter.GetListEntries(TIMEDSCENE_SPREADSHEET_NAME, WORKSHEET_NAME);
+            if (timedEntries == null)
             {
                 return;
             }
 
-            ParseSpecialSceneSettings(entries);
+            ParseTimedSceneSettings(timedEntries, ref settings);
+
+            var localeBasedEntries = GoogleSpreadsheetImporter.GetListEntries(LOCALESCENE_SPREADSHEET_NAME, WORKSHEET_NAME);
+            if (localeBasedEntries == null)
+            {
+                return;
+            }
+            
+            ParseLocaleBasedSceneSettings(localeBasedEntries, ref settings);
+
+            var jsonDataService = new JSONDataService();
+            jsonDataService.WriteToDisk<BibaSpecialSceneSettings>(settings, BibaEditorConstants.GetContentOutputPath(BibaContentConstants.SPECIAL_SCENE_SETTINGS_FILE));
         }
 
-        static void ParseSpecialSceneSettings(AtomEntryCollection entries) 
+        static void ParseTimedSceneSettings(AtomEntryCollection entries, ref BibaSpecialSceneSettings settings) 
         {
-            var settings = new BibaSpecialSceneSettings();
             foreach (ListEntry row in entries)
             {
                 var idText = row.Elements[0].Value;
@@ -74,11 +91,56 @@ namespace BibaFramework.BibaEditor
                 sceneSetting.StartDate = startDate;
                 sceneSetting.EndDate = endDate;
 
-                settings.TimeSpecialSceneSettings.Add(sceneSetting);
+                settings.TimedSceneSettings.Add(sceneSetting);
             }
+        }
 
-            var jsonDataService = new JSONDataService();
-            jsonDataService.WriteToDisk<BibaSpecialSceneSettings>(settings, BibaEditorConstants.GetContentOutputPath(BibaContentConstants.SPECIAL_SCENE_SETTINGS_FILE));
+        static void ParseLocaleBasedSceneSettings(AtomEntryCollection entries, ref BibaSpecialSceneSettings settings) 
+        {
+            foreach (ListEntry row in entries)
+            {
+                var idText = row.Elements[0].Value;
+                if(string.IsNullOrEmpty(idText))
+                {
+                    continue;
+                }
+                
+                var sceneText = row.Elements[1].Value;
+                if(string.IsNullOrEmpty(sceneText))
+                {
+                    continue;
+                }
+
+                var centerText = row.Elements[2].Value;
+                if(string.IsNullOrEmpty(centerText))
+                {
+                    continue;
+                }
+
+                var centerMatchGroups = Regex.Match(centerText, REGEX_VECTOR2).Groups;
+                if(centerMatchGroups.Count == 0)
+                {
+                    continue;
+                }
+
+                var longtitude = Convert.ToDouble(centerMatchGroups[REGEX_LONGTITUDE].Value);
+                var latitude = Convert.ToDouble(centerMatchGroups[REGEX_LATITUDE].Value);
+
+                var radiusText = row.Elements[3].Value;
+                if(string.IsNullOrEmpty(radiusText))
+                {
+                    continue;
+                }
+
+                var sceneSetting = new LocaleSceneSetting();
+                
+                sceneSetting.Id = idText;
+                sceneSetting.SceneName = sceneText;
+                sceneSetting.Center = new Vector2((float)longtitude, (float)latitude);
+                sceneSetting.Radius = Convert.ToInt32(radiusText);
+
+                settings.LocaleSceneSettings.Add(sceneSetting);
+            }
         }
 	}
 }

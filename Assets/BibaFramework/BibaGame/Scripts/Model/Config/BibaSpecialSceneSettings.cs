@@ -6,7 +6,8 @@ namespace BibaFramework.BibaGame
 {
     public class BibaSpecialSceneSettings
     {
-        public List<TimedSceneSetting> TimeSpecialSceneSettings = new List<TimedSceneSetting>();
+        public List<TimedSceneSetting> TimedSceneSettings = new List<TimedSceneSetting>();
+        public List<LocaleSceneSetting> LocaleSceneSettings = new List<LocaleSceneSetting>();
     }
 
     public class BibaSpecialSceneSetting
@@ -29,5 +30,16 @@ namespace BibaFramework.BibaGame
         {
             return string.Format("[TimedSceneSetting: StartDate={0}, EndDate={1}]", StartDate, EndDate);
         }  
+    }
+
+    public class LocaleSceneSetting : BibaSpecialSceneSetting
+    {
+        public Vector2 Center { get; set; }
+        public double Radius { get; set; }
+
+        public LocaleSceneSetting()
+        {
+            Radius = BibaGameConstants.LOCALE_BASED_SCENE_SETTING_RADIUS;
+        }
     }
 }

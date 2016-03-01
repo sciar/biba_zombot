@@ -69,7 +69,7 @@ namespace BibaFramework.BibaGame
 
         string CheckForTimedBasedScene(string nextScene)
         {
-            var result = SpecialSceneSettings.TimeSpecialSceneSettings.Find(setting => setting.SceneName == nextScene && 
+            var result = SpecialSceneSettings.TimedSceneSettings.Find(setting => setting.SceneName == nextScene && 
                 DateTime.UtcNow >= setting.StartDate &&
                 DateTime.UtcNow <= setting.EndDate);
             return result != null ? result.Id : string.Empty;
