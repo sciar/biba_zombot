@@ -7,6 +7,8 @@ namespace BibaFramework.BibaEditor
     public class BibaEditorConstants
     {
         public static readonly string SCENE_ASSETBUNDLES_INPUT_PATH = Application.dataPath + "/BibaContent/Input";
+        public static readonly string OPTIONAL_ASSETBUNDLES_FOLDER = SCENE_ASSETBUNDLES_INPUT_PATH + "/Optional/";
+
         public static string GetContentOutputPath(string fileName)
         {
             return  Application.dataPath + "/BibaContent/Output/" + BibaContentConstants.GetRelativePath(fileName);

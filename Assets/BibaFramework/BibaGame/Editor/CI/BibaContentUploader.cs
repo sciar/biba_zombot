@@ -74,7 +74,7 @@ namespace BibaFramework.BibaEditor
             var outputFolder = Path.GetDirectoryName(BibaEditorConstants.GetContentOutputPath(""));
             var manifestUpdated = false;
             var manifest = BibaManifest;
-            var filesToUpload = Directory.GetFiles(outputFolder).Where(filePath => (filePath.EndsWith(BibaContentConstants.UNITY3D_EXTENSION) || filePath.EndsWith(BibaContentConstants.TEXT_EXTENSION)) &&
+            var filesToUpload = Directory.GetFiles(outputFolder,"*", SearchOption.AllDirectories).Where(filePath => (filePath.EndsWith(BibaContentConstants.UNITY3D_EXTENSION) || filePath.EndsWith(BibaContentConstants.TEXT_EXTENSION)) &&
                                                                        !filePath.EndsWith(BibaContentConstants.MANIFEST_FILENAME));
             foreach (var filePath in filesToUpload)
             {
@@ -84,6 +84,7 @@ namespace BibaFramework.BibaEditor
                 {
                     manifestLine = new ManifestLine(){
                         FileName = fileName,
+                        OptionalDownload = File.Exists(Path.Combine(BibaEditorConstants.OPTIONAL_ASSETBUNDLES_FOLDER, Path.GetFileNameWithoutExtension(fileName) + BibaEditorConstants.UNITY_EXTENSION))
                     };
                     manifest.Lines.Add(manifestLine);
                 }
