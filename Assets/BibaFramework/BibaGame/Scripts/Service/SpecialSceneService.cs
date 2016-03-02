@@ -6,69 +6,21 @@ using BibaFramework.BibaNetwork;
 
 namespace BibaFramework.BibaGame
 {
-    public class SpecialSceneService : IContentUpdated
+    public class SpecialSceneService : BaseSettingsService<BibaSpecialSceneSettings>
     {
-
-        [Inject]
-        public IDataService LoaderService { get; set; }
-
-        [Inject]
-        public ICDNService CDNService { get; set; }
-
         [Inject]
         public BibaSessionModel BibaSessionModel { get; set; }
 
-        private BibaSpecialSceneSettings _specialSceneSettings;
-
-        private BibaSpecialSceneSettings SpecialSceneSettings
-        {
-            get
-            {
-                if (_specialSceneSettings == null)
-                {
-                    ReloadContent();
-                }
-                return _specialSceneSettings;
+        public override string SettingsFileName {
+            get {
+                return BibaContentConstants.SPECIAL_SCENE_SETTINGS_FILE;
             }
         }
 
         #region - IContentUpdated
-        public bool ShouldLoadFromResources 
+        public override void ReloadContent()
         {
-            get 
-            {
-                var persistedManifest = LoaderService.ReadFromDisk<BibaManifest>(BibaContentConstants.GetPersistedPath(BibaContentConstants.MANIFEST_FILENAME));
-                if(persistedManifest == null)
-                {
-                    return true;
-                }
-
-                var persistedManifestLine = persistedManifest.Lines.Find(line => line.FileName == BibaContentConstants.SPECIAL_SCENE_SETTINGS_FILE);
-                if(persistedManifestLine == null)
-                {
-                    return true;
-                }
-
-                var resourceManifest = LoaderService.ReadFromDisk<BibaManifest>(BibaContentConstants.GetResourceContentFilePath(BibaContentConstants.MANIFEST_FILENAME));
-                var resourceManifestLine = resourceManifest.Lines.Find(line => line.FileName == BibaContentConstants.SPECIAL_SCENE_SETTINGS_FILE);
-                if(resourceManifestLine == null)
-                {
-                    return true;
-                }
-                return persistedManifestLine.Version <= resourceManifestLine.Version;
-            }
-        }
-        public string ContentFilePath 
-        {
-            get 
-            {
-                return ShouldLoadFromResources ? BibaContentConstants.GetResourceContentFilePath(BibaContentConstants.SPECIAL_SCENE_SETTINGS_FILE) : 
-                    BibaContentConstants.GetPersistedPath(BibaContentConstants.SPECIAL_SCENE_SETTINGS_FILE);
-            }
-        }
-        public void ReloadContent()
-        {
-            _specialSceneSettings = LoaderService.ReadFromDisk<BibaSpecialSceneSettings>(ContentFilePath);
+            _settings = DataService.ReadFromDisk<BibaSpecialSceneSettings>(ContentFilePath);
         }
         #endregion
 
@@ -85,14 +37,14 @@ namespace BibaFramework.BibaGame
 
         string CheckForLocaleBaseScene(string nextScene)
         {
-            var result = SpecialSceneSettings.LocaleSceneSettings.Find(setting => setting.SceneName == nextScene &&
+            var result = Settings.LocaleSceneSettings.Find(setting => setting.SceneName == nextScene &&
                                                                        DistanceTo(setting.Center.x, setting.Center.y, BibaSessionModel.SessionInfo.Location.x, BibaSessionModel.SessionInfo.Location.y) <= setting.Radius);
             return result != null ? result.Id : string.Empty;
         }
 
         string CheckForTimedBasedScene(string nextScene)
         {
-            var result = SpecialSceneSettings.TimedSceneSettings.Find(setting => setting.SceneName == nextScene && 
+            var result = Settings.TimedSceneSettings.Find(setting => setting.SceneName == nextScene && 
                 DateTime.UtcNow >= setting.StartDate &&
                 DateTime.UtcNow <= setting.EndDate);
             return result != null ? result.Id : string.Empty;

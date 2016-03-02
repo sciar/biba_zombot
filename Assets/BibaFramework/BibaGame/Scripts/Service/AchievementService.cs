@@ -4,66 +4,19 @@ using BibaFramework.BibaNetwork;
 
 namespace BibaFramework.BibaGame
 {
-    public class AchievementService : IContentUpdated
+    public class AchievementService : BaseSettingsService<BibaAchievementSettings>
     {
-        [Inject]
-        public IDataService DataService { get; set; }
-
         [Inject]
         public BibaGameModel BibaGameModel { get; set; }
 
-        [Inject]
-        public ICDNService CDNService { get; set; }
-
-        private BibaAchievementSettings _settings;
-        private BibaAchievementSettings Settings {
-            get 
-            {
-                if(_settings == null)
-                {
-                    ReloadContent();
-                }
-                return _settings;
+        public override string SettingsFileName {
+            get {
+                return BibaContentConstants.ACHIEVEMENT_SETTINGS_FILE;
             }
         }
 
         #region - IContentUpdated
-        public bool ShouldLoadFromResources 
-        {
-            get 
-            {
-                var persistedManifest = DataService.ReadFromDisk<BibaManifest>(BibaContentConstants.GetPersistedPath(BibaContentConstants.MANIFEST_FILENAME));
-                if(persistedManifest == null)
-                {
-                    return true;
-                }
-
-                var persistedManifestLine = persistedManifest.Lines.Find(line => line.FileName == BibaContentConstants.ACHIEVEMENT_SETTINGS_FILE);
-                if(persistedManifestLine == null)
-                {
-                    return true;
-                }
-
-                var resourceManifest = DataService.ReadFromDisk<BibaManifest>(BibaContentConstants.GetResourceContentFilePath(BibaContentConstants.MANIFEST_FILENAME));
-                var resourceManifestLine = resourceManifest.Lines.Find(line => line.FileName == BibaContentConstants.ACHIEVEMENT_SETTINGS_FILE);
-                if(resourceManifestLine == null)
-                {
-                    return true;
-                }
-                return persistedManifestLine.Version <= resourceManifestLine.Version;
-            }
-        }
-
-        public string ContentFilePath 
-        {
-            get 
-            {
-                return ShouldLoadFromResources ? BibaContentConstants.GetResourceContentFilePath(BibaContentConstants.ACHIEVEMENT_SETTINGS_FILE) :
-                        BibaContentConstants.GetPersistedPath(BibaContentConstants.ACHIEVEMENT_SETTINGS_FILE);
-            }
-        }
-
-        public void ReloadContent()
+        public override void ReloadContent()
         {
             _settings = DataService.ReadFromDisk<BibaAchievementSettings>(ContentFilePath);
             UpdateGameModel();

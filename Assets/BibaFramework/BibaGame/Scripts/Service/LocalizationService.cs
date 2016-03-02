@@ -5,80 +5,33 @@ using BibaFramework.BibaNetwork;
 
 namespace BibaFramework.BibaGame
 {
-    public class LocalizationService : IContentUpdated
+    public class LocalizationService : BaseSettingsService<Dictionary<string, Dictionary<SystemLanguage, string>>>
     {
-        [Inject]
-        public IDataService DataService { get; set; }
-
-        [Inject]
-        public ICDNService CDNService { get; set; }
-
-        private Dictionary<string, Dictionary<SystemLanguage, string>> _localizationDict;
-        private Dictionary<string, Dictionary<SystemLanguage, string>> LocalizationDict
-        {
-            get
-            {
-                if (_localizationDict == null)
-                {
-                    ReloadContent();
-                }
-                return _localizationDict;
+        public override string SettingsFileName {
+            get {
+                return BibaContentConstants.LOCALIZATION_SETTINGS_FILE;
             }
         }
 
         #region - IContentUpdated
-        public bool ShouldLoadFromResources 
+        public override void ReloadContent()
         {
-            get 
-            {
-                var persistedManifest = DataService.ReadFromDisk<BibaManifest>(BibaContentConstants.GetPersistedPath(BibaContentConstants.MANIFEST_FILENAME));
-                if(persistedManifest == null)
-                {
-                    return true;
-                }
-
-                var persistedManifestLine = persistedManifest.Lines.Find(line => line.FileName == BibaContentConstants.LOCALIZATION_SETTINGS_FILE);
-                if(persistedManifestLine == null)
-                {
-                    return true;
-                }
-
-                var resourceManifest = DataService.ReadFromDisk<BibaManifest>(BibaContentConstants.GetResourceContentFilePath(BibaContentConstants.MANIFEST_FILENAME));
-                var resourceManifestLine = resourceManifest.Lines.Find(line => line.FileName == BibaContentConstants.LOCALIZATION_SETTINGS_FILE);
-                if(resourceManifestLine == null)
-                {
-                    return true;
-                }
-                return persistedManifestLine.Version <= resourceManifestLine.Version;
-            }
-        }
-
-        public string ContentFilePath 
-        {
-            get 
-            {
-                return ShouldLoadFromResources ? BibaContentConstants.GetResourceContentFilePath(BibaContentConstants.LOCALIZATION_SETTINGS_FILE) :
-                    BibaContentConstants.GetPersistedPath(BibaContentConstants.LOCALIZATION_SETTINGS_FILE);
-            }
-        }
-
-        public void ReloadContent()
-        {
-            _localizationDict = new Dictionary<string, Dictionary<SystemLanguage, string>>();
+            _settings = new Dictionary<string, Dictionary<SystemLanguage, string>>();
             
             var localizationSettings = DataService.ReadFromDisk<BibaLocalizationSettings>(ContentFilePath);
             foreach (var localization in localizationSettings.Localizations)
             {
-                if (!_localizationDict.ContainsKey(localization.Key))
+                if (!_settings.ContainsKey(localization.Key))
                 {
-                    _localizationDict.Add(localization.Key, new Dictionary<SystemLanguage, string>());
+                    _settings.Add(localization.Key, new Dictionary<SystemLanguage, string>());
                 }
                 
-                var localizationKeyDictionary = _localizationDict [localization.Key];
+                var localizationKeyDictionary = _settings [localization.Key];
                 if (!localizationKeyDictionary.ContainsKey(localization.Language))
                 {
                     localizationKeyDictionary.Add(localization.Language, localization.Text);
-                } else
+                } 
+                else
                 {
                     localizationKeyDictionary [localization.Language] = localization.Text;
                 }
@@ -88,11 +41,12 @@ namespace BibaFramework.BibaGame
 
         public string GetText(string key)
         {
-            if (LocalizationDict.ContainsKey(key))
+            if (Settings.ContainsKey(key))
             {
-                var keyDict = LocalizationDict [key];
+                var keyDict = Settings [key];
                 return keyDict.ContainsKey(Application.systemLanguage) ? keyDict [Application.systemLanguage] : keyDict [SystemLanguage.English];
-            } else
+            } 
+            else
             {
                 return key;
             }
