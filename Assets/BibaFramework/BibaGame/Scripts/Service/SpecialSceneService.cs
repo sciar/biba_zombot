@@ -24,7 +24,7 @@ namespace BibaFramework.BibaGame
         }
         #endregion
 
-        public string LookForSpecialSceneToShow(string nextScene)
+        public string GetSpecialSceneToShow(string nextScene)
         {
             var result = CheckForLocaleBaseScene(nextScene);
             Debug.Log(result);
@@ -35,7 +35,7 @@ namespace BibaFramework.BibaGame
             return CheckForTimedBasedScene(nextScene);
         }
 
-        string CheckForLocaleBaseScene(string nextScene)
+        public string CheckForLocaleBaseScene(string nextScene)
         {
             var result = Settings.LocaleSceneSettings.Find(setting => setting.SceneName == nextScene &&
                                                                        DistanceTo(setting.Center.x, setting.Center.y, BibaSessionModel.SessionInfo.Location.x, BibaSessionModel.SessionInfo.Location.y) <= setting.Radius);

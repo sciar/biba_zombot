@@ -37,6 +37,8 @@ namespace BibaFramework.BibaEditor
         [MenuItem ("Biba/Content Generation/Generate Manifest and Upload Content to S3", false, 1)]
         static void UploadContent()
         {
+            LoadSettings();
+            UpdateManifestForAssetBundles();
             UploadManifestAndBundle();
             AssetDatabase.Refresh();
         }
@@ -67,9 +69,57 @@ namespace BibaFramework.BibaEditor
             }
         }
 
+        static void UpdateManifestForAssetBundles()
+        {
+            var outputFolder = Path.GetDirectoryName(BibaEditorConstants.GetContentOutputPath(""));
+            var manifestUpdated = false;
+            var manifest = BibaManifest;
+            var filesToUpload = Directory.GetFiles(outputFolder).Where(filePath => (filePath.EndsWith(BibaContentConstants.UNITY3D_EXTENSION) || filePath.EndsWith(BibaContentConstants.TEXT_EXTENSION)) &&
+                                                                       !filePath.EndsWith(BibaContentConstants.MANIFEST_FILENAME));
+            foreach (var filePath in filesToUpload)
+            {
+                var fileName = Path.GetFileName(filePath);
+                var manifestLine = manifest.Lines.Find(line => line.FileName == fileName);
+                if(manifestLine == null)
+                {
+                    manifestLine = new ManifestLine(){
+                        FileName = fileName,
+                    };
+                    manifest.Lines.Add(manifestLine);
+                }
+                
+                var assetBundleHash = GetHashString(filePath);
+                if(manifestLine.HashCode != assetBundleHash)
+                {
+                    manifestLine.HashCode = assetBundleHash;
+                    manifestLine.Version++;
+                    
+                    manifestUpdated = true;
+                }
+            }
+            
+            if (manifestUpdated)
+            {
+                BibaManifest.Version++;
+                new JSONDataService().WriteToDisk<BibaManifest>(BibaManifest, BibaEditorConstants.GetContentOutputPath(BibaContentConstants.MANIFEST_FILENAME));
+            }
+            
+            AssetDatabase.Refresh();
+        }
+
+        static string GetHashString(string filePath)
+        {
+            using (var md5 = MD5.Create())
+            {
+                using (var stream = File.OpenRead(filePath))
+                {
+                    return System.Text.Encoding.Default.GetString(md5.ComputeHash(stream));
+                }
+            }
+        }
+
         static void UploadManifestAndBundle()
         {
-            UpdateManifestForAssetBundles();
             try
             {
                 var process = new Process();
@@ -83,53 +133,6 @@ namespace BibaFramework.BibaEditor
             catch (Exception e)
             {
                 Console.WriteLine(e.Message);
-            }
-        }
-
-        static void UpdateManifestForAssetBundles()
-        {
-            var outputFolder = Path.GetDirectoryName(BibaEditorConstants.GetContentOutputPath(""));
-            var manifestUpdated = false;
-            var manifest = BibaManifest;
-            var filesToUpload = Directory.GetFiles(outputFolder).Where(filePath => (filePath.EndsWith(BibaContentConstants.UNITY3D_EXTENSION) || filePath.EndsWith(BibaContentConstants.TEXT_EXTENSION)) &&
-                                                                                    !filePath.EndsWith(BibaContentConstants.MANIFEST_FILENAME));
-            foreach (var filePath in filesToUpload)
-            {
-                var fileName = Path.GetFileName(filePath);
-                var manifestLine = manifest.Lines.Find(line => line.FileName == fileName);
-                if(manifestLine == null)
-                {
-                    manifestLine = new ManifestLine(){
-                        FileName = fileName,
-                    };
-                    manifest.Lines.Add(manifestLine);
-                }
-
-                var assetBundleHash = GetHashString(filePath);
-                if(manifestLine.HashCode != assetBundleHash)
-                {
-                    manifestLine.HashCode = assetBundleHash;
-                    manifestLine.Version++;
-
-                    manifestUpdated = true;
-                }
-             }
-
-            if (manifestUpdated)
-            {
-                BibaManifest.Version++;
-                new JSONDataService().WriteToDisk<BibaManifest>(BibaManifest, BibaEditorConstants.GetContentOutputPath(BibaContentConstants.MANIFEST_FILENAME));
-            }
-        }
-
-        static string GetHashString(string filePath)
-        {
-            using (var md5 = MD5.Create())
-            {
-                using (var stream = File.OpenRead(filePath))
-                {
-                    return System.Text.Encoding.Default.GetString(md5.ComputeHash(stream));
-                }
             }
         }
 	}

@@ -9,6 +9,7 @@ using Amazon.S3.Model;
 using BibaFramework.BibaGame;
 using BibaFramework.BibaNetwork;
 using LitJson;
+using BibaFramework.Utility;
 
 namespace BibaFramework.BibaNetwork
 {
@@ -79,8 +80,11 @@ namespace BibaFramework.BibaNetwork
         #region - ICDNService
         public void UpdateFromCDN()
         {
-            ReloadContent();
-            RetrieveAndWriteData(BibaContentConstants.GetRelativePath(BibaContentConstants.MANIFEST_FILENAME), BibaContentConstants.GetPersistedPath(BibaContentConstants.MANIFEST_FILENAME), ManifestRetrieved);
+            if (BibaUtility.CheckForInternetConnection())
+            {
+                ReloadContent();
+                RetrieveAndWriteData(BibaContentConstants.GetRelativePath(BibaContentConstants.MANIFEST_FILENAME), BibaContentConstants.GetPersistedPath(BibaContentConstants.MANIFEST_FILENAME), ManifestRetrieved);
+            }
         }
         #endregion
 
