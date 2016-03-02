@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using strange.extensions.mediation.impl;
+using strange.extensions.signal.impl;
 
 namespace BibaFramework.BibaMenu
 {
@@ -19,6 +20,17 @@ namespace BibaFramework.BibaMenu
         }
 
         [HideInInspector]
-        public string Key;
+        public string Key {
+			get {
+				return _Key;
+			}
+			set {
+				updateTextSignal.Dispatch();
+				_Key = value;
+			}
+		}
+
+		private string _Key;
+		public Signal updateTextSignal;
     }
 }
