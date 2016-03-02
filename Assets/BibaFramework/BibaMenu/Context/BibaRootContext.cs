@@ -66,7 +66,8 @@ namespace BibaFramework.BibaMenu
                 To<LogLastPlayedTimeCommand>().InSequence();
            
             commandBinder.Bind<ApplicationUnPausedSignal>().
-                To<CheckForInactiveResetCommand>().InSequence();
+                    To<CheckForInactiveResetCommand>().
+                    To<LogLocationInfoCommand>().InSequence();
 
             //BibaMenu
             commandBinder.Bind<ProcessNextMenuStateSignal>().To<ProcessNextMenuStateCommand>();

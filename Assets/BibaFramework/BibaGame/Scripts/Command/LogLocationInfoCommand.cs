@@ -26,12 +26,18 @@ namespace BibaFramework.BibaGame
         [Inject]
         public BibaSessionModel BibaSessionModel { get; set; } 
 
+        [Inject]
+        public BibaGameModel BibaGameModel { get; set; }
+
         //This call also prompt the enable GPS request for the frist time.
         public override void Execute ()
         { 
             #if !UNITY_EDITOR
-            Retain();
-            new Task(RetrieveLocationInfo(), true);
+            if(BibaGameModel.PrivacyEnabled)
+            {
+                Retain();
+                new Task(RetrieveLocationInfo(), true);
+            }
             #endif  
         }
 
