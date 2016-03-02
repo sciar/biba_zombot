@@ -97,6 +97,7 @@ namespace BibaFramework.BibaGame
         void StoreSessionLatLong()
         {
             BibaSessionModel.SessionInfo.QuadTileId = LatLongToQuadKey(Input.location.lastData.longitude, Input.location.lastData.latitude, BibaAnalyticConstants.MAP_LEVEL_OF_DETAIL);
+            BibaSessionModel.SessionInfo.Location = new Vector2(Input.location.lastData.latitude, Input.location.lastData.longitude);
         }
 
         BibaWeatherInfo ProcessWeatherJSON(string text)

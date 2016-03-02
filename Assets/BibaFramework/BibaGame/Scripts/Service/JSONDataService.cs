@@ -2,6 +2,7 @@ using System;
 using System.IO;
 using UnityEngine;
 using LitJson;
+using BibaFramework.BibaNetwork;
 
 namespace BibaFramework.BibaGame
 {
@@ -53,7 +54,7 @@ namespace BibaFramework.BibaGame
             }
 
             //Check in the Resources folder if not found in the file system
-            var textAsset = Resources.Load<TextAsset>(Path.GetFileNameWithoutExtension(path));
+            var textAsset = Resources.Load<TextAsset>(BibaContentConstants.GetRelativePath(Path.GetFileNameWithoutExtension(path)));
             if (textAsset != null && !string.IsNullOrEmpty(textAsset.text))
             {
                 return JsonMapper.ToObject<T>(textAsset.text);

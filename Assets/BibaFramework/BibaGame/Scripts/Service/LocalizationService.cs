@@ -32,12 +32,24 @@ namespace BibaFramework.BibaGame
             get 
             {
                 var persistedManifest = DataService.ReadFromDisk<BibaManifest>(BibaContentConstants.GetPersistedPath(BibaContentConstants.MANIFEST_FILENAME));
+                if(persistedManifest == null)
+                {
+                    return true;
+                }
+
                 var persistedManifestLine = persistedManifest.Lines.Find(line => line.FileName == BibaContentConstants.LOCALIZATION_SETTINGS_FILE);
+                if(persistedManifestLine == null)
+                {
+                    return true;
+                }
 
                 var resourceManifest = DataService.ReadFromDisk<BibaManifest>(BibaContentConstants.GetResourceContentFilePath(BibaContentConstants.MANIFEST_FILENAME));
                 var resourceManifestLine = resourceManifest.Lines.Find(line => line.FileName == BibaContentConstants.LOCALIZATION_SETTINGS_FILE);
-
-                return persistedManifestLine == null || persistedManifestLine.Version <= resourceManifestLine.Version;
+                if(resourceManifestLine == null)
+                {
+                    return true;
+                }
+                return persistedManifestLine.Version <= resourceManifestLine.Version;
             }
         }
 

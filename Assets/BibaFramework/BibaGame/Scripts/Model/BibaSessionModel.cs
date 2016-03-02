@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System;
 using LitJson;
+using UnityEngine;
 
 namespace BibaFramework.BibaGame
 {
@@ -17,5 +18,6 @@ namespace BibaFramework.BibaGame
 		public string DeviceModel { get; set; }
 		public string DeviceOS { get; set; }
         public string QuadTileId { get; set; }
+        public Vector2 Location { get; set; }
 	}
 }

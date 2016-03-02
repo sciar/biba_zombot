@@ -71,7 +71,7 @@ namespace BibaFramework.BibaNetwork
             {
                 var persistedManifest = DataService.ReadFromDisk<BibaManifest>(BibaContentConstants.GetPersistedPath(BibaContentConstants.MANIFEST_FILENAME));
                 var resourceManifest = DataService.ReadFromDisk<BibaManifest>(BibaContentConstants.GetResourceContentFilePath(BibaContentConstants.MANIFEST_FILENAME));
-                return (persistedManifest == null || persistedManifest.Version < resourceManifest.Version);
+                return (persistedManifest == null || persistedManifest.Version <= resourceManifest.Version);
             }
         }
         #endregion
@@ -116,6 +116,11 @@ namespace BibaFramework.BibaNetwork
                 {
                     using (Stream s = response.ResponseStream)
                     {
+                        if(!Directory.Exists(Path.GetDirectoryName(savePath)))
+                        {
+                            Directory.CreateDirectory(Path.GetDirectoryName(savePath));
+                        }
+
                         using (FileStream fs = new FileStream(savePath, FileMode.Create, FileAccess.Write))
                         {
                             byte[] data = new byte[32768];

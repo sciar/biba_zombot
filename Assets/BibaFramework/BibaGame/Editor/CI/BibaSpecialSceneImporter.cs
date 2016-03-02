@@ -16,7 +16,7 @@ namespace BibaFramework.BibaEditor
         private const string LOCALESCENE_SPREADSHEET_NAME = "Biba Locale Based Scenes";
         private const string WORKSHEET_NAME = BibaContentConstants.CI_GAME_ID;
 
-        private const string REGEX_VECTOR2 = "(?<longtitude>-?[0-9.]*),[ ]?(?<latitude>-?[0-9.]*)";
+        private const string REGEX_VECTOR2 = "(?<latitude>-?[0-9.]*),[ ]?(?<longtitude>-?[0-9.]*)";
         private const string REGEX_LONGTITUDE = "longtitude";
         private const string REGEX_LATITUDE = "latitude";
 
@@ -123,8 +123,8 @@ namespace BibaFramework.BibaEditor
                     continue;
                 }
 
-                var longtitude = Convert.ToDouble(centerMatchGroups[REGEX_LONGTITUDE].Value);
                 var latitude = Convert.ToDouble(centerMatchGroups[REGEX_LATITUDE].Value);
+                var longtitude = Convert.ToDouble(centerMatchGroups[REGEX_LONGTITUDE].Value);
 
                 var radiusText = row.Elements[3].Value;
                 if(string.IsNullOrEmpty(radiusText))
@@ -136,7 +136,7 @@ namespace BibaFramework.BibaEditor
                 
                 sceneSetting.Id = idText;
                 sceneSetting.SceneName = sceneText;
-                sceneSetting.Center = new Vector2((float)longtitude, (float)latitude);
+                sceneSetting.Center = new Vector2((float)latitude, (float)longtitude);
                 sceneSetting.Radius = Convert.ToInt32(radiusText);
 
                 settings.LocaleSceneSettings.Add(sceneSetting);
