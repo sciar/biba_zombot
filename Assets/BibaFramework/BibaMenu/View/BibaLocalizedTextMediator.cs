@@ -14,6 +14,15 @@ namespace BibaFramework.BibaMenu
         public override void OnRegister ()
         {
             BibaLocalizedTextView.Text.text = LocalizationService.GetText(BibaLocalizedTextView.Key);
+			BibaLocalizedTextView.updateTextSignal.AddListener (UpdateKey);
         }
+
+		public override void OnRemove() {
+			BibaLocalizedTextView.updateTextSignal.RemoveListener (UpdateKey);
+		}
+
+		void UpdateKey() {
+			BibaLocalizedTextView.Text.text = LocalizationService.GetText(BibaLocalizedTextView.Key);
+		}
     }
 }
