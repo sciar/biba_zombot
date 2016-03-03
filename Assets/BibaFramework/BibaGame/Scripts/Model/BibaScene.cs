@@ -7,6 +7,7 @@ namespace BibaFramework.BibaGame
         public const string Achievements = "Achievements";
         public const string BibaPresent = "BibaPresent";
         public const string ChartBoost = "ChartBoost";
+        public const string Download = "Download";
         public const string EquipmentSelect = "EquipmentSelect";
         public const string Game = "Game";
         public const string HowTo = "HowTo";

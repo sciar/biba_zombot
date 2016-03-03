@@ -7,7 +7,7 @@ namespace BibaFramework.BibaGame
     public class BibaSpecialSceneSettings
     {
         public List<TimedSceneSetting> TimedSceneSettings = new List<TimedSceneSetting>();
-        public List<LocaleSceneSetting> LocaleSceneSettings = new List<LocaleSceneSetting>();
+        public List<GeoSceneSetting> GeoSceneSettings = new List<GeoSceneSetting>();
     }
 
     public class BibaSpecialSceneSetting
@@ -32,12 +32,12 @@ namespace BibaFramework.BibaGame
         }  
     }
 
-    public class LocaleSceneSetting : BibaSpecialSceneSetting
+    public class GeoSceneSetting : BibaSpecialSceneSetting
     {
         public Vector2 Center { get; set; }
         public double Radius { get; set; }
 
-        public LocaleSceneSetting()
+        public GeoSceneSetting()
         {
             Radius = BibaGameConstants.LOCALE_BASED_SCENE_SETTING_RADIUS;
         }

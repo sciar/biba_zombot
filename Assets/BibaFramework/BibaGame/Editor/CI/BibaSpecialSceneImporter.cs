@@ -132,14 +132,14 @@ namespace BibaFramework.BibaEditor
                     continue;
                 }
 
-                var sceneSetting = new LocaleSceneSetting();
+                var sceneSetting = new GeoSceneSetting();
                 
                 sceneSetting.Id = idText;
                 sceneSetting.SceneName = sceneText;
                 sceneSetting.Center = new Vector2((float)latitude, (float)longtitude);
                 sceneSetting.Radius = Convert.ToInt32(radiusText);
 
-                settings.LocaleSceneSettings.Add(sceneSetting);
+                settings.GeoSceneSettings.Add(sceneSetting);
             }
         }
 	}

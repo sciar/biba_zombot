@@ -61,7 +61,7 @@ namespace BibaFramework.BibaNetwork
         {
             get 
             {
-                return ShouldLoadFromResources ?  BibaContentConstants.GetResourceContentFilePath (BibaContentConstants.MANIFEST_FILENAME) : 
+                return ShouldLoadFromResources ?  BibaContentConstants.GetResourceFilePath (BibaContentConstants.MANIFEST_FILENAME) : 
                         BibaContentConstants.GetPersistedPath(BibaContentConstants.MANIFEST_FILENAME);
             }
         }
@@ -71,14 +71,39 @@ namespace BibaFramework.BibaNetwork
             get 
             {
                 var persistedManifest = DataService.ReadFromDisk<BibaManifest>(BibaContentConstants.GetPersistedPath(BibaContentConstants.MANIFEST_FILENAME));
-                var resourceManifest = DataService.ReadFromDisk<BibaManifest>(BibaContentConstants.GetResourceContentFilePath(BibaContentConstants.MANIFEST_FILENAME));
+                var resourceManifest = DataService.ReadFromDisk<BibaManifest>(BibaContentConstants.GetResourceFilePath(BibaContentConstants.MANIFEST_FILENAME));
                 return (persistedManifest == null || persistedManifest.Version <= resourceManifest.Version);
             }
         }
         #endregion
 
         #region - ICDNService
-        public void UpdateFromCDN()
+        public bool ShouldDownloadOptionalFile(string fileName)
+        {
+            var localFilePath = BibaContentConstants.GetPersistedPath(fileName);
+            if (!File.Exists(localFilePath))
+            {
+                return true;
+            }
+
+            var localManifestLine = _localManifest.Lines.Find(line => line.FileName == fileName);
+            if (localManifestLine == null)
+            {
+                return true;
+            }
+
+           return BibaUtility.GetHashString(localFilePath) != localManifestLine.HashCode;
+        }
+
+        public void DownloadFileFromCDN(string fileName)
+        {
+            if (BibaUtility.CheckForInternetConnection())
+            {
+                RetrieveAndWriteData(BibaContentConstants.GetRelativePath(fileName), BibaContentConstants.GetPersistedPath(fileName));
+            }
+        }
+
+        public void DownloadFilesFromCDN()
         {
             if (BibaUtility.CheckForInternetConnection())
             {

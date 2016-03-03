@@ -82,7 +82,7 @@ namespace BibaFramework.BibaMenu
         IEnumerator LoadLevelAsync()
         {
             AsyncOperation asyncOp;
-            var specialSceneId = SpecialSceneLoaderService.GetSpecialSceneToShow(NextMenuState.SceneName);
+            var specialSceneId = SpecialSceneLoaderService.GetNextSceneToShow(NextMenuState.SceneName);
             var persistedFilePath = BibaContentConstants.GetPersistedPath(specialSceneId + BibaContentConstants.UNITY3D_EXTENSION);
             if (!string.IsNullOrEmpty(specialSceneId) && File.Exists(persistedFilePath))
             {

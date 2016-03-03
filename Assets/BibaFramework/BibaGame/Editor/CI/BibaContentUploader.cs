@@ -2,9 +2,9 @@ using System;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Security.Cryptography;
 using BibaFramework.BibaGame;
 using BibaFramework.BibaNetwork;
+using BibaFramework.Utility;
 using UnityEditor;
 using UnityEngine;
 
@@ -22,8 +22,13 @@ namespace BibaFramework.BibaEditor
         static void CopyContentToResources()
         {
             var outputFolder = Path.GetDirectoryName(BibaEditorConstants.GetContentOutputPath(""));
-            var resourceFolder = Path.GetDirectoryName(BibaContentConstants.GetResourceContentFilePath(""));
-            Directory.Delete(resourceFolder, true);
+
+            var resourceFolder = Path.GetDirectoryName(BibaContentConstants.GetResourceFilePath(""));
+            if (Directory.Exists(resourceFolder))
+            {
+                Directory.Delete(resourceFolder, true);
+            }
+
             FileUtil.CopyFileOrDirectory(outputFolder, resourceFolder);
             
             var filesToDelete = Directory.GetFiles(resourceFolder,"*", SearchOption.AllDirectories).Where(fileName => !fileName.EndsWith(BibaContentConstants.UNITY3D_EXTENSION) && 
@@ -89,7 +94,7 @@ namespace BibaFramework.BibaEditor
                     manifest.Lines.Add(manifestLine);
                 }
                 
-                var assetBundleHash = GetHashString(filePath);
+                var assetBundleHash = BibaUtility.GetHashString(filePath);
                 if(manifestLine.HashCode != assetBundleHash)
                 {
                     manifestLine.HashCode = assetBundleHash;
@@ -107,18 +112,6 @@ namespace BibaFramework.BibaEditor
             
             AssetDatabase.Refresh();
         }
-
-        static string GetHashString(string filePath)
-        {
-            using (var md5 = MD5.Create())
-            {
-                using (var stream = File.OpenRead(filePath))
-                {
-                    return System.Text.Encoding.Default.GetString(md5.ComputeHash(stream));
-                }
-            }
-        }
-
         static void UploadManifestAndBundle()
         {
             try

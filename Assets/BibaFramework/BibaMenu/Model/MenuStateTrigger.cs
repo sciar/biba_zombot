@@ -15,5 +15,6 @@ namespace BibaFramework.BibaMenu
         public const string HowTo = "HowTo";
         public const string PrivacyStatement = "PrivacyStatement";
         public const string Achievements = "Achievements";
+        public const string Download = "Download";
     }
 }

@@ -30,7 +30,7 @@ namespace BibaFramework.BibaNetwork
             return PLATFORM_FOLDER + "/" + fileName;
         }
 
-        public static string GetResourceContentFilePath(string fileName)
+        public static string GetResourceFilePath(string fileName)
         {
             return Application.dataPath + "/Resources/" + GetRelativePath(fileName);
         }

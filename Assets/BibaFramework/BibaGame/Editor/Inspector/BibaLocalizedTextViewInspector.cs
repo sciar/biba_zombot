@@ -1,4 +1,4 @@
-﻿using System.Linq;
+using System.Linq;
 using BibaFramework.BibaGame;
 using BibaFramework.BibaMenu;
 using UnityEditor;
@@ -18,7 +18,7 @@ namespace BibaFramework.BibaEditor
                 if(settings == null)
                 {
                     var dataService = new JSONDataService();
-                    settings = dataService.ReadFromDisk<BibaLocalizationSettings>(BibaContentConstants.GetResourceContentFilePath(BibaContentConstants.LOCALIZATION_SETTINGS_FILE));
+                    settings = dataService.ReadFromDisk<BibaLocalizationSettings>(BibaContentConstants.GetResourceFilePath(BibaContentConstants.LOCALIZATION_SETTINGS_FILE));
                 }
                 return settings;
             }

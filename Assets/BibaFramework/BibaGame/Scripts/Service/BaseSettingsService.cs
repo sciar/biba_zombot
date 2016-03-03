@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Linq;
 using BibaFramework.BibaNetwork;
 
@@ -39,7 +39,7 @@ namespace BibaFramework.BibaGame
                     return true;
                 }
 
-                var resourceManifest = DataService.ReadFromDisk<BibaManifest>(BibaContentConstants.GetResourceContentFilePath(BibaContentConstants.MANIFEST_FILENAME));
+                var resourceManifest = DataService.ReadFromDisk<BibaManifest>(BibaContentConstants.GetResourceFilePath(BibaContentConstants.MANIFEST_FILENAME));
                 var resourceManifestLine = resourceManifest.Lines.Find(line => line.FileName == SettingsFileName);
                 if(resourceManifestLine == null)
                 {
@@ -53,7 +53,7 @@ namespace BibaFramework.BibaGame
         {
             get 
             {
-                return ShouldLoadFromResources ? BibaContentConstants.GetResourceContentFilePath(SettingsFileName) :
+                return ShouldLoadFromResources ? BibaContentConstants.GetResourceFilePath(SettingsFileName) :
                     BibaContentConstants.GetPersistedPath(SettingsFileName);
             }
         }

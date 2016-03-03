@@ -9,7 +9,7 @@ namespace BibaFramework.BibaNetwork
 
         public override void Execute ()
         {
-            CDNService.UpdateFromCDN();
+            CDNService.DownloadFilesFromCDN();
         }
     }
 }

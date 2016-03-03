@@ -1,4 +1,5 @@
-﻿using strange.extensions.signal.impl;
+
+using strange.extensions.signal.impl;
 using System.Collections.Generic;
 
 namespace BibaFramework.BibaGame
@@ -9,6 +10,9 @@ namespace BibaFramework.BibaGame
     public class ApplicationPausedSignal : Signal{ }
     public class ApplicationUnPausedSignal : Signal{ }
     public class GameModelUpdatedSignal : Signal { }
+
+    //Network
+    public class DownloadGeoBasedScenesSignal : Signal { }
     public class ContentUpdatedFromCDNSignal : Signal<string> { }
 
     public class EquipmentSelectedSignal : Signal <BibaEquipmentType, bool> { }
