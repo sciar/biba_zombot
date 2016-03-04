@@ -112,7 +112,6 @@ namespace BibaFramework.BibaMenu
                 yield return asyncOp;
             }
 
-            Resources.UnloadUnusedAssets();
             LevelLoaded();
         }
 

@@ -44,6 +44,7 @@ namespace BibaFramework.BibaMenu
             {
                 yield return null;
             }
+            Resources.UnloadUnusedAssets();
             Release();
         }
     }

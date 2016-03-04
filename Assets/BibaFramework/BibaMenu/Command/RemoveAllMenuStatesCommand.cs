@@ -43,6 +43,7 @@ namespace BibaFramework.BibaMenu
                 }
             }
 
+            Resources.UnloadUnusedAssets();
             Release();
         }
     }
