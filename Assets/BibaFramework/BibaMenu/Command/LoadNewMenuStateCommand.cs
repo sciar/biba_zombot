@@ -88,15 +88,23 @@ namespace BibaFramework.BibaMenu
             {
                 persistedFilePath = FILE_SUFFIX +  persistedFilePath;
 
-                var www = new WWW(persistedFilePath);
-               
-                yield return www;
-                www.assetBundle.LoadAsset(specialSceneId);
+                using(WWW www = WWW.LoadFromCacheOrDownload(persistedFilePath, 1))
+                {
+                    yield return www;
 
-                asyncOp = Application.LoadLevelAdditiveAsync(specialSceneId);
-                yield return asyncOp;
+                    if(www.error != null)
+                    {
+                        throw new Exception("WWW download had an error:" + www.error);
+                    }
 
-                www.assetBundle.Unload(false);
+                    www.assetBundle.LoadAsset(specialSceneId);
+                  
+                    asyncOp = Application.LoadLevelAdditiveAsync(specialSceneId);
+                    yield return asyncOp;
+
+                    www.assetBundle.Unload(false);
+                    www.Dispose();
+                }
             } 
             else
             {
@@ -104,7 +112,7 @@ namespace BibaFramework.BibaMenu
                 yield return asyncOp;
             }
 
-            yield return asyncOp;
+            Resources.UnloadUnusedAssets();
             LevelLoaded();
         }
 
