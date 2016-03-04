@@ -22,18 +22,15 @@ namespace BibaFramework.BibaEditor
 
         static void UpdateAssetBundleNameForSceneFiles()
         {
-            var sceneFilePaths = Directory.GetFiles(BibaEditorConstants.SCENE_ASSETBUNDLES_INPUT_PATH);
+            var sceneFilePaths = Directory.GetFiles(BibaEditorConstants.SCENE_ASSETBUNDLES_INPUT_PATH, "*" + BibaEditorConstants.UNITY_EXTENSION, SearchOption.AllDirectories);
             foreach (var filePath in sceneFilePaths)
             {
                 var shortFilePath = filePath.Replace(Application.dataPath, "Assets");
-                if(shortFilePath.EndsWith(BibaEditorConstants.UNITY_EXTENSION))
-                {
-                    var sceneFileName = Path.GetFileNameWithoutExtension(shortFilePath);
-
-                    var assetImporter = AssetImporter.GetAtPath(shortFilePath);
-                    assetImporter.assetBundleName = sceneFileName;
-                    assetImporter.SaveAndReimport();
-                }
+                var sceneFileName = Path.GetFileNameWithoutExtension(shortFilePath);
+                
+                var assetImporter = AssetImporter.GetAtPath(shortFilePath);
+                assetImporter.assetBundleName = sceneFileName;
+                assetImporter.SaveAndReimport();
             }
         }
 

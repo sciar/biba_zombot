@@ -126,7 +126,7 @@ namespace BibaFramework.BibaNetwork
                 foreach (var remoteLine in remoteManifest.Lines)
                 {
                     var localLine = _localManifest.Lines.Find(line => line.FileName == remoteLine.FileName);
-                    if ((localLine == null || localLine.Version < remoteLine.Version) && !remoteLine.OptionalDownload)
+                    if ((localLine == null || localLine.Version < remoteLine.Version || File.Exists(BibaContentConstants.GetPersistedPath(remoteLine.FileName))) && !remoteLine.OptionalDownload)
                     {
                         RetrieveAndWriteData(BibaContentConstants.GetRelativePath(remoteLine.FileName), BibaContentConstants.GetPersistedPath(remoteLine.FileName));
                     }
@@ -141,7 +141,7 @@ namespace BibaFramework.BibaNetwork
 
             Client.GetObjectAsync(S3BucketName, objectFileName, (responseObj) => {
                 var response = responseObj.Response;
-                if (response.ResponseStream != null)
+                if (responseObj != null && response != null && response.ResponseStream != null)
                 {
                     using (Stream s = response.ResponseStream)
                     {
