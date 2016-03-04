@@ -46,7 +46,7 @@ namespace BibaFramework.BibaEditor
             var listFeed = GetListFeed(worksheetFeed, worksheetName);
             if (listFeed == null || listFeed.Entries.Count == 0)
             {
-                Debug.LogError("There were no entries. Terminating");
+                Debug.LogWarning("There were no entries. Terminating");
                 return null;
             }
             return listFeed.Entries;
