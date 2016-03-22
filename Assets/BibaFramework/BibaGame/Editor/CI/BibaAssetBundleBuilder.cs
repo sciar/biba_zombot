@@ -16,6 +16,11 @@ namespace BibaFramework.BibaEditor
 
         static void UpdateAssetBundleNameForSceneFiles()
         {
+            if (!Directory.Exists(BibaEditorConstants.SCENE_ASSETBUNDLES_INPUT_PATH))
+            {
+                return;
+            }
+
             var sceneFilePaths = Directory.GetFiles(BibaEditorConstants.SCENE_ASSETBUNDLES_INPUT_PATH, "*" + BibaEditorConstants.UNITY_EXTENSION, SearchOption.AllDirectories);
             foreach (var filePath in sceneFilePaths)
             {
