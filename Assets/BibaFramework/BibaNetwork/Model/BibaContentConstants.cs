@@ -11,12 +11,13 @@ namespace BibaFramework.BibaNetwork
         public const string AWS_IDENTITY_POOL_ID = "us-east-1:be839779-a7ee-4f18-9c5a-e1651f030bea";
 
         #if UNITY_IPHONE
-        private static readonly string PLATFORM_FOLDER = "iOS";
+        private const string PLATFORM_FOLDER = "iOS";
+        #elif UNITY_ANDROID
+        private const string PLATFORM_FOLDER = "Android";
+        #else
+        private const string PLATFORM_FOLDER = "Editor";
         #endif
 
-        #if UNITY_ANDROID
-        private static readonly string PLATFORM_FOLDER = "Android";
-        #endif
 
         public const string SPECIAL_SCENE_SETTINGS_FILE = "settings_specialscene" + TEXT_EXTENSION;
         public const string LOCALIZATION_SETTINGS_FILE = "settings_localization" + TEXT_EXTENSION;
