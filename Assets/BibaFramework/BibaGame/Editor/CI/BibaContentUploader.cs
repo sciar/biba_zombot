@@ -11,14 +11,23 @@ using UnityEngine;
 namespace BibaFramework.BibaEditor
 {
     public class BibaContentUploader : MonoBehaviour 
-	{
-        [MenuItem ("Biba/Content Generation/Copy Content to Resources", false, 0)]
-        static void CopyToResources()
+	{   
+        [MenuItem ("Biba/Content Generation/Run Content Pipeline Without Upload", false, 0)]
+        public static void RunContentPipeLineWithoutUpload()
         {
+            LoadSettings();
+            BibaAssetBundleBuilder.BuildSpecialScenesAssetBundles();
+            UpdateManifestForAssets();
             CopyContentToResources();
-            AssetDatabase.Refresh();
         }
-        
+
+        [MenuItem ("Biba/Content Generation/Run Content Pipeline With Upload", false, 1)]
+        public static void RunContentPipeLine()
+        {
+            RunContentPipeLineWithoutUpload();
+            UploadManifestAndBundle();
+        }
+
         static void CopyContentToResources()
         {
             var outputFolder = Path.GetDirectoryName(BibaEditorConstants.GetContentOutputPath(""));
@@ -37,18 +46,10 @@ namespace BibaFramework.BibaEditor
             {
                 File.Delete(file);
             }
-        }
 
-        [MenuItem ("Biba/Content Generation/Generate Manifest and Upload Content to S3", false, 1)]
-        static void UploadContent()
-        {
-            LoadSettings();
-            UpdateManifestForAssetBundles();
-            UploadManifestAndBundle();
             AssetDatabase.Refresh();
         }
 
-        [MenuItem ("Biba/Content Generation/Generate Settings from GoogleDrive", false, 2)]
         static void LoadSettings()
         {
             BibaLocalizationImporter.CreateLocalizationSettings();
@@ -74,7 +75,7 @@ namespace BibaFramework.BibaEditor
             }
         }
 
-        static void UpdateManifestForAssetBundles()
+        static void UpdateManifestForAssets()
         {
             var outputFolder = Path.GetDirectoryName(BibaEditorConstants.GetContentOutputPath(""));
             var manifestUpdated = false;
@@ -112,6 +113,7 @@ namespace BibaFramework.BibaEditor
             
             AssetDatabase.Refresh();
         }
+
         static void UploadManifestAndBundle()
         {
             try

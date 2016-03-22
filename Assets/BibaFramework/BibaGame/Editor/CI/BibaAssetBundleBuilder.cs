@@ -8,13 +8,7 @@ namespace BibaFramework.BibaEditor
 {
     public class BibaAssetBundleBuilder : MonoBehaviour 
 	{    
-        [MenuItem ("Biba/Content Generation/Generate AssetBundles", false, 3)]
-		static void BuildSpecialScenes()
-		{
-            BuildSpecialScenesAssetBundles();
-		}
-
-        static void BuildSpecialScenesAssetBundles()
+        public static void BuildSpecialScenesAssetBundles()
         {
             UpdateAssetBundleNameForSceneFiles();
             BuildAssetBundles();

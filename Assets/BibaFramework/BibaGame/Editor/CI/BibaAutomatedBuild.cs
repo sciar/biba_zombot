@@ -19,6 +19,9 @@ namespace BibaFramework.BibaEditor
 		[MenuItem("Biba/Build Jobs/Build iOS")]
 		public static void BuildIOS ()
 		{
+            //Update Settings and Manifest
+            BibaContentUploader.RunContentPipeLineWithoutUpload();
+
             // Set Build Number
             PlayerSettings.iOS.buildNumber = Environment.GetCommandLineArgs() [System.Environment.GetCommandLineArgs().Length - 1];
           
@@ -30,6 +33,9 @@ namespace BibaFramework.BibaEditor
         [MenuItem("Biba/Build Jobs/Build Android")]
 		public static void BuildAndroid ()
 		{
+            //Update Settings and Manifest
+            BibaContentUploader.RunContentPipeLineWithoutUpload();
+            
             // Set Build Number
             int versionNumber = -1;
             Int32.TryParse(Environment.GetCommandLineArgs() [System.Environment.GetCommandLineArgs().Length - 1], out versionNumber);
