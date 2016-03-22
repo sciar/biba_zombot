@@ -31,6 +31,6 @@ namespace BibaFramework.BibaMenu
 		}
 
 		private string _Key = "";
-		public Signal TextKeyUpdatedSignal;
+		public Signal TextKeyUpdatedSignal = new Signal();
     }
 }
