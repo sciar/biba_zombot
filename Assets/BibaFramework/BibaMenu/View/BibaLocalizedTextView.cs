@@ -25,12 +25,12 @@ namespace BibaFramework.BibaMenu
 				return _Key;
 			}
 			set {
-				updateTextSignal.Dispatch();
+				TextKeyUpdatedSignal.Dispatch();
 				_Key = value;
 			}
 		}
 
-		private string _Key;
-		public Signal updateTextSignal;
+		private string _Key = "";
+		public Signal TextKeyUpdatedSignal;
     }
 }

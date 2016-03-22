@@ -14,11 +14,11 @@ namespace BibaFramework.BibaMenu
         public override void OnRegister ()
         {
             BibaLocalizedTextView.Text.text = LocalizationService.GetText(BibaLocalizedTextView.Key);
-			BibaLocalizedTextView.updateTextSignal.AddListener (UpdateKey);
+			BibaLocalizedTextView.TextKeyUpdatedSignal.AddListener (UpdateKey);
         }
 
 		public override void OnRemove() {
-			BibaLocalizedTextView.updateTextSignal.RemoveListener (UpdateKey);
+			BibaLocalizedTextView.TextKeyUpdatedSignal.RemoveListener (UpdateKey);
 		}
 
 		void UpdateKey() {

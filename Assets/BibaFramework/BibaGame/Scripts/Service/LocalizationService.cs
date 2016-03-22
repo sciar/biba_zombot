@@ -41,7 +41,7 @@ namespace BibaFramework.BibaGame
 
         public string GetText(string key)
         {
-            if (Settings.ContainsKey(key))
+            if (!string.IsNullOrEmpty(key) && Settings.ContainsKey(key))
             {
                 var keyDict = Settings [key];
                 return keyDict.ContainsKey(Application.systemLanguage) ? keyDict [Application.systemLanguage] : keyDict [SystemLanguage.English];
