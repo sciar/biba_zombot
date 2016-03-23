@@ -33,4 +33,5 @@ namespace BibaFramework.BibaGame
     public class TagServiceInitFailedSignal : Signal { } 
     public class TagScannedSignal : Signal<BibaTagType> { }
     public class LogCameraReminderTimeSignal : Signal { }
+    public class TagScanCompletedSignal : Signal { } 
 }

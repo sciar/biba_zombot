@@ -13,16 +13,11 @@ namespace BibaFramework.BibaGame
         public BibaEquipmentType BibaEquipmentType;
 
         private Toggle _toggle;
-        private Text _label;
 
         protected override void Start()
         {
             base.Start();
             _toggle = GetComponent<Toggle>();
-
-            _label = GetComponentInChildren<Text>();
-            _label.text = BibaEquipmentType.ToString();
-
             _toggle.onValueChanged.AddListener(ToggleStatusChanged);
         }
 

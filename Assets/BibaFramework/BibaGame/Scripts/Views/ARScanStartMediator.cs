@@ -32,6 +32,9 @@ namespace BibaFramework.BibaGame
         [Inject]
         public LogCameraReminderTimeSignal LogCameraReminderTimeSignal { get; set; }
 
+        [Inject]
+        public TagScanCompletedSignal TagScanCompletedSignal { get; set; }
+
         private BibaTagType _tagToScan;
 
         protected override void RegisterMenuStateDependentSignals() 
@@ -90,6 +93,8 @@ namespace BibaFramework.BibaGame
         {
             SetMenuStateTriggerSignal.Dispatch(MenuStateTrigger.Yes);
             BibaSessionModel.TagScanned = true;
+            TagScanCompletedSignal.Dispatch();
+
         }
 
         void TagServiceInitFailed()

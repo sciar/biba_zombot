@@ -33,7 +33,7 @@ namespace BibaFramework.BibaGame
             commandBinder.Bind<StartSignal>().To<CheckForChartBoostCommand>();
             commandBinder.Bind<EquipmentPlayedSignal>().To<EquipmentPlayedCommand>();
             commandBinder.Bind<TryToSetHighScoreSignal>().To<TryToSetHighScoreCommand>();
-            commandBinder.Bind<EndSignal>().To<CheckForAchievementsCommand>().InSequence();
+            commandBinder.Bind<EndSignal>().To<CheckForAchievementsCommand>();
         }
         
         protected override void BindSignals ()
