@@ -19,6 +19,9 @@ namespace BibaFramework.BibaEditor
 		[MenuItem("Biba/Build Jobs/Build iOS")]
 		public static void BuildIOS ()
 		{
+            //Set Build Target
+            EditorUserBuildSettings.SwitchActiveBuildTarget(BuildTarget.iOS);
+
             //Update Settings and Manifest
             BibaContentUploader.RunContentPipeLineWithoutUpload();
 
@@ -33,6 +36,9 @@ namespace BibaFramework.BibaEditor
         [MenuItem("Biba/Build Jobs/Build Android")]
 		public static void BuildAndroid ()
 		{
+            //Set Build Target
+            EditorUserBuildSettings.SwitchActiveBuildTarget(BuildTarget.Android);
+
             //Update Settings and Manifest
             BibaContentUploader.RunContentPipeLineWithoutUpload();
             
