@@ -25,5 +25,6 @@ Assets/StrangeIoC/examples*
 sysinfo.txt
 Project/Assets/UnityVS.meta
 ProjectVersion.txt
-Assets/Resources/
-Assets/BibaContent/Output/
+Assets/Resources/iOS*
+Assets/Resources/Android*
+Assets/BibaContent/Output*
