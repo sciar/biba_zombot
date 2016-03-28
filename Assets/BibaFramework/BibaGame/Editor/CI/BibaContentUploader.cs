@@ -38,6 +38,7 @@ namespace BibaFramework.BibaEditor
                 Directory.Delete(resourceFolder, true);
             }
 
+			Directory.CreateDirectory (Application.dataPath + "/Resources/");
             FileUtil.CopyFileOrDirectory(outputFolder, resourceFolder);
             
             var filesToDelete = Directory.GetFiles(resourceFolder,"*", SearchOption.AllDirectories).Where(fileName => !fileName.EndsWith(BibaContentConstants.UNITY3D_EXTENSION) && 

@@ -6,18 +6,22 @@ namespace BibaFramework.BibaNetwork
     public class BibaContentConstants
     {
         //Overwrite for different games
-        public const string CI_GAME_ID = "biba-framework";
+        public const string CI_GAME_ID = "biba-collectobots";
 
         public const string AWS_IDENTITY_POOL_ID = "us-east-1:be839779-a7ee-4f18-9c5a-e1651f030bea";
 
-        #if UNITY_IPHONE
-        private const string PLATFORM_FOLDER = "iOS";
-        #elif UNITY_ANDROID
-        private const string PLATFORM_FOLDER = "Android";
-        #else
-        private const string PLATFORM_FOLDER = "Editor";
-        #endif
-
+		private static string PLATFORM {
+			get {
+					if(Application.platform == RuntimePlatform.Android)
+					{
+						return "Android";
+					}
+					else
+					{
+						return "iOS";
+					}
+				}
+		}
 
         public const string SPECIAL_SCENE_SETTINGS_FILE = "settings_specialscene" + TEXT_EXTENSION;
         public const string LOCALIZATION_SETTINGS_FILE = "settings_localization" + TEXT_EXTENSION;
@@ -28,7 +32,7 @@ namespace BibaFramework.BibaNetwork
         
         public static string GetRelativePath(string fileName)
         {
-            return PLATFORM_FOLDER + "/" + fileName;
+			return PLATFORM + "/" + fileName;
         }
 
         public static string GetResourceFilePath(string fileName)
