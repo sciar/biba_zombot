@@ -6,7 +6,7 @@ namespace BibaFramework.BibaNetwork
     public class BibaContentConstants
     {
         //Overwrite for different games
-        public const string CI_GAME_ID = "biba-collectobots";
+        public const string CI_GAME_ID = "biba-framework";
 
         public const string AWS_IDENTITY_POOL_ID = "us-east-1:be839779-a7ee-4f18-9c5a-e1651f030bea";
 
