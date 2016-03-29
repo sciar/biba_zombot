@@ -12,6 +12,7 @@ namespace BibaFramework.BibaEditor
     public class BibaLocalizationImporter
 	{
         private const string LOCALIZATION_SETTINGS_SPREADSHEET_NAME = "Biba Localization";
+        private const string LOCALIZATION_SETTINGS_COMMON_WORKSHEET_NAME = "biba-common";
         private const string LOCALIZATION_SETTINGS_WORKSHEET_NAME = BibaContentConstants.CI_GAME_ID;
 
         [MenuItem("Biba/Load Settings/Load Localization Settings")]
@@ -23,20 +24,30 @@ namespace BibaFramework.BibaEditor
             AssetDatabase.Refresh();
         }
 
+        private static BibaLocalizationSettings settings;
         static void ImportSettings()
         {
-            var entries = GoogleSpreadsheetImporter.GetListEntries(LOCALIZATION_SETTINGS_SPREADSHEET_NAME, LOCALIZATION_SETTINGS_WORKSHEET_NAME);
-            if (entries == null)
+            settings = new BibaLocalizationSettings();
+
+            //Parse common localization settings
+            var commonEntries = GoogleSpreadsheetImporter.GetListEntries(LOCALIZATION_SETTINGS_SPREADSHEET_NAME, LOCALIZATION_SETTINGS_COMMON_WORKSHEET_NAME);
+            if (commonEntries == null)
             {
                 return;
             }
+            ParseLocalizationSettings(commonEntries);
 
-            ParseLocalizationSettings(entries);
+            //Parse game specific localization settings
+            var gameEntries = GoogleSpreadsheetImporter.GetListEntries(LOCALIZATION_SETTINGS_SPREADSHEET_NAME, LOCALIZATION_SETTINGS_WORKSHEET_NAME);
+            if (gameEntries == null)
+            {
+                return;
+            }
+            ParseLocalizationSettings(gameEntries);
         }
 
         static void ParseLocalizationSettings(AtomEntryCollection entries)
         {
-            var settings = new BibaLocalizationSettings();
             foreach (ListEntry row in entries)
             {
                 var key = row.Elements[0].Value;
