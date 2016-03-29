@@ -20,11 +20,11 @@ namespace BibaFramework.BibaGame
         public static readonly TimeSpan INACTIVE_DURATION = TimeSpan.FromSeconds(ONE_HOUR_IN_SECONDS);
 
         //Achievement
-        public const string ACHIEVEMENT_PREFIX_BRIDGE = "You’ve crossed the equivalent of";
-        public const string ACHIEVEMENT_PREFIX_CLIMBER = "You have climbed the height of";
-        public const string ACHIEVEMENT_PREFIX_TUBE = "You have crawled the length of";
-        public const string ACHIEVEMENT_PREFIX_SLIDE = "You have slid the height of";
-        public const string ACHIEVEMENT_PREFIX_SWING = "You’ve swung as many times as";
-        public const string ACHIEVEMENT_PREFIX_OVERHANG = "You've climbed the equivalent of";
+        public const string ACHIEVEMENT_PREFIX_KEY_BRIDGE = "prefix_bridge";
+        public const string ACHIEVEMENT_PREFIX_KEY_CLIMBER = "prefix_climber";
+        public const string ACHIEVEMENT_PREFIX_KEY_TUBE = "prefix_tube";
+        public const string ACHIEVEMENT_PREFIX_KEY_SLIDE = "prefix_slide";
+        public const string ACHIEVEMENT_PREFIX_KEY_SWING = "prefix_swing";
+        public const string ACHIEVEMENT_PREFIX_KEY_OVERHANG = "prefix_overhang";
     }
 }
