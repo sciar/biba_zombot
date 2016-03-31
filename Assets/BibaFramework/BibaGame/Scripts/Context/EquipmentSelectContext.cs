@@ -30,7 +30,6 @@ namespace BibaFramework.BibaGame
 
         protected override void BindCommands ()
         {
-            commandBinder.Bind<StartSignal>().To<EquipmentSelectContextStartCommand>();
             commandBinder.Bind<EndSignal>().To<EquipmentSelectContextEndCommand>().To<LogLocationInfoCommand>().To<SendQuadtileIdToServerCommand>().InSequence();
             commandBinder.Bind<EquipmentSelectedSignal>().To<EquipmentSelectedCommand>();
         }

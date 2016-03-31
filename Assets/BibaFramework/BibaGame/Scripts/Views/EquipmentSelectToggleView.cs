@@ -13,18 +13,23 @@ namespace BibaFramework.BibaGame
         public BibaEquipmentType BibaEquipmentType;
 
         private Toggle _toggle;
+		public Toggle Toggle { 
+			get {
 
-        protected override void Start()
-        {
-            base.Start();
-            _toggle = GetComponent<Toggle>();
-            _toggle.onValueChanged.AddListener(ToggleStatusChanged);
-        }
+				if(_toggle == null)
+				{
+					_toggle = GetComponent<Toggle>();
+					_toggle.onValueChanged.AddListener(ToggleStatusChanged);
+				}
+
+				return _toggle;
+			}
+		}
 
         protected override void OnDestroy()
         {
             base.OnDestroy();
-            _toggle.onValueChanged.RemoveListener(ToggleStatusChanged);
+			Toggle.onValueChanged.RemoveListener(ToggleStatusChanged);
         }
 
         void ToggleStatusChanged(bool status)

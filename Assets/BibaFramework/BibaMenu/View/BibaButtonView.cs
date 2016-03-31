@@ -10,7 +10,15 @@ namespace BibaFramework.BibaMenu
     public class BibaButtonView : View
     {
         private Button _button;
-        public Button Button { get { return _button; } }
+        public Button Button { 
+			get { 
+				if(_button == null)
+				{
+					_button = (Button)GetComponent<Button>();
+				}
+				return _button; 
+			} 
+		}
 
         [HideInInspector]
         public string MenuStateTriggerString;
@@ -24,19 +32,25 @@ namespace BibaFramework.BibaMenu
 
         protected override void Start()
         {
-            _button = (Button)GetComponent<Button>();
-            _button.onClick.AddListener(() => {
-				
-                if(!string.IsNullOrEmpty(MenuStateTriggerString) && MenuStateTriggerString != MenuStateTrigger.None)
-                {
-                    ButtonClickedSignal.Dispatch(MenuStateTriggerString);
-                }
-
-                if(SFXString != BibaSFX.None)
-                {
-                    PlaySFXSignal.Dispatch(SFXString);
-                }
-			});	
+			Button.onClick.AddListener (ButtonPressed);
         }
+
+		protected override void OnDestroy()
+		{
+			Button.onClick.RemoveListener (ButtonPressed);
+		}
+
+		void ButtonPressed()
+		{
+			if(!string.IsNullOrEmpty(MenuStateTriggerString) && MenuStateTriggerString != MenuStateTrigger.None)
+			{
+				ButtonClickedSignal.Dispatch(MenuStateTriggerString);
+			}
+			
+			if(SFXString != BibaSFX.None)
+			{
+				PlaySFXSignal.Dispatch(SFXString);
+			}
+		}
     }
 }

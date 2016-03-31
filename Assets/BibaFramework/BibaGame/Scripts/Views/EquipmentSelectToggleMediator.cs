@@ -12,8 +12,12 @@ namespace BibaFramework.BibaGame
         [Inject]
         public EquipmentSelectedSignal EquipmentSelectedSignal { get; set; }
         
+		[Inject]
+		public BibaGameModel BibaGameModel { get; set; }
+
         public override void OnRegister ()
         {
+			Setup ();
             EquipmentSelectToggleView.EquipmentSelectToggleChangedSignal.AddListener(EquipmentSelectToggleChanged);
         }
         
@@ -22,6 +26,12 @@ namespace BibaFramework.BibaGame
             EquipmentSelectToggleView.EquipmentSelectToggleChangedSignal.RemoveListener(EquipmentSelectToggleChanged);
         }
         
+		void Setup()
+		{
+			var selected = BibaGameModel.SelectedEquipments.FindIndex (equip => equip.EquipmentType == EquipmentSelectToggleView.BibaEquipmentType) != -1;
+			EquipmentSelectToggleView.Toggle.isOn = selected;
+		}
+
         void EquipmentSelectToggleChanged(bool status)
         {
             EquipmentSelectedSignal.Dispatch(EquipmentSelectToggleView.BibaEquipmentType, status);

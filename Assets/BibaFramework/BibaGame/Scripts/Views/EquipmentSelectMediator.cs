@@ -22,6 +22,7 @@ namespace BibaFramework.BibaGame
 
         public override void RegisterSceneDependentSignals ()
         {
+			OnGameModelUpdated ();
             GameModelUpdatedSignal.AddListener(OnGameModelUpdated);
         }
 
@@ -36,7 +37,7 @@ namespace BibaFramework.BibaGame
 
         void OnGameModelUpdated()
         {
-            if (EquipmentSelectView.ConfirmButton.Button != null)
+            if (EquipmentSelectView != null && EquipmentSelectView.ConfirmButton.Button != null)
             {
                 EquipmentSelectView.ConfirmButton.Button.interactable = BibaGameModel.SelectedEquipments.Count > 0;
                 EquipmentSelectView.ConfirmButton.MenuStateTriggerString = BibaGameModel.SelectedEquipments.Count >= 3 ? MenuStateTrigger.Yes : MenuStateTrigger.No;
