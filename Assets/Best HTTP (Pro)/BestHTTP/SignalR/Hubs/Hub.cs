@@ -105,18 +105,20 @@ namespace BestHTTP.SignalR.Hubs
         /// <summary>
         /// Orders the server to call a method with the given arguments.
         /// </summary>
-        public void Call(string method, params object[] args)
+        /// <returns>True if the plugin was able to send out the message</returns>
+        public bool Call(string method, params object[] args)
         {
-            Call(method, null, null, null, args);
+            return Call(method, null, null, null, args);
         }
 
         /// <summary>
         /// Orders the server to call a method with the given arguments.
         /// The onResult callback will be called when the server successfully called the function.
         /// </summary>
-        public void Call(string method, OnMethodResultDelegate onResult, params object[] args)
+        /// <returns>True if the plugin was able to send out the message</returns>
+        public bool Call(string method, OnMethodResultDelegate onResult, params object[] args)
         {
-            Call(method, onResult, null, null, args);
+            return Call(method, onResult, null, null, args);
         }
 
         /// <summary>
@@ -124,9 +126,10 @@ namespace BestHTTP.SignalR.Hubs
         /// The onResult callback will be called when the server successfully called the function.
         /// The onResultError will be called when the server can't call the function, or when the function throws an exception.
         /// </summary>
-        public void Call(string method, OnMethodResultDelegate onResult, OnMethodFailedDelegate onResultError, params object[] args)
+        /// <returns>True if the plugin was able to send out the message</returns>
+        public bool Call(string method, OnMethodResultDelegate onResult, OnMethodFailedDelegate onResultError, params object[] args)
         {
-            Call(method, onResult, onResultError, null, args);
+            return Call(method, onResult, onResultError, null, args);
         }
 
         /// <summary>
@@ -134,9 +137,10 @@ namespace BestHTTP.SignalR.Hubs
         /// The onResult callback will be called when the server successfully called the function.
         /// The onProgress callback called multiple times when the method is a long runnning function and reports back its progress.
         /// </summary>
-        public void Call(string method, OnMethodResultDelegate onResult, OnMethodProgressDelegate onProgress, params object[] args)
+        /// <returns>True if the plugin was able to send out the message</returns>
+        public bool Call(string method, OnMethodResultDelegate onResult, OnMethodProgressDelegate onProgress, params object[] args)
         {
-            Call(method, onResult, null, onProgress, args);
+            return Call(method, onResult, null, onProgress, args);
         }
 
         /// <summary>
@@ -145,7 +149,8 @@ namespace BestHTTP.SignalR.Hubs
         /// The onResultError will be called when the server can't call the function, or when the function throws an exception.
         /// The onProgress callback called multiple times when the method is a long runnning function and reports back its progress.
         /// </summary>
-        public void Call(string method, OnMethodResultDelegate onResult, OnMethodFailedDelegate onResultError, OnMethodProgressDelegate onProgress, params object[] args)
+        /// <returns>True if the plugin was able to send out the message</returns>
+        public bool Call(string method, OnMethodResultDelegate onResult, OnMethodFailedDelegate onResultError, OnMethodProgressDelegate onProgress, params object[] args)
         {
             IHub thisHub = this as IHub;
 
@@ -156,7 +161,7 @@ namespace BestHTTP.SignalR.Hubs
                 thisHub.Connection.ClientMessageCounter %= UInt64.MaxValue;
 
                 // Create and send the client message
-                thisHub.Call(new ClientMessage(this, method, args, thisHub.Connection.ClientMessageCounter++, onResult, onResultError, onProgress));
+                return thisHub.Call(new ClientMessage(this, method, args, thisHub.Connection.ClientMessageCounter++, onResult, onResultError, onProgress));
             }
         }
 
@@ -164,15 +169,19 @@ namespace BestHTTP.SignalR.Hubs
 
         #region IHub Implementation
 
-        void IHub.Call(ClientMessage msg)
+        bool IHub.Call(ClientMessage msg)
         {
             IHub thisHub = this as IHub;
+
             lock (thisHub.Connection.SyncRoot)
             {
+                if (!thisHub.Connection.SendJson(BuildMessage(msg)))
+                    return false;
+                
                 SentMessages.Add(msg.CallIdx, msg);
-
-                thisHub.Connection.SendJson(BuildMessage(msg));
             }
+
+            return true;
         }
 
         /// <summary>

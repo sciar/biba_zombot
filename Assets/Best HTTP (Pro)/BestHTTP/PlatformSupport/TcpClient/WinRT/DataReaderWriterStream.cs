@@ -1,4 +1,4 @@
-﻿#if (UNITY_WSA || BUILD_FOR_WP8) && !UNITY_EDITOR
+﻿#if (UNITY_WSA || BUILD_FOR_WP8) && !UNITY_EDITOR && !ENABLE_IL2CPP
 
 using System;
 

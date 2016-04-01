@@ -13,7 +13,7 @@ namespace BestHTTP.SignalR.Hubs
     {
         Connection Connection { get; set; }
 
-        void Call(ClientMessage msg);
+        bool Call(ClientMessage msg);
         bool HasSentMessageId(UInt64 id);
         void Close();
         void OnMethod(MethodCallMessage msg);

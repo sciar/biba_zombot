@@ -164,7 +164,12 @@ namespace BestHTTP.SocketIO
         /// When we started to connect to the server.
         /// </summary>
         private DateTime ConnectionStarted;
-        
+
+        /// <summary>
+        /// Private flag to avoid multiple Close call
+        /// </summary>
+        private bool closing;
+
         #endregion
 
         #region Constructors
@@ -247,8 +252,8 @@ namespace BestHTTP.SocketIO
         /// </summary>
         public void Open()
         {
-            if (State != States.Initial && 
-                State != States.Closed && 
+            if (State != States.Initial &&
+                State != States.Closed &&
                 State != States.Reconnecting)
                 return;
 
@@ -283,6 +288,9 @@ namespace BestHTTP.SocketIO
             GetSocket("/");
         }
 
+        /// <summary>
+        /// Closes this Socket.IO connection.
+        /// </summary>
         public void Close()
         {
             (this as IManager).Close(true);
@@ -293,8 +301,9 @@ namespace BestHTTP.SocketIO
         /// </summary>
         void IManager.Close(bool removeSockets)
         {
-            if (State == States.Closed)
+            if (State == States.Closed || closing)
                 return;
+            closing = true;
 
             HTTPManager.Logger.Information("SocketManager", "Closing");
 
@@ -327,6 +336,8 @@ namespace BestHTTP.SocketIO
             if (Transport != null)
                 Transport.Close();
             Transport = null;
+
+            closing = false;
         }
 
         /// <summary>
@@ -358,7 +369,7 @@ namespace BestHTTP.SocketIO
             int delay = (int)Options.ReconnectionDelay.TotalMilliseconds * ReconnectAttempts;
 
             ReconnectAt = DateTime.UtcNow +
-                          TimeSpan.FromMilliseconds(Math.Min(rand.Next(/*rand min:*/(int)(delay - (delay * Options.RandomizationFactor)), 
+                          TimeSpan.FromMilliseconds(Math.Min(rand.Next(/*rand min:*/(int)(delay - (delay * Options.RandomizationFactor)),
                                                                        /*rand max:*/(int)(delay + (delay * Options.RandomizationFactor))),
                                                              (int)Options.ReconnectionDelayMax.TotalMilliseconds));
 
@@ -382,7 +393,7 @@ namespace BestHTTP.SocketIO
         {
 #if !BESTHTTP_DISABLE_WEBSOCKET
             bool hasWSSupport = Handshake.Upgrades.Contains("websocket");
-            
+
             if (hasWSSupport)
                 Transport = new WebSocketTransport(this);
             else
@@ -499,7 +510,7 @@ namespace BestHTTP.SocketIO
                 if (OfflinePackets == null)
                     OfflinePackets = new List<Packet>();
 
-                // The same packet can be sent through multiple Sockets. 
+                // The same packet can be sent through multiple Sockets.
                 OfflinePackets.Add(packet.Clone());
             }
         }
@@ -582,6 +593,7 @@ namespace BestHTTP.SocketIO
                 case States.Opening:
                     if (DateTime.UtcNow - ConnectionStarted >= Options.Timeout)
                     {
+                        (this as IManager).EmitError(SocketIOErrors.Internal, "Connection timed out!");
                         (this as IManager).EmitEvent("connect_error");
                         (this as IManager).EmitEvent("connect_timeout");
                         (this as IManager).TryToReconnect();

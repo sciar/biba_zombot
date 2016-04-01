@@ -7,7 +7,7 @@ namespace BestHTTP.SocketIO
 {
     using BestHTTP;
     using BestHTTP.SocketIO.Events;
-    
+
     /// <summary>
     /// This class represents a Socket.IO namespace.
     /// </summary>
@@ -31,7 +31,7 @@ namespace BestHTTP.SocketIO
         public bool IsOpen { get; private set; }
 
         /// <summary>
-        /// While this property is True, the socket will decode the Packet's Payload data using the parent SocketManager's Encoder. You must set this property before any event subsciption! It's default value is True;
+        /// While this property is True, the socket will decode the Packet's Payload data using the parent SocketManager's Encoder. You must set this property before any event subsciption! Its default value is True;
         /// </summary>
         public bool AutoDecodePayload { get; set; }
 
@@ -378,11 +378,16 @@ namespace BestHTTP.SocketIO
                 // Create an Error object from the server-sent json string
                 case SocketIOEventTypes.Error:
                     bool success = false;
-                    var errDict = JSON.Json.Decode(packet.Payload, ref success) as Dictionary<string, object>;
+                    object result = JSON.Json.Decode(packet.Payload, ref success);
                     if (success)
                     {
-                        Error err = new Error((SocketIOErrors)Convert.ToInt32(errDict["code"]),
-                                                                              errDict["message"] as string);
+                        var errDict = result as Dictionary<string, object>;
+                        Error err;
+
+                        if (errDict != null && errDict.ContainsKey("code"))
+                            err = new Error((SocketIOErrors)Convert.ToInt32(errDict["code"]), errDict["message"] as string);
+                        else
+                            err = new Error(SocketIOErrors.Custom, packet.Payload);
 
                         EventCallbacks.Call(EventNames.GetNameFor(SocketIOEventTypes.Error), packet, err);
 
@@ -398,12 +403,12 @@ namespace BestHTTP.SocketIO
             if ((packet.SocketIOEvent == SocketIOEventTypes.Ack || packet.SocketIOEvent == SocketIOEventTypes.BinaryAck) && AckCallbacks != null)
             {
                 SocketIOAckCallback ackCallback = null;
-                if (AckCallbacks.TryGetValue(packet.Id, out ackCallback) && 
+                if (AckCallbacks.TryGetValue(packet.Id, out ackCallback) &&
                     ackCallback != null)
                 {
                     try
                     {
-                        ackCallback(this, packet, packet.Decode(Manager.Encoder));
+                        ackCallback(this, packet, this.AutoDecodePayload ? packet.Decode(Manager.Encoder) : null);
                     }
                     catch (Exception ex)
                     {

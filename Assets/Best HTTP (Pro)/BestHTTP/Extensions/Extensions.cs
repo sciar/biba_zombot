@@ -9,7 +9,7 @@ using System.Text;
 	using Windows.Security.Cryptography.Core;
 	using Windows.Storage.Streams;
 	using BestHTTP.PlatformSupport.IO;
-	
+
 	using FileStream = BestHTTP.PlatformSupport.IO.FileStream;
 #elif UNITY_WP8
     using Cryptography = BestHTTP.PlatformSupport.Cryptography;
@@ -213,7 +213,7 @@ namespace BestHTTP.Extensions
             return result;
         }
 
-        internal static string ReadQuotedText(this string str, ref int pos)
+        internal static string ReadPossibleQuotedText(this string str, ref int pos)
         {
             string result = string.Empty;
             if (str == null)
@@ -233,7 +233,7 @@ namespace BestHTTP.Extensions
             }
             else
                 // It's not a quoted text, so we will read until the next option
-                result = str.Read(ref pos, ',');
+                result = str.Read(ref pos, (ch) => ch != ',' && ch != ';');
 
             return result;
         }
@@ -265,14 +265,22 @@ namespace BestHTTP.Extensions
             return new string(buffer, 0, length);
         }
 
+        internal static char? Peek(this string str, int pos)
+        {
+            if (pos < 0 || pos >= str.Length)
+                return null;
+
+            return str[pos];
+        }
+
         #endregion
 
         #region Specialized String Parsers
 
         //public, max-age=2592000
-        internal static List<KeyValuePair> ParseOptionalHeader(this string str)
+        internal static List<HeaderValue> ParseOptionalHeader(this string str)
         {
-            List<KeyValuePair> result = new List<KeyValuePair>();
+            List<HeaderValue> result = new List<HeaderValue>();
 
             if (str == null)
                 return result;
@@ -284,10 +292,10 @@ namespace BestHTTP.Extensions
             {
                 // Read key
                 string key = str.Read(ref idx, (ch) => ch != '=' && ch != ',').TrimAndLower();
-                KeyValuePair qp = new KeyValuePair(key);
+                HeaderValue qp = new HeaderValue(key);
 
                 if (str[idx - 1] == '=')
-                    qp.Value = str.ReadQuotedText(ref idx);
+                    qp.Value = str.ReadPossibleQuotedText(ref idx);
 
                 result.Add(qp);
             }
@@ -296,9 +304,9 @@ namespace BestHTTP.Extensions
         }
 
         //deflate, gzip, x-gzip, identity, *;q=0
-        internal static List<KeyValuePair> ParseQualityParams(this string str)
+        internal static List<HeaderValue> ParseQualityParams(this string str)
         {
-            List<KeyValuePair> result = new List<KeyValuePair>();
+            List<HeaderValue> result = new List<HeaderValue>();
 
             if (str == null)
                 return result;
@@ -308,7 +316,7 @@ namespace BestHTTP.Extensions
             {
                 string key = str.Read(ref idx, (ch) => ch != ',' && ch != ';').TrimAndLower();
 
-                KeyValuePair qp = new KeyValuePair(key);
+                HeaderValue qp = new HeaderValue(key);
 
                 if (str[idx - 1] == ';')
                 {

@@ -6,7 +6,7 @@ namespace Org.BouncyCastle.Crypto.Tls
 {
     public interface IClientCredentialsProvider
     {
-        TlsCredentials GetClientCredentials(CertificateRequest certificateRequest);
+        TlsCredentials GetClientCredentials(TlsContext context, CertificateRequest certificateRequest);
     }
 
 	/// <summary>
@@ -31,9 +31,9 @@ namespace Org.BouncyCastle.Crypto.Tls
 				throw new TlsFatalAlert(AlertDescription.user_canceled);
 		}
 
-		public virtual TlsCredentials GetClientCredentials(CertificateRequest certificateRequest)
+		public virtual TlsCredentials GetClientCredentials(TlsContext context, CertificateRequest certificateRequest)
 		{
-			return credProvider == null ? null : credProvider.GetClientCredentials(certificateRequest);
+			return credProvider == null ? null : credProvider.GetClientCredentials(context, certificateRequest);
 		}
 	}
 }

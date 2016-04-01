@@ -1,14 +1,15 @@
 ﻿#if !BESTHTTP_DISABLE_WEBSOCKET
 
 using System;
+using System.Collections.Generic;
 using System.Text;
+using System.IO;
 
 #if UNITY_WEBGL && !UNITY_EDITOR
-    using System.Collections.Generic;
     using System.Runtime.InteropServices;
 #else
-    using BestHTTP.Extensions;
     using BestHTTP.WebSocket.Frames;
+    using BestHTTP.WebSocket.Extensions;
 #endif
 
 namespace BestHTTP.WebSocket
@@ -25,7 +26,7 @@ namespace BestHTTP.WebSocket
 #else
     delegate void OnWebGLWebSocketOpenDelegate(uint id);
     delegate void OnWebGLWebSocketTextDelegate(uint id, string text);
-    delegate void OnWebGLWebSocketBinaryDelegate(uint id, [MarshalAs(UnmanagedType.LPArray, ArraySubType = UnmanagedType.U1, SizeParamIndex = 2)] byte[] buffer, int length);
+    delegate void OnWebGLWebSocketBinaryDelegate(uint id, IntPtr pBuffer, int length);
     delegate void OnWebGLWebSocketErrorDelegate(uint id, string error);
     delegate void OnWebGLWebSocketCloseDelegate(uint id, int code, string reason);
 
@@ -75,6 +76,11 @@ namespace BestHTTP.WebSocket
         /// The internal HTTPRequest object.
         /// </summary>
         public HTTPRequest InternalRequest { get; private set; }
+
+        /// <summary>
+        /// IExtension implementations the plugin will negotiate with the server to use.
+        /// </summary>
+        public IExtension[] Extensions { get; private set; }
 #endif
 
         /// <summary>
@@ -148,18 +154,32 @@ namespace BestHTTP.WebSocket
         public WebSocket(Uri uri)
             :this(uri, string.Empty, string.Empty)
         {
+#if (!UNITY_WEBGL || UNITY_EDITOR)
+            this.Extensions = new IExtension[] { new PerMessageCompression(/*compression level: */           Decompression.Zlib.CompressionLevel.Default,
+                                                                           /*clientNoContextTakeover: */     false,
+                                                                           /*serverNoContextTakeover: */     false,
+                                                                           /*clientMaxWindowBits: */         Decompression.Zlib.ZlibConstants.WindowBitsMax,
+                                                                           /*desiredServerMaxWindowBits: */  Decompression.Zlib.ZlibConstants.WindowBitsMax,
+                                                                           /*minDatalengthToCompress: */     5) };
+#endif
         }
 
         /// <summary>
         /// Creates a WebSocket instance from the given uri, protocol and origin.
         /// </summary>
         /// <param name="uri">The uri of the WebSocket server</param>
-        /// <param name="origin">Servers that are not intended to process input from any web page but only for certain sites SHOULD verify the |Origin| field is an origin they expect. 
+        /// <param name="origin">Servers that are not intended to process input from any web page but only for certain sites SHOULD verify the |Origin| field is an origin they expect.
         /// If the origin indicated is unacceptable to the server, then it SHOULD respond to the WebSocket handshake with a reply containing HTTP 403 Forbidden status code.</param>
         /// <param name="protocol">The application-level protocol that the client want to use(eg. "chat", "leaderboard", etc.). Can be null or empty string if not used.</param>
-        public WebSocket(Uri uri, string origin, string protocol = "")
+        /// <param name="extensions">Optional IExtensions implementations</param>
+        public WebSocket(Uri uri, string origin, string protocol
+#if !UNITY_WEBGL || UNITY_EDITOR
+            , params IExtension[] extensions
+#endif
+            )
+
         {
-#if (!UNITY_WEBGL || UNITY_EDITOR)
+#if !UNITY_WEBGL || UNITY_EDITOR
             // Set up some default values.
             this.PingFrequency = 1000;
 
@@ -185,11 +205,11 @@ namespace BestHTTP.WebSocket
             // The request MUST contain a |Connection| header field whose value MUST include the "Upgrade" token.
             InternalRequest.SetHeader("Connection", "keep-alive, Upgrade");
 
-            // The request MUST include a header field with the name |Sec-WebSocket-Key|.  The value of this header field MUST be a nonce consisting of a 
+            // The request MUST include a header field with the name |Sec-WebSocket-Key|.  The value of this header field MUST be a nonce consisting of a
             // randomly selected 16-byte value that has been base64-encoded (see Section 4 of [RFC4648]).  The nonce MUST be selected randomly for each connection.
             InternalRequest.SetHeader("Sec-WebSocket-Key", GetSecKey(new object[] { this, InternalRequest, uri, new object() }));
 
-            // The request MUST include a header field with the name |Origin| [RFC6454] if the request is coming from a browser client. 
+            // The request MUST include a header field with the name |Origin| [RFC6454] if the request is coming from a browser client.
             // If the connection is from a non-browser client, the request MAY include this header field if the semantics of that client match the use-case described here for browser clients.
             // More on Origin Considerations: http://tools.ietf.org/html/rfc6455#section-10.2
             if (!string.IsNullOrEmpty(origin))
@@ -205,6 +225,8 @@ namespace BestHTTP.WebSocket
             InternalRequest.SetHeader("Cache-Control", "no-cache");
             InternalRequest.SetHeader("Pragma", "no-cache");
 
+            this.Extensions = extensions;
+
 #if !BESTHTTP_DISABLE_CACHING && (!UNITY_WEBGL || UNITY_EDITOR)
             InternalRequest.DisableCache = true;
 #endif
@@ -212,7 +234,7 @@ namespace BestHTTP.WebSocket
 #if !BESTHTTP_DISABLE_PROXY
             // WebSocket is not a request-response based protocol, so we need a 'tunnel' through the proxy
             if (HTTPManager.Proxy != null)
-                InternalRequest.Proxy = new HTTPProxy(HTTPManager.Proxy.Address, 
+                InternalRequest.Proxy = new HTTPProxy(HTTPManager.Proxy.Address,
                                                       HTTPManager.Proxy.Credentials,
                                                       false, /*turn on 'tunneling'*/
                                                       false, /*sendWholeUri*/
@@ -224,9 +246,9 @@ namespace BestHTTP.WebSocket
 #endif
         }
 
-        #endregion
+#endregion
 
-        #region Request Callbacks
+#region Request Callbacks
 
 #if (!UNITY_WEBGL || UNITY_EDITOR)
         private void OnInternalRequestCallback(HTTPRequest req, HTTPResponse resp)
@@ -305,6 +327,29 @@ namespace BestHTTP.WebSocket
                 return;
             }
 
+            webSocket.WebSocket = this;
+
+            if (this.Extensions != null)
+            {
+                for (int i = 0; i < this.Extensions.Length; ++i)
+                {
+                    var ext = this.Extensions[i];
+
+                    try
+                    {
+                        if (ext != null && !ext.ParseNegotiation(webSocket))
+                            this.Extensions[i] = null; // Keep extensions only that succesfully negotiated
+                    }
+                    catch (Exception ex)
+                    {
+                        HTTPManager.Logger.Exception("WebSocket", "ParseNegotiation", ex);
+
+                        // Do not try to use a defective extension in the future
+                        this.Extensions[i] = null;
+                    }
+                }
+            }
+
             if (OnOpen != null)
             {
                 try
@@ -343,7 +388,7 @@ namespace BestHTTP.WebSocket
                 };
 
             if (StartPingThread)
-                webSocket.StartPinging(Math.Min(PingFrequency, 100));
+                webSocket.StartPinging(Math.Max(PingFrequency, 100));
 
             webSocket.StartReceive();
         }
@@ -361,6 +406,23 @@ namespace BestHTTP.WebSocket
 #if (!UNITY_WEBGL || UNITY_EDITOR)
             if (requestSent || InternalRequest == null)
                 return;
+
+            if (this.Extensions != null)
+            {
+                try
+                {
+                    for (int i = 0; i < this.Extensions.Length; ++i)
+                    {
+                        var ext = this.Extensions[i];
+                        if (ext != null)
+                            ext.AddNegotiation(InternalRequest);
+                    }
+                }
+                catch(Exception ex)
+                {
+                    HTTPManager.Logger.Exception("WebSocket", "Open", ex);
+                }
+            }
 
             InternalRequest.Send();
             requestSent = true;
@@ -424,7 +486,7 @@ namespace BestHTTP.WebSocket
         /// <summary>
         /// It will send the given frame to the server.
         /// </summary>
-        public void Send(IWebSocketFrameWriter frame)
+        public void Send(WebSocketFrame frame)
         {
             if (IsOpen)
                 webSocket.Send(frame);
@@ -459,9 +521,31 @@ namespace BestHTTP.WebSocket
 #endif
         }
 
-        #endregion
+        public static byte[] EncodeCloseData(UInt16 code, string message)
+        {
+            //If there is a body, the first two bytes of the body MUST be a 2-byte unsigned integer
+            // (in network byte order) representing a status code with value /code/ defined in Section 7.4 (http://tools.ietf.org/html/rfc6455#section-7.4). Following the 2-byte integer,
+            // the body MAY contain UTF-8-encoded data with value /reason/, the interpretation of which is not defined by this specification.
+            // This data is not necessarily human readable but may be useful for debugging or passing information relevant to the script that opened the connection.
+            int msgLen = Encoding.UTF8.GetByteCount(message);
+            using (MemoryStream ms = new MemoryStream(2 + msgLen))
+            {
+                byte[] buff = BitConverter.GetBytes(code);
+                if (BitConverter.IsLittleEndian)
+                    Array.Reverse(buff, 0, buff.Length);
 
-        #region Private Helpers
+                ms.Write(buff, 0, buff.Length);
+
+                buff = Encoding.UTF8.GetBytes(message);
+                ms.Write(buff, 0, buff.Length);
+
+                return ms.ToArray();
+            }
+        }
+
+#endregion
+
+#region Private Helpers
 
 #if !UNITY_WEBGL || UNITY_EDITOR
         private string GetSecKey(object[] from)
@@ -481,9 +565,9 @@ namespace BestHTTP.WebSocket
         }
 #endif
 
-        #endregion
+#endregion
 
-        #region WebGL Static Callbacks
+#region WebGL Static Callbacks
 #if UNITY_WEBGL && !UNITY_EDITOR
 
         [AOT.MonoPInvokeCallback(typeof(OnWebGLWebSocketOpenDelegate))]
@@ -517,7 +601,7 @@ namespace BestHTTP.WebSocket
                 if (ws.OnMessage != null)
                 {
                     try
-                    { 
+                    {
                         ws.OnMessage(ws, text);
                     }
                     catch (Exception ex)
@@ -531,7 +615,7 @@ namespace BestHTTP.WebSocket
         }
 
         [AOT.MonoPInvokeCallback(typeof(OnWebGLWebSocketBinaryDelegate))]
-        static void OnBinaryCallback(uint id, [MarshalAs(UnmanagedType.LPArray, ArraySubType = UnmanagedType.U1, SizeParamIndex = 2)] byte[] buffer, int length)
+        static void OnBinaryCallback(uint id, IntPtr pBuffer, int length)
         {
             WebSocket ws;
             if (WebSockets.TryGetValue(id, out ws))
@@ -540,6 +624,11 @@ namespace BestHTTP.WebSocket
                 {
                     try
                     {
+                        byte[] buffer = new byte[length];
+
+                        // Copy data from the 'unmanaged' memory to managed memory. Buffer will be reclaimed by the GC.
+                        Marshal.Copy(pBuffer, buffer, 0, length);
+
                         ws.OnBinary(ws, buffer);
                     }
                     catch (Exception ex)
@@ -631,9 +720,9 @@ namespace BestHTTP.WebSocket
         }
 
 #endif
-        #endregion
+#endregion
 
-        #region WebGL Interface
+#region WebGL Interface
 #if UNITY_WEBGL && !UNITY_EDITOR
 
         [DllImport("__Internal")]
@@ -655,7 +744,7 @@ namespace BestHTTP.WebSocket
         static extern void WS_Release(uint id);
 
 #endif
-        #endregion
+#endregion
     }
 }
 

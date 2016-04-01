@@ -65,7 +65,10 @@ namespace BestHTTP.SocketIO.Transports
 
             State = TransportStates.Closed;
 
-            Implementation.Close();
+            if (Implementation != null)
+                Implementation.Close();
+            else
+                HTTPManager.Logger.Warning("WebSocketTransport", "Close - WebSocket Implementation already null!");
             Implementation = null;
         }
 
@@ -85,6 +88,9 @@ namespace BestHTTP.SocketIO.Transports
         /// </summary>
         private void OnOpen(WebSocket ws)
         {
+            if (ws != Implementation)
+                return;
+
             HTTPManager.Logger.Information("WebSocketTransport", "OnOpen");
 
             State = TransportStates.Opening;
@@ -98,6 +104,9 @@ namespace BestHTTP.SocketIO.Transports
         /// </summary>
         private void OnMessage(WebSocket ws, string message)
         {
+            if (ws != Implementation)
+                return;
+
             if (HTTPManager.Logger.Level <= BestHTTP.Logger.Loglevels.All)
                 HTTPManager.Logger.Verbose("WebSocketTransport", "OnMessage: " + message);
 
@@ -120,6 +129,9 @@ namespace BestHTTP.SocketIO.Transports
         /// </summary>
         private void OnBinary(WebSocket ws, byte[] data)
         {
+            if (ws != Implementation)
+                return;
+
             if (HTTPManager.Logger.Level <= BestHTTP.Logger.Loglevels.All)
                 HTTPManager.Logger.Verbose("WebSocketTransport", "OnBinary");
 
@@ -154,6 +166,9 @@ namespace BestHTTP.SocketIO.Transports
         /// </summary>
         private void OnError(WebSocket ws, Exception ex)
         {
+            if (ws != Implementation)
+                return;
+
             string errorStr = string.Empty;
 
             if (ex != null)
@@ -207,6 +222,9 @@ namespace BestHTTP.SocketIO.Transports
         /// </summary>
         private void OnClosed(WebSocket ws, ushort code, string message)
         {
+            if (ws != Implementation)
+              return;
+
             HTTPManager.Logger.Information("WebSocketTransport", "OnClosed");
 
             Close();
@@ -287,7 +305,8 @@ namespace BestHTTP.SocketIO.Transports
             switch (packet.TransportEvent)
             {
                 case TransportEventTypes.Message:
-                    if (packet.SocketIOEvent == SocketIOEventTypes.Connect && this.State == TransportStates.Opening)
+                case TransportEventTypes.Noop:
+                    if (this.State == TransportStates.Opening)
                     {
                         // This transport are no open
                         State = TransportStates.Open;
@@ -305,8 +324,8 @@ namespace BestHTTP.SocketIO.Transports
                     {
                         HTTPManager.Logger.Information("WebSocketTransport", "\"probe\" packet received, sending Upgrade packet");
 
-                        // We will send an Upgrade("52") packet.
-                        Send(new Packet(TransportEventTypes.Upgrade, SocketIOEventTypes.Event, "/", string.Empty));
+                        // We will send an Upgrade("5") packet.
+                        Send(new Packet(TransportEventTypes.Upgrade, SocketIOEventTypes.Unknown, "/", string.Empty));
                     }
 
                     goto default;

@@ -93,7 +93,12 @@ namespace BestHTTP.SocketIO
         /// <summary>
         /// Exceptions that caught by the plugin but raised in a user code.
         /// </summary>
-        User
+        User,
+
+        /// <summary>
+        /// A custom, server sent error, most probably from a Socket.IO middleware.
+        /// </summary>
+        Custom,
     }
 }
 

@@ -317,7 +317,7 @@ namespace Org.BouncyCastle.Crypto.Tls
                     }
                     else
                     {
-                        clientCreds = this.mAuthentication.GetClientCredentials(mCertificateRequest);
+                        clientCreds = this.mAuthentication.GetClientCredentials(this.Context, mCertificateRequest);
 
                         if (clientCreds == null)
                         {

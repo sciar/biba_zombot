@@ -4,7 +4,7 @@ using System;
 
 using Org.BouncyCastle.Crypto.Parameters;
 
-#if UNITY_WSA && !UNITY_EDITOR
+#if UNITY_WSA && !UNITY_EDITOR && !ENABLE_IL2CPP
 using System.TypeFix;
 #endif
 

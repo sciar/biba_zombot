@@ -8,7 +8,7 @@ namespace BestHTTP.Logger
     /// <summary>
     /// Available logging levels.
     /// </summary>
-    public enum Loglevels
+    public enum Loglevels : byte
     {
         /// <summary>
         /// All message will be logged.

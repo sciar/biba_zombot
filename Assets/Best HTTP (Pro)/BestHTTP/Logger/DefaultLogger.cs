@@ -8,7 +8,7 @@ namespace BestHTTP.Logger
     /// <summary>
     /// A basic logger implementation to be able to log intelligently additional informations about the plugin's internal mechanism.
     /// </summary>
-    public class DefaultLogger : ILogger
+    public class DefaultLogger : BestHTTP.Logger.ILogger
     {
         public Loglevels Level { get; set; }
         public string FormatVerbose { get; set; }
@@ -86,7 +86,33 @@ namespace BestHTTP.Logger
             {
                 try
                 {
-                    UnityEngine.Debug.LogError(string.Format(FormatEx, division, msg, ex != null ? ex.Message : "null", ex != null ? ex.StackTrace : "null"));
+                    string exceptionMessage = string.Empty;
+                    if (ex == null)
+                        exceptionMessage = "null";
+                    else
+                    {
+                        StringBuilder sb = new StringBuilder();
+
+                        Exception exception = ex;
+                        int counter = 1;
+                        while (exception != null)
+                        {
+                            sb.AppendFormat("{0}: {1} {2}", counter++.ToString(), ex.Message, ex.StackTrace);
+
+                            exception = exception.InnerException;
+
+                            if (exception != null)
+                                sb.AppendLine();
+                        }
+
+                        exceptionMessage = sb.ToString();
+                    }
+
+                    UnityEngine.Debug.LogError(string.Format(FormatEx,
+                                                                division,
+                                                                msg,
+                                                                exceptionMessage,
+                                                                ex != null ? ex.StackTrace : "null"));
                 }
                 catch
                 { }

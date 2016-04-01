@@ -124,7 +124,11 @@ namespace BestHTTP.Caching
                 }
             }
             catch
-            { }
+            {
+                isSupported = false;
+
+                HTTPManager.Logger.Warning("HTTPCacheService", "Cache Service Disabled!");
+            }
         }
 
         internal static UInt64 GetNameIdx()
@@ -690,8 +694,8 @@ namespace BestHTTP.Caching
                         lock (Library)
                             deleteFile = !UsedIndexes.ContainsKey(idx);
                     else
-                        deleteFile = true;                                
-                    
+                        deleteFile = true;
+
                     if (deleteFile)
                         File.Delete(cacheEntries[i]);
                 }

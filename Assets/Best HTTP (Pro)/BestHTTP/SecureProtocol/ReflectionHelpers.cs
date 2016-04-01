@@ -1,5 +1,5 @@
 #if !BESTHTTP_DISABLE_ALTERNATE_SSL && (!UNITY_WEBGL || UNITY_EDITOR)
-#if UNITY_WSA && !UNITY_EDITOR
+#if UNITY_WSA && !UNITY_EDITOR && !ENABLE_IL2CPP
 
 using System;
 using System.Collections.Generic;

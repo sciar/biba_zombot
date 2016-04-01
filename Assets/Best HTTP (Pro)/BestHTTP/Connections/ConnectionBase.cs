@@ -44,7 +44,7 @@ namespace BestHTTP
         /// </summary>
         public HTTPRequest CurrentRequest { get; protected set; }
 
-        public bool IsRemovable { get { return IsFree && (DateTime.UtcNow - LastProcessTime) > HTTPManager.MaxConnectionIdleTime; } }
+        public virtual bool IsRemovable { get { return IsFree && (DateTime.UtcNow - LastProcessTime) > HTTPManager.MaxConnectionIdleTime; } }
 
         /// <summary>
         /// When we start to process the current request. It's set after the connection is estabilished.

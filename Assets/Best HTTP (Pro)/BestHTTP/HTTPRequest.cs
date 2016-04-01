@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
@@ -64,11 +65,12 @@ namespace BestHTTP
     public delegate void OnUploadProgressDelegate(HTTPRequest originalRequest, long uploaded, long uploadLength);
     public delegate bool OnBeforeRedirectionDelegate(HTTPRequest originalRequest, HTTPResponse response, Uri redirectUri);
     public delegate void OnHeaderEnumerationDelegate(string header, List<string> values);
+    public delegate void OnBeforeHeaderSendDelegate(HTTPRequest req);
 
     /// <summary>
-    /// 
+    ///
     /// </summary>
-    public sealed class HTTPRequest : System.Collections.IEnumerator, IEnumerator<HTTPRequest>
+    public sealed class HTTPRequest : IEnumerator, IEnumerator<HTTPRequest>
     {
         #region Statics
 
@@ -87,9 +89,9 @@ namespace BestHTTP
                                                         };
 
         /// <summary>
-        /// Size of the internal buffer, and upload progress will be fired when this size of data sent to the wire. It's default value is 1024 bytes.
+        /// Size of the internal buffer, and upload progress will be fired when this size of data sent to the wire. It's default value is 2 KiB.
         /// </summary>
-        public static int UploadChunkSize = 1 * 1024;
+        public static int UploadChunkSize = 2 * 1024;
 
         #endregion
 
@@ -232,13 +234,13 @@ namespace BestHTTP
 
         /// <summary>
         /// The response to the query.
-        /// <remarks>If an exception occured during reading of the response stream or can't connect to the server, this will be null!</remarks>
+        /// <remarks>If an exception occurred during reading of the response stream or can't connect to the server, this will be null!</remarks>
         /// </summary>
         public HTTPResponse Response { get; internal set; }
 
 #if !BESTHTTP_DISABLE_PROXY
         /// <summary>
-        /// Reponse from the Proxy server. It's null with transparent proxies.
+        /// Response from the Proxy server. It's null with transparent proxies.
         /// </summary>
         public HTTPResponse ProxyResponse { get; internal set; }
 #endif
@@ -355,10 +357,15 @@ namespace BestHTTP
         /// The ICertificateVerifyer implementation that the plugin will use to verify the server certificates when the request's UseAlternateSSL property is set to true.
         /// </summary>
         public Org.BouncyCastle.Crypto.Tls.ICertificateVerifyer CustomCertificateVerifyer { get; set; }
+
+        /// <summary>
+        /// The IClientCredentialsProvider implementation that the plugin will use to send client certificates when the request's UseAlternateSSL property is set to true.
+        /// </summary>
+        public Org.BouncyCastle.Crypto.Tls.IClientCredentialsProvider CustomClientCredentialsProvider { get; set; }
 #endif
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         public SupportedProtocols ProtocolHandler { get; set; }
 
@@ -372,6 +379,16 @@ namespace BestHTTP
             remove { onBeforeRedirection -= value; }
         }
         private OnBeforeRedirectionDelegate onBeforeRedirection;
+
+        /// <summary>
+        /// This event will be fired before the plugin will write headers to the wire. New headers can be added in this callback. This event is called on a non-Unity thread!
+        /// </summary>
+        public event OnBeforeHeaderSendDelegate OnBeforeHeaderSend
+        {
+            add { _onBeforeHeaderSend += value; }
+            remove { _onBeforeHeaderSend -= value; }
+        }
+        private OnBeforeHeaderSendDelegate _onBeforeHeaderSend;
 
         #region Internal Properties For Progress Report Support
 
@@ -451,7 +468,7 @@ namespace BestHTTP
         private HTTPFormBase FieldCollector;
 
         /// <summary>
-        /// When the request about to send the request we will create a specialised form implementation(url-encoded, multipart, or the legacy WWWForm based).
+        /// When the request about to send the request we will create a specialized form implementation(url-encoded, multipart, or the legacy WWWForm based).
         /// And we will use this instance to create the data that we will send to the server.
         /// </summary>
         private HTTPFormBase FormImpl;
@@ -474,7 +491,7 @@ namespace BestHTTP
         }
 
         public HTTPRequest(Uri uri, OnRequestFinishedDelegate callback)
-            : this(uri, HTTPMethods.Get, HTTPManager.KeepAliveDefaultValue, 
+            : this(uri, HTTPMethods.Get, HTTPManager.KeepAliveDefaultValue,
 #if !BESTHTTP_DISABLE_CACHING && (!UNITY_WEBGL || UNITY_EDITOR)
             HTTPManager.IsCachingDisabled
 #else
@@ -503,7 +520,7 @@ namespace BestHTTP
         #endregion
 
         public HTTPRequest(Uri uri, HTTPMethods methodType)
-            : this(uri, methodType, HTTPManager.KeepAliveDefaultValue, 
+            : this(uri, methodType, HTTPManager.KeepAliveDefaultValue,
 #if !BESTHTTP_DISABLE_CACHING && (!UNITY_WEBGL || UNITY_EDITOR)
             HTTPManager.IsCachingDisabled || methodType != HTTPMethods.Get
 #else
@@ -571,6 +588,7 @@ namespace BestHTTP
 
 #if !BESTHTTP_DISABLE_ALTERNATE_SSL && (!UNITY_WEBGL || UNITY_EDITOR)
             this.CustomCertificateVerifyer = HTTPManager.DefaultCertificateVerifyer;
+            this.CustomClientCredentialsProvider = HTTPManager.DefaultClientCredentialsProvider;
             this.UseAlternateSSL = HTTPManager.UseAlternateSSLDefaultValue;
 #endif
         }
@@ -813,6 +831,11 @@ namespace BestHTTP
 
         public void EnumerateHeaders(OnHeaderEnumerationDelegate callback)
         {
+            EnumerateHeaders(callback, false);
+        }
+
+        private void EnumerateHeaders(OnHeaderEnumerationDelegate callback, bool callBeforeSendCallback)
+        {
 #if !UNITY_WEBGL || UNITY_EDITOR
             if (!HasHeader("Host"))
                 SetHeader("Host", CurrentUri.Authority);
@@ -959,11 +982,9 @@ namespace BestHTTP
                 string cookieStr = string.Empty;
 
                 bool isSecureProtocolInUse = HTTPProtocolFactory.IsSecureProtocol(CurrentUri);
-                SupportedProtocols protocolInUse = HTTPProtocolFactory.GetProtocolFromUri(CurrentUri);
 
                 foreach (var cookie in cookies)
-                    if ((!cookie.IsSecure || (cookie.IsSecure && isSecureProtocolInUse)) &&
-                        (!cookie.IsHttpOnly || (cookie.IsHttpOnly && protocolInUse == SupportedProtocols.HTTP)))
+                    if (!cookie.IsSecure || (cookie.IsSecure && isSecureProtocolInUse))
                     {
                         if (!first)
                             cookieStr += "; ";
@@ -976,9 +997,22 @@ namespace BestHTTP
                         cookie.LastAccess = DateTime.UtcNow;
                     }
 
-                SetHeader("Cookie", cookieStr);
+                if (!string.IsNullOrEmpty(cookieStr))
+                    SetHeader("Cookie", cookieStr);
             }
 #endif
+
+            if (callBeforeSendCallback && _onBeforeHeaderSend != null)
+            {
+                try
+                {
+                    _onBeforeHeaderSend(this);
+                }
+                catch(Exception ex)
+                {
+                    HTTPManager.Logger.Exception("HTTPRequest", "OnBeforeHeaderSend", ex);
+                }
+            }
 
             // Write out the headers to the stream
             if (callback != null)
@@ -993,15 +1027,24 @@ namespace BestHTTP
         {
             EnumerateHeaders((header, values) =>
                 {
+                    if (string.IsNullOrEmpty(header) || values == null)
+                        return;
+
                     byte[] headerName = string.Concat(header, ": ").GetASCIIBytes();
 
                     for (int i = 0; i < values.Count; ++i)
                     {
+                        if (string.IsNullOrEmpty(values[i]))
+                        {
+                            HTTPManager.Logger.Warning("HTTPRequest", string.Format("Null/empty value for header: {0}", header));
+                            continue;
+                        }
+
                         stream.Write(headerName);
                         stream.Write(values[i].GetASCIIBytes());
                         stream.Write(EOL);
                     }
-                });
+                }, /*callBeforeSendCallback:*/ true);
         }
 
         /// <summary>
@@ -1043,9 +1086,9 @@ namespace BestHTTP
                 BinaryWriter outStream = new BinaryWriter(stream);
 
 #if !UNITY_WEBGL || UNITY_EDITOR
-                string requestLine = string.Format("{0} {1} HTTP/1.1", MethodNames[(byte)MethodType], 
+                string requestLine = string.Format("{0} {1} HTTP/1.1", MethodNames[(byte)MethodType],
                 #if !BESTHTTP_DISABLE_PROXY
-                    HasProxy && Proxy.SendWholeUri ? CurrentUri.OriginalString : 
+                    HasProxy && Proxy.SendWholeUri ? CurrentUri.OriginalString :
                 #endif
                     CurrentUri.PathAndQuery);
 
@@ -1059,7 +1102,8 @@ namespace BestHTTP
                 outStream.Write(EOL);
 
                 // Send headers to the wire
-                outStream.Flush();
+                if (UploadStream != null)
+                    outStream.Flush();
 #endif
 
                 byte[] data = RawData;
@@ -1078,16 +1122,16 @@ namespace BestHTTP
                         // Make stream from the data
                         uploadStream = new MemoryStream(data, 0, data.Length);
 
-                        // Initialise progress report variable
+                        // Initialize progress report variable
                         UploadLength = data.Length;
                     }
                     else
                         UploadLength = UseUploadStreamLength ? UploadStreamLength : -1;
 
-                    // Initialise the progress report variables
+                    // Initialize the progress report variables
                     Uploaded = 0;
 
-                    // Upload buffer. Frist we will read the data into this buffer from the UploadStream, then write this buffer to our outStream
+                    // Upload buffer. First we will read the data into this buffer from the UploadStream, then write this buffer to our outStream
                     byte[] buffer = new byte[UploadChunkSize];
 
                     // How many bytes was read from the UploadStream
@@ -1133,6 +1177,8 @@ namespace BestHTTP
                     if (UploadStream == null && uploadStream != null)
                         uploadStream.Dispose();
                 }
+                else
+                    outStream.Flush();
             }
             catch(Exception ex)
             {
@@ -1242,7 +1288,7 @@ namespace BestHTTP
                     // so try to remove from the request queue
                     if (!HTTPManager.RemoveFromQueue(this))
                         HTTPManager.Logger.Warning("HTTPRequest", "Abort - No active connection found with this request! (The request may already finished?)");
-                    
+
                     this.State = HTTPRequestStates.Aborted;
                 }
                 else
@@ -1268,7 +1314,7 @@ namespace BestHTTP
 
         #region System.Collections.IEnumerator implementation
 
-        public object Current { get { return this; } }
+        public object Current { get { return null; } }
 
         public bool MoveNext()
         {
@@ -1289,7 +1335,7 @@ namespace BestHTTP
 
         public void Dispose()
         {
-            
+
         }
     }
 }

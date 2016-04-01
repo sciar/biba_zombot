@@ -301,6 +301,85 @@ namespace BestHTTP.Decompression.Zlib
             _baseStream = new ZlibBaseStream(stream, mode, level, ZlibStreamFlavor.DEFLATE, leaveOpen);
         }
 
+        /// <summary>
+        ///   Create a <c>DeflateStream</c> using the specified <c>CompressionMode</c>
+        ///   and the specified <c>CompressionLevel</c>, and explicitly specify whether
+        ///   the stream should be left open after Deflation or Inflation.
+        /// </summary>
+        ///
+        /// <remarks>
+        ///
+        /// <para>
+        ///   When mode is <c>CompressionMode.Decompress</c>, the level parameter is ignored.
+        /// </para>
+        ///
+        /// <para>
+        ///   This constructor allows the application to request that the captive stream
+        ///   remain open after the deflation or inflation occurs.  By default, after
+        ///   <c>Close()</c> is called on the stream, the captive stream is also
+        ///   closed. In some cases this is not desired, for example if the stream is a
+        ///   <see cref="System.IO.MemoryStream"/> that will be re-read after
+        ///   compression.  Specify true for the <paramref name="leaveOpen"/> parameter
+        ///   to leave the stream open.
+        /// </para>
+        ///
+        /// </remarks>
+        ///
+        /// <example>
+        ///
+        ///   This example shows how to use a <c>DeflateStream</c> to compress data from
+        ///   a file, and store the compressed data into another file.
+        ///
+        /// <code>
+        /// using (var output = System.IO.File.Create(fileToCompress + ".deflated"))
+        /// {
+        ///     using (System.IO.Stream input = System.IO.File.OpenRead(fileToCompress))
+        ///     {
+        ///         using (Stream compressor = new DeflateStream(output, CompressionMode.Compress, CompressionLevel.BestCompression, true))
+        ///         {
+        ///             byte[] buffer = new byte[WORKING_BUFFER_SIZE];
+        ///             int n= -1;
+        ///             while (n != 0)
+        ///             {
+        ///                 if (n &gt; 0)
+        ///                     compressor.Write(buffer, 0, n);
+        ///                 n= input.Read(buffer, 0, buffer.Length);
+        ///             }
+        ///         }
+        ///     }
+        ///     // can write additional data to the output stream here
+        /// }
+        /// </code>
+        ///
+        /// <code lang="VB">
+        /// Using output As FileStream = File.Create(fileToCompress &amp; ".deflated")
+        ///     Using input As Stream = File.OpenRead(fileToCompress)
+        ///         Using compressor As Stream = New DeflateStream(output, CompressionMode.Compress, CompressionLevel.BestCompression, True)
+        ///             Dim buffer As Byte() = New Byte(4096) {}
+        ///             Dim n As Integer = -1
+        ///             Do While (n &lt;&gt; 0)
+        ///                 If (n &gt; 0) Then
+        ///                     compressor.Write(buffer, 0, n)
+        ///                 End If
+        ///                 n = input.Read(buffer, 0, buffer.Length)
+        ///             Loop
+        ///         End Using
+        ///     End Using
+        ///     ' can write additional data to the output stream here.
+        /// End Using
+        /// </code>
+        /// </example>
+        /// <param name="stream">The stream which will be read or written.</param>
+        /// <param name="mode">Indicates whether the DeflateStream will compress or decompress.</param>
+        /// <param name="leaveOpen">true if the application would like the stream to remain open after inflation/deflation.</param>
+        /// <param name="level">A tuning knob to trade speed for effectiveness.</param>
+        /// <param name="windowBits">Desired window bits.</param>
+        public DeflateStream(System.IO.Stream stream, CompressionMode mode, CompressionLevel level, bool leaveOpen, int windowBits)
+        {
+            _innerStream = stream;
+            _baseStream = new ZlibBaseStream(stream, mode, level, ZlibStreamFlavor.DEFLATE, leaveOpen, windowBits);
+        }
+
         #region Zlib properties
 
         /// <summary>
@@ -565,12 +644,11 @@ namespace BestHTTP.Decompression.Zlib
         }
 
         /// <summary>
-        /// Calling this method always throws a <see cref="NotImplementedException"/>.
+        /// Will call the base stream's SetLength method.
         /// </summary>
-        /// <param name="value">this is irrelevant, since it will always throw!</param>
         public override void SetLength(long value)
         {
-            throw new NotImplementedException();
+            _baseStream.SetLength(value);
         }
 
         /// <summary>
@@ -714,8 +792,7 @@ namespace BestHTTP.Decompression.Zlib
         {
             using (var input = new System.IO.MemoryStream(compressed))
             {
-                System.IO.Stream decompressor =
-                    new DeflateStream( input, CompressionMode.Decompress );
+                System.IO.Stream decompressor = new DeflateStream( input, CompressionMode.Decompress );
 
                 return ZlibBaseStream.UncompressBuffer(compressed, decompressor);
             }

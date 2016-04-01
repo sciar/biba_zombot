@@ -1,4 +1,4 @@
-﻿#if (NETFX_CORE || BUILD_FOR_WP8) && !UNITY_EDITOR
+﻿#if (NETFX_CORE || BUILD_FOR_WP8) && !UNITY_EDITOR && !ENABLE_IL2CPP
 
 using System;
 using Windows.Networking;

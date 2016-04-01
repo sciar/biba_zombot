@@ -8,8 +8,8 @@ namespace BestHTTP
 {
 #if UNITY_WEBGL && !UNITY_EDITOR
 
-    delegate void OnWebGLRequestHandlerDelegate(int nativeId, int httpStatus, [MarshalAs(UnmanagedType.LPArray, ArraySubType = UnmanagedType.U1, SizeParamIndex = 3)] byte[] buffer, int length, int zero);
-    delegate void OnWebGLBufferDelegate(int nativeId, [MarshalAs(UnmanagedType.LPArray, ArraySubType = UnmanagedType.U1, SizeParamIndex = 2)] byte[] buffer, int length);
+    delegate void OnWebGLRequestHandlerDelegate(int nativeId, int httpStatus, IntPtr pBuffer, int length, int zero);
+    delegate void OnWebGLBufferDelegate(int nativeId, IntPtr pBuffer, int length);
     delegate void OnWebGLProgressDelegate(int nativeId, int downloaded, int total);
     delegate void OnWebGLErrorDelegate(int nativeId, string error);
     delegate void OnWebGLTimeoutDelegate(int nativeId);
@@ -24,7 +24,9 @@ namespace BestHTTP
 
         public WebGLConnection(string serverAddress)
             : base(serverAddress, false)
-        { }
+        {
+            XHR_SetLoglevel((byte)HTTPManager.Logger.Level);
+        }
 
         internal override void Abort(HTTPConnectionStates newState)
         {
@@ -42,7 +44,7 @@ namespace BestHTTP
         {
             // XmlHttpRequest setup
 
-            this.NativeId = XHR_Create(HTTPRequest.MethodNames[(byte)CurrentRequest.MethodType], 
+            this.NativeId = XHR_Create(HTTPRequest.MethodNames[(byte)CurrentRequest.MethodType],
                                        CurrentRequest.CurrentUri.ToString(),
                                        CurrentRequest.Credentials != null ? CurrentRequest.Credentials.UserName : null,
                                        CurrentRequest.Credentials != null ? CurrentRequest.Credentials.Password : null);
@@ -87,7 +89,7 @@ namespace BestHTTP
                     SupportedProtocols protocol = CurrentRequest.ProtocolHandler == SupportedProtocols.Unknown ? HTTPProtocolFactory.GetProtocolFromUri(CurrentRequest.CurrentUri) : CurrentRequest.ProtocolHandler;
                     CurrentRequest.Response = HTTPProtocolFactory.Get(protocol, CurrentRequest, ms, CurrentRequest.UseStreaming, false);
 
-                    CurrentRequest.Response.Receive();
+                    CurrentRequest.Response.Receive(buffer != null && buffer.Length > 0 ? (int)buffer.Length : -1, true);
                 }
             }
             catch (Exception e)
@@ -240,9 +242,9 @@ namespace BestHTTP
         #region WebGL Static Callbacks
 
         [AOT.MonoPInvokeCallback(typeof(OnWebGLRequestHandlerDelegate))]
-        static void OnResponse(int nativeId, int httpStatus, [MarshalAs(UnmanagedType.LPArray, ArraySubType=UnmanagedType.U1, SizeParamIndex=3)] byte[] buffer, int length, int err)
+        static void OnResponse(int nativeId, int httpStatus, IntPtr pBuffer, int length, int err)
         {
-            HTTPManager.Logger.Information("WebGLConnection - OnResponse", string.Format("{0} {1} {2} {3} {4}", nativeId, httpStatus, buffer.Length, length, err));
+            HTTPManager.Logger.Information("WebGLConnection - OnResponse", string.Format("{0} {1} {2} {3}", nativeId, httpStatus, length, err));
 
             WebGLConnection conn = null;
             if (!Connections.TryGetValue(nativeId, out conn))
@@ -251,11 +253,16 @@ namespace BestHTTP
                 return;
             }
 
+            byte[] buffer = new byte[length];
+
+            // Copy data from the 'unmanaged' memory to managed memory. Buffer will be reclaimed by the GC.
+            Marshal.Copy(pBuffer, buffer, 0, length);
+
             conn.OnResponse(httpStatus, buffer);
         }
 
         [AOT.MonoPInvokeCallback(typeof(OnWebGLBufferDelegate))]
-        static void OnBufferCallback(int nativeId, [MarshalAs(UnmanagedType.LPArray, ArraySubType = UnmanagedType.U1, SizeParamIndex = 2)] byte[] buffer, int length)
+        static void OnBufferCallback(int nativeId, IntPtr pBuffer, int length)
         {
             WebGLConnection conn = null;
             if (!Connections.TryGetValue(nativeId, out conn))
@@ -263,6 +270,11 @@ namespace BestHTTP
                 HTTPManager.Logger.Error("WebGLConnection - OnBufferCallback", "No WebGL connection found for nativeId: " + nativeId.ToString());
                 return;
             }
+
+            byte[] buffer = new byte[length];
+
+            // Copy data from the 'unmanaged' memory to managed memory. Buffer will be reclaimed by the GC.
+            Marshal.Copy(pBuffer, buffer, 0, length);
 
             conn.OnBuffer(buffer);
         }
@@ -372,6 +384,9 @@ namespace BestHTTP
 
         [DllImport("__Internal")]
         private static extern void XHR_Release(int nativeId);
+
+        [DllImport("__Internal")]
+        private static extern void XHR_SetLoglevel(int logLevel);
 
         #endregion
     }

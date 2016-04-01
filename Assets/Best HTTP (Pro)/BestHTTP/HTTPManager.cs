@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-    
+
 using UnityEngine;
 
 #if !BESTHTTP_DISABLE_CACHING && (!UNITY_WEBGL || UNITY_EDITOR)
@@ -14,7 +14,7 @@ using BestHTTP.Statistics;
 namespace BestHTTP
 {
     /// <summary>
-    /// 
+    ///
     /// </summary>
     public static class HTTPManager
     {
@@ -40,7 +40,7 @@ namespace BestHTTP
 
 #if !BESTHTTP_DISABLE_ALTERNATE_SSL && (!UNITY_WEBGL || UNITY_EDITOR)
             DefaultCertificateVerifyer = null;
-            UseAlternateSSLDefaultValue = false;
+            UseAlternateSSLDefaultValue = true;
 #endif
         }
 
@@ -136,13 +136,13 @@ namespace BestHTTP
         private static HeartbeatManager heartbeats;
 
         /// <summary>
-        /// A basic ILogger implementation to be able to log intelligently additional informations about the plugin's internal mechanism.
+        /// A basic BestHTTP.Logger.ILogger implementation to be able to log intelligently additional informations about the plugin's internal mechanism.
         /// </summary>
-        public static ILogger Logger
+        public static BestHTTP.Logger.ILogger Logger
         {
             get
             {
-                // Make sure that it 
+                // Make sure that it has a valid logger instance.
                 if (logger == null)
                 {
                     logger = new DefaultLogger();
@@ -154,7 +154,7 @@ namespace BestHTTP
 
             set { logger = value; }
         }
-        private static ILogger logger;
+        private static BestHTTP.Logger.ILogger logger;
 
 #if !BESTHTTP_DISABLE_ALTERNATE_SSL && (!UNITY_WEBGL || UNITY_EDITOR)
         /// <summary>
@@ -163,13 +163,18 @@ namespace BestHTTP
         public static Org.BouncyCastle.Crypto.Tls.ICertificateVerifyer DefaultCertificateVerifyer { get; set; }
 
         /// <summary>
+        /// The default IClientCredentialsProvider implementation that the plugin will use when the request's UseAlternateSSL property is set to true.
+        /// </summary>
+        public static Org.BouncyCastle.Crypto.Tls.IClientCredentialsProvider DefaultClientCredentialsProvider { get; set; }
+
+        /// <summary>
         /// The default value for the HTTPRequest's UseAlternateSSL property.
         /// </summary>
         public static bool UseAlternateSSLDefaultValue { get; set; }
 #endif
 
         /// <summary>
-        /// On most systems the maximum length of a path is around 255 character. If a cache entity's path is longer than this value it doesn't get cached. There no patform independent API to query the exact value on the current system, but it's 
+        /// On most systems the maximum length of a path is around 255 character. If a cache entity's path is longer than this value it doesn't get cached. There no patform independent API to query the exact value on the current system, but it's
         /// exposed here and can be overridden. It's default value is 255.
         /// </summary>
         internal static int MaxPathLength { get; set; }
@@ -270,7 +275,7 @@ namespace BestHTTP
             stat.QueryFlags = queryFlags;
 
             if ((queryFlags & StatisticsQueryFlags.Connections) != 0)
-            { 
+            {
                 int connections = 0;
                 foreach(var conn in HTTPManager.Connections)
                 {
@@ -354,7 +359,7 @@ namespace BestHTTP
 
             // proxyUri + requestUri
             // HTTP and HTTPS needs different connections.
-            return 
+            return
 #if !BESTHTTP_DISABLE_PROXY
                 (request.Proxy != null ? new UriBuilder(request.Proxy.Address.Scheme, request.Proxy.Address.Host, request.Proxy.Address.Port).Uri.ToString() : string.Empty) +
 #endif
@@ -398,13 +403,13 @@ namespace BestHTTP
                     {
                         var tmpConn = connections[i];
 
-                        if (tmpConn != null && 
+                        if (tmpConn != null &&
                             tmpConn.IsFree &&
                             (
 #if !BESTHTTP_DISABLE_PROXY
-                            !tmpConn.HasProxy || 
+                            !tmpConn.HasProxy ||
 #endif
-                             tmpConn.LastProcessedUri == null || 
+                             tmpConn.LastProcessedUri == null ||
                              tmpConn.LastProcessedUri.Host.Equals(request.CurrentUri.Host, StringComparison.OrdinalIgnoreCase)))
                             conn = tmpConn;
                     }
@@ -668,7 +673,7 @@ namespace BestHTTP
                         }
                     }
 
-                
+
                 if (CanProcessFromQueue())
                 {
                     // Sort the queue by priority, only if we have to

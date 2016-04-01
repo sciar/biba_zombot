@@ -252,9 +252,11 @@ namespace BestHTTP
             if ((StatusCode >= 100 && StatusCode < 200) || StatusCode == 204 || StatusCode == 304 || baseRequest.MethodType == HTTPMethods.Head)
                 return true;
 
+#if (!UNITY_WEBGL || UNITY_EDITOR)
             if (HasHeaderWithValue("transfer-encoding", "chunked"))
                 ReadChunked(Stream);
             else
+#endif
             {
                 //  http://www.w3.org/Protocols/rfc2616/rfc2616-sec4.html#sec4.4
                 //      Case 3 in the above link.
@@ -264,8 +266,13 @@ namespace BestHTTP
                     ReadRaw(Stream, int.Parse(contentLengthHeaders[0]));
                 else if (contentRangeHeaders != null)
                 {
-                    HTTPRange range = GetRange();
-                    ReadRaw(Stream, (range.LastBytePos - range.FirstBytePos) + 1);
+                    if (contentLengthHeaders != null)
+                        ReadRaw(Stream, int.Parse(contentLengthHeaders[0]));
+                    else
+                    {
+                        HTTPRange range = GetRange();
+                        ReadRaw(Stream, (range.LastBytePos - range.FirstBytePos) + 1);
+                    }
                 }
                 else
                     ReadUnknownSize(Stream);
@@ -509,6 +516,16 @@ namespace BestHTTP
                             throw ExceptionHelper.ServerClosedTCPStream();
 
                         readBytes += bytes;
+
+                        // Progress report:
+                        // Placing reporting inside this cycle will report progress much more frequent
+                        baseRequest.Downloaded += bytes;
+                        baseRequest.DownloadProgressChanged = this.IsSuccess
+#if !BESTHTTP_DISABLE_CACHING && (!UNITY_WEBGL || UNITY_EDITOR)
+                        || this.IsFromCache
+#endif
+                        ;
+
                     } while (readBytes < chunkLength);
 
                     if (baseRequest.UseStreaming)
@@ -524,9 +541,7 @@ namespace BestHTTP
                     // read the next chunk's length
                     chunkLength = ReadChunkLength(stream);
 
-                    // Progress report:
                     baseRequest.DownloadLength += chunkLength;
-                    baseRequest.Downloaded = contentLength;
                     baseRequest.DownloadProgressChanged = this.IsSuccess
 #if !BESTHTTP_DISABLE_CACHING && (!UNITY_WEBGL || UNITY_EDITOR)
                         || this.IsFromCache
@@ -691,7 +706,7 @@ namespace BestHTTP
 
         #region Stream Decoding
 
-        protected byte[] DecodeStream(Stream streamToDecode)
+        protected byte[] DecodeStream(MemoryStream streamToDecode)
         {
             streamToDecode.Seek(0, SeekOrigin.Begin);
 
@@ -702,9 +717,13 @@ namespace BestHTTP
 #endif
                 GetHeaderValues("content-encoding");
 
+#if !UNITY_WEBGL || UNITY_EDITOR
             Stream decoderStream = null;
+#endif
+
+            // Return early if there are no encoding used.
             if (encoding == null)
-                decoderStream = streamToDecode;
+                return streamToDecode.ToArray();
             else
             {
                 switch (encoding[0])
@@ -713,13 +732,14 @@ namespace BestHTTP
                     case "gzip": decoderStream = new Decompression.Zlib.GZipStream(streamToDecode, Decompression.Zlib.CompressionMode.Decompress); break;
                     case "deflate": decoderStream = new Decompression.Zlib.DeflateStream(streamToDecode, Decompression.Zlib.CompressionMode.Decompress); break;
 #endif
+                    //identity, utf-8, etc.
                     default:
-                        //identity, utf-8, etc.
-                        decoderStream = streamToDecode;
-                        break;
+                        // Do not copy from one stream to an other, just return with the raw bytes
+                        return streamToDecode.ToArray();
                 }
             }
 
+#if !UNITY_WEBGL || UNITY_EDITOR
             using (var ms = new MemoryStream((int)streamToDecode.Length))
             {
                 var buf = new byte[1024];
@@ -730,6 +750,7 @@ namespace BestHTTP
 
                 return ms.ToArray();
             }
+#endif
         }
 
         #endregion

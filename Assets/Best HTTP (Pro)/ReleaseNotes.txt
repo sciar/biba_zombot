@@ -12,6 +12,73 @@ These defines are the following:
 Upgrading to 1.9.x:
 In v1.9.0 all DLL dependencies are removed, and some of the files from the source too. So a clean install is advised: Before you install v1.9.x you have to remove the /Assets/Best HTTP (Pro)/ folder and TcpClientImplementation.dll from the /Assets/Plugins/, /Assets/Plugins/Metro and /Assets/Plugins/WP8 folders.
 
+1.9.10 (2016.03.14)
+General
+-[New Feature] Apple TvOS support added.
+-[New Feature] Keep-Alive header support added
+-[New Feature] New OnBeforeHeaderSend event added to the HTTPRequest class to be able to access and modify headers just before they are sent out.
+-[Improvement] Decreased memory allocations when no encoding is used in the response
+-[Improvement] Updated link.xml
+-[Improvement] The default value for UserAlternateSSL is changed to true
+-[Improvement] [WebGL] The WebGL connection will use the logger’s level
+-[Improvement] [WebGL] The plugin will handle correctly UTF16 strings (Thanks goes to Eugen and Zorrendor)
+-[Bugfix] [UWP] Because of a missing Flush() call, body-less requests are not sent out
+SignalR
+-[Improvement] Connection’s PingInterval is now set to public
+-[Bugfix] PrepareRequest doesn’t called for Ping requests
+WebSocket
+-[Bugfix] [WebGL] Fixed a bug where checking the websocket’s IsOpen status caused an error
+-[Bugfix] Fixed a case where assembled frames decoded with extensions twice
+
+1.9.9 (2016.02.16)
+General
+-[Bugfix] On redirection the plugin tried to load from the cache for the wrong uri
+-[Bugfix] On application exit HTTPUpdateDelegator will now shut down the update thread if it’s used
+-[Bugfix] Cookies will be sent for protocols other than http too
+-[Bugfix] Empty headers will no longer sent out
+-[Bugfix] Null values in headers will no longer cause an exception
+-[Improvement] Added some missing documentation.
+-[Improvement] Exception logging now will include inner exceptions too
+WebSockets
+-[New Feature] Support for extensions added
+-[New Feature] Per-Message Deflate compression extension added
+Socket.IO
+-[Improvement] Custom errors by middlewares are now supported
+-[Improvement] Socket.Options’ AdditionalQueryParams changed from Dictionary to ObservableDictionary to automatically delete the cached value when it’s changed
+-[Bugfix] The plugin will not decode the payload for Emit callbacks
+SignalR
+-[Improvement] AdditionalQueryParams changed from Dictionary to ObservableDictionary to automatically delete the cached value when it’s changed
+
+1.9.8 (2016.01.04)
+General
+-[Improvement] Download progress report will be more frequent now with Chunked encoding
+WebSockets
+-[Bugfix] Sending pings will not be capped on 100ms now
+-[Bugfix] [WebGL] Binary data sending and receiving will be handled correctly now
+
+1.9.7 (2015.12.13)
+General
+-[Bugfix] Improved compatibility with 5.3 coroutine changes
+-[Improvement] Example scripts are in a namespace too
+
+1.9.6 (2015.12.08)
+General
+-[Improvement] Changes made to greatly improve compatibility for Windows Store builds targeting IL2CPP scripting backend
+Socket.IO
+-[Improvement] The WebSocketTransport will send and Update packet to the server without any other payload to improve compatibility
+
+1.9.5 (2015.11.30)
+General
+-[Fix] The plugin will choose the Content-Length header when Content-Range present too
+-[Improvement] Improved threading of HTTPUpdateDelegator
+WebGL
+-[Fix] The plugin will not try to decode the content as chunked, as the browser done it already
+Socket.IO
+-[Fix] Fixed a rare bug where WebSocket transport tried to access a null object
+-[Improvement] An error event will be emitted on timeout too
+SignalR
+-[Improvement] Call functions now will return true if the plugin was able to send the message to the server
+
 1.9.4 (2015.10.16)
 General
 -[Bugfix] Fixed a possible connection error on editors running on non-windows

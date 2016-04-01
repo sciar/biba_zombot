@@ -11,6 +11,14 @@ using BestHTTP.SignalR.Transports;
 using BestHTTP.SignalR.JsonEncoders;
 using BestHTTP.SignalR.Authentication;
 
+using PlatformSupport.Collections.ObjectModel;
+
+#if !NETFX_CORE
+    using PlatformSupport.Collections.Specialized;
+#else
+    using System.Collections.Specialized;
+#endif
+
 namespace BestHTTP.SignalR
 {
     public delegate void OnNonHubMessageDelegate(Connection connection, object data);
@@ -100,10 +108,34 @@ namespace BestHTTP.SignalR
         public TransportBase Transport { get; private set; }
 
         /// <summary>
+        /// Current client protocol in use.
+        /// </summary>
+        public ProtocolVersions Protocol { get; private set; }
+
+        /// <summary>
         /// Additional query parameters that will be passed for the handsake uri. If the value is null, or an empty string it will be not appended to the query only the key.
         /// <remarks>The keys and values must be escaped properly, as the plugin will not escape these. </remarks>
         /// </summary>
-        public Dictionary<string, string> AdditionalQueryParams { get; set; }
+        public ObservableDictionary<string, string> AdditionalQueryParams
+        {
+            get { return additionalQueryParams; }
+            set
+            {
+                // Unsubscribe from previous dictionary's events
+                if (additionalQueryParams != null)
+                    additionalQueryParams.CollectionChanged -= AdditionalQueryParams_CollectionChanged;
+
+                additionalQueryParams = value;
+
+                // Clear out the cached value
+                BuiltQueryParams = null;
+
+                // Subscribe to the collection changed event
+                if (value != null)
+                    value.CollectionChanged += AdditionalQueryParams_CollectionChanged;
+            }
+        }
+        private ObservableDictionary<string, string> additionalQueryParams;
 
         /// <summary>
         /// If it's false, the parmateres in the AdditionalQueryParams will be passed for all http requests. Its default value is true.
@@ -119,6 +151,11 @@ namespace BestHTTP.SignalR
         /// An IAuthenticationProvider implementation that will be used to authenticate the connection.
         /// </summary>
         public IAuthenticationProvider AuthenticationProvider { get; set; }
+
+        /// <summary>
+        /// How mutch time we have to wait between two pings.
+        /// </summary>
+        public TimeSpan PingInterval { get; set; }
 
         #endregion
 
@@ -191,11 +228,6 @@ namespace BestHTTP.SignalR
             }
         }
 
-        /// <summary>
-        /// Current client protocol in use.
-        /// </summary>
-        public ProtocolVersions Protocol { get; private set; }
-
         #endregion
 
         #region Internals
@@ -264,11 +296,6 @@ namespace BestHTTP.SignalR
         /// When the last ping request sent out.
         /// </summary>
         private DateTime LastPingSentAt;
-
-        /// <summary>
-        /// How mutch time we have to wait between two pings.
-        /// </summary>
-        private TimeSpan PingInterval;
 
         /// <summary>
         /// Reference to the ping request.
@@ -521,6 +548,8 @@ namespace BestHTTP.SignalR
 
         #endregion
 
+        #region Public Interface
+
         /// <summary>
         /// Closes the connection and shuts down the transport.
         /// </summary>
@@ -608,10 +637,12 @@ namespace BestHTTP.SignalR
             }
         }
 
+
         /// <summary>
         /// Will encode the argument to a Json string using the Connection's JsonEncoder, then will send it to the server.
         /// </summary>
-        public void Send(object arg)
+        /// <returns>True if the plugin was able to send out the message</returns>
+        public bool Send(object arg)
         {
             if (arg == null)
                 throw new ArgumentNullException("arg");
@@ -619,7 +650,7 @@ namespace BestHTTP.SignalR
             lock(SyncRoot)
             {
                 if (this.State != ConnectionStates.Connected)
-                    return;
+                    return false;
 
                 string json = JsonEncoder.Encode(arg);
 
@@ -628,12 +659,15 @@ namespace BestHTTP.SignalR
                 else
                     Transport.Send(json);
             }
+
+            return true;
         }
 
         /// <summary>
         /// Sends the given json string to the server.
         /// </summary>
-        public void SendJson(string json)
+        /// <returns>True if the plugin was able to send out the message</returns>
+        public bool SendJson(string json)
         {
             if (json == null)
                 throw new ArgumentNullException("json");
@@ -641,11 +675,15 @@ namespace BestHTTP.SignalR
             lock(SyncRoot)
             {
                 if (this.State != ConnectionStates.Connected)
-                    return;
+                    return false;
 
                 Transport.Send(json);
             }
+
+            return true;
         }
+
+        #endregion
 
         #region IManager Functions
 
@@ -818,7 +856,7 @@ namespace BestHTTP.SignalR
 
             if (OnError != null)
                 OnError(this, reason);
-            
+
             if (this.State == ConnectionStates.Connected || this.State == ConnectionStates.Reconnecting)
                 Reconnect();
             else
@@ -1027,7 +1065,7 @@ namespace BestHTTP.SignalR
 
                     if (PingRequest == null && DateTime.UtcNow - LastPingSentAt >= PingInterval)
                         Ping();
-                    
+
                     break;
 
                 default:
@@ -1114,7 +1152,7 @@ namespace BestHTTP.SignalR
                     case SupportedProtocols.Unknown:
                         return false;
                 }
-                
+
                 TransportConnectionStartedAt = DateTime.UtcNow;
 
                 Transport.Connect();
@@ -1126,6 +1164,14 @@ namespace BestHTTP.SignalR
             }
 
             return false;
+        }
+
+        /// <summary>
+        /// This event will be called when the AdditonalQueryPrams dictionary changed. We have to reset the cached values.
+        /// </summary>
+        private void AdditionalQueryParams_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            BuiltQueryParams = null;
         }
 
         #endregion
@@ -1141,6 +1187,9 @@ namespace BestHTTP.SignalR
 
             PingRequest = new HTTPRequest((this as IConnection).BuildUri(RequestTypes.Ping), OnPingRequestFinished);
             PingRequest.ConnectTimeout = PingInterval;
+
+            (this as IConnection).PrepareRequest(PingRequest, RequestTypes.Ping);
+
             PingRequest.Send();
 
             LastPingSentAt = DateTime.UtcNow;

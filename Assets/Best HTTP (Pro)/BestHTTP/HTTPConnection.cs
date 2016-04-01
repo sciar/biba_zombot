@@ -40,6 +40,46 @@ using BestHTTP.Authentication;
 namespace BestHTTP
 {
     /// <summary>
+    /// https://tools.ietf.org/html/draft-thomson-hybi-http-timeout-03
+    /// Test servers: http://tools.ietf.org/ http://nginx.org/
+    /// </summary>
+    internal sealed class KeepAliveHeader
+    {
+        /// <summary>
+        /// A host sets the value of the "timeout" parameter to the time that the host will allow an idle connection to remain open before it is closed. A connection is idle if no data is sent or received by a host.
+        /// </summary>
+        public TimeSpan TimeOut { get; private set; }
+
+        /// <summary>
+        /// The "max" parameter has been used to indicate the maximum number of requests that would be made on the connection.This parameter is deprecated.Any limit on requests can be enforced by sending "Connection: close" and closing the connection.
+        /// </summary>
+        public int MaxRequests { get; private set; }
+        
+        public void Parse(List<string> headerValues)
+        {
+            HeaderParser parser = new HeaderParser(headerValues[0]);
+            HeaderValue value;
+            if (parser.TryGet("timeout", out value) && value.HasValue)
+            {
+                int intValue = 0;
+                if (int.TryParse(value.Value, out intValue))
+                    this.TimeOut = TimeSpan.FromSeconds(intValue);
+                else
+                    this.TimeOut = TimeSpan.MaxValue;
+            }
+
+            if (parser.TryGet("max", out value) && value.HasValue)
+            {
+                int intValue = 0;
+                if (int.TryParse("max", out intValue))
+                    this.MaxRequests = intValue;
+                else
+                    this.MaxRequests = int.MaxValue;
+            }
+        }
+    }
+
+    /// <summary>
     /// Represents and manages a connection to a server.
     /// </summary>
     internal sealed class HTTPConnection : ConnectionBase
@@ -69,10 +109,27 @@ namespace BestHTTP
 #endif
         }
 
+        public override bool IsRemovable
+        {
+            get
+            {
+                // Plugin's own connection pooling
+                if (base.IsRemovable)
+                    return true;
+
+                // Overridden keep-alive timeout by a Keep-Alive header
+                if (IsFree && KeepAlive != null && (DateTime.UtcNow - base.LastProcessTime) >= KeepAlive.TimeOut)
+                    return true;
+
+                return false;
+            }
+        }
+
         #region Private Properties
 
         private TcpClient Client;
         private Stream Stream;
+        private KeepAliveHeader KeepAlive;
 
         #endregion
 
@@ -101,7 +158,7 @@ namespace BestHTTP
 #endif
 
 #if !BESTHTTP_DISABLE_CACHING && (!UNITY_WEBGL || UNITY_EDITOR)
-                // Try load the full response from an already saved cache entity. If the response 
+                // Try load the full response from an already saved cache entity. If the response
                 if (TryLoadAllFromCache())
                     return;
 #endif
@@ -280,10 +337,21 @@ namespace BestHTTP
                                     break;
                             }
 
-                            // If we have a response and the server telling us that it closed the connection after the message sent to us, then 
+                            // If we have a response and the server telling us that it closed the connection after the message sent to us, then
                             //  we will colse the connection too.
-                            if (CurrentRequest.Response == null || (!CurrentRequest.Response.IsClosedManually && CurrentRequest.Response.HasHeaderWithValue("connection", "close")))
+                            if (CurrentRequest.Response == null || 
+                                (!CurrentRequest.Response.IsClosedManually && CurrentRequest.Response.HasHeaderWithValue("connection", "close")))
                                 Close();
+                            else if (CurrentRequest.Response != null)
+                            {
+                                var keepAliveheaderValues = CurrentRequest.Response.GetHeaderValues("keep-alive");
+                                if (keepAliveheaderValues != null && keepAliveheaderValues.Count > 0)
+                                {
+                                    if (KeepAlive == null)
+                                        KeepAlive = new KeepAliveHeader();
+                                    KeepAlive.Parse(keepAliveheaderValues);
+                                }
+                            }
                         }
                     }
 
@@ -372,9 +440,9 @@ namespace BestHTTP
 
         private void Connect()
         {
-            Uri uri = 
+            Uri uri =
 #if !BESTHTTP_DISABLE_PROXY
-                CurrentRequest.HasProxy ? CurrentRequest.Proxy.Address : 
+                CurrentRequest.HasProxy ? CurrentRequest.Proxy.Address :
 #endif
                 CurrentRequest.CurrentUri;
 
@@ -388,9 +456,9 @@ namespace BestHTTP
                 Client.ConnectTimeout = CurrentRequest.ConnectTimeout;
 
 #if NETFX_CORE || (UNITY_WP8 && !UNITY_EDITOR)
-                Client.UseHTTPSProtocol = 
+                Client.UseHTTPSProtocol =
                 #if !BESTHTTP_DISABLE_ALTERNATE_SSL && (!UNITY_WEBGL || UNITY_EDITOR)
-                    !CurrentRequest.UseAlternateSSL && 
+                    !CurrentRequest.UseAlternateSSL &&
                 #endif
                     HTTPProtocolFactory.IsSecureProtocol(uri);
 #endif
@@ -470,7 +538,7 @@ namespace BestHTTP
 
                         // Make sure to send all the wrote data to the wire
                         outStream.Flush();
-                        
+
                         CurrentRequest.ProxyResponse = new HTTPResponse(CurrentRequest, Stream, false, false);
 
                         // Read back the response of the proxy
@@ -525,8 +593,8 @@ namespace BestHTTP
                         hostNames.Add(CurrentRequest.CurrentUri.Host);
 
                         handler.Connect(new LegacyTlsClient(CurrentRequest.CurrentUri,
-                                                            CurrentRequest.CustomCertificateVerifyer == null ? new AlwaysValidVerifyer() : CurrentRequest.CustomCertificateVerifyer, 
-                                                            null, 
+                                                            CurrentRequest.CustomCertificateVerifyer == null ? new AlwaysValidVerifyer() : CurrentRequest.CustomCertificateVerifyer,
+                                                            CurrentRequest.CustomClientCredentialsProvider,
                                                             hostNames));
 
                         Stream = handler.Stream;
@@ -570,14 +638,13 @@ namespace BestHTTP
             if (CurrentRequest.Response.StatusCode == 304)
             {
 #if !BESTHTTP_DISABLE_CACHING && (!UNITY_WEBGL || UNITY_EDITOR)
-                int bodyLength;
-                using (var cacheStream = HTTPCacheService.GetBody(CurrentRequest.CurrentUri, out bodyLength))
+                if (CurrentRequest.IsRedirected)
                 {
-                    if (!CurrentRequest.Response.HasHeader("content-length"))
-                        CurrentRequest.Response.Headers.Add("content-length", new List<string>(1) { bodyLength.ToString() });
-                    CurrentRequest.Response.IsFromCache = true;
-                    CurrentRequest.Response.ReadRaw(cacheStream, bodyLength);
+                    if (!LoadFromCache(CurrentRequest.RedirectUri))
+                        LoadFromCache(CurrentRequest.Uri);
                 }
+                else
+                    LoadFromCache(CurrentRequest.Uri);
 #else
                 return false;
 #endif
@@ -591,6 +658,24 @@ namespace BestHTTP
         #region Helper Functions
 
 #if !BESTHTTP_DISABLE_CACHING && (!UNITY_WEBGL || UNITY_EDITOR)
+
+        private bool LoadFromCache(Uri uri)
+        {
+            int bodyLength;
+            using (var cacheStream = HTTPCacheService.GetBody(uri, out bodyLength))
+            {
+                if (cacheStream == null)
+                    return false;
+
+                if (!CurrentRequest.Response.HasHeader("content-length"))
+                    CurrentRequest.Response.Headers.Add("content-length", new List<string>(1) { bodyLength.ToString() });
+                CurrentRequest.Response.IsFromCache = true;
+                CurrentRequest.Response.ReadRaw(cacheStream, bodyLength);
+            }
+
+            return true;
+        }
+
         private bool TryLoadAllFromCache()
         {
             if (CurrentRequest.DisableCache || !HTTPCacheService.IsSupported)
@@ -674,6 +759,7 @@ namespace BestHTTP
 
         private void Close()
         {
+            KeepAlive = null;
             LastProcessedUri = null;
             if (Client != null)
             {

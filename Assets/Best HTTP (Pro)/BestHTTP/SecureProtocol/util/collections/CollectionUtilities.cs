@@ -4,7 +4,7 @@ using System;
 using System.Collections;
 using System.Text;
 
-#if UNITY_WSA && !UNITY_EDITOR
+#if UNITY_WSA && !UNITY_EDITOR && !ENABLE_IL2CPP
 using System.TypeFix;
 #endif
 

@@ -7,11 +7,13 @@
 namespace BestHTTP
 {
     /// <summary>
-    /// Delegates some U3D calls to the HTTPManager.
+    /// Will route some U3D calls to the HTTPManager.
     /// </summary>
     [ExecuteInEditMode]
     public sealed class HTTPUpdateDelegator : MonoBehaviour
     {
+        #region Public Properties
+
         /// <summary>
         /// The singleton instance of the HTTPUpdateDelegator
         /// </summary>
@@ -37,6 +39,16 @@ namespace BestHTTP
         /// </summary>
         public static int ThreadFrequencyInMS { get; set; }
 
+        /// <summary>
+        /// Called in the OnApplicationQuit function. If this function returns False, the plugin will not start to
+        /// shut down itself.
+        /// </summary>
+        public static System.Func<bool> OnBeforeApplicationQuit;
+
+        #endregion
+
+        private static bool IsSetupCalled;
+
         static HTTPUpdateDelegator()
         {
             ThreadFrequencyInMS = 100;
@@ -52,6 +64,7 @@ namespace BestHTTP
                 if (!IsCreated)
                 {
                     GameObject go = GameObject.Find("HTTP Update Delegator");
+
                     if (go != null)
                         Instance = go.GetComponent<HTTPUpdateDelegator>();
 
@@ -59,7 +72,7 @@ namespace BestHTTP
                     {
                         go = new GameObject("HTTP Update Delegator");
                         go.hideFlags = HideFlags.HideAndDontSave;
-                        //go.hideFlags = HideFlags.DontSave;
+
                         GameObject.DontDestroyOnLoad(go);
 
                         Instance = go.AddComponent<HTTPUpdateDelegator>();
@@ -84,7 +97,7 @@ namespace BestHTTP
             }
         }
 
-        void Awake()
+        private void Setup()
         {
 #if !BESTHTTP_DISABLE_CACHING && (!UNITY_WEBGL || UNITY_EDITOR)
             Caching.HTTPCacheService.SetupCacheFolder();
@@ -108,6 +121,8 @@ namespace BestHTTP
                     .Start();
 #endif
             }
+
+            IsSetupCalled = true;
         }
 
 #if NETFX_CORE
@@ -115,21 +130,36 @@ namespace BestHTTP
 #endif
         void ThreadFunc(object obj)
         {
-            IsThreadRunning = true;
-            while(IsThreadRunning)
+            HTTPManager.Logger.Information ("HTTPUpdateDelegator", "Update Thread Started");
+
+            try
             {
-                HTTPManager.OnUpdate();
+                IsThreadRunning = true;
+                while (IsThreadRunning)
+                {
+                    HTTPManager.OnUpdate();
 
 #if NETFX_CORE
-                await Task.Delay(ThreadFrequencyInMS);
+	                await Task.Delay(ThreadFrequencyInMS);
 #else
-                System.Threading.Thread.Sleep(ThreadFrequencyInMS);
+                    System.Threading.Thread.Sleep(ThreadFrequencyInMS);
 #endif
+                }
+            }
+            finally
+            {
+                HTTPManager.Logger.Information("HTTPUpdateDelegator", "Update Thread Ended");
             }
         }
 
         void Update()
         {
+            if (!IsSetupCalled)
+            {
+                IsSetupCalled = true;
+                Setup();
+            }
+
             if (!IsThreaded)
                 HTTPManager.OnUpdate();
         }
@@ -151,11 +181,28 @@ namespace BestHTTP
 
         void OnApplicationQuit()
         {
+            if (OnBeforeApplicationQuit != null)
+            {
+                try
+                {
+                    if (!OnBeforeApplicationQuit())
+                    {
+                        HTTPManager.Logger.Information("HTTPUpdateDelegator", "OnBeforeApplicationQuit call returned false, postponing plugin shutdown.");
+                        return;
+                    }
+                }
+                catch(System.Exception ex)
+                {
+                    HTTPManager.Logger.Exception("HTTPUpdateDelegator", string.Empty, ex);
+                }
+            }
+
+            IsThreadRunning = false;
+
             if (!IsCreated)
                 return;
 
             IsCreated = false;
-            IsThreadRunning = true;
 
             HTTPManager.OnQuit();
 

@@ -16,6 +16,11 @@ namespace BestHTTP.WebSocket
         #region Public Interface
 
         /// <summary>
+        /// A reference to the original WebSocket instance. Used for accessing extensions.
+        /// </summary>
+        public WebSocket WebSocket { get; internal set; }
+
+        /// <summary>
         /// Called when a Text message received
         /// </summary>
         public Action<WebSocketResponse, string> OnText;
@@ -46,7 +51,7 @@ namespace BestHTTP.WebSocket
         public TimeSpan PingFrequnecy { get; private set; }
 
         /// <summary>
-        /// Maximum size of a fragment's payload data.
+        /// Maximum size of a fragment's payload data. Its default value is 32767.
         /// </summary>
         public UInt16 MaxFragmentSize { get; private set; }
 
@@ -109,7 +114,9 @@ namespace BestHTTP.WebSocket
             if (message == null)
                 throw new ArgumentNullException("message must not be null!");
 
-            Send(new WebSocketTextFrame(message));
+            byte[] data = System.Text.Encoding.UTF8.GetBytes(message);
+
+            Send(new WebSocketFrame(this.WebSocket, WebSocketFrameTypes.Text, data));
         }
 
         /// <summary>
@@ -120,24 +127,22 @@ namespace BestHTTP.WebSocket
             if (data == null)
                 throw new ArgumentNullException("data must not be null!");
 
-            if (data.Length > (long)MaxFragmentSize)
+            WebSocketFrame frame = new WebSocketFrame(this.WebSocket, WebSocketFrameTypes.Binary, data);
+
+            if (frame.Data != null && frame.Data.Length > this.MaxFragmentSize)
             {
-                lock (SendLock)
+                WebSocketFrame[] additionalFrames = frame.Fragment(this.MaxFragmentSize);
+
+                lock(SendLock)
                 {
-                    Send(new WebSocketBinaryFrame(data, 0, MaxFragmentSize, false));
-
-                    UInt64 pos = MaxFragmentSize;
-                    while (pos < (UInt64)data.Length)
-                    {
-                        UInt64 len = Math.Min(MaxFragmentSize, (UInt64)data.Length - pos);
-                        Send(new WebSocketContinuationFrame(data, pos, len, pos + len >= (UInt64)data.Length));
-
-                        pos += len;
-                    }
+                    Send(frame);
+                    if (additionalFrames != null)
+                        for (int i = 0; i < additionalFrames.Length; ++i)
+                            Send(additionalFrames[i]);
                 }
             }
             else
-                Send(new WebSocketBinaryFrame(data));
+                Send(frame);
         }
 
         /// <summary>
@@ -150,30 +155,29 @@ namespace BestHTTP.WebSocket
             if (offset + count > (ulong)data.Length)
                 throw new ArgumentOutOfRangeException("offset + count >= data.Length");
 
-            if ((long)count > (long)MaxFragmentSize)
+            WebSocketFrame frame = new WebSocketFrame(this.WebSocket, WebSocketFrameTypes.Binary, data, offset, count, true, true);
+
+            if (frame.Data != null && frame.Data.Length > this.MaxFragmentSize)
             {
+                WebSocketFrame[] additionalFrames = frame.Fragment(this.MaxFragmentSize);
+
                 lock (SendLock)
                 {
-                    Send(new WebSocketBinaryFrame(data, offset, MaxFragmentSize, false));
+                    Send(frame);
 
-                    UInt64 pos = offset + MaxFragmentSize;
-                    while (pos < (UInt64)count)
-                    {
-                        UInt64 len = Math.Min(MaxFragmentSize, (UInt64)count - pos);
-                        Send(new WebSocketContinuationFrame(data, pos, len, pos + len >= (UInt64)count));
-
-                        pos += len;
-                    }
+                    if (additionalFrames != null)
+                        for (int i = 0; i < additionalFrames.Length; ++i)
+                            Send(additionalFrames[i]);
                 }
             }
             else
-                Send(new WebSocketBinaryFrame(data, offset, count, true));
+                Send(frame);
         }
 
         /// <summary>
         /// It will send the given frame to the server.
         /// </summary>
-        public void Send(IWebSocketFrameWriter frame)
+        public void Send(WebSocketFrame frame)
         {
             if (frame == null)
                 throw new ArgumentNullException("frame is null!");
@@ -186,10 +190,10 @@ namespace BestHTTP.WebSocket
             {
                 Stream.Write(rawData, 0, rawData.Length);
                 Stream.Flush();
-            }
 
-            if (frame.Type == WebSocketFrameTypes.ConnectionClose)
-                closeSent = true;
+                if (frame.Type == WebSocketFrameTypes.ConnectionClose)
+                    closeSent = true;
+            }
         }
 
         /// <summary>
@@ -208,7 +212,7 @@ namespace BestHTTP.WebSocket
             if (closed)
                 return;
 
-            Send(new WebSocketClose(code, msg));
+            Send(new WebSocketFrame(this.WebSocket, WebSocketFrameTypes.ConnectionClose, WebSocket.EncodeCloseData(code, msg)));
         }
 
         public void StartPinging(int frequency)
@@ -277,20 +281,21 @@ namespace BestHTTP.WebSocket
 
                             case WebSocketFrameTypes.Text:
                             case WebSocketFrameTypes.Binary:
+                                frame.DecodeWithExtensions(WebSocket);
                                 lock (FrameLock) CompletedFrames.Add(frame);
                                 break;
 
                             // Upon receipt of a Ping frame, an endpoint MUST send a Pong frame in response, unless it already received a Close frame.
                             case WebSocketFrameTypes.Ping:
                                 if (!closeSent && !closed)
-                                    Send(new WebSocketPong(frame));
+                                    Send(new WebSocketFrame(this.WebSocket, WebSocketFrameTypes.Pong, frame.Data));
                                 break;
 
                             // If an endpoint receives a Close frame and did not previously send a Close frame, the endpoint MUST send a Close frame in response.
                             case WebSocketFrameTypes.ConnectionClose:
                                 CloseFrame = frame;
                                 if (!closeSent)
-                                    Send(new WebSocketClose());
+                                    Send(new WebSocketFrame(this.WebSocket, WebSocketFrameTypes.ConnectionClose, null));
                                 closed = closeSent;
                                 break;
                         }
@@ -421,7 +426,7 @@ namespace BestHTTP.WebSocket
 
             if (DateTime.UtcNow - lastPing >= PingFrequnecy)
             {
-                Send(new WebSocketPing(string.Empty));
+                Send(new WebSocketFrame(this.WebSocket, WebSocketFrameTypes.Ping, Encoding.UTF8.GetBytes(string.Empty)));
                 lastPing = DateTime.UtcNow;
             }
         }
