@@ -46,8 +46,6 @@ namespace BibaFramework.BibaNetwork
                 return _s3Client;
             }
         }
-       
-        private string S3BucketName { get { return BibaContentConstants.CI_GAME_ID; } }
 
         private BibaManifest _localManifest;
 
@@ -137,9 +135,9 @@ namespace BibaFramework.BibaNetwork
 
         void RetrieveAndWriteData(string objectFileName, string savePath, Action<string> callBack = null)
         {
-            Debug.Log(string.Format("fetching {0} from bucket {1}", objectFileName, S3BucketName));
+            Debug.Log(string.Format("fetching {0} from bucket {1}", objectFileName, BibaContentConstants.S3BucketName));
 
-            Client.GetObjectAsync(S3BucketName, objectFileName, (responseObj) => {
+			Client.GetObjectAsync(BibaContentConstants.S3BucketName, objectFileName, (responseObj) => {
                 var response = responseObj.Response;
                 if (responseObj != null && response != null && response.ResponseStream != null)
                 {

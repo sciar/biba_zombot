@@ -122,7 +122,7 @@ namespace BibaFramework.BibaEditor
                 var process = new Process();
                 process.StartInfo.FileName = BibaEditorConstants.MONO_PATH;
                 process.StartInfo.WorkingDirectory = Path.GetDirectoryName(BibaEditorConstants.S3UPLOADER_PATH);
-                process.StartInfo.Arguments = Path.GetFileName(BibaEditorConstants.S3UPLOADER_PATH) + " " + BibaContentConstants.CI_GAME_ID;
+				process.StartInfo.Arguments = Path.GetFileName(BibaEditorConstants.S3UPLOADER_PATH) + " " + BibaContentConstants.S3BucketName;
                 process.StartInfo.CreateNoWindow = false;
                 process.StartInfo.UseShellExecute = false;
                 process.Start();
