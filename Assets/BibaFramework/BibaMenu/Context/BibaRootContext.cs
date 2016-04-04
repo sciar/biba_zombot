@@ -70,6 +70,8 @@ namespace BibaFramework.BibaMenu
                     To<CheckForDownloadContentCommand>().
                     To<CheckForInactiveResetCommand>().InSequence();
 
+			commandBinder.Bind<SetLanguageOverwriteSignal> ().To<SetLanguageOverwriteCommand> ();
+
             //BibaMenu
             commandBinder.Bind<ProcessNextMenuStateSignal>().To<ProcessNextMenuStateCommand>();
 

@@ -1,6 +1,6 @@
-
 using strange.extensions.signal.impl;
 using System.Collections.Generic;
+using UnityEngine;
 
 namespace BibaFramework.BibaGame
 {
@@ -10,6 +10,7 @@ namespace BibaFramework.BibaGame
     public class ApplicationPausedSignal : Signal{ }
     public class ApplicationUnPausedSignal : Signal{ }
     public class GameModelUpdatedSignal : Signal { }
+	public class SetLanguageOverwriteSignal : Signal<SystemLanguage>{ }
 
     //Network
     public class DownloadGeoBasedScenesSignal : Signal { }
