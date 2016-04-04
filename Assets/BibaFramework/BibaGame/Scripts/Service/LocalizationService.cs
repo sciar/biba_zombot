@@ -7,7 +7,16 @@ namespace BibaFramework.BibaGame
 {
     public class LocalizationService : BaseSettingsService<Dictionary<string, Dictionary<SystemLanguage, string>>>
     {
-        public override string SettingsFileName {
+		[Inject]
+		public BibaGameModel BibaGameModel { get; set; }
+
+		private SystemLanguage SystemLanguage {
+			get {
+				return BibaGameModel.LanguageOverwrite != SystemLanguage.Unknown ? BibaGameModel.LanguageOverwrite : Application.systemLanguage;
+			}
+		} 
+
+		public override string SettingsFileName {
             get {
                 return BibaContentConstants.LOCALIZATION_SETTINGS_FILE;
             }
@@ -44,7 +53,7 @@ namespace BibaFramework.BibaGame
             if (!string.IsNullOrEmpty(key) && Settings.ContainsKey(key))
             {
                 var keyDict = Settings [key];
-                return keyDict.ContainsKey(Application.systemLanguage) ? keyDict [Application.systemLanguage] : keyDict [SystemLanguage.English];
+				return keyDict.ContainsKey(SystemLanguage) ? keyDict [SystemLanguage] : keyDict [SystemLanguage.English];
             } 
             else
             {

@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System;
+using UnityEngine;
 
 namespace BibaFramework.BibaGame
 {
@@ -14,12 +15,14 @@ namespace BibaFramework.BibaGame
         public List<BibaEquipment> TotalPlayedEquipments { get; set; }
         public List<BibaAchievement> CompletedAchievements { get; set; }
 
-        public int FrameworkVersion { get; set; }
         public bool PrivacyEnabled { get; set; }
         public bool TagEnabled { get; set; }
         public bool HowToEnabled { get; set; }
         public bool HelpBubblesEnabled { get; set; }
 
+		public SystemLanguage LanguageOverwrite { get; set; }
+
+		public int FrameworkVersion { get; set; }
         public double HighScore { get; set; }
 
         public BibaGameModel()
@@ -45,6 +48,8 @@ namespace BibaFramework.BibaGame
             };
             
             CompletedAchievements = new List<BibaAchievement>();
+
+			LanguageOverwrite = SystemLanguage.Unknown;
 
             PrivacyEnabled = false;
             TagEnabled = false;
