@@ -9,6 +9,9 @@ namespace BibaFramework.BibaGame
         [Inject]
         public BibaGameModel BibaGameModel { get; set; }
 
+		[Inject]
+		public LocalizationService LocalizationService { get; set; }
+
         public override string SettingsFileName {
             get {
                 return BibaContentConstants.ACHIEVEMENT_SETTINGS_FILE;
@@ -22,6 +25,12 @@ namespace BibaFramework.BibaGame
             UpdateGameModel();
         }
         #endregion
+
+		public string GetAchievementText(string achievementId)
+		{
+			var setting = _settings.AchievementSettings.Find(achi => achi.Id == achievementId);
+			return setting != null ? LocalizationService.GetText (setting.DescriptionPrefix) + " " + LocalizationService.GetText (setting.DescriptionSuffix) : string.Empty;
+		}
 
         void UpdateGameModel()
         {
