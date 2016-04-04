@@ -17,8 +17,7 @@ namespace BibaFramework.BibaEditor
             get {
                 if(settings == null)
                 {
-                    var dataService = new JSONDataService();
-                    settings = dataService.ReadFromDisk<BibaLocalizationSettings>(BibaContentConstants.GetResourceFilePath(BibaContentConstants.LOCALIZATION_SETTINGS_FILE));
+					ReloadSettings ();
                 }
                 return settings;
             }
@@ -31,6 +30,17 @@ namespace BibaFramework.BibaEditor
             
             TextView.Key = BibaInspectorHelper.DisplayStringArrayDropdown(allKeys, TextView.Key, "Key Selected");
             EditorUtility.SetDirty(target);
+
+			if (GUILayout.Button ("Reload Localization Settings")) 
+			{
+				ReloadSettings ();
+			}
         }
+
+		static void ReloadSettings()
+		{
+			var dataService = new JSONDataService();
+			settings = dataService.ReadFromDisk<BibaLocalizationSettings>(BibaContentConstants.GetResourceFilePath(BibaContentConstants.LOCALIZATION_SETTINGS_FILE));
+		}
     }
 }
