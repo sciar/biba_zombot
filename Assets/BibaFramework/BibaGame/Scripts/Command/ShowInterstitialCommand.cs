@@ -4,6 +4,7 @@ using BibaFramework.BibaMenu;
 using BibaFramework.Utility;
 using ChartboostSDK;
 using strange.extensions.command.impl;
+using BibaFramework.BibaAnalytic;
 
 namespace BibaFramework.BibaGame
 {
@@ -16,6 +17,9 @@ namespace BibaFramework.BibaGame
 
         [Inject]
         public BibaSceneStack BibaSceneStack { get; set; }
+
+		[Inject]
+		public BibaGameModel BibaGameModel { get; set; }
 
         private bool _loadedChartboost = false;
 
@@ -41,7 +45,7 @@ namespace BibaFramework.BibaGame
                 }
 
                 Chartboost.setShouldPauseClickForConfirmation(true);
-                Chartboost.showInterstitial(CBLocation.Default);
+				Chartboost.showInterstitial(CBLocation.locationFromName(BibaGameModel.TagEnabled ? BibaAnalyticConstants.HOUSE_AD : BibaAnalyticConstants.DEFAULT_AD));
                 
                 Chartboost.didDisplayInterstitial += InterstitialLoaded;
                 
