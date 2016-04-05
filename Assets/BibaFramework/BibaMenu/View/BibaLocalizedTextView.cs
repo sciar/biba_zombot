@@ -30,7 +30,8 @@ namespace BibaFramework.BibaMenu
 			}
 		}
 
-		private string _Key = "";
+		[SerializeField]
+		private string _Key;
 		public Signal TextKeyUpdatedSignal = new Signal();
     }
 }
