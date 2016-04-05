@@ -3,7 +3,7 @@ using UnityEngine.UI;
 using strange.extensions.mediation.impl;
 using strange.extensions.signal.impl;
 
-namespace BibaFramework.BibaMenu
+namespace BibaFramework.BibaGame
 {
     [RequireComponent (typeof(Button))]
     public class ResetButtonView : View

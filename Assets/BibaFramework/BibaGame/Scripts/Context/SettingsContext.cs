@@ -26,6 +26,7 @@ namespace BibaFramework.BibaGame
         { 
             mediationBinder.Bind<SettingsView>().To<SettingsMediator>();
             mediationBinder.Bind<ResetButtonView>().To<ResetButtonMediator>();
+			mediationBinder.Bind<SetLanguageButtonView> ().To<SetLanguageButtonMediator> ();
         }
         
         protected override void BindCommands ()
@@ -33,6 +34,7 @@ namespace BibaFramework.BibaGame
             commandBinder.Bind<EnableHelpBubblesSignal>().To<EnableHelpBubblesCommand>();
             commandBinder.Bind<EnableHowToSignal>().To<EnableHowToCommand>();
             commandBinder.Bind<ResetGameModelSignal>().To<ResetGameModelCommand>();
+			commandBinder.Bind<SetLanguageOverwriteSignal>().To<SetLanguageOverwriteCommand>();
         }
         
         protected override void BindSignals ()

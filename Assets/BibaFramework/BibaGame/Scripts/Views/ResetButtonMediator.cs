@@ -1,7 +1,7 @@
 using strange.extensions.mediation.impl;
 using BibaFramework.BibaGame;
 
-namespace BibaFramework.BibaMenu
+namespace BibaFramework.BibaGame
 {
     public class ResetButtonMediator : Mediator
     {
