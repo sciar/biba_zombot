@@ -30,10 +30,10 @@ namespace BibaFramework.BibaGame
             InputField.onEndEdit.RemoveListener(AgeGateSubmitted);
         }
 
-        public void ShowAgeGate(string answerInEnglish)
+        public void ShowAgeGate(string answerText)
         { 
             AgeGateObject.SetActive(true);
-            QuestionText.text = answerInEnglish;
+			QuestionText.text = answerText;
         }
 
         void AgeGateSubmitted(string value)
