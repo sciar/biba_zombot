@@ -35,15 +35,17 @@ namespace BibaFramework.BibaGame
                     _settings.Add(localization.Key, new Dictionary<SystemLanguage, string>());
                 }
                 
-                var localizationKeyDictionary = _settings [localization.Key];
-                if (!localizationKeyDictionary.ContainsKey(localization.Language))
-                {
-                    localizationKeyDictionary.Add(localization.Language, localization.Text);
-                } 
-                else
-                {
-                    localizationKeyDictionary [localization.Language] = localization.Text;
-                }
+				var textWithLineSpacing = localization.Text.Replace ("\\n", "\n"); 
+
+				var localizationKeyDictionary = _settings [localization.Key];
+				if (!localizationKeyDictionary.ContainsKey(localization.Language))
+				{
+					localizationKeyDictionary.Add(localization.Language, textWithLineSpacing);
+				} 
+				else
+				{
+					localizationKeyDictionary [localization.Language] = textWithLineSpacing;
+				}
             }
         }
         #endregion
