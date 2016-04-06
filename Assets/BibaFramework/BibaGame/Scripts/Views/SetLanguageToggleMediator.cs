@@ -21,7 +21,6 @@ namespace BibaFramework.BibaGame
 		public override void OnRegister ()
 		{
 			UpdateToggle ();
-			SetLanguageToggleView.Text.text = SetLanguageToggleView.SystemLanguage.ToString ();
 
 			SetLanguageToggleView.Toggle.onValueChanged.AddListener(SetLanguageOverwrite);
 			GameModelUpdatedSignal.AddListener (UpdateToggle);
