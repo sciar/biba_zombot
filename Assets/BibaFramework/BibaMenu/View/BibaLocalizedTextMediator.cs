@@ -11,14 +11,19 @@ namespace BibaFramework.BibaMenu
         [Inject]
         public LocalizationService LocalizationService { get; set; }
 
+		[Inject]
+		public GameModelUpdatedSignal GameModelUpdatedSignal { get; set; } 
+
         public override void OnRegister ()
         {
-            BibaLocalizedTextView.Text.text = LocalizationService.GetText(BibaLocalizedTextView.Key);
+			UpdateKey ();
 			BibaLocalizedTextView.TextKeyUpdatedSignal.AddListener (UpdateKey);
+			GameModelUpdatedSignal.AddListener (UpdateKey);
         }
 
 		public override void OnRemove() {
 			BibaLocalizedTextView.TextKeyUpdatedSignal.RemoveListener (UpdateKey);
+			GameModelUpdatedSignal.RemoveListener (UpdateKey);
 		}
 
 		void UpdateKey() {
