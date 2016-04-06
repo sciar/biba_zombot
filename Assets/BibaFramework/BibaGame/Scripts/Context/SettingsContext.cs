@@ -26,7 +26,7 @@ namespace BibaFramework.BibaGame
         { 
             mediationBinder.Bind<SettingsView>().To<SettingsMediator>();
             mediationBinder.Bind<ResetButtonView>().To<ResetButtonMediator>();
-			mediationBinder.Bind<SetLanguageButtonView> ().To<SetLanguageButtonMediator> ();
+			mediationBinder.Bind<SetLanguageToggleView> ().To<SetLanguageToggleMediator> ();
         }
         
         protected override void BindCommands ()
