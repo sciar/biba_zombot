@@ -4,8 +4,6 @@ namespace BibaFramework.BibaGame
 {
     public class InactiveMediator : SceneMenuStateMediator
 	{
-        private const string INACTIVE_MSG = "You have been inactive since {0} {1}. Are you still at the same playground?";
-
         [Inject]
         public InactiveView InactiveView { get; set; }
 
@@ -17,7 +15,7 @@ namespace BibaFramework.BibaGame
         public override void SetupSceneDependentMenu ()
         {
             var lastPlayedTimeLocal = BibaGameModel.LastPlayedTime.ToLocalTime();
-            InactiveView.Text.text = string.Format(INACTIVE_MSG, lastPlayedTimeLocal.ToShortDateString(), lastPlayedTimeLocal.ToShortTimeString());
+			InactiveView.Text.text = string.Format(InactiveView.Text.text, lastPlayedTimeLocal.ToShortDateString(), lastPlayedTimeLocal.ToShortTimeString());
         }
 
         public override void RegisterSceneDependentSignals ()
