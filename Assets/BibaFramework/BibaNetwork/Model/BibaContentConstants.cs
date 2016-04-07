@@ -1,5 +1,6 @@
 using UnityEngine;
 using BibaFramework.BibaGame;
+using UnityEditor;
 
 namespace BibaFramework.BibaNetwork
 {
@@ -29,7 +30,8 @@ namespace BibaFramework.BibaNetwork
 
 		private static string PLATFORM {
 			get {
-				if(Application.platform == RuntimePlatform.Android)
+				#if UNITY_EDITOR
+				if(EditorUserBuildSettings.activeBuildTarget == BuildTarget.Android)
 				{
 					return "Android";
 				}
@@ -37,6 +39,17 @@ namespace BibaFramework.BibaNetwork
 				{
 					return "iOS";
 				}
+				#else
+				if(Application.platform == RuntimePlatform.Android)
+				{
+					return "Android";
+
+				}
+				else
+				{
+					return "iOS";
+				}
+				#endif
 			}
 		}
 
