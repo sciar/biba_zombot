@@ -11,6 +11,10 @@ namespace BibaFramework.BibaMenu
         private Text _text;
         public Text Text { 
             get {
+				if (_text == null) 
+				{
+					_text = GetComponent<Text>();
+				}
                 return _text;
             }
         }
@@ -29,11 +33,5 @@ namespace BibaFramework.BibaMenu
 		[SerializeField]
 		private string _Key;
 		public Signal TextKeyUpdatedSignal = new Signal();
-
-		protected override void Awake()
-		{
-			base.Awake();
-			_text = (Text)GetComponent<Text>();
-		}
     }
 }
