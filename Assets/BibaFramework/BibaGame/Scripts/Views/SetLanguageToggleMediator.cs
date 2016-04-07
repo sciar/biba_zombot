@@ -13,7 +13,7 @@ namespace BibaFramework.BibaGame
 		public SetLanguageOverwriteSignal SetLanguageOverwriteSignal { get; set; }
 
 		[Inject]
-		public GameModelUpdatedSignal GameModelUpdatedSignal { get; set; }
+		public LanguageUpdatedSignal LanguageUpdatedSignal { get; set; }
 
 		[Inject]
 		public BibaGameModel BibaGameModel { get; set; }
@@ -23,13 +23,13 @@ namespace BibaFramework.BibaGame
 			UpdateToggle ();
 
 			SetLanguageToggleView.Toggle.onValueChanged.AddListener(SetLanguageOverwrite);
-			GameModelUpdatedSignal.AddListener (UpdateToggle);
+			LanguageUpdatedSignal.AddListener (UpdateToggle);
 		}
 
 		public override void OnRemove ()
 		{
 			SetLanguageToggleView.Toggle.onValueChanged.RemoveListener(SetLanguageOverwrite);
-			GameModelUpdatedSignal.RemoveListener (UpdateToggle);
+			LanguageUpdatedSignal.RemoveListener (UpdateToggle);
 		}
 
 		void SetLanguageOverwrite(bool status)
