@@ -112,7 +112,8 @@ namespace BibaFramework.BibaMenu
         protected override void BindSignals ()
         {
             //BibaMenu
-            injectionBinder.Bind<GameModelUpdatedSignal>().To<GameModelUpdatedSignal>().ToSingleton().CrossContext();
+            injectionBinder.Bind<GameModelUpdatedSignal>().ToSingleton().CrossContext();
+			injectionBinder.Bind<LanguageUpdatedSignal>().ToSingleton().CrossContext();
 
             injectionBinder.Bind<SetupSceneMenuStateSignal>().ToSingleton().CrossContext();
             injectionBinder.Bind<MenuStateEntryAnimationEndedSignal>().ToSingleton().CrossContext();

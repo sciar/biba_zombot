@@ -12,18 +12,18 @@ namespace BibaFramework.BibaMenu
         public LocalizationService LocalizationService { get; set; }
 
 		[Inject]
-		public GameModelUpdatedSignal GameModelUpdatedSignal { get; set; } 
+		public LanguageUpdatedSignal LanguageUpdatedSignal { get; set; } 
 
         public override void OnRegister ()
         {
 			UpdateKey ();
 			BibaLocalizedTextView.TextKeyUpdatedSignal.AddListener (UpdateKey);
-			GameModelUpdatedSignal.AddListener (UpdateKey);
+			LanguageUpdatedSignal.AddListener (UpdateKey);
         }
 
 		public override void OnRemove() {
 			BibaLocalizedTextView.TextKeyUpdatedSignal.RemoveListener (UpdateKey);
-			GameModelUpdatedSignal.RemoveListener (UpdateKey);
+			LanguageUpdatedSignal.RemoveListener (UpdateKey);
 		}
 
 		void UpdateKey() {
