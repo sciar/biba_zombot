@@ -11,8 +11,14 @@ namespace BibaFramework.BibaEditor
 
         public static string GetContentOutputPath(string fileName)
         {
-            return  Application.dataPath + "/BibaContent/Output/" + BibaContentConstants.GetRelativePath(fileName);
+            return  Application.dataPath + "/BibaContent/Output/" + GetRelativePath(fileName);
         }
+
+		public static string GetResourceFilePath(string fileName)
+		{
+			return Application.dataPath + "/Resources/" + GetRelativePath(fileName);
+		}
+
         public const string UNITY_EXTENSION = ".unity";
         public const string S3UPLOADER_PATH = "S3Uploader/S3Uploader.exe";
         public const string MONO_PATH = "/Library/Frameworks/Mono.framework/Versions/Current/bin/mono";
@@ -23,5 +29,11 @@ namespace BibaFramework.BibaEditor
         public const string REGEX_GROUP_ENDDATE = "endDate";
         public const string REGEX_TIME_PLAYED = "played([1-9][0-9]*)";
         public const string DATETIME_PARSE_EXACT_FORMAT = "MM/dd";
+
+		private static string GetRelativePath(string fileName)
+		{
+			var platform = EditorUserBuildSettings.activeBuildTarget == BuildTarget.Android ? "Android" : " iOS";
+			return platform + "/" + fileName;
+		}
     }
 }

@@ -40,7 +40,7 @@ namespace BibaFramework.BibaEditor
 		static void ReloadSettings()
 		{
 			var dataService = new JSONDataService();
-			settings = dataService.ReadFromDisk<BibaLocalizationSettings>(BibaContentConstants.GetResourceFilePath(BibaContentConstants.LOCALIZATION_SETTINGS_FILE));
+			settings = dataService.ReadFromDisk<BibaLocalizationSettings>(BibaEditorConstants.GetResourceFilePath(BibaContentConstants.LOCALIZATION_SETTINGS_FILE));
 		}
     }
 }

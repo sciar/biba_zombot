@@ -1,6 +1,5 @@
 using UnityEngine;
 using BibaFramework.BibaGame;
-using UnityEditor;
 
 namespace BibaFramework.BibaNetwork
 {
@@ -15,41 +14,17 @@ namespace BibaFramework.BibaNetwork
 
 		public static string S3BucketName { 
 			get { 
-				if (DEVELOPMENT_BUILD) 
-				{
-					return DEV_PREFIX + CI_GAME_ID; 
-				} 
-				else 
-				{
-					return CI_GAME_ID;
-				}
+
+				return DEVELOPMENT_BUILD ? DEV_PREFIX + CI_GAME_ID : CI_GAME_ID;
 			} 
 		}
 
         public const string AWS_IDENTITY_POOL_ID = "us-east-1:be839779-a7ee-4f18-9c5a-e1651f030bea";
 
 		private static string PLATFORM {
-			get {
-				#if UNITY_EDITOR
-				if(EditorUserBuildSettings.activeBuildTarget == BuildTarget.Android)
-				{
-					return "Android";
-				}
-				else
-				{
-					return "iOS";
-				}
-				#else
-				if(Application.platform == RuntimePlatform.Android)
-				{
-					return "Android";
-
-				}
-				else
-				{
-					return "iOS";
-				}
-				#endif
+			get 
+			{
+				return Application.platform == RuntimePlatform.Android ? "Android" : "iOS";
 			}
 		}
 

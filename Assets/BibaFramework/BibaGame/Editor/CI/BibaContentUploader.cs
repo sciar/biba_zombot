@@ -32,7 +32,7 @@ namespace BibaFramework.BibaEditor
         {
             var outputFolder = Path.GetDirectoryName(BibaEditorConstants.GetContentOutputPath(""));
 
-            var resourceFolder = Path.GetDirectoryName(BibaContentConstants.GetResourceFilePath(""));
+			var resourceFolder = Path.GetDirectoryName(BibaEditorConstants.GetResourceFilePath(""));
             if (Directory.Exists(resourceFolder))
             {
                 Directory.Delete(resourceFolder, true);
