@@ -32,7 +32,7 @@ namespace BibaFramework.BibaEditor
 
 		private static string GetRelativePath(string fileName)
 		{
-			var platform = EditorUserBuildSettings.activeBuildTarget == BuildTarget.Android ? "Android" : " iOS";
+			var platform = EditorUserBuildSettings.activeBuildTarget == BuildTarget.Android ? "Android" : "iOS";
 			return platform + "/" + fileName;
 		}
     }
