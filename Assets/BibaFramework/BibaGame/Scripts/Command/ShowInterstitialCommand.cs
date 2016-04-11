@@ -45,10 +45,10 @@ namespace BibaFramework.BibaGame
                 }
 
                 Chartboost.setShouldPauseClickForConfirmation(true);
-				Chartboost.showInterstitial(CBLocation.locationFromName(BibaGameModel.TagEnabled ? BibaAnalyticConstants.HOUSE_AD : BibaAnalyticConstants.DEFAULT_AD));
-                
-                Chartboost.didDisplayInterstitial += InterstitialLoaded;
-                
+				Chartboost.showInterstitial(CBLocation.locationFromName(BibaGameModel.TagEnabled ? BibaAnalyticConstants.5HOUSE_AD : CBLocation.Default));
+
+				Chartboost.didDisplayInterstitial += InterstitialLoaded;
+				Chartboost.didFailToLoadInterstitial += FailToLoadInterstitial;
                 var timeLapsed = 0f;
                 while (timeLapsed < CHART_BOOST_TIME_OUT && !_loadedChartboost)
                 {
@@ -56,7 +56,8 @@ namespace BibaFramework.BibaGame
                     yield return null;
                 }
                 
-                Chartboost.didDisplayInterstitial -= InterstitialLoaded;
+				Chartboost.didDisplayInterstitial -= InterstitialLoaded;
+				Chartboost.didFailToLoadInterstitial -= FailToLoadInterstitial;
                 
                 if (!_loadedChartboost)
                 {
@@ -74,5 +75,10 @@ namespace BibaFramework.BibaGame
         {
             _loadedChartboost = true;
         }
+
+		void FailToLoadInterstitial(CBLocation location, CBImpressionError error )
+		{
+			Debug.LogWarning ("Ad fail to show at: " + location.ToString () + " with error: " + error.ToString());
+		}
     }
 }

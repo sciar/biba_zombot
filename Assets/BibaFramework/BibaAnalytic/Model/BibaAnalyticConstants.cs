@@ -40,7 +40,6 @@ namespace BibaFramework.BibaAnalytic
         public const int MAP_LEVEL_OF_DETAIL = 11;
 
 		//Chartboost
-		public const string DEFAULT_AD = "Default Ad";
 		public const string HOUSE_AD = "House Ad";
     }
 }
