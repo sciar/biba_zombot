@@ -45,7 +45,7 @@ namespace BibaFramework.BibaGame
                 }
 
                 Chartboost.setShouldPauseClickForConfirmation(true);
-				Chartboost.showInterstitial(CBLocation.locationFromName(BibaGameModel.TagEnabled ? BibaAnalyticConstants.5HOUSE_AD : CBLocation.Default));
+				Chartboost.showInterstitial(BibaGameModel.TagEnabled ? CBLocation.locationFromName(BibaAnalyticConstants.HOUSE_AD) : CBLocation.Default);
 
 				Chartboost.didDisplayInterstitial += InterstitialLoaded;
 				Chartboost.didFailToLoadInterstitial += FailToLoadInterstitial;
