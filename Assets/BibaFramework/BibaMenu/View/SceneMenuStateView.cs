@@ -38,14 +38,11 @@ namespace BibaFramework.BibaMenu
             if (anim.runtimeAnimatorController != null && anim.HasState(0, Animator.StringToHash(BibaMenuConstants.BIBA_MENU_ENTRY_ANIMATION_STATE)))
             {
                 anim.SetTrigger(BibaMenuConstants.BIBA_MENU_ENTRY_ANIMATION_TRIGGER);
-
-                //Unity needs one frame to transition to the animation state
-                yield return null;
-
-                while (anim.GetCurrentAnimatorStateInfo(0).IsName(BibaMenuConstants.BIBA_MENU_ENTRY_ANIMATION_STATE))
-                {
-                    yield return null;
-                }
+				yield return new WaitUntil(() => anim.GetCurrentAnimatorStateInfo(0).IsName(BibaMenuConstants.BIBA_MENU_ENTRY_ANIMATION_STATE));
+				while (anim.GetCurrentAnimatorStateInfo(0).IsName(BibaMenuConstants.BIBA_MENU_ENTRY_ANIMATION_STATE))
+				{
+					yield return new WaitForEndOfFrame();
+				}
             }
         }
 
@@ -65,14 +62,11 @@ namespace BibaFramework.BibaMenu
             if (anim.runtimeAnimatorController != null && anim.HasState(0, Animator.StringToHash(BibaMenuConstants.BIBA_MENU_EXIT_ANIMATION_STATE)))
             {
                 anim.SetTrigger(BibaMenuConstants.BIBA_MENU_EXIT_ANIMATION_TRIGGER);
-
-                //Unity needs one frame to transition to the animation state
-                yield return null;
-
-                while (anim.GetCurrentAnimatorStateInfo(0).IsName(BibaMenuConstants.BIBA_MENU_EXIT_ANIMATION_STATE))
-                {
-                    yield return null;
-                }
+				yield return new WaitUntil(() => anim.GetCurrentAnimatorStateInfo(0).IsName(BibaMenuConstants.BIBA_MENU_EXIT_ANIMATION_STATE));
+				while (anim.GetCurrentAnimatorStateInfo(0).IsName(BibaMenuConstants.BIBA_MENU_EXIT_ANIMATION_STATE))
+				{
+					yield return new WaitForEndOfFrame();
+				}
             }
         }
 	}
