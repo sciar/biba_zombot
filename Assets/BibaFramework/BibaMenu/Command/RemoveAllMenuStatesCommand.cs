@@ -2,6 +2,7 @@ using UnityEngine;
 using strange.extensions.command.impl;
 using System.Collections;
 using BibaFramework.Utility;
+using UnityEngine.SceneManagement;
 
 namespace BibaFramework.BibaMenu
 {
@@ -36,6 +37,7 @@ namespace BibaFramework.BibaMenu
                     {
                         yield return null;
                     }
+					SceneManager.UnloadScene (lastMenuState.SceneName);
                 }
                 else
                 {

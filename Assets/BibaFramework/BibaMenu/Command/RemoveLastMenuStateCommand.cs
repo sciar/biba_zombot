@@ -2,6 +2,7 @@ using UnityEngine;
 using strange.extensions.command.impl;
 using System.Collections;
 using BibaFramework.Utility;
+using UnityEngine.SceneManagement;
 
 namespace BibaFramework.BibaMenu
 {
@@ -29,7 +30,7 @@ namespace BibaFramework.BibaMenu
 			if(lastMenuState is SceneMenuState)
 			{
                 Retain();
-                new Task(WaitTilObjectDestroy(lastMenuStateGO), true);
+                new Task(WaitTilObjectDestroy(lastMenuState, lastMenuStateGO), true);
 			}
 			else
 			{
@@ -37,13 +38,14 @@ namespace BibaFramework.BibaMenu
 			}
         }
 
-        IEnumerator WaitTilObjectDestroy(GameObject go)
+		IEnumerator WaitTilObjectDestroy(BaseMenuState menuState, GameObject menuStateGO)
         {
-            GameObject.Destroy(go);
-            while (go != null)
+            GameObject.Destroy(menuStateGO);
+            while (menuStateGO != null)
             {
                 yield return null;
             }
+			SceneManager.UnloadScene (menuState.SceneName);
             Resources.UnloadUnusedAssets();
             Release();
         }

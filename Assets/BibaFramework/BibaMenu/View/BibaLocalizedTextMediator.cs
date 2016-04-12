@@ -21,13 +21,18 @@ namespace BibaFramework.BibaMenu
 			LanguageUpdatedSignal.AddListener (UpdateKey);
         }
 
-		public override void OnRemove() {
+		public override void OnRemove() 
+		{
 			BibaLocalizedTextView.TextKeyUpdatedSignal.RemoveListener (UpdateKey);
 			LanguageUpdatedSignal.RemoveListener (UpdateKey);
 		}
 
-		void UpdateKey() {
-			BibaLocalizedTextView.Text.text = LocalizationService.GetText(BibaLocalizedTextView.Key);
+		void UpdateKey() 
+		{
+			if (BibaLocalizedTextView != null) 
+			{
+				BibaLocalizedTextView.Text.text = LocalizationService.GetText(BibaLocalizedTextView.Key);
+			}
 		}
     }
 }
