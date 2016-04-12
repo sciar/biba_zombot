@@ -19,6 +19,8 @@ namespace BibaFramework.BibaGame
         public GameObject CheckMark;
 
         public GameObject ARCameraPrefab;
+
+		public LocalizationService LocalizationService { get; set; }
         private GameObject _arCamera;
 
         protected override void Start()
@@ -31,7 +33,7 @@ namespace BibaFramework.BibaGame
         public void SetupTag(BibaTagType TagType)
         {  
             var tagInfo = TagInfos.Find(info => info.TagType == TagType);
-            TagText.text = tagInfo.TagText;
+			TagText.text = LocalizationService.GetText(tagInfo.TagTextKey);
             TagText.color = tagInfo.TagColor;
             TagIcon.sprite = tagInfo.TagIcon;
         }
@@ -71,6 +73,6 @@ namespace BibaFramework.BibaGame
         public BibaTagType TagType;
         public Sprite TagIcon;
         public Color TagColor;
-        public string TagText;
+        public string TagTextKey;
     }
 }

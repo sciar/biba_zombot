@@ -35,6 +35,9 @@ namespace BibaFramework.BibaGame
         [Inject]
         public TagScanCompletedSignal TagScanCompletedSignal { get; set; }
 
+		[Inject]
+		public LocalizationService LocalizationService { get; set; }
+
         private BibaTagType _tagToScan;
 
         protected override void RegisterMenuStateDependentSignals() 
@@ -42,6 +45,7 @@ namespace BibaFramework.BibaGame
             TagScannedSignal.AddListener(TagScanned);
             TagServiceInitFailedSignal.AddListener(TagServiceInitFailed);
             
+			ARScanStartView.LocalizationService = LocalizationService;
             SetupTagToScan();
         }
 
