@@ -38,6 +38,8 @@ namespace BibaFramework.BibaGame
 			{
 				SetLanguageOverwriteSignal.Dispatch (SetLanguageToggleView.SystemLanguage);
 			}
+
+			UpdateToggle();
 		}
 
 		void UpdateToggle()
