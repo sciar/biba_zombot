@@ -13,16 +13,17 @@ namespace BibaFramework.BibaGame
 	public class LanguageUpdatedSignal : Signal { }
 	public class SetLanguageOverwriteSignal : Signal<SystemLanguage>{ }
 
-    //Network
-    public class DownloadGeoBasedScenesSignal : Signal { }
-    public class ContentUpdatedFromCDNSignal : Signal<string> { }
-
+	public class ClearEquipmentsSignal : Signal { }
     public class EquipmentSelectedSignal : Signal <BibaEquipmentType, bool> { }
     public class EquipmentPlayedSignal : Signal<BibaEquipmentType> { }
     public class TryToSetHighScoreSignal : Signal<double> { }
 
     public class PlayBibaBGMSignal : Signal<string>{ };
     public class PlayBibaSFXSignal : Signal<string>{ };
+
+	//Network
+	public class DownloadGeoBasedScenesSignal : Signal { }
+	public class ContentUpdatedFromCDNSignal : Signal<string> { }
 
     //Settings
     public class OpenURLSignal : Signal<string> { }

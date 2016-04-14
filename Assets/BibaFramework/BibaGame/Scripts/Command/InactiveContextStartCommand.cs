@@ -9,12 +9,6 @@ namespace BibaFramework.BibaGame
         [Inject]
         public SetMenuStateConditionSignal SetMenuStateConditionSignal { get; set; }
 
-        [Inject]
-        public BibaGameModel BibaGameModel { get; set; }
-
-        [Inject]
-        public IDataService DataService { get; set; }
-
         public override void Execute ()
         {
             SetMenuStateConditionSignal.Dispatch(MenuStateCondition.ShowInactive, false);

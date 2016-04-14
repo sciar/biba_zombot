@@ -10,6 +10,9 @@ namespace BibaFramework.BibaGame
         [Inject]
         public BibaGameModel BibaGameModel { get; set; }
 
+		[Inject]
+		public ClearEquipmentsSignal ClearEquipmentsSignal { get; set; }
+
         public override SceneMenuStateView View { get { return InactiveView; } }
 
         public override void SetupSceneDependentMenu ()
@@ -20,10 +23,17 @@ namespace BibaFramework.BibaGame
 
         public override void RegisterSceneDependentSignals ()
         {
+			InactiveView.NoButton.onClick.AddListener (ClearSelectedEquipments);
         }
         
         public override void UnRegisterSceneDependentSignals ()
         {
+			InactiveView.NoButton.onClick.RemoveListener (ClearSelectedEquipments);
         }
+
+		void ClearSelectedEquipments()
+		{
+			ClearEquipmentsSignal.Dispatch ();
+		}
 	}
 }
