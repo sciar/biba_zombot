@@ -67,7 +67,8 @@ namespace BibaFramework.BibaMenu
            
             commandBinder.Bind<ApplicationUnPausedSignal>().
                     To<LogLocationInfoCommand>().
-                    To<CheckForDownloadContentCommand>().
+                    //TODO: reenable when location based theme is up
+					//To<CheckForDownloadContentCommand>().
                     To<CheckForInactiveResetCommand>().InSequence();
 
 			commandBinder.Bind<SetLanguageOverwriteSignal> ().To<SetLanguageOverwriteCommand> ();
