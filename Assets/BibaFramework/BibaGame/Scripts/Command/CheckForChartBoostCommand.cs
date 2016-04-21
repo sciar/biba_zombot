@@ -12,15 +12,11 @@ namespace BibaFramework.BibaGame
         [Inject]
         public SetMenuStateConditionSignal SetMenuStateConditionSignal { get; set; }
 
-        [Inject]
-        public IDataService DataService { get; set; }
-
         public override void Execute ()
         {
 			if (BibaSessionModel.LastChartBoostTime == DateTime.MaxValue)
             {
 				BibaSessionModel.LastChartBoostTime = DateTime.UtcNow;
-                DataService.WriteGameModel();
             }
 
 			var timeInactive = DateTime.UtcNow - BibaSessionModel.LastChartBoostTime;
