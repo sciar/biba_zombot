@@ -2,28 +2,16 @@ using System;
 using System.Net;
 using System.Security.Cryptography;
 using System.IO;
+using System.Net.NetworkInformation;
 
 namespace BibaFramework.Utility
 {
     public static class BibaUtility
     {
-        public static bool CheckForInternetConnection()
-        {
-            try
-            {
-                using (var client = new WebClient())
-                {
-                    using (var stream = client.OpenRead("http://www.google.com"))
-                    {
-                        return true;
-                    }
-                }
-            }
-            catch
-            {
-                return false;
-            }
-        }
+		public static bool CheckForInternetConnection()
+		{
+			return NetworkInterface.GetIsNetworkAvailable ();
+		}
 
         public static string GetHashString(string filePath)
         {
