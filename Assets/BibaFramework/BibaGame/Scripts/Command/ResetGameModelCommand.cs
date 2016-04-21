@@ -8,6 +8,9 @@ namespace BibaFramework.BibaGame
         [Inject]
         public BibaGameModel BibaGameModel { get; set; }
 
+		[Inject]
+		public BibaSessionModel BibaSessionModel { get; set; }
+
         [Inject]
         public IDataService DataService { get; set; }
 
@@ -18,6 +21,8 @@ namespace BibaFramework.BibaGame
         {
             BibaGameModel.Reset();
             DataService.WriteGameModel();
+
+			BibaSessionModel.Reset();
 
             SetMenuStateTriggerSignal.Dispatch(MenuStateTrigger.Reset);
         }

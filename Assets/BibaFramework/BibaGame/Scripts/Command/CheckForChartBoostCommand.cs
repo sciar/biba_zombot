@@ -7,7 +7,7 @@ namespace BibaFramework.BibaGame
     public class CheckForChartBoostCommand : Command
     {
         [Inject]
-        public BibaGameModel BibaGameModel { get; set; }
+		public BibaSessionModel BibaSessionModel { get; set; }
 
         [Inject]
         public SetMenuStateConditionSignal SetMenuStateConditionSignal { get; set; }
@@ -17,13 +17,13 @@ namespace BibaFramework.BibaGame
 
         public override void Execute ()
         {
-            if (BibaGameModel.LastChartBoostTime == DateTime.MaxValue)
+			if (BibaSessionModel.LastChartBoostTime == DateTime.MaxValue)
             {
-                BibaGameModel.LastChartBoostTime = DateTime.UtcNow;
+				BibaSessionModel.LastChartBoostTime = DateTime.UtcNow;
                 DataService.WriteGameModel();
             }
 
-            var timeInactive = DateTime.UtcNow - BibaGameModel.LastChartBoostTime;
+			var timeInactive = DateTime.UtcNow - BibaSessionModel.LastChartBoostTime;
             if (timeInactive >= BibaGameConstants.CHARTBOOST_CHECK_DURATION)
             {
                 SetMenuStateConditionSignal.Dispatch(MenuStateCondition.ShowChartBoost, true);

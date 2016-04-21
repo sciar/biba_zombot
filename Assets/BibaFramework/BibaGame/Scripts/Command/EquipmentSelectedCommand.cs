@@ -13,6 +13,9 @@ namespace BibaFramework.BibaGame
         [Inject]
         public BibaGameModel BibaGameModel { get; set; }
 
+		[Inject]
+		public BibaSessionModel BibaSessionModel { get; set; }
+
         [Inject]
         public IDataService DataService { get; set; }
 
@@ -20,15 +23,15 @@ namespace BibaFramework.BibaGame
         {
             if (Status)
             {
-                BibaGameModel.SelectedEquipments.Add(new BibaEquipment(BibaEquipmentType));
+				BibaSessionModel.SelectedEquipments.Add(new BibaEquipment(BibaEquipmentType));
                 BibaGameModel.TotalPlayedEquipments.Find(equip => equip.EquipmentType == BibaEquipmentType).NumberOfTimeSelected++;
             } 
             else
             {
-                var indexToRemove = BibaGameModel.SelectedEquipments.FindIndex(equip => equip.EquipmentType == BibaEquipmentType);
+				var indexToRemove = BibaSessionModel.SelectedEquipments.FindIndex(equip => equip.EquipmentType == BibaEquipmentType);
                 if(indexToRemove != -1)
                 {
-                    BibaGameModel.SelectedEquipments.RemoveAt(indexToRemove);
+					BibaSessionModel.SelectedEquipments.RemoveAt(indexToRemove);
                     BibaGameModel.TotalPlayedEquipments.Find(equip => equip.EquipmentType == BibaEquipmentType).NumberOfTimeSelected--;
                 }
             }

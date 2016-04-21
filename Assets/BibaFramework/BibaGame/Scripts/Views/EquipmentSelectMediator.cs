@@ -12,7 +12,7 @@ namespace BibaFramework.BibaGame
         public GameModelUpdatedSignal GameModelUpdatedSignal { get; set; }
 
         [Inject]
-        public BibaGameModel BibaGameModel { get; set; }
+		public BibaSessionModel BibaSessionModel { get; set; }
 
         public override SceneMenuStateView View {
             get {
@@ -39,8 +39,8 @@ namespace BibaFramework.BibaGame
         {
             if (EquipmentSelectView != null && EquipmentSelectView.ConfirmButton.Button != null)
             {
-                EquipmentSelectView.ConfirmButton.Button.interactable = BibaGameModel.SelectedEquipments.Count > 0;
-                EquipmentSelectView.ConfirmButton.MenuStateTriggerString = BibaGameModel.SelectedEquipments.Count >= 3 ? MenuStateTrigger.Yes : MenuStateTrigger.No;
+				EquipmentSelectView.ConfirmButton.Button.interactable = BibaSessionModel.SelectedEquipments.Count > 0;
+				EquipmentSelectView.ConfirmButton.MenuStateTriggerString = BibaSessionModel.SelectedEquipments.Count >= 3 ? MenuStateTrigger.Yes : MenuStateTrigger.No;
             }
         }
     }
