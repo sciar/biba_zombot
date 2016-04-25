@@ -1,5 +1,6 @@
 using strange.extensions.command.impl;
 using BibaFramework.BibaGame;
+using UnityEngine;
 
 namespace BibaFramework.BibaNetwork
 {
@@ -19,17 +20,17 @@ namespace BibaFramework.BibaNetwork
 
         public override void Execute ()
         {
-            if (ContentUpdated == BibaContentConstants.ACHIEVEMENT_SETTINGS_FILE)
+			if (ContentUpdated == BibaContentConstants.GetRelativePath(BibaContentConstants.ACHIEVEMENT_SETTINGS_FILE))
             {
                 AchievementService.ReloadContent();
             }
 
-            if (ContentUpdated == BibaContentConstants.LOCALIZATION_SETTINGS_FILE)
+			if (ContentUpdated == BibaContentConstants.GetRelativePath(BibaContentConstants.LOCALIZATION_SETTINGS_FILE))
             {
                 LocalizationService.ReloadContent();
             }
 
-            if (ContentUpdated == BibaContentConstants.SPECIAL_SCENE_SETTINGS_FILE)
+			if (ContentUpdated == BibaContentConstants.GetRelativePath(BibaContentConstants.SPECIAL_SCENE_SETTINGS_FILE))
             {
                 SpecialSceneService.ReloadContent();
             }

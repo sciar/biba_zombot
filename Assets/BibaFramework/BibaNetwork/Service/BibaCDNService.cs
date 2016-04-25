@@ -1,6 +1,5 @@
 using System;
 using System.IO;
-using UnityEngine;
 using Amazon;
 using Amazon.CognitoIdentity;
 using Amazon.Runtime;
@@ -8,8 +7,9 @@ using Amazon.S3;
 using Amazon.S3.Model;
 using BibaFramework.BibaGame;
 using BibaFramework.BibaNetwork;
-using LitJson;
 using BibaFramework.Utility;
+using LitJson;
+using UnityEngine;
 
 namespace BibaFramework.BibaNetwork
 {
@@ -124,7 +124,7 @@ namespace BibaFramework.BibaNetwork
                 foreach (var remoteLine in remoteManifest.Lines)
                 {
                     var localLine = _localManifest.Lines.Find(line => line.FileName == remoteLine.FileName);
-                    if ((localLine == null || localLine.Version < remoteLine.Version || File.Exists(BibaContentConstants.GetPersistedPath(remoteLine.FileName))) && !remoteLine.OptionalDownload)
+                    if ((localLine == null || localLine.Version < remoteLine.Version) && !remoteLine.OptionalDownload)
                     {
                         RetrieveAndWriteData(BibaContentConstants.GetRelativePath(remoteLine.FileName), BibaContentConstants.GetPersistedPath(remoteLine.FileName));
                     }
@@ -158,9 +158,8 @@ namespace BibaFramework.BibaNetwork
                                 fs.Write(data, 0, bytesRead);
                             } while (bytesRead > 0);
                             fs.Flush();
-
-                            ContentUpdatedFromCDNSignal.Dispatch(objectFileName);
                         }
+						ContentUpdatedFromCDNSignal.Dispatch(objectFileName);
                     }
                 }
 
