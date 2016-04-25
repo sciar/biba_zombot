@@ -60,12 +60,14 @@ namespace BibaFramework.BibaMenu
                     To<SetupGameModelCommand>().
                     To<SetupGameConfigCommand>().
                     To<SetupEditorDebugSceneCommand>().
+					To<UpdateFromCDNCommand>().
                     InSequence();
      
             commandBinder.Bind<ApplicationPausedSignal>().
                 To<LogLastPlayedTimeCommand>().InSequence();
            
             commandBinder.Bind<ApplicationUnPausedSignal>().
+					To<UpdateFromCDNCommand>().
                     To<LogLocationInfoCommand>().
                     //TODO: reenable when location based theme is up
 					//To<CheckForDownloadContentCommand>().

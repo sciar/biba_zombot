@@ -20,17 +20,17 @@ namespace BibaFramework.BibaNetwork
 
         public override void Execute ()
         {
-			if (ContentUpdated == BibaContentConstants.GetRelativePath(BibaContentConstants.ACHIEVEMENT_SETTINGS_FILE))
+			if (ContentUpdated.EndsWith(BibaContentConstants.ACHIEVEMENT_SETTINGS_FILE))
             {
                 AchievementService.ReloadContent();
             }
 
-			if (ContentUpdated == BibaContentConstants.GetRelativePath(BibaContentConstants.LOCALIZATION_SETTINGS_FILE))
+			if (ContentUpdated.EndsWith(BibaContentConstants.LOCALIZATION_SETTINGS_FILE))
             {
                 LocalizationService.ReloadContent();
             }
 
-			if (ContentUpdated == BibaContentConstants.GetRelativePath(BibaContentConstants.SPECIAL_SCENE_SETTINGS_FILE))
+			if (ContentUpdated.EndsWith(BibaContentConstants.SPECIAL_SCENE_SETTINGS_FILE))
             {
                 SpecialSceneService.ReloadContent();
             }
