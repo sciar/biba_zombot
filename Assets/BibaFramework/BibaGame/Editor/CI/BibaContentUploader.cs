@@ -96,11 +96,11 @@ namespace BibaFramework.BibaEditor
                     manifest.Lines.Add(manifestLine);
                 }
                 
-                var assetBundleHash = BibaUtility.GetHashString(filePath);
-                if(manifestLine.HashCode != assetBundleHash)
+				var assetHashCode = BibaUtility.GetHashString(filePath);
+                if(manifestLine.HashCode != assetHashCode)
                 {
-                    manifestLine.HashCode = assetBundleHash;
-                    manifestLine.Version++;
+                    manifestLine.HashCode = assetHashCode;
+					manifestLine.TimeStamp = DateTime.UtcNow;
                     
                     manifestUpdated = true;
                 }
@@ -108,7 +108,7 @@ namespace BibaFramework.BibaEditor
             
             if (manifestUpdated)
             {
-                BibaManifest.Version++;
+				BibaManifest.TimeStamp = DateTime.UtcNow;
                 new JSONDataService().WriteToDisk<BibaManifest>(BibaManifest, BibaEditorConstants.GetContentOutputPath(BibaContentConstants.MANIFEST_FILENAME));
             }
             

@@ -70,7 +70,7 @@ namespace BibaFramework.BibaNetwork
             {
                 var persistedManifest = DataService.ReadFromDisk<BibaManifest>(BibaContentConstants.GetPersistedPath(BibaContentConstants.MANIFEST_FILENAME));
                 var resourceManifest = DataService.ReadFromDisk<BibaManifest>(BibaContentConstants.GetResourceFilePath(BibaContentConstants.MANIFEST_FILENAME));
-                return (persistedManifest == null || persistedManifest.Version <= resourceManifest.Version);
+				return (persistedManifest == null || persistedManifest.TimeStamp < resourceManifest.TimeStamp);
             }
         }
         #endregion
@@ -119,12 +119,12 @@ namespace BibaFramework.BibaNetwork
             }
 
             var remoteManifest = DataService.ReadFromDisk<BibaManifest>(BibaContentConstants.GetPersistedPath(BibaContentConstants.MANIFEST_FILENAME));
-            if (remoteManifest != null && remoteManifest.Version > _localManifest.Version)
+			if (remoteManifest != null && remoteManifest.TimeStamp > _localManifest.TimeStamp)
             {
                 foreach (var remoteLine in remoteManifest.Lines)
                 {
                     var localLine = _localManifest.Lines.Find(line => line.FileName == remoteLine.FileName);
-                    if ((localLine == null || localLine.Version < remoteLine.Version) && !remoteLine.OptionalDownload)
+					if ((localLine == null || localLine.TimeStamp < remoteLine.TimeStamp) && !remoteLine.OptionalDownload)
                     {
                         RetrieveAndWriteData(BibaContentConstants.GetRelativePath(remoteLine.FileName), BibaContentConstants.GetPersistedPath(remoteLine.FileName));
                     }
