@@ -17,7 +17,6 @@ namespace BibaFramework.BibaEditor
 
         private static BibaAchievementSettings _achievementSettings;
 
-        [MenuItem("Biba/Load Settings/Load Achievement Settings")]
         public static void CreateAchievementSettings ()
         {
             _achievementSettings = new BibaAchievementSettings();

@@ -12,21 +12,52 @@ namespace BibaFramework.BibaEditor
 {
     public class BibaContentUploader : MonoBehaviour 
 	{   
-        [MenuItem ("Biba/Content Generation/Run Content Pipeline Without Upload", false, 0)]
+        [MenuItem ("Biba/Content Generation/Run Pipeline Without Upload", false, 0)]
         public static void RunContentPipeLineWithoutUpload()
         {
-            LoadSettings();
+            ImportSettingsFromGoogleDocs();
             BibaAssetBundleBuilder.BuildSpecialScenesAssetBundles();
-            UpdateManifestForAssets();
+            UpdateManifestForContent();
             CopyContentToResources();
         }
 
-        [MenuItem ("Biba/Content Generation/Run Content Pipeline With Upload", false, 1)]
+        [MenuItem ("Biba/Content Generation/Run Pipeline With Upload", false, 1)]
         public static void RunContentPipeLine()
         {
             RunContentPipeLineWithoutUpload();
-            UploadManifestAndBundle();
+            UploadContentFolder();
         }
+
+		[MenuItem ("Biba/Content Generation/Run Settings Pipeline Without Upload", false, 2)]
+		public static void RunSettingsContentPipeLineWithoutUpload()
+		{
+			ImportSettingsFromGoogleDocs();
+			UpdateManifestForContent();
+			CopyContentToResources();
+		}
+
+		[MenuItem ("Biba/Content Generation/Run Settings Pipeline With Upload", false, 3)]
+		public static void RunSettingsPipeLine()
+		{
+			RunSettingsContentPipeLineWithoutUpload();
+			UploadContentFolder();
+		}
+
+		[MenuItem ("Biba/Content Generation/Run AssetBundle Pipeline Without Upload", false, 4)]
+		public static void RunAssetBundlePipeLineWithoutUpload()
+		{
+			BibaSpecialSceneImporter.CreateSpecialSceneSettings();
+			BibaAssetBundleBuilder.BuildSpecialScenesAssetBundles();
+			UpdateManifestForContent();
+			CopyContentToResources();
+		}
+
+		[MenuItem ("Biba/Content Generation/Run AssetBundle Pipeline With Upload", false, 5)]
+		public static void RunAssetBundlePipeLine()
+		{
+			RunAssetBundlePipeLineWithoutUpload();
+			UploadContentFolder();
+		}
 
         static void CopyContentToResources()
         {
@@ -51,7 +82,7 @@ namespace BibaFramework.BibaEditor
             AssetDatabase.Refresh();
         }
 
-        static void LoadSettings()
+        static void ImportSettingsFromGoogleDocs()
         {
             BibaLocalizationImporter.CreateLocalizationSettings();
             BibaAchievementImporter.CreateAchievementSettings();
@@ -76,7 +107,7 @@ namespace BibaFramework.BibaEditor
             }
         }
 
-        static void UpdateManifestForAssets()
+        static void UpdateManifestForContent()
         {
             var outputFolder = Path.GetDirectoryName(BibaEditorConstants.GetContentOutputPath(""));
             var manifestUpdated = false;
@@ -115,7 +146,7 @@ namespace BibaFramework.BibaEditor
             AssetDatabase.Refresh();
         }
 
-        static void UploadManifestAndBundle()
+        static void UploadContentFolder()
         {
             try
             {

@@ -15,7 +15,6 @@ namespace BibaFramework.BibaEditor
         private const string LOCALIZATION_SETTINGS_COMMON_WORKSHEET_NAME = "biba-common";
         private const string LOCALIZATION_SETTINGS_WORKSHEET_NAME = BibaContentConstants.CI_GAME_ID;
 
-        [MenuItem("Biba/Load Settings/Load Localization Settings")]
         public static void CreateLocalizationSettings ()
         {
             ImportSettings();
