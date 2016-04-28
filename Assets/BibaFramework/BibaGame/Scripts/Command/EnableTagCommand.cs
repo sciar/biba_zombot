@@ -10,14 +10,14 @@ namespace BibaFramework.BibaGame
 		public bool Status { get; set; }
 
         [Inject]
-		public BibaSessionModel BibaSessionModel { get; set; }
+		public BibaGameModel BibaGameModel { get; set; }
 
         [Inject]
         public IAnalyticService BibaAnalyticService { get; set; } 
 
         public override void Execute ()
         {
-			BibaSessionModel.TagEnabled = Status;
+			BibaGameModel.TagEnabled = Status;
             BibaAnalyticService.TrackSatelliteTagEnabled(Status);
         }
     }

@@ -7,11 +7,11 @@ namespace BibaFramework.BibaGame
     public class LogCameraReminderTimeCommand : Command
     {
         [Inject]
-		public BibaSessionModel BibaSessionModel { get; set; }
+		public BibaGameModel BibaGameModel { get; set; }
 
         public override void Execute ()
         {
-			BibaSessionModel.LastCameraReminderTime = DateTime.UtcNow;
+			BibaGameModel.LastCameraReminderTime = DateTime.UtcNow;
         }
     }
 }

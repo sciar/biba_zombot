@@ -8,7 +8,7 @@ namespace BibaFramework.BibaGame
     public class CheckForInactiveResetCommand : Command
     {
         [Inject]
-		public BibaSessionModel BibaSessionModel { get; set; }
+		public BibaGameModel BibaGameModel { get; set; }
 
         [Inject]
         public SetMenuStateTriggerSignal SetMenuStateTriggerSignal { get; set; }
@@ -21,8 +21,8 @@ namespace BibaFramework.BibaGame
 
         public override void Execute ()
         {
-			var timeInactive = DateTime.UtcNow - BibaSessionModel.LastPlayedTime;
-			if (timeInactive >= BibaGameConstants.INACTIVE_DURATION && BibaSessionModel.SelectedEquipments.Count > 0)
+			var timeInactive = DateTime.UtcNow - BibaGameModel.LastPlayedTime;
+			if (timeInactive >= BibaGameConstants.INACTIVE_DURATION && BibaGameModel.SelectedEquipments.Count > 0)
             {
                 SetMenuStateConditionSignal.Dispatch(MenuStateCondition.ShowInactive, true);
 

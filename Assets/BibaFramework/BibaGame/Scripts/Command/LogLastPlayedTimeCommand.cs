@@ -7,13 +7,13 @@ namespace BibaFramework.BibaGame
     public class LogLastPlayedTimeCommand : Command
     {
         [Inject]
-		public BibaSessionModel BibaSessionModel { get; set; }
+		public BibaGameModel BibaGameModel { get; set; }
 	
         public override void Execute ()
         {
-			if (BibaSessionModel.SelectedEquipments.Count > 0)
+			if (BibaGameModel.SelectedEquipments.Count > 0)
             {
-				BibaSessionModel.LastPlayedTime = DateTime.UtcNow;
+				BibaGameModel.LastPlayedTime = DateTime.UtcNow;
             }
         }
     }

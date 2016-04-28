@@ -75,8 +75,8 @@ namespace BibaFramework.BibaGame
 
         void SetupTagToScan()
         {
-			var rndIndex = Random.Range(0, BibaSessionModel.SelectedEquipments.Count);
-			var equipmentToScan = new BibaEquipment(BibaSessionModel.SelectedEquipments[rndIndex].EquipmentType);
+			var rndIndex = Random.Range(0, BibaGameModel.SelectedEquipments.Count);
+			var equipmentToScan = new BibaEquipment(BibaGameModel.SelectedEquipments[rndIndex].EquipmentType);
             
             _tagToScan = equipmentToScan.TagType;
             ARScanStartView.SetupTag(_tagToScan);

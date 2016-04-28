@@ -10,13 +10,6 @@ namespace BibaFramework.BibaGame
 		public SessionInfo SessionInfo { get; set; }
 
         public bool TagScanned { get; set; }
-		public bool TagEnabled { get; set; }
-
-		public DateTime LastPlayedTime { get; set; }
-		public DateTime LastChartBoostTime { get; set; }
-		public DateTime LastCameraReminderTime { get; set; }
-
-		public List<BibaEquipment> SelectedEquipments { get; set; }
 
 		public BibaSessionModel()
 		{
@@ -25,14 +18,7 @@ namespace BibaFramework.BibaGame
 
 		public void Reset()
 		{
-			LastPlayedTime = DateTime.MaxValue;
-			LastChartBoostTime = DateTime.MinValue;
-			LastCameraReminderTime = DateTime.MinValue;
-
-			SelectedEquipments = new List<BibaEquipment> ();
-
 			TagScanned = false;
-			TagEnabled = false;
 		}
     }
 

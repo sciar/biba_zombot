@@ -9,10 +9,16 @@ namespace BibaFramework.BibaGame
         //Persisted Player Data
         public List<BibaEquipment> TotalPlayedEquipments { get; set; }
         public List<BibaAchievement> CompletedAchievements { get; set; }
+		public List<BibaEquipment> SelectedEquipments { get; set; }
 
         public bool PrivacyEnabled { get; set; }
         public bool HowToEnabled { get; set; }
         public bool HelpBubblesEnabled { get; set; }
+		public bool TagEnabled { get; set; }
+
+		public DateTime LastPlayedTime { get; set; }
+		public DateTime LastChartBoostTime { get; set; }
+		public DateTime LastCameraReminderTime { get; set; }
 
 		public SystemLanguage LanguageOverwrite { get; set; }
 
@@ -35,12 +41,18 @@ namespace BibaFramework.BibaGame
                 new BibaEquipment(BibaEquipmentType.tube),
             };
             
+			SelectedEquipments = new List<BibaEquipment> ();
             CompletedAchievements = new List<BibaAchievement>();
 
 			LanguageOverwrite = SystemLanguage.Unknown;
             PrivacyEnabled = false;
             HowToEnabled = true;
             HelpBubblesEnabled = true;
+			TagEnabled = false;
+
+			LastPlayedTime = DateTime.MaxValue;
+			LastChartBoostTime = DateTime.MinValue;
+			LastCameraReminderTime = DateTime.MinValue;
 
             HighScore = 0;
         }
