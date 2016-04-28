@@ -62,9 +62,6 @@ namespace BibaFramework.BibaMenu
                     To<SetupEditorDebugSceneCommand>().
 					To<UpdateFromCDNCommand>().
                     InSequence();
-     
-            commandBinder.Bind<ApplicationPausedSignal>().
-                To<LogLastPlayedTimeCommand>().InSequence();
            
             commandBinder.Bind<ApplicationUnPausedSignal>().
 					To<UpdateFromCDNCommand>().
