@@ -7,9 +7,13 @@ namespace BibaFramework.BibaGame
 		[Inject]
 		public BibaGameModel BibaGameModel { get; set; }
 
+		[Inject]
+		public IDataService DataService { get; set; }
+
 		public override void Execute ()
 		{
 			BibaGameModel.SelectedEquipments.Clear ();
+			DataService.WriteGameModel ();
 		}
 	}
 }

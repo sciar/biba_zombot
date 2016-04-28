@@ -15,10 +15,14 @@ namespace BibaFramework.BibaGame
         [Inject]
         public IAnalyticService BibaAnalyticService { get; set; } 
 
+		[Inject]
+		public IDataService DataService { get; set; }
+
         public override void Execute ()
         {
 			BibaGameModel.TagEnabled = Status;
             BibaAnalyticService.TrackSatelliteTagEnabled(Status);
+			DataService.WriteGameModel ();
         }
     }
 }

@@ -19,6 +19,8 @@ namespace BibaFramework.BibaGame
         {
 			BibaGameModel.LastChartBoostTime = DateTime.UtcNow;
             SetMenuStateConditionSignal.Dispatch(MenuStateCondition.ShowChartBoost, false);
+
+			DataService.WriteGameModel ();
         }
     }
 }
