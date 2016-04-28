@@ -63,6 +63,9 @@ namespace BibaFramework.BibaMenu
 					To<UpdateFromCDNCommand>().
                     InSequence();
            
+			commandBinder.Bind<ApplicationPausedSignal>().
+				To<LogLocationInfoCommand>().InSequence();
+
             commandBinder.Bind<ApplicationUnPausedSignal>().
 					To<UpdateFromCDNCommand>().
                     To<LogLocationInfoCommand>().
