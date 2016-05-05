@@ -65,7 +65,7 @@ namespace BibaFramework.BibaEditor
 		static void StoreBuildNumber()
 		{
 			var jsonService = new JSONDataService ();
-			var versionFilePath = BibaContentConstants.GetResourceFilePath (BibaContentConstants.BIBAVERSION_FILE);
+			var versionFilePath = BibaEditorConstants.GetResourceFilePath (BibaContentConstants.BIBAVERSION_FILE);
 			var version = jsonService.ReadFromDisk<BibaVersion> (versionFilePath);
 			version.BuildNumber = JenkinsBuildNumber.ToString();
 
