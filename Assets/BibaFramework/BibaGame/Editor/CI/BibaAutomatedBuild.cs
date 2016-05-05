@@ -2,6 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using UnityEditor;
+using BibaFramework.BibaGame;
+using BibaFramework.BibaNetwork;
 
 namespace BibaFramework.BibaEditor
 {
@@ -19,14 +21,15 @@ namespace BibaFramework.BibaEditor
 		[MenuItem("Biba/Build Jobs/Build iOS")]
 		public static void BuildIOS ()
 		{
-            //Set Build Target
+            // Set Build Target
             EditorUserBuildSettings.SwitchActiveBuildTarget(BuildTarget.iOS);
 
-            //Update Settings and Manifest
+            // Update Settings and Manifest
             BibaContentUploader.RunContentPipeLineWithoutUpload();
 
             // Set Build Number
-            PlayerSettings.iOS.buildNumber = Environment.GetCommandLineArgs() [System.Environment.GetCommandLineArgs().Length - 1];
+			PlayerSettings.iOS.buildNumber = JenkinsBuildNumber.ToString();
+			StoreBuildNumber ();
           
             // Get filename
             var path = IOS_OUTPUT_PATH;
@@ -36,16 +39,15 @@ namespace BibaFramework.BibaEditor
         [MenuItem("Biba/Build Jobs/Build Android")]
 		public static void BuildAndroid ()
 		{
-            //Set Build Target
+            // Set Build Target
             EditorUserBuildSettings.SwitchActiveBuildTarget(BuildTarget.Android);
 
-            //Update Settings and Manifest
+            // Update Settings and Manifest
             BibaContentUploader.RunContentPipeLineWithoutUpload();
             
             // Set Build Number
-            int versionNumber = -1;
-            Int32.TryParse(Environment.GetCommandLineArgs() [System.Environment.GetCommandLineArgs().Length - 1], out versionNumber);
-            PlayerSettings.Android.bundleVersionCode = versionNumber;
+			PlayerSettings.Android.bundleVersionCode = JenkinsBuildNumber;
+			StoreBuildNumber ();
 
 			// Set KeyStore
             PlayerSettings.Android.keystorePass = KEYSTORE_PASSWORD;
@@ -59,6 +61,26 @@ namespace BibaFramework.BibaEditor
             var path = Path.Combine(ANDROID_OUTPUT_PATH, ANDROID_APK);
             BuildPlayer(path, BuildTarget.Android);
         }
+
+		static void StoreBuildNumber()
+		{
+			var jsonService = new JSONDataService ();
+			var versionFilePath = BibaContentConstants.GetResourceFilePath (BibaContentConstants.BIBAVERSION_FILE);
+			var version = jsonService.ReadFromDisk<BibaVersion> (versionFilePath);
+			version.BuildNumber = JenkinsBuildNumber.ToString();
+
+			jsonService.WriteToDisk<BibaVersion> (version, versionFilePath);
+		}
+
+		static int JenkinsBuildNumber {
+			get {
+
+				int versionNumber = -1;
+				Int32.TryParse(System.Environment.GetCommandLineArgs() [System.Environment.GetCommandLineArgs().Length - 1], out versionNumber);
+
+				return versionNumber;
+			}
+		}
 
         static void BuildPlayer(string path, BuildTarget target)
         {

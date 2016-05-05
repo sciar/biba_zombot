@@ -1,15 +1,19 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.UI;
-using UnityEditor;
 using BibaFramework.BibaNetwork;
+using BibaFramework.BibaGame;
 
 [RequireComponent(typeof(Text))]
 public class Version : MonoBehaviour 
 {
 	void Start () 
 	{
-		GetComponent<Text> ().text = (Application.platform == RuntimePlatform.Android) ? PlayerSettings.Android.bundleVersionCode.ToString() : PlayerSettings.iOS.buildNumber + "." 
-			+ BibaContentConstants.ENVIRONMENT.ToString().Substring(0, 3);
+		var jsonService = new JSONDataService ();
+		var version = jsonService.ReadFromDisk<BibaVersion> (BibaContentConstants.GetResourceFilePath (BibaContentConstants.BIBAVERSION_FILE));
+
+		GetComponent<Text> ().text = version.Version + "." +
+										version.BuildNumber + " " + 
+										BibaContentConstants.ENVIRONMENT.ToString().Substring(0, 3);
 	}
 }
