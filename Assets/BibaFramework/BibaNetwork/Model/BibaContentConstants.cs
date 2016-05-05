@@ -3,27 +3,31 @@ using BibaFramework.BibaGame;
 
 namespace BibaFramework.BibaNetwork
 {
+	public enum Environment
+	{
+		Development,
+		Production
+	}
+
     public class BibaContentConstants
     {
         //Overwrite for different games
         public const string CI_GAME_ID = "biba-framework";
 
 		//Change for Production or Development build
-		private const bool DEVELOPMENT_BUILD = true;
-		private const string DEV_PREFIX = "dev-";
+		public const Environment ENVIRONMENT = Environment.Production;
 
+		private const string DEV_PREFIX = "dev-";
 		public static string S3BucketName { 
 			get { 
-
-				return DEVELOPMENT_BUILD ? DEV_PREFIX + CI_GAME_ID : CI_GAME_ID;
+				return ENVIRONMENT == Environment.Development ? DEV_PREFIX + CI_GAME_ID : CI_GAME_ID;
 			} 
 		}
 
         public const string AWS_IDENTITY_POOL_ID = "us-east-1:be839779-a7ee-4f18-9c5a-e1651f030bea";
 
 		private static string PLATFORM {
-			get 
-			{
+			get {
 				return Application.platform == RuntimePlatform.Android ? "Android" : "iOS";
 			}
 		}
