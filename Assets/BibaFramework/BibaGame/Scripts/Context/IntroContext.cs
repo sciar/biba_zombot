@@ -30,6 +30,7 @@ namespace BibaFramework.BibaGame
 			
         protected override void BindCommands ()
         {
+			commandBinder.Bind<StartSignal> ().To<CheckForInactiveResetCommand> ();
         }
 
         protected override void BindSignals ()
