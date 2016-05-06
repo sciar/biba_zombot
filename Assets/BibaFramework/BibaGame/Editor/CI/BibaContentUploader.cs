@@ -96,19 +96,26 @@ namespace BibaFramework.BibaEditor
             get {
                 if(_bibaManifest == null)
                 {
-                    _bibaManifest = new JSONDataService().ReadFromDisk<BibaManifest>(BibaEditorConstants.GetContentOutputPath(BibaContentConstants.MANIFEST_FILENAME));
-                    
-                    if (_bibaManifest == null)
-                    {
-                        _bibaManifest = new BibaManifest();
-                    }
+					ReloadManifest ();
                 }
                 return _bibaManifest;
             }
         }
 
+		static void ReloadManifest()
+		{
+			_bibaManifest = new JSONDataService().ReadFromDisk<BibaManifest>(BibaEditorConstants.GetContentOutputPath(BibaContentConstants.MANIFEST_FILENAME));
+
+			if (_bibaManifest == null)
+			{
+				_bibaManifest = new BibaManifest();
+			}
+		}
+
         static void UpdateManifestForContent()
         {
+			ReloadManifest ();
+
             var outputFolder = Path.GetDirectoryName(BibaEditorConstants.GetContentOutputPath(""));
             var manifestUpdated = false;
             var manifest = BibaManifest;
