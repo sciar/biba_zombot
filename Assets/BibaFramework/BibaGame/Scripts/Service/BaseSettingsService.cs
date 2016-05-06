@@ -45,7 +45,7 @@ namespace BibaFramework.BibaGame
                 {
                     return true;
                 }
-				return persistedManifestLine.TimeStamp < resourceManifestLine.TimeStamp;
+				return persistedManifestLine.TimeStamp <= resourceManifestLine.TimeStamp;
             }
         }
 

@@ -70,7 +70,7 @@ namespace BibaFramework.BibaNetwork
             {
                 var persistedManifest = DataService.ReadFromDisk<BibaManifest>(BibaContentConstants.GetPersistedPath(BibaContentConstants.MANIFEST_FILENAME));
                 var resourceManifest = DataService.ReadFromDisk<BibaManifest>(BibaContentConstants.GetResourceFilePath(BibaContentConstants.MANIFEST_FILENAME));
-				return (persistedManifest == null || persistedManifest.TimeStamp < resourceManifest.TimeStamp);
+				return (persistedManifest == null || persistedManifest.TimeStamp <= resourceManifest.TimeStamp);
             }
         }
         #endregion
