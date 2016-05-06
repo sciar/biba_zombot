@@ -70,6 +70,8 @@ namespace BibaFramework.BibaEditor
 			version.BuildNumber = JenkinsBuildNumber.ToString();
 
 			jsonService.WriteToDisk<BibaVersion> (version, versionFilePath);
+
+			AssetDatabase.Refresh ();
 		}
 
 		static int JenkinsBuildNumber {
