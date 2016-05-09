@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using System.Collections;
 using UnityEngine.UI;
 using BibaFramework.BibaNetwork;
 using BibaFramework.BibaGame;
@@ -9,11 +8,14 @@ public class Version : MonoBehaviour
 {
 	void Start () 
 	{
-		var jsonService = new JSONDataService ();
-		var version = jsonService.ReadFromDisk<BibaVersion> (BibaContentConstants.GetResourceFilePath (BibaContentConstants.BIBAVERSION_FILE));
-
-		GetComponent<Text> ().text = version.Version + "." +
-										version.BuildNumber + " " + 
-										BibaContentConstants.ENVIRONMENT.ToString().Substring(0, 3);
+		if (BibaContentConstants.ENVIRONMENT == Environment.Development) 
+		{
+			var jsonService = new JSONDataService ();
+			var version = jsonService.ReadFromDisk<BibaVersion> (BibaContentConstants.GetResourceFilePath (BibaContentConstants.BIBAVERSION_FILE));
+			
+			GetComponent<Text> ().text = version.Version + "." +
+				version.BuildNumber + " " + 
+				BibaContentConstants.ENVIRONMENT.ToString().Substring(0, 3);
+		}
 	}
 }
