@@ -19,16 +19,22 @@ namespace BibaFramework.BibaEditor
 
         public static void CreateAchievementSettings ()
         {
-            _achievementSettings = new BibaAchievementSettings();
+			ImportSettings ();
 
-            ImportBasicAchievementSettings();
-            ImportSeasonalAchievementSettings();
-
-            var jsonDataService = new JSONDataService();
-            jsonDataService.WriteToDisk<BibaAchievementSettings>(_achievementSettings, BibaEditorConstants.GetContentOutputPath(BibaContentConstants.ACHIEVEMENT_SETTINGS_FILE));
-
+			AssetDatabase.SaveAssets ();
             AssetDatabase.Refresh();
         }
+
+		static void ImportSettings()
+		{
+			_achievementSettings = new BibaAchievementSettings();
+
+			ImportBasicAchievementSettings();
+			ImportSeasonalAchievementSettings();
+
+			var jsonDataService = new JSONDataService();
+			jsonDataService.WriteToDisk<BibaAchievementSettings>(_achievementSettings, BibaEditorConstants.GetContentOutputPath(BibaContentConstants.ACHIEVEMENT_SETTINGS_FILE));
+		}
 
         #region Seasonal Achievement
         static void ImportSeasonalAchievementSettings()

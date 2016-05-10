@@ -9,83 +9,80 @@ using UnityEngine;
 
 namespace BibaFramework.BibaEditor
 {
-    public class BibaLocalizationImporter
+	public class BibaLocalizationImporter
 	{
-        private const string LOCALIZATION_SETTINGS_SPREADSHEET_NAME = "Biba Localization";
-        private const string LOCALIZATION_SETTINGS_COMMON_WORKSHEET_NAME = "biba-common";
-        private const string LOCALIZATION_SETTINGS_WORKSHEET_NAME = BibaContentConstants.CI_GAME_ID;
+		private const string LOCALIZATION_SETTINGS_SPREADSHEET_NAME = "Biba Localization";
+		private const string LOCALIZATION_SETTINGS_COMMON_WORKSHEET_NAME = "biba-common";
+		private const string LOCALIZATION_SETTINGS_WORKSHEET_NAME = BibaContentConstants.CI_GAME_ID;
 
-        public static void CreateLocalizationSettings ()
-        {
-            ImportSettings();
+		public static void CreateLocalizationSettings ()
+		{
+			ImportSettings();
 
-            AssetDatabase.SaveAssets();
-            AssetDatabase.Refresh();
-        }
+			AssetDatabase.SaveAssets();
+			AssetDatabase.Refresh();
+		}
 
-        private static BibaLocalizationSettings settings;
-        static void ImportSettings()
-        {
-            settings = new BibaLocalizationSettings();
+		private static BibaLocalizationSettings _settings;
+		static void ImportSettings()
+		{
+			_settings = new BibaLocalizationSettings();
 
-            //Parse common localization settings
-            var commonEntries = GoogleSpreadsheetImporter.GetListEntries(LOCALIZATION_SETTINGS_SPREADSHEET_NAME, LOCALIZATION_SETTINGS_COMMON_WORKSHEET_NAME);
-            if (commonEntries == null)
-            {
-                return;
-            }
-            ParseLocalizationSettings(commonEntries);
+			ParseSettingsForSheet (LOCALIZATION_SETTINGS_COMMON_WORKSHEET_NAME);
+			ParseSettingsForSheet (LOCALIZATION_SETTINGS_WORKSHEET_NAME);
 
-            //Parse game specific localization settings
-            var gameEntries = GoogleSpreadsheetImporter.GetListEntries(LOCALIZATION_SETTINGS_SPREADSHEET_NAME, LOCALIZATION_SETTINGS_WORKSHEET_NAME);
-            if (gameEntries == null)
-            {
-                return;
-            }
-            ParseLocalizationSettings(gameEntries);
-        }
+			var jsonDataService = new JSONDataService();
+			jsonDataService.WriteToDisk<BibaLocalizationSettings>(_settings, BibaEditorConstants.GetContentOutputPath(BibaContentConstants.LOCALIZATION_SETTINGS_FILE));
+		}
 
-        static void ParseLocalizationSettings(AtomEntryCollection entries)
-        {
-            foreach (ListEntry row in entries)
-            {
-                var key = row.Elements[0].Value;
-                if(string.IsNullOrEmpty(key))
-                {
-                    continue;
-                }
+		static void ParseSettingsForSheet(string workSheetName)
+		{
+			var entries = GoogleSpreadsheetImporter.GetListEntries(LOCALIZATION_SETTINGS_SPREADSHEET_NAME, workSheetName);
+			if (entries == null)
+			{
+				return;
+			}
+			ParseLocalizationSettings(entries);
+		}
 
-                for(var i = 1; i < row.Elements.Count; i++)
-                {
-                    var cell = row.Elements[i];
-                    var text = cell.Value;
+		static void ParseLocalizationSettings(AtomEntryCollection entries)
+		{
+			foreach (ListEntry row in entries)
+			{
+				var key = row.Elements[0].Value;
+				if(string.IsNullOrEmpty(key))
+				{
+					continue;
+				}
 
-                    if(string.IsNullOrEmpty(cell.LocalName) || string.IsNullOrEmpty(text))
-                    {
-                        continue;
-                    }
+				for(var i = 1; i < row.Elements.Count; i++)
+				{
+					var cell = row.Elements[i];
+					var text = cell.Value;
 
-                    try
-                    {
-                        var language = (SystemLanguage) Enum.Parse(typeof(SystemLanguage), cell.LocalName, true);
-                        var localization = new Localization(){
-                            Key = key,
-                            Language = language,
-                            Text = text
-                        };
+					if(string.IsNullOrEmpty(cell.LocalName) || string.IsNullOrEmpty(text))
+					{
+						continue;
+					}
 
-                        settings.Localizations.Add(localization);
-                    }
-                    catch(Exception)
-                    {
-                        Debug.LogWarning(cell.XmlName + "is not a SystemLanguage Enum.");
-                        continue;
-                    }
-                }
-            }
+					try
+					{
+						var language = (SystemLanguage) Enum.Parse(typeof(SystemLanguage), cell.LocalName, true);
+						var localization = new Localization(){
+							Key = key,
+							Language = language,
+							Text = text
+						};
 
-            var jsonDataService = new JSONDataService();
-            jsonDataService.WriteToDisk<BibaLocalizationSettings>(settings, BibaEditorConstants.GetContentOutputPath(BibaContentConstants.LOCALIZATION_SETTINGS_FILE));
-        }
-    }
+						_settings.Localizations.Add(localization);
+					}
+					catch(Exception)
+					{
+						Debug.LogWarning(cell.XmlName + "is not a SystemLanguage Enum.");
+						continue;
+					}
+				}
+			}
+		}
+	}
 }
