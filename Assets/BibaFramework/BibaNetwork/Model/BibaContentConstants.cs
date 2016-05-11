@@ -35,6 +35,7 @@ namespace BibaFramework.BibaNetwork
         public const string SPECIAL_SCENE_SETTINGS_FILE = "settings_specialscene" + TEXT_EXTENSION;
         public const string LOCALIZATION_SETTINGS_FILE = "settings_localization" + TEXT_EXTENSION;
         public const string ACHIEVEMENT_SETTINGS_FILE = "settings_achievement" + TEXT_EXTENSION;
+		public const string POINTEVENT_SETTINGS_FILE = "settings_pointevent" + TEXT_EXTENSION;
         public const string MANIFEST_FILENAME = "manifest" + TEXT_EXTENSION;
 		public const string BIBAVERSION_FILE = "bibaversion" + TEXT_EXTENSION;
         public const string TEXT_EXTENSION = ".txt";

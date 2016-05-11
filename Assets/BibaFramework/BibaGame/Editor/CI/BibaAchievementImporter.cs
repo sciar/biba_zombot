@@ -17,15 +17,15 @@ namespace BibaFramework.BibaEditor
 
         private static BibaAchievementSettings _achievementSettings;
 
-        public static void CreateAchievementSettings ()
+        public static void ImportSettings ()
         {
-			ImportSettings ();
+			ImportAchievementsSettings ();
 
 			AssetDatabase.SaveAssets ();
             AssetDatabase.Refresh();
         }
 
-		static void ImportSettings()
+		static void ImportAchievementsSettings()
 		{
 			_achievementSettings = new BibaAchievementSettings();
 

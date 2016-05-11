@@ -20,7 +20,7 @@ namespace BibaFramework.BibaEditor
         private const string REGEX_LONGTITUDE = "longtitude";
         private const string REGEX_LATITUDE = "latitude";
 
-        public static void CreateSpecialSceneSettings ()
+        public static void ImportSettings ()
         {
             ImportSpecialSceneSettings();
 
