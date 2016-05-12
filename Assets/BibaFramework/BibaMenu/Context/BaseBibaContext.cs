@@ -61,7 +61,7 @@ namespace BibaFramework.BibaMenu
 			  
 			//Common
             commandBinder.Bind<OpenURLSignal>().To<OpenURLCommand>();
-			commandBinder.Bind<CheckForPointsGainSignal>().To<CheckForPointsGainCommand>();           
+			commandBinder.Bind<CheckForPointsGainSignal>().To<CheckForPointsEventCommand>();           
 
 			//Menu
             commandBinder.Bind<SetMenuStateTriggerSignal>().To<SetMenuStateTriggerCommand>();
