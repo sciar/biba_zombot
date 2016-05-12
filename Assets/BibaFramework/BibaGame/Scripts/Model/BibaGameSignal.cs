@@ -21,6 +21,9 @@ namespace BibaFramework.BibaGame
     public class PlayBibaBGMSignal : Signal<string>{ };
     public class PlayBibaSFXSignal : Signal<string>{ };
 
+	public class CheckForPointsGainSignal : Signal<string>{ };
+	public class PointsGainedSignal : Signal<int>{ };
+
 	//Network
 	public class DownloadGeoBasedScenesSignal : Signal { }
 	public class ContentUpdatedFromCDNSignal : Signal<string> { }

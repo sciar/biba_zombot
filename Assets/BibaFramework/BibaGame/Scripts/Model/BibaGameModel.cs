@@ -25,6 +25,9 @@ namespace BibaFramework.BibaGame
 		public int FrameworkVersion { get; set; }
         public double HighScore { get; set; }
 
+		public int Points { get; set; }
+		public List<string> CompletedPointsEvent { get; set; }
+
         public BibaGameModel()
         {
             Reset();
@@ -55,6 +58,8 @@ namespace BibaFramework.BibaGame
 			LastCameraReminderTime = DateTime.MinValue;
 
             HighScore = 0;
+			Points = 0;
+			CompletedPointsEvent = new List<string> ();
         }
     }
 }

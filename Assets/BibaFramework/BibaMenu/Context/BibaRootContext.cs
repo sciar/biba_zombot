@@ -41,12 +41,14 @@ namespace BibaFramework.BibaMenu
             injectionBinder.Bind<LocalizationService>().To<LocalizationService>().ToSingleton().CrossContext();
             injectionBinder.Bind<AchievementService>().To<AchievementService>().ToSingleton().CrossContext();
             injectionBinder.Bind<SpecialSceneService>().To<SpecialSceneService>().ToSingleton().CrossContext();
+			injectionBinder.Bind<PointEventService>().To<PointEventService>().ToSingleton().CrossContext();
         }
 
         protected override void BindViews ()
         {
             mediationBinder.Bind<MenuStateMachineView>().To<MenuStateMachineMediator>();
             mediationBinder.Bind<UnityEventListenerView>().To<UnityEventListenerMediator>();
+			mediationBinder.Bind<PointsPopupView> ().To<PointsPopupMediator> ();
         }
 
         protected override void BindCommands ()
@@ -114,10 +116,12 @@ namespace BibaFramework.BibaMenu
 
         protected override void BindSignals ()
         {
-            //BibaMenu
+			//BibaGame
             injectionBinder.Bind<GameModelUpdatedSignal>().ToSingleton().CrossContext();
 			injectionBinder.Bind<LanguageUpdatedSignal>().ToSingleton().CrossContext();
+			injectionBinder.Bind<PointsGainedSignal> ().ToSingleton ().CrossContext ();
 
+			//BibaMenu
             injectionBinder.Bind<SetupSceneMenuStateSignal>().ToSingleton().CrossContext();
             injectionBinder.Bind<MenuStateEntryAnimationEndedSignal>().ToSingleton().CrossContext();
             injectionBinder.Bind<MenuStateExitAnimationEndedSignal>().ToSingleton().CrossContext();
@@ -129,4 +133,3 @@ namespace BibaFramework.BibaMenu
         }
     }
 }
-

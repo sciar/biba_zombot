@@ -84,7 +84,7 @@ namespace BibaFramework.BibaEditor
 				_settings.BibaPointSettings.Add (setting);
 			}
 
-			HelperMethods.WriteConstStringFile (BIBAGAME_NAMESPACE, "BibaPointEvents", _settings.BibaPointSettings.Select (setting => setting.Key).ToList (), POINTEVENTS_CONSTANTS_FILEPATH);
+			HelperMethods.WriteConstStringFile (BIBAGAME_NAMESPACE, POINT_EVENTS, _settings.BibaPointSettings.Select (setting => setting.Key).ToList (), POINTEVENTS_CONSTANTS_FILEPATH);
 		}
 	}
 }
