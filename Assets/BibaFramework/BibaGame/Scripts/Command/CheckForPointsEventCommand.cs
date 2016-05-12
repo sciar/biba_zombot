@@ -3,16 +3,9 @@ using strange.extensions.command.impl;
 
 namespace BibaFramework.BibaGame
 {
-	public class CheckForPointsEventCommand : Command
+	public abstract class BaseCheckForPointsEventCommand : Command
 	{
-		[Inject]
-		public string keyToCheck { get; set; }
-
-		public virtual string KeyToCheck {
-			get {
-				return keyToCheck;
-			}
-		}
+		public abstract string KeyToCheck { get; }
 
 		[Inject]
 		public PointEventService PointEventService { get; set; }
@@ -23,7 +16,19 @@ namespace BibaFramework.BibaGame
 		}
 	}
 
-	public class CheckForFirstStartPointsEventCommand: CheckForPointsEventCommand
+	public class CheckForPointsEventCommand : BaseCheckForPointsEventCommand
+	{
+		[Inject]
+		public string keyToCheck { get; set; }
+
+		public override string KeyToCheck {
+			get {
+				return keyToCheck;
+			}
+		}
+	}
+
+	public class CheckForFirstStartPointsEventCommand: BaseCheckForPointsEventCommand
 	{
 		public override string KeyToCheck {
 			get {
@@ -32,7 +37,7 @@ namespace BibaFramework.BibaGame
 		}
 	}
 
-	public class CheckForFirstEquipmentInputPointsEventCommand: CheckForPointsEventCommand
+	public class CheckForFirstEquipmentInputPointsEventCommand: BaseCheckForPointsEventCommand
 	{
 		public override string KeyToCheck {
 			get {
@@ -41,7 +46,7 @@ namespace BibaFramework.BibaGame
 		}
 	}
 
-	public class CheckForFirstRoundCompletedPointsEventCommand: CheckForPointsEventCommand
+	public class CheckForFirstRoundCompletedPointsEventCommand: BaseCheckForPointsEventCommand
 	{
 		public override string KeyToCheck {
 			get {
@@ -50,7 +55,7 @@ namespace BibaFramework.BibaGame
 		}
 	}
 
-	public class CheckForFirstGameCompletedPointsEventCommand: CheckForPointsEventCommand
+	public class CheckForFirstGameCompletedPointsEventCommand: BaseCheckForPointsEventCommand
 	{
 		public override string KeyToCheck {
 			get {
@@ -59,7 +64,7 @@ namespace BibaFramework.BibaGame
 		}
 	}
 
-	public class CheckForGameCompletedPointsEventCommand: CheckForPointsEventCommand
+	public class CheckForGameCompletedPointsEventCommand: BaseCheckForPointsEventCommand
 	{
 		public override string KeyToCheck {
 			get {
@@ -68,7 +73,7 @@ namespace BibaFramework.BibaGame
 		}
 	}
 
-	public class CheckForRoundCompletedPointsEventCommand: CheckForPointsEventCommand
+	public class CheckForRoundCompletedPointsEventCommand: BaseCheckForPointsEventCommand
 	{
 		public override string KeyToCheck {
 			get {
@@ -77,7 +82,7 @@ namespace BibaFramework.BibaGame
 		}
 	}
 
-	public class CheckForFirstScanCompletedPointsEventCommand: CheckForPointsEventCommand
+	public class CheckForFirstScanCompletedPointsEventCommand: BaseCheckForPointsEventCommand
 	{
 		public override string KeyToCheck {
 			get {
@@ -86,7 +91,7 @@ namespace BibaFramework.BibaGame
 		}
 	}
 
-	public class CheckForScanCompletedPointsEventCommand: CheckForPointsEventCommand
+	public class CheckForScanCompletedPointsEventCommand: BaseCheckForPointsEventCommand
 	{
 		public override string KeyToCheck {
 			get {
@@ -95,7 +100,7 @@ namespace BibaFramework.BibaGame
 		}
 	}
 
-	public class CheckForSuccessfulPairedPointsEventCommand: CheckForPointsEventCommand
+	public class CheckForSuccessfulPairedPointsEventCommand: BaseCheckForPointsEventCommand
 	{
 		public override string KeyToCheck {
 			get {

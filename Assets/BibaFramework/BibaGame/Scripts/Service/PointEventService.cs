@@ -1,5 +1,6 @@
 ﻿using System;
 using BibaFramework.BibaNetwork;
+using UnityEngine;
 
 namespace BibaFramework.BibaGame
 {
@@ -26,7 +27,7 @@ namespace BibaFramework.BibaGame
 
 		public void CheckAndCompletePointEvent(string keyToCheck)
 		{
-			var setting = _settings.BibaPointSettings.Find(sett => sett.Key == keyToCheck);
+			var setting = Settings.BibaPointSettings.Find(sett => sett.Key == keyToCheck);
 			if(setting == null)
 			{
 				return;
@@ -39,7 +40,7 @@ namespace BibaFramework.BibaGame
 				BibaGameModel.CompletedPointsEvent.Add(keyToCheck);
 
 				DataService.WriteGameModel();
-				PointsGainedSignal.Dispatch (setting.Points);
+				PointsGainedSignal.Dispatch (setting.Points, BibaGameModel.Points);
 			}
 		}
 	}

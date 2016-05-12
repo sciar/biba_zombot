@@ -16,13 +16,13 @@ namespace BibaFramework.BibaGame
 		public Text PointsLabel;
 		public Animator Anim;
 
-		public void PointsGained(int totalPoints)
+		public void PointsGained(int gainedPoints, int totalPoints)
 		{
 			StopAllCoroutines ();
-			StartCoroutine(PointsGainedAnimation(totalPoints));
+			StartCoroutine(PointsGainedAnimation(gainedPoints, totalPoints));
 		}
 
-		IEnumerator PointsGainedAnimation(int totalPoints)
+		IEnumerator PointsGainedAnimation(int gainedPoints, int totalPoints)
 		{
 			Anim.SetTrigger (START);
 			yield return new WaitUntil(() => Anim.GetCurrentAnimatorStateInfo(0).IsName(START));
@@ -34,7 +34,9 @@ namespace BibaFramework.BibaGame
 				yield return new WaitForEndOfFrame();
 			}
 				
-			var currentPoints = int.Parse (PointsLabel.text);
+			var startPoints = totalPoints - gainedPoints;
+			var displayedPoints = int.Parse (PointsLabel.text);
+			var currentPoints = displayedPoints > startPoints ? displayedPoints : startPoints;
 			while (currentPoints < totalPoints) 
 			{
 				yield return new WaitUntil(() => Anim.GetCurrentAnimatorStateInfo(0).IsName(ACTIVE));
@@ -49,7 +51,6 @@ namespace BibaFramework.BibaGame
 				yield return new WaitUntil(() => Anim.GetCurrentAnimatorStateInfo(0).IsName(IDLE));
 				Anim.SetTrigger(MenuStateTrigger.Next);
 			}
-
 			PointsLabel.text = totalPoints.ToString ();
 
 			Anim.SetTrigger (BibaMenuConstants.BIBA_MENU_EXIT_ANIMATION_STATE);

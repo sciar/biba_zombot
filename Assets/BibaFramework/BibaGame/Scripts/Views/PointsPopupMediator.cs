@@ -1,6 +1,7 @@
 ﻿using System;
 using strange.extensions.mediation.impl;
 using BibaFramework.BibaGame;
+using UnityEngine;
 
 namespace BibaFramework.BibaGame
 {
@@ -12,16 +13,9 @@ namespace BibaFramework.BibaGame
 		[Inject]
 		public PointsGainedSignal PointsGainedSignal { get; set; }
 
-		[Inject]
-		public BibaGameModel BibaGameModel { get; set; }
-
 		public override void OnRegister ()
 		{
-			PointsPopupView.PointsLabel.text = BibaGameModel.Points.ToString();
 			PointsGainedSignal.AddListener (PlayPointsAnimation);
-
-			PointsPopupView.PointsGained(5);
-			PointsPopupView.PointsGained(10);
 		}
 
 		public override void OnRemove ()
@@ -29,9 +23,9 @@ namespace BibaFramework.BibaGame
 			PointsGainedSignal.RemoveListener (PlayPointsAnimation);
 		}
 
-		void PlayPointsAnimation(int pointsGained)
-		{
-			PointsPopupView.PointsGained(BibaGameModel.Points);
+		void PlayPointsAnimation(int gainedPoints, int totalPoints)
+		{	
+			PointsPopupView.PointsGained(gainedPoints, totalPoints);
 		}
 	}
 }
