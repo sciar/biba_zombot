@@ -19,6 +19,9 @@ namespace BibaFramework.BibaGame
 		{
 			PointsPopupView.PointsLabel.text = BibaGameModel.Points.ToString();
 			PointsGainedSignal.AddListener (PlayPointsAnimation);
+
+			PointsPopupView.PointsGained(5);
+			PointsPopupView.PointsGained(10);
 		}
 
 		public override void OnRemove ()
@@ -28,7 +31,7 @@ namespace BibaFramework.BibaGame
 
 		void PlayPointsAnimation(int pointsGained)
 		{
-			PointsPopupView.PointsGained(BibaGameModel.Points, pointsGained);
+			PointsPopupView.PointsGained(BibaGameModel.Points);
 		}
 	}
 }

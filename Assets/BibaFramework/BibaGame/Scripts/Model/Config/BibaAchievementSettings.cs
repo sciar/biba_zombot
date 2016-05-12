@@ -26,7 +26,7 @@ namespace BibaFramework.BibaGame
                 return string.Format(BASIC_ACHIEVEMENT_ID_FORMATTED, EquipmentType.ToString(), TimePlayed.ToString());
             }
         }
-
+			
         private static readonly Dictionary<BibaEquipmentType, string> _prefixDict = new Dictionary<BibaEquipmentType, string>()
         {
             {  BibaEquipmentType.bridge, BibaGameConstants.ACHIEVEMENT_PREFIX_KEY_BRIDGE },
