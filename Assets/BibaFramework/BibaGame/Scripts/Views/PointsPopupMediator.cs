@@ -2,6 +2,7 @@
 using strange.extensions.mediation.impl;
 using BibaFramework.BibaGame;
 using UnityEngine;
+using BibaFramework.BibaMenu;
 
 namespace BibaFramework.BibaGame
 {
@@ -12,6 +13,15 @@ namespace BibaFramework.BibaGame
 
 		[Inject]
 		public PointsGainedSignal PointsGainedSignal { get; set; }
+
+		[Inject]
+		public BibaSceneStack BibaSceneStack { get; set; }
+
+		protected virtual bool ShouldShow {
+			get {
+				return !(BibaSceneStack.Count > 0 && BibaSceneStack.Peek () is IntroMenuState);
+			}
+		}
 
 		public override void OnRegister ()
 		{
@@ -25,7 +35,10 @@ namespace BibaFramework.BibaGame
 
 		void PlayPointsAnimation(int gainedPoints, int totalPoints)
 		{	
-			PointsPopupView.PointsGained(gainedPoints, totalPoints);
+			if (ShouldShow) 
+			{
+				PointsPopupView.PointsGained(gainedPoints, totalPoints);
+			}
 		}
 	}
 }

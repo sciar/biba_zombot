@@ -26,6 +26,7 @@ namespace BibaFramework.BibaGame
         protected override void BindViews ()
         {
             mediationBinder.Bind<IntroView>().To<IntroMediator>();
+			mediationBinder.Bind<PointsPopupView> ().To<IntroPointsPopupMediator> ();
         }
 			
         protected override void BindCommands ()

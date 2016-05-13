@@ -9,9 +9,9 @@ namespace BibaFramework.BibaGame
 {
 	public class PointsPopupView : View
 	{
-		private const string ACTIVE = "Active";
-		private const string START = "Start";
-		private const string IDLE = "Idle";
+		protected const string ACTIVE = "Active";
+		protected const string START = "Start";
+		protected const string IDLE = "Idle";
 
 		public Text PointsLabel;
 		public Animator Anim;
@@ -22,21 +22,23 @@ namespace BibaFramework.BibaGame
 			StartCoroutine(PointsGainedAnimation(gainedPoints, totalPoints));
 		}
 
-		IEnumerator PointsGainedAnimation(int gainedPoints, int totalPoints)
+		protected virtual IEnumerator PointsGainedAnimation(int gainedPoints, int totalPoints)
 		{
 			Anim.SetTrigger (START);
 			yield return new WaitUntil(() => Anim.GetCurrentAnimatorStateInfo(0).IsName(START));
-			Anim.SetTrigger (BibaMenuConstants.BIBA_MENU_ENTRY_ANIMATION_STATE);
 
+			var startPoints = totalPoints - gainedPoints;
+			var displayedPoints = int.Parse (PointsLabel.text);
+			var currentPoints = displayedPoints > startPoints ? displayedPoints : startPoints;
+			PointsLabel.text = currentPoints.ToString ();
+
+			Anim.SetTrigger (BibaMenuConstants.BIBA_MENU_ENTRY_ANIMATION_STATE);
 			yield return new WaitUntil(() => Anim.GetCurrentAnimatorStateInfo(0).IsName(BibaMenuConstants.BIBA_MENU_ENTRY_ANIMATION_STATE));
 			while (Anim.GetCurrentAnimatorStateInfo (0).IsName (BibaMenuConstants.BIBA_MENU_ENTRY_ANIMATION_STATE)) 
 			{
 				yield return new WaitForEndOfFrame();
 			}
 				
-			var startPoints = totalPoints - gainedPoints;
-			var displayedPoints = int.Parse (PointsLabel.text);
-			var currentPoints = displayedPoints > startPoints ? displayedPoints : startPoints;
 			while (currentPoints < totalPoints) 
 			{
 				yield return new WaitUntil(() => Anim.GetCurrentAnimatorStateInfo(0).IsName(ACTIVE));
