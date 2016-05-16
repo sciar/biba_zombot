@@ -37,7 +37,11 @@ namespace BibaFramework.BibaGame
 			if(pointEventCompleted == null || setting.Repeat)
 			{
 				BibaGameModel.Points += setting.Points;
-				BibaGameModel.CompletedPointsEvent.Add(keyToCheck);
+
+				if (!BibaGameModel.CompletedPointsEvent.Contains(keyToCheck)) 
+				{
+					BibaGameModel.CompletedPointsEvent.Add(keyToCheck);
+				}
 
 				DataService.WriteGameModel();
 				PointsGainedSignal.Dispatch (setting.Points, BibaGameModel.Points);
