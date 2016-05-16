@@ -28,7 +28,23 @@ namespace BibaFramework.BibaGame
 		}
 	}
 
-	public class CheckForFirstStartPointsEventCommand: BaseCheckForPointsEventCommand
+	public abstract class BaseCheckFirstTimePointsEventCommand : BaseCheckForPointsEventCommand
+	{
+		[Inject]
+		public BibaGameModel BibaGameModel { get; set; }
+
+		public override void Execute ()
+		{
+			if (!BibaGameModel.CompletedPointsEvent.Contains (KeyToCheck)) 
+			{
+				base.Execute ();
+				Fail ();
+			}
+		}
+	}
+
+	//Non-repeatable events
+	public class CheckForFirstStartPointsEventCommand: BaseCheckFirstTimePointsEventCommand
 	{
 		public override string KeyToCheck {
 			get {
@@ -37,7 +53,7 @@ namespace BibaFramework.BibaGame
 		}
 	}
 
-	public class CheckForFirstEquipmentInputPointsEventCommand: BaseCheckForPointsEventCommand
+	public class CheckForFirstEquipmentInputPointsEventCommand: BaseCheckFirstTimePointsEventCommand
 	{
 		public override string KeyToCheck {
 			get {
@@ -46,7 +62,7 @@ namespace BibaFramework.BibaGame
 		}
 	}
 
-	public class CheckForFirstRoundCompletedPointsEventCommand: BaseCheckForPointsEventCommand
+	public class CheckForFirstRoundCompletedPointsEventCommand: BaseCheckFirstTimePointsEventCommand
 	{
 		public override string KeyToCheck {
 			get {
@@ -55,7 +71,7 @@ namespace BibaFramework.BibaGame
 		}
 	}
 
-	public class CheckForFirstGameCompletedPointsEventCommand: BaseCheckForPointsEventCommand
+	public class CheckForFirstGameCompletedPointsEventCommand: BaseCheckFirstTimePointsEventCommand
 	{
 		public override string KeyToCheck {
 			get {
@@ -63,7 +79,17 @@ namespace BibaFramework.BibaGame
 			}
 		}
 	}
+	
+	public class CheckForFirstScanCompletedPointsEventCommand: BaseCheckFirstTimePointsEventCommand
+	{
+		public override string KeyToCheck {
+			get {
+				return BibaPointEvents.first_successful_scan;
+			}
+		}
+	}
 
+	//Repeatable events
 	public class CheckForGameCompletedPointsEventCommand: BaseCheckForPointsEventCommand
 	{
 		public override string KeyToCheck {
@@ -78,15 +104,6 @@ namespace BibaFramework.BibaGame
 		public override string KeyToCheck {
 			get {
 				return BibaPointEvents.round_completed;
-			}
-		}
-	}
-
-	public class CheckForFirstScanCompletedPointsEventCommand: BaseCheckForPointsEventCommand
-	{
-		public override string KeyToCheck {
-			get {
-				return BibaPointEvents.first_successful_scan;
 			}
 		}
 	}
