@@ -17,9 +17,13 @@ namespace BibaFramework.BibaGame
         [Inject]
         public SetMenuStateTriggerSignal SetMenuStateTriggerSignal { get; set; }
 
+		[Inject]
+		public LanguageUpdatedSignal LanguageUpdatedSignal { get; set; }
+
         public override void Execute ()
         {
             BibaGameModel.Reset();
+			LanguageUpdatedSignal.Dispatch ();
             DataService.WriteGameModel();
 
 			BibaSessionModel.Reset();

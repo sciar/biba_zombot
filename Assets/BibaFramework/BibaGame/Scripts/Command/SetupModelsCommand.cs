@@ -22,12 +22,21 @@ namespace BibaFramework.BibaGame
 
         public override void Execute ()
         {
-			SetupGameModel();
+			ResetMenuStateCondition();
+			SetupMenuStateByGameModel();
 			SetupSessionModel();
             CheckForGameModelMigration();
         }
 
-		void SetupGameModel()
+		void ResetMenuStateCondition()
+		{
+			SetMenuStateConditionSignal.Dispatch (MenuStateCondition.ShowInactive, false);
+			SetMenuStateConditionSignal.Dispatch (MenuStateCondition.ShowChartBoost, false);
+			SetMenuStateConditionSignal.Dispatch (MenuStateCondition.ShowBibaPresent, false);
+			SetMenuStateConditionSignal.Dispatch (MenuStateCondition.ShowTagScan, false);
+		}
+
+		void SetupMenuStateByGameModel()
 		{
 			SetMenuStateConditionSignal.Dispatch(MenuStateCondition.PrivacyEnabled, BibaGameModel.PrivacyEnabled);
 			SetMenuStateConditionSignal.Dispatch(MenuStateCondition.HowToEnabled, BibaGameModel.HowToEnabled);
