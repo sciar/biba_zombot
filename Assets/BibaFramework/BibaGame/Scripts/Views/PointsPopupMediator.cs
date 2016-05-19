@@ -17,6 +17,9 @@ namespace BibaFramework.BibaGame
 		[Inject]
 		public BibaSceneStack BibaSceneStack { get; set; }
 
+		[Inject]
+		public ResetGameModelSignal ResetGameModelSignal { get; set; }
+
 		protected virtual bool ShouldShow {
 			get {
 				return !(BibaSceneStack.Count > 0 && BibaSceneStack.Peek () is IntroMenuState);
@@ -26,11 +29,13 @@ namespace BibaFramework.BibaGame
 		public override void OnRegister ()
 		{
 			PointsGainedSignal.AddListener (PlayPointsAnimation);
+			ResetGameModelSignal.AddListener (ResetPoints);
 		}
 
 		public override void OnRemove ()
 		{
 			PointsGainedSignal.RemoveListener (PlayPointsAnimation);
+			ResetGameModelSignal.RemoveListener (ResetPoints);
 		}
 
 		void PlayPointsAnimation(int gainedPoints, int totalPoints)
@@ -39,6 +44,11 @@ namespace BibaFramework.BibaGame
 			{
 				PointsPopupView.PointsGained(gainedPoints, totalPoints);
 			}
+		}
+
+		void ResetPoints()
+		{
+			PointsPopupView.PointsLabel.text = "0";
 		}
 	}
 }
