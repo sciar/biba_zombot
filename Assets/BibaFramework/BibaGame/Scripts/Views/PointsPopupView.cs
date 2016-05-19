@@ -11,56 +11,70 @@ namespace BibaFramework.BibaGame
 	{
 		protected const string ACTIVE = "Active";
 		protected const string START = "Start";
-		protected const string IDLE = "Idle";
 
 		public Text PointsLabel;
 		public Animator Anim;
+		public GameObject PointGainedPrefab;
 
 		public void PointsGained(int gainedPoints, int totalPoints)
 		{
 			StopAllCoroutines ();
-			StartCoroutine(PointsGainedAnimation(gainedPoints, totalPoints));
+
+			_totalPoints = totalPoints;
+			StartCoroutine(PointsGainedAnimation(gainedPoints));
 		}
 
-		protected virtual IEnumerator PointsGainedAnimation(int gainedPoints, int totalPoints)
+		private int _currentPoints;
+		private int _totalPoints;
+		protected virtual IEnumerator PointsGainedAnimation(int gainedPoints)
 		{
 			Anim.SetTrigger (START);
 			yield return new WaitUntil(() => Anim.GetCurrentAnimatorStateInfo(0).IsName(START));
 
-			var startPoints = totalPoints - gainedPoints;
+			var startPoints = _totalPoints - gainedPoints;
 			var displayedPoints = int.Parse (PointsLabel.text);
-			var currentPoints = displayedPoints > startPoints ? displayedPoints : startPoints;
-			PointsLabel.text = currentPoints.ToString ();
 
+			_currentPoints = displayedPoints > startPoints ? displayedPoints : startPoints;
+			PointsLabel.text = _currentPoints.ToString ();
+
+			//Menu Entry
 			Anim.SetTrigger (BibaMenuConstants.BIBA_MENU_ENTRY_ANIMATION_STATE);
 			yield return new WaitUntil(() => Anim.GetCurrentAnimatorStateInfo(0).IsName(BibaMenuConstants.BIBA_MENU_ENTRY_ANIMATION_STATE));
 			while (Anim.GetCurrentAnimatorStateInfo (0).IsName (BibaMenuConstants.BIBA_MENU_ENTRY_ANIMATION_STATE)) 
 			{
 				yield return new WaitForEndOfFrame();
 			}
-				
-			while (currentPoints < totalPoints) 
+
+			//Gain Point
+			yield return new WaitUntil(() => Anim.GetCurrentAnimatorStateInfo(0).IsName(ACTIVE));
+			for (int i = _currentPoints; i < _totalPoints; i++) 
 			{
-				yield return new WaitUntil(() => Anim.GetCurrentAnimatorStateInfo(0).IsName(ACTIVE));
-				while(Anim.GetCurrentAnimatorStateInfo (0).IsName (ACTIVE))
-				{
-					yield return new WaitForEndOfFrame();
-				}
+				var go = Instantiate (PointGainedPrefab).GetComponent<RectTransform>();
+				go.SetParent(transform);
+				go.sizeDelta = PointsLabel.rectTransform.sizeDelta;
+				go.anchoredPosition = PointsLabel.rectTransform.anchoredPosition;
+				go.GetComponent<PointsGainedLabel> ().PointsGainedSignal.AddOnce(IncrementCoin);
 
-				currentPoints++;
-				PointsLabel.text = currentPoints.ToString ();
-
-				yield return new WaitUntil(() => Anim.GetCurrentAnimatorStateInfo(0).IsName(IDLE));
-				Anim.SetTrigger(MenuStateTrigger.Next);
+				yield return new WaitForSeconds (0.1f);
 			}
-			PointsLabel.text = totalPoints.ToString ();
+		}
 
+		public void IncrementCoin()
+		{
+			_currentPoints++;
+			PointsLabel.text = _currentPoints.ToString ();
+
+			if (_currentPoints >= _totalPoints) 
+			{
+				StopAllCoroutines ();
+				AnimateExit ();
+			}
+		}
+
+		void AnimateExit()
+		{
+			PointsLabel.text = _totalPoints.ToString ();
 			Anim.SetTrigger (BibaMenuConstants.BIBA_MENU_EXIT_ANIMATION_STATE);
-			yield return new WaitUntil(() => Anim.GetCurrentAnimatorStateInfo(0).IsName(BibaMenuConstants.BIBA_MENU_EXIT_ANIMATION_STATE));
-			while (Anim.GetCurrentAnimatorStateInfo (0).IsName (BibaMenuConstants.BIBA_MENU_EXIT_ANIMATION_STATE)) 
-			{
-				yield return new WaitForEndOfFrame();
-			}
 		}
 	}
 }
