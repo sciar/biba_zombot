@@ -66,14 +66,16 @@ namespace BibaFramework.BibaGame
 
 			if (_currentPoints >= _totalPoints) 
 			{
+				PointsLabel.text = _totalPoints.ToString ();
+
 				StopAllCoroutines ();
-				AnimateExit ();
+				StartCoroutine (AnimateExit ());
 			}
 		}
 
-		void AnimateExit()
+		IEnumerator AnimateExit()
 		{
-			PointsLabel.text = _totalPoints.ToString ();
+			yield return new WaitForSeconds (1.0f);
 			Anim.SetTrigger (BibaMenuConstants.BIBA_MENU_EXIT_ANIMATION_STATE);
 		}
 	}
