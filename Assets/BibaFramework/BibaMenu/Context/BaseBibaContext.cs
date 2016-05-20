@@ -58,6 +58,7 @@ namespace BibaFramework.BibaMenu
         {   
             injectionBinder.Bind<StartSignal>().To<StartSignal>().ToSingleton();
             injectionBinder.Bind<EndSignal>().To<EndSignal>().ToSingleton();
+			injectionBinder.Bind<ResetGameModelSignal>().To<ResetGameModelSignal>().ToSingleton();
 			  
 			//Common
             commandBinder.Bind<OpenURLSignal>().To<OpenURLCommand>();

@@ -14,13 +14,18 @@ namespace BibaFramework.BibaGame
 		private GameObject go_lsfxPrefab;
 		private GameObject go_bgmPrefab;
 		
+		private GameObject go_introSource;
 		private GameObject go_bgmSource;
 		private string s_bgmPlaying;
 		private Dictionary<string, GameObject> dict_go_activeLoopingSFX;
 		
 		private bool b_sfxIntroPlaying = false;
 		private bool b_sfxIntroInterrupted = false;
+		private bool b_bgmIntroPlaying = false;
+		private bool b_bgmIntroInterrupted = false;
+		private bool b_playingSFXWhileFading = false;
 		private string s_pendingOutro = "";
+		private Coroutine PlayThenLoopC;
 		
 		void Awake() {
 			go_sfxPrefab = Resources.Load ("Audio/Prefabs/SFXPrefab") as GameObject;
@@ -46,6 +51,41 @@ namespace BibaFramework.BibaGame
 			dict_go_activeLoopingSFX = new Dictionary<string, GameObject> ();
 		}
 		
+		public AudioSource GetBGMSource() {
+			return go_bgmSource.GetComponent<AudioSource> ();
+		}
+		
+		public void PlaySFXWhileFadingActiveBGM(string s_sfxName, float f_delay = 0f) {
+			StartCoroutine (C_PlaySFXWhileFadingActiveBGM (s_sfxName, f_delay));
+		}
+		
+		IEnumerator C_PlaySFXWhileFadingActiveBGM(string s_sfxName, float delay) {
+			yield return new WaitForSeconds (delay);
+			AudioSource bgmSource = GetBGMSource ();
+			if (!b_playingSFXWhileFading) {
+				b_playingSFXWhileFading = true;
+				float initialVolume = bgmSource.volume;
+				if (bgmSource != null) {
+					for (float v = initialVolume; v > 0.1f; v -= Time.deltaTime/0.3f) {
+						bgmSource.volume = v;
+						yield return null;
+					}
+				}
+				PlaySFX (s_sfxName);
+				if (dict_SoundEffects.ContainsKey (s_sfxName)) {
+					yield return new WaitForSeconds (dict_SoundEffects [s_sfxName].length * 1.1f);
+				}
+				if (bgmSource != null) {
+					for (float v = 0.1f; v < initialVolume; v += Time.deltaTime/0.3f) {
+						bgmSource.volume = v;
+						yield return null;
+					}
+					bgmSource.volume = initialVolume;
+				}
+				b_playingSFXWhileFading = false;
+			}
+		}
+		
 		public void PlaySFX(AudioClip ac_clip) {
 			GameObject newSFX = Instantiate (go_sfxPrefab, Camera.main.transform.position, Quaternion.identity) as GameObject;
 			newSFX.transform.parent = gameObject.transform;
@@ -53,29 +93,32 @@ namespace BibaFramework.BibaGame
 			newSFX.GetComponent<AudioSource>().Play();
 		}
 		
-		public void PlaySFX(string s_sfxName) {
-			if (dict_SoundEffects.ContainsKey(s_sfxName)) {
-				AudioClip clip = dict_SoundEffects [s_sfxName];
-				GameObject newSFX = Instantiate (go_sfxPrefab, Camera.main.transform.position, Quaternion.identity) as GameObject;
-				newSFX.transform.parent = gameObject.transform;
-				newSFX.GetComponent<AudioSource> ().clip = clip;
-				newSFX.GetComponent<AudioSource>().Play();
-			} else {
-				Debug.LogWarning("AudioClip with name: '"+s_sfxName+"' doesn't exist.");
-			}
+		public void PlayIntro(AudioClip ac_clip)
+		{
+			GameObject newIntro = Instantiate(go_sfxPrefab, Camera.main.transform.position, Quaternion.identity) as GameObject;
+			newIntro.transform.parent = gameObject.transform;
+			newIntro.GetComponent<AudioSource>().clip = ac_clip;
+			newIntro.GetComponent<AudioSource>().Play();
+			go_introSource = newIntro;
 		}
 		
-		public void PlaySFX(string s_sfxName, float f_pitch) {
+		public void PlaySFX(string s_sfxName, float f_pitch = 1f, float f_volume = 1f) {
 			if (dict_SoundEffects.ContainsKey(s_sfxName)) {
 				AudioClip clip = dict_SoundEffects [s_sfxName];
 				GameObject newSFX = Instantiate (go_sfxPrefab, Camera.main.transform.position, Quaternion.identity) as GameObject;
 				newSFX.transform.parent = gameObject.transform;
 				newSFX.GetComponent<AudioSource> ().clip = clip;
 				newSFX.GetComponent<AudioSource> ().pitch = f_pitch;
+				newSFX.GetComponent<AudioSource>().volume = f_volume;
 				newSFX.GetComponent<AudioSource>().Play();
 			} else {
 				Debug.LogWarning("AudioClip with name: '"+s_sfxName+"' doesn't exist.");
 			}
+		}
+
+		public void PlayRandomSFX (string s_sfxName, int i_maxNumber,  float f_pitch = 1f, float f_volume = 1f) {
+			string randomSFXName = s_sfxName + UnityEngine.Random.Range (1, i_maxNumber+1).ToString ("00");
+			PlaySFX (randomSFXName, f_pitch, f_volume);
 		}
 		
 		public IEnumerator PlaySFX(string s_sfxName, Action<string> callback, string s_nextSfxName) {
@@ -148,7 +191,7 @@ namespace BibaFramework.BibaGame
 			}
 		}
 		
-		public void PlayBGM(string s_bgmName) {
+		public void PlayBGM(string s_bgmName, float f_volume = 1f) {
 			if (dict_BackgroundMusic.ContainsKey(s_bgmName) && s_bgmPlaying != s_bgmName) {
 				AudioClip clip = dict_BackgroundMusic [s_bgmName];
 				s_bgmPlaying = s_bgmName;
@@ -157,6 +200,7 @@ namespace BibaFramework.BibaGame
 					newBGM.transform.parent = gameObject.transform;
 					newBGM.GetComponent<AudioSource>().clip = clip;
 					newBGM.GetComponent<AudioSource>().Play();
+					newBGM.GetComponent<AudioSource>().volume = f_volume;
 					go_bgmSource = newBGM;
 				} else {
 					AudioSource source = go_bgmSource.GetComponent<AudioSource>();
@@ -169,6 +213,7 @@ namespace BibaFramework.BibaGame
 		
 		public void PlayBGMWithIntro(string s_bgmName, string s_introName) {
 			if (dict_BackgroundMusic.ContainsKey (s_bgmName) && dict_BackgroundMusic.ContainsKey (s_introName) && s_bgmPlaying != s_bgmName) {
+				DestroyIntroIfPlaying();
 				AudioClip clip = dict_BackgroundMusic [s_bgmName];
 				AudioClip intro = dict_BackgroundMusic [s_introName];
 				s_bgmPlaying = s_bgmName;
@@ -176,13 +221,11 @@ namespace BibaFramework.BibaGame
 					GameObject newBGM = Instantiate (go_bgmPrefab, Camera.main.transform.position, Quaternion.identity) as GameObject;
 					newBGM.transform.parent = gameObject.transform;
 					AudioSource source = newBGM.GetComponent<AudioSource> ();
-					StartCoroutine (PlayIntroThenLoop (source, intro, clip));
+					if (PlayThenLoopC != null) StopCoroutine(PlayThenLoopC);
+					PlayThenLoopC = StartCoroutine(PlayIntroThenLoop (source, intro, clip));
 					go_bgmSource = newBGM;
 				} else {
 					AudioSource source = go_bgmSource.GetComponent<AudioSource> ();
-					//					if (source.isPlaying) {
-					//						StartCoroutine (FadeOutAndPlayWithIntro (source, intro, clip, 1f));
-					//					}
 					StartCoroutine (FadeOutAndPlayWithIntro (source, intro, clip, 1f));
 				}
 			} else {
@@ -215,15 +258,27 @@ namespace BibaFramework.BibaGame
 		}
 		
 		IEnumerator PlayIntroThenLoop(AudioSource source, AudioClip intro, AudioClip newClip) {
-			PlaySFX (intro);
-			yield return new WaitForSeconds (intro.length-0.1f);
-			source.clip = newClip;
-			source.Play ();
+			b_bgmIntroInterrupted = false;
+			b_bgmIntroPlaying = true;
+			PlayIntro(intro);
+			yield return new WaitForSeconds(intro.length - 0.1f);
+			
+			b_bgmIntroPlaying = false;
+			go_introSource = null;
+			if (!b_bgmIntroInterrupted)
+			{
+				source.clip = newClip;
+				source.Play();
+			}
+			b_bgmIntroInterrupted = false;
 		}
 		
 		IEnumerator PlayIntro(AudioSource source, AudioClip intro) {
-			PlaySFX (intro);
+			b_bgmIntroPlaying = true;
+			PlayIntro (intro);
 			yield return new WaitForSeconds (intro.length-0.1f);
+			b_bgmIntroPlaying = false;
+			go_introSource = null;
 		}
 		
 		IEnumerator FadeOutAndPlayWithIntro(AudioSource source, AudioClip intro, AudioClip newClip, float fadeLength) {
@@ -233,7 +288,9 @@ namespace BibaFramework.BibaGame
 			}
 			source.Stop ();
 			source.volume = 1f;
-			yield return StartCoroutine(PlayIntroThenLoop (source, intro, newClip));
+			if (PlayThenLoopC != null) StopCoroutine(PlayThenLoopC);
+			PlayThenLoopC = StartCoroutine(PlayIntroThenLoop(source, intro, newClip));
+			yield return PlayThenLoopC;
 		}
 		
 		IEnumerator FadeOutAndPlayIntro(AudioSource source, AudioClip intro, float fadeLength) {
@@ -275,6 +332,52 @@ namespace BibaFramework.BibaGame
 			}
 			source.Stop ();
 			Destroy (source.gameObject);
+		}
+		
+		public void StopBGM()
+		{
+			DestroyIntroIfPlaying();
+			if (go_bgmSource != null)
+			{
+				AudioSource source = go_bgmSource.GetComponent<AudioSource>();
+				if (source.isPlaying)
+				{
+					StartCoroutine(FadeOutAndDestroy(source, 1f));
+				}
+				go_bgmSource = null;
+			}
+		}
+		
+		public void StopAllSFXLoops()
+		{
+			if (b_sfxIntroPlaying)
+			{
+				b_sfxIntroInterrupted = true;
+			}
+			DestroyIntroIfPlaying();
+			for (int i = 0; i < dict_go_activeLoopingSFX.Count; i++)
+			{
+				string[] temp = new string[dict_go_activeLoopingSFX.Count];
+				dict_go_activeLoopingSFX.Keys.CopyTo(temp, 0);
+				Debug.Log("Destroying SFX: " + dict_go_activeLoopingSFX[temp[dict_go_activeLoopingSFX.Count - 1]].name);
+				Destroy(dict_go_activeLoopingSFX[temp[dict_go_activeLoopingSFX.Count - 1]]);
+				dict_go_activeLoopingSFX.Remove(temp[dict_go_activeLoopingSFX.Count - 1]);
+			}
+		}
+		
+		private void DestroyIntroIfPlaying()
+		{
+			if (b_bgmIntroPlaying)
+			{
+				b_bgmIntroInterrupted = true;
+				AudioSource source = go_introSource.GetComponent<AudioSource>();
+				if (source.isPlaying)
+				{
+					StartCoroutine(FadeOutAndDestroy(source, 1f));
+				}
+				b_bgmIntroPlaying = false;
+				go_introSource = null;
+			}
 		}
 	}
 }
