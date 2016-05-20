@@ -29,7 +29,7 @@ namespace BibaFramework.BibaGame
 
         protected override void BindCommands ()
         {   
-			commandBinder.Bind<StartSignal>().To<TagSelectContextStartedCommand> ();
+			commandBinder.Bind<StartSignal>().To<TagSelectContextStartedCommand> ().To<CheckForFirstEquipmentInputPointsEventCommand>();
 			commandBinder.Bind<EnableTagSignal>().To<EnableTagCommand>();
         }
 
