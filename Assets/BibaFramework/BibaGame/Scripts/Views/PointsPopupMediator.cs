@@ -20,6 +20,12 @@ namespace BibaFramework.BibaGame
 		[Inject]
 		public ResetGameModelSignal ResetGameModelSignal { get; set; }
 
+		[Inject]
+		public PlayBibaSFXLoopSignal PlayBibaSFXLoopSignal { get; set; }
+
+		[Inject]
+		public StopBibaSFXLoopsSignal StopBibaSFXLoopsSignal { get; set; }
+
 		protected virtual bool ShouldShow {
 			get {
 				return !(BibaSceneStack.Count > 0 && BibaSceneStack.Peek () is IntroMenuState);
@@ -28,6 +34,9 @@ namespace BibaFramework.BibaGame
 
 		public override void OnRegister ()
 		{
+			PointsPopupView.PlayBibaSFXLoopSignal = PlayBibaSFXLoopSignal;
+			PointsPopupView.StopBibaSFXLoopsSignal = StopBibaSFXLoopsSignal;
+
 			PointsGainedSignal.AddListener (PlayPointsAnimation);
 			ResetGameModelSignal.AddListener (ResetPoints);
 		}

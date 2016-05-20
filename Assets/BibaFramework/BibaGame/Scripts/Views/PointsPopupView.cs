@@ -16,6 +16,9 @@ namespace BibaFramework.BibaGame
 		public Animator Anim;
 		public GameObject PointGainedPrefab;
 
+		public PlayBibaSFXLoopSignal PlayBibaSFXLoopSignal { get; set; }
+		public StopBibaSFXLoopsSignal StopBibaSFXLoopsSignal{ get; set; }
+
 		public void PointsGained(int gainedPoints, int totalPoints)
 		{
 			StopAllCoroutines ();
@@ -46,6 +49,8 @@ namespace BibaFramework.BibaGame
 			}
 
 			//Gain Point
+			PlayBibaSFXLoopSignal.Dispatch(BibaSFX.Option_Flipping_Sound);
+
 			yield return new WaitUntil(() => Anim.GetCurrentAnimatorStateInfo(0).IsName(ACTIVE));
 			for (int i = _currentPoints; i < _totalPoints; i++) 
 			{
@@ -75,6 +80,7 @@ namespace BibaFramework.BibaGame
 
 		IEnumerator AnimateExit()
 		{
+			StopBibaSFXLoopsSignal.Dispatch();
 			yield return new WaitForSeconds (1.0f);
 			Anim.SetTrigger (BibaMenuConstants.BIBA_MENU_EXIT_ANIMATION_STATE);
 		}

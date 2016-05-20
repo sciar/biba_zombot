@@ -69,7 +69,9 @@ namespace BibaFramework.BibaMenu
 
             //Audio
             commandBinder.Bind<PlayBibaBGMSignal>().To<PlayBGMCommand>();
-            commandBinder.Bind<PlayBibaSFXSignal>().To<PlaySFXCommand>();
+			commandBinder.Bind<PlayBibaSFXSignal>().To<PlaySFXCommand>();
+			commandBinder.Bind<PlayBibaSFXLoopSignal>().To<PlaySFXLoopCommand>();
+			commandBinder.Bind<StopBibaSFXLoopsSignal>().To<StopSFXLoopsCommand>();
 
             //BibaNetwork
             commandBinder.Bind<ContentUpdatedFromCDNSignal>().To<ContentUpdatedFromCDNCommand>();
