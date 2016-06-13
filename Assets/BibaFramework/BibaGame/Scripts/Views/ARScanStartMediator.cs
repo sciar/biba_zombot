@@ -96,7 +96,7 @@ namespace BibaFramework.BibaGame
         void ScanCompleted()
         {
             SetMenuStateTriggerSignal.Dispatch(MenuStateTrigger.Yes);
-            BibaSessionModel.TagScanned = true;
+			BibaSessionModel.RoundInfo.TagScanned = true;
             TagScanCompletedSignal.Dispatch();
 
         }

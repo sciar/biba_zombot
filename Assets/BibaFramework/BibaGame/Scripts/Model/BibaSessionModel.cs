@@ -8,8 +8,7 @@ namespace BibaFramework.BibaGame
     public class BibaSessionModel
     {
 		public SessionInfo SessionInfo { get; set; }
-
-        public bool TagScanned { get; set; }
+		public RoundInfo RoundInfo { get; set; }
 
 		public BibaSessionModel()
 		{
@@ -18,17 +17,32 @@ namespace BibaFramework.BibaGame
 
 		public void Reset()
 		{
-			TagScanned = false;
+			RoundInfo = new RoundInfo ();
 		}
     }
 
 	public class SessionInfo	
 	{
 		public string UUID { get; set; }
-        public string SessionID { get; set; }
 		public string DeviceModel { get; set; }
 		public string DeviceOS { get; set; }
-        public string QuadTileId { get; set; }
-        public Vector2 Location { get; set; }
+	}
+
+	public class RoundInfo
+	{
+		public bool TagScanned { get; set; }
+
+		public string QuadTileId { get; set; }
+		public Vector2 Location { get; set; }
+
+		public DateTime StartTime { get; set; }
+		public DateTime EndTime { get; set; }
+
+		//in seconds
+		public float SedentaryTime { get; set; }
+		public float ModerateTime { get; set; }
+		public float VigorousTime { get; set; }
+
+		
 	}
 }

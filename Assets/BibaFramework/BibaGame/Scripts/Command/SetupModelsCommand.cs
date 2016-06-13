@@ -47,7 +47,6 @@ namespace BibaFramework.BibaGame
 		{
 			BibaSessionModel.SessionInfo = new SessionInfo();
 			BibaSessionModel.SessionInfo.UUID = SystemInfo.deviceUniqueIdentifier;
-            BibaSessionModel.SessionInfo.SessionID = Guid.NewGuid().ToString();
 			BibaSessionModel.SessionInfo.DeviceModel = SystemInfo.deviceModel;
 			BibaSessionModel.SessionInfo.DeviceOS = SystemInfo.operatingSystem;
 		}

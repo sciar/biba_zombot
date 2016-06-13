@@ -32,7 +32,7 @@ namespace BibaFramework.BibaGame
 
         List<GeoSceneSetting> GetGeoBasedScenesSettings()
         {
-            return Settings.GeoSceneSettings.Where(setting => DistanceTo(setting.Center.x, setting.Center.y, BibaSessionModel.SessionInfo.Location.x, BibaSessionModel.SessionInfo.Location.y) <= setting.Radius).ToList();
+			return Settings.GeoSceneSettings.Where(setting => DistanceTo(setting.Center.x, setting.Center.y, BibaSessionModel.RoundInfo.Location.x, BibaSessionModel.RoundInfo.Location.y) <= setting.Radius).ToList();
         }
 
         public string GetNextSceneToShow(string nextScene)
