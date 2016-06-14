@@ -7,10 +7,14 @@ namespace BibaFramework.BibaAnalytic
     {
 		//Setup keys and start tracking
 		void StartTracking(string iosKey, string androidKey);
-        //Track the start of a game session, and other relevant informations
+        //Track the start of an app session, and other relevant informations
         void TrackStartSession();
-        //Track the end of a game session, session length, the last game scene the user is on
+        //Track the end of an app session, session length, the last game scene the user is on
         void TrackEndSession();
+		//Track the start of a round
+		void TrackStartRound();
+		//Track the end of a round
+		void TrackEndRound();
         //Track equipments selected in a sessions
         void TrackEquipmentSelected(BibaEquipmentType equipmentType);
         //Track equipments played in a sessions

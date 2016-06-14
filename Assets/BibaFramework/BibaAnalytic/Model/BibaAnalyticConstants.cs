@@ -34,10 +34,13 @@ namespace BibaFramework.BibaAnalytic
         public const string WEATHER_TEMPERATURE = "weather_temperature";
         public const string WEATHER_DESCRIPTION = "weather_description";
         public const string WEATHER_WIND_SPEED = "weather_wind_speed";
-
         public const string WEATHER_API_KEY = "69e7f849ba55efb65fffccbbb2ea1eba";
 
-        public const int MAP_LEVEL_OF_DETAIL = 11;
+		public const string START_ROUND_EVENT = "start_round";
+		public const string END_ROUND_EVENT = "end_round";
+		public const string SEDENTARY_TIME = "total_sedentary";
+		public const string VIGOROUS_TIME = "total_vigorous";
+		public const string MODERATE_TIME = "total_moderate";
 
 		//Chartboost
 		public const string HOUSE_AD = "House Ad";

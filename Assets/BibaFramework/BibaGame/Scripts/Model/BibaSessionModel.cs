@@ -35,14 +35,13 @@ namespace BibaFramework.BibaGame
 		public string QuadTileId { get; set; }
 		public Vector2 Location { get; set; }
 
-		public DateTime StartTime { get; set; }
-		public DateTime EndTime { get; set; }
-
 		//in seconds
 		public float SedentaryTime { get; set; }
 		public float ModerateTime { get; set; }
 		public float VigorousTime { get; set; }
 
-		
+		public DateTime SedentaryTrackingStartTime { get; set; }
+		public DateTime ModerateTrackingStartTime { get; set; }
+		public DateTime VigorousTrackingStartTime { get; set; }
 	}
 }

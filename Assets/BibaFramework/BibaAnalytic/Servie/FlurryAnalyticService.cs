@@ -52,6 +52,21 @@ namespace BibaFramework.BibaAnalytic
             _service.LogEvent(BibaAnalyticConstants.END_SESSION_EVENT, parameters);
         }
 
+		public void TrackStartRound ()
+    	{
+			_service.LogEvent (BibaAnalyticConstants.START_ROUND_EVENT, TrackingParams);
+    	}
+
+    	public void TrackEndRound ()
+    	{
+			var parameters = TrackingParams;
+			parameters.Add (BibaAnalyticConstants.SEDENTARY_TIME, BibaSessionModel.RoundInfo.SedentaryTime.ToString());
+			parameters.Add (BibaAnalyticConstants.MODERATE_TIME, BibaSessionModel.RoundInfo.ModerateTime.ToString());
+			parameters.Add (BibaAnalyticConstants.VIGOROUS_TIME, BibaSessionModel.RoundInfo.VigorousTime.ToString());
+
+			_service.LogEvent (BibaAnalyticConstants.END_ROUND_EVENT, parameters);
+    	}
+
         public void TrackEquipmentSelected (BibaEquipmentType equipmentType)
         {
             var parameters = TrackingParams;

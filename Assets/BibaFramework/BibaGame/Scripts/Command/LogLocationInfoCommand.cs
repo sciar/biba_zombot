@@ -13,7 +13,8 @@ namespace BibaFramework.BibaGame
     {
         private readonly Rect MERCATOR_RECT = new Rect(-180f,-90f,360f,180f);
         private const string WEATHER_API_CALL_FORMATTED = "http://api.openweathermap.org/data/2.5/weather?lat={0}&lon={1}&units=imperial&appid=" + BibaAnalyticConstants.WEATHER_API_KEY;
-        
+		private const int MAP_LEVEL_OF_DETAIL = 11;
+
         private const string WEATHER = "weather";
         private const string MAIN = "main";
         private const string TEMP = "temp";
@@ -102,7 +103,7 @@ namespace BibaFramework.BibaGame
 
         void StoreSessionLatLong()
         {
-			BibaSessionModel.RoundInfo.QuadTileId = LatLongToQuadKey(Input.location.lastData.longitude, Input.location.lastData.latitude, BibaAnalyticConstants.MAP_LEVEL_OF_DETAIL);
+			BibaSessionModel.RoundInfo.QuadTileId = LatLongToQuadKey(Input.location.lastData.longitude, Input.location.lastData.latitude, MAP_LEVEL_OF_DETAIL);
 			BibaSessionModel.RoundInfo.Location = new Vector2(Input.location.lastData.latitude, Input.location.lastData.longitude);
         }
 
@@ -119,7 +120,7 @@ namespace BibaFramework.BibaGame
             return weatherInfo;
         }
         
-        string LatLongToQuadKey(float lon, float lat, int level = BibaAnalyticConstants.MAP_LEVEL_OF_DETAIL)
+        string LatLongToQuadKey(float lon, float lat, int level = MAP_LEVEL_OF_DETAIL)
         {
             Vector2 location = new Vector2 (lon,lat);
 
