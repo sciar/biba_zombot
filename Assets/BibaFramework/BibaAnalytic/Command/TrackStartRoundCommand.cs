@@ -1,7 +1,6 @@
 ﻿using strange.extensions.command.impl;
-using BibaFramework.BibaAnalytic;
 
-namespace BibaFramework.BibaGame
+namespace BibaFramework.BibaAnalytic
 {
 	public class TrackStartRoundCommand : Command
 	{

@@ -1,6 +1,7 @@
 ﻿using BibaFramework.BibaMenu;
 using strange.extensions.context.api;
 using UnityEngine;
+using BibaFramework.BibaAnalytic;
 
 namespace BibaFramework.BibaGame
 {

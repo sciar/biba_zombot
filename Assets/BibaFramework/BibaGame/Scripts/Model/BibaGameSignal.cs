@@ -4,38 +4,34 @@ using UnityEngine;
 
 namespace BibaFramework.BibaGame
 {
-    //Game
+    //Application
     public class StartSignal : Signal{ }
     public class EndSignal : Signal{ }
     public class ApplicationPausedSignal : Signal{ }
     public class ApplicationUnPausedSignal : Signal{ }
 	public class GameModelUpdatedSignal : Signal { }
 	public class LanguageUpdatedSignal : Signal { }
-	public class SetLanguageOverwriteSignal : Signal<SystemLanguage>{ }
 
+	//Gameplay
 	public class ClearEquipmentsSignal : Signal { }
     public class EquipmentSelectedSignal : Signal <BibaEquipmentType, bool> { }
     public class EquipmentPlayedSignal : Signal<BibaEquipmentType> { }
     public class TryToSetHighScoreSignal : Signal<double> { }
-
-    public class PlayBibaBGMSignal : Signal<string>{ };
-    public class PlayBibaSFXSignal : Signal<string>{ };
-
-	public class PlayBibaSFXLoopSignal : Signal<string>{ };
-	public class StopBibaSFXLoopsSignal : Signal{ };
-
 	public class CheckForPointsGainSignal : Signal<string>{ };
 	public class PointsGainedSignal : Signal<int, int>{ };
 
-	//Network
-	public class DownloadGeoBasedScenesSignal : Signal { }
-	public class ContentUpdatedFromCDNSignal : Signal<string> { }
+	//Audio
+    public class PlayBibaBGMSignal : Signal<string>{ };
+    public class PlayBibaSFXSignal : Signal<string>{ };
+	public class PlayBibaSFXLoopSignal : Signal<string>{ };
+	public class StopBibaSFXLoopsSignal : Signal{ };
 
     //Settings
     public class OpenURLSignal : Signal<string> { }
     public class EnableHowToSignal : Signal<bool> { }
     public class EnableHelpBubblesSignal : Signal<bool> { }
     public class ResetGameModelSignal : Signal { }
+	public class SetLanguageOverwriteSignal : Signal<SystemLanguage>{ }
 
     //Tag
     public class EnableTagSignal : Signal<bool> { }
