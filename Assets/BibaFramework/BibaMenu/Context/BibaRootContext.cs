@@ -1,10 +1,10 @@
 using System.Collections;
-using UnityEngine;
 using BibaFramework.BibaAnalytic;
 using BibaFramework.BibaGame;
 using BibaFramework.BibaMenu;
 using BibaFramework.BibaNetwork;
 using strange.extensions.context.api;
+using UnityEngine;
 
 namespace BibaFramework.BibaMenu
 {
@@ -63,14 +63,17 @@ namespace BibaFramework.BibaMenu
                     To<SetupGameConfigCommand>().
                     To<SetupEditorDebugSceneCommand>().
 					To<UpdateFromCDNCommand>().
+					To<StartTrackingActivityCommand>().
                     InSequence();
            
 			commandBinder.Bind<ApplicationPausedSignal>().
-				To<LogLocationInfoCommand>().InSequence();
+				To<LogLocationInfoCommand>().
+				To<EndTrackingActivityCommand>().InSequence();
 
             commandBinder.Bind<ApplicationUnPausedSignal>().
 					To<UpdateFromCDNCommand>().
                     To<LogLocationInfoCommand>().
+					To<StartTrackingActivityCommand>().
                     //TODO: reenable when location based theme is up
 					//To<CheckForDownloadContentCommand>().
                     To<CheckForInactiveResetCommand>().InSequence();
