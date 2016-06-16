@@ -68,7 +68,7 @@ namespace BibaFramework.BibaMenu
            
 			commandBinder.Bind<ApplicationPausedSignal>().
 				To<LogLocationInfoCommand>().
-				To<EndTrackingAllActivitiesCommand>().InSequence();
+				To<EndTrackingAllActivitiesCommand>();
 
             commandBinder.Bind<ApplicationUnPausedSignal>().
 					To<UpdateFromCDNCommand>().
@@ -76,7 +76,7 @@ namespace BibaFramework.BibaMenu
 					To<StartTrackingLightActivityCommand>().
                     //TODO: reenable when location based theme is up
 					//To<CheckForDownloadContentCommand>().
-                    To<CheckForInactiveResetCommand>().InSequence();
+                    To<CheckForInactiveResetCommand>();
 
 			commandBinder.Bind<SetLanguageOverwriteSignal> ().To<SetLanguageOverwriteCommand> ();
 

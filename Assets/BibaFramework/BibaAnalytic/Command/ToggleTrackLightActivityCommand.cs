@@ -12,7 +12,7 @@ namespace BibaFramework.BibaAnalytic
 
 		protected override void StartTracking ()
 		{
-			if(BibaSessionModel.SessionInfo.LightTrackingStartTime != default(DateTime))
+			if(BibaSessionModel.SessionInfo.LightTrackingStartTime == default(DateTime))
 			{
 				BibaSessionModel.SessionInfo.LightTrackingStartTime = DateTime.UtcNow;
 			}
