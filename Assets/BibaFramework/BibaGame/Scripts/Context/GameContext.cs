@@ -40,10 +40,20 @@ namespace BibaFramework.BibaGame
         protected override void BindCommands ()
         {   
             //TODO: bind it at round end
-			commandBinder.Bind<StartSignal>().To<CheckForChartBoostCommand>().To<LogLastPlayedTimeCommand>().To<TrackStartRoundCommand>();
+			commandBinder.Bind<StartSignal>().
+				To<CheckForChartBoostCommand>().
+				To<LogLastPlayedTimeCommand>().
+				To<TrackStartRoundCommand>();
+
             commandBinder.Bind<EquipmentPlayedSignal>().To<EquipmentPlayedCommand>();
             commandBinder.Bind<TryToSetHighScoreSignal>().To<TryToSetHighScoreCommand>();
-			commandBinder.Bind<EndSignal>().To<CheckForAchievementsCommand>().To<CheckForFirstGameCompletedPointsEventCommand>().To<CheckForGameCompletedPointsEventCommand>().To<TrackEndRoundCommand>();
+
+			commandBinder.Bind<EndSignal>().
+				To<CheckForAchievementsCommand>().
+				To<CheckForFirstGameCompletedPointsEventCommand>().
+				To<CheckForGameCompletedPointsEventCommand>().
+				To<TrackEndRoundCommand>().
+				To<StartTrackingLightActivityCommand>();
         }
         
         protected override void BindSignals ()
