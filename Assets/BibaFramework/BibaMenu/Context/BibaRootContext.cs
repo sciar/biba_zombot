@@ -63,17 +63,17 @@ namespace BibaFramework.BibaMenu
                     To<SetupGameConfigCommand>().
                     To<SetupEditorDebugSceneCommand>().
 					To<UpdateFromCDNCommand>().
-					To<StartTrackingActivityCommand>().
+					To<StartTrackingLightActivityCommand>().
                     InSequence();
            
 			commandBinder.Bind<ApplicationPausedSignal>().
 				To<LogLocationInfoCommand>().
-				To<EndTrackingActivityCommand>().InSequence();
+				To<EndTrackingAllActivitiesCommand>().InSequence();
 
             commandBinder.Bind<ApplicationUnPausedSignal>().
 					To<UpdateFromCDNCommand>().
                     To<LogLocationInfoCommand>().
-					To<StartTrackingActivityCommand>().
+					To<StartTrackingLightActivityCommand>().
                     //TODO: reenable when location based theme is up
 					//To<CheckForDownloadContentCommand>().
                     To<CheckForInactiveResetCommand>().InSequence();

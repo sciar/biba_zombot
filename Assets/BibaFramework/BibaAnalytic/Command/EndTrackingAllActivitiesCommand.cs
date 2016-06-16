@@ -2,7 +2,7 @@
 
 namespace BibaFramework.BibaAnalytic
 {
-	public class EndTrackingActivityCommand : Command
+	public class EndTrackingAllActivitiesCommand : Command
 	{
 		[Inject]
 		public ToggleTrackLightActivitySignal ToggleTrackLightActivitySignal { get; set; }
