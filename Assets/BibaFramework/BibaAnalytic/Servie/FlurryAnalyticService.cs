@@ -64,12 +64,17 @@ namespace BibaFramework.BibaAnalytic
 
 		public void TrackActivites()
 		{
-			var parameters = TrackingParams;
-			parameters.Add (BibaAnalyticConstants.LIGHT_TIME, BibaSessionModel.SessionInfo.LightActivityTime.ToString());
-			parameters.Add (BibaAnalyticConstants.MODERATE_TIME, BibaSessionModel.SessionInfo.ModerateActivityTime.ToString());
-			parameters.Add (BibaAnalyticConstants.VIGOROUS_TIME, BibaSessionModel.SessionInfo.VigorousActivityTime.ToString());
+			if (BibaSessionModel.SessionInfo.LightActivityTime > 0 ||
+				BibaSessionModel.SessionInfo.ModerateActivityTime > 0 ||
+				BibaSessionModel.SessionInfo.VigorousActivityTime > 0) 
+			{
+				var parameters = TrackingParams;
+				parameters.Add (BibaAnalyticConstants.LIGHT_TIME, BibaSessionModel.SessionInfo.LightActivityTime.ToString ());
+				parameters.Add (BibaAnalyticConstants.MODERATE_TIME, BibaSessionModel.SessionInfo.ModerateActivityTime.ToString ());
+				parameters.Add (BibaAnalyticConstants.VIGOROUS_TIME, BibaSessionModel.SessionInfo.VigorousActivityTime.ToString ());
 
-			_service.LogEvent (BibaAnalyticConstants.ACTIVITIES_EVENT, parameters);
+				_service.LogEvent (BibaAnalyticConstants.ACTIVITIES_EVENT, parameters);
+			}
 		}
 
         public void TrackEquipmentSelected (BibaEquipmentType equipmentType)

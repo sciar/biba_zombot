@@ -1,4 +1,5 @@
 ﻿using strange.extensions.command.impl;
+using BibaFramework.BibaGame;
 
 namespace BibaFramework.BibaAnalytic
 {
@@ -16,6 +17,9 @@ namespace BibaFramework.BibaAnalytic
 		[Inject]
 		public IAnalyticService AnalyticService { get; set; }
 
+		[Inject]
+		public BibaSessionModel BibaSessionModel { get; set; }
+
 		public override void Execute ()
 		{
 			ToggleTrackLightActivitySignal.Dispatch (false);
@@ -23,6 +27,10 @@ namespace BibaFramework.BibaAnalytic
 			ToggleTrackVigorousActivitySignal.Dispatch (false);
 
 			AnalyticService.TrackActivites ();
+
+			BibaSessionModel.SessionInfo.LightActivityTime = 0;
+			BibaSessionModel.SessionInfo.ModerateActivityTime = 0;
+			BibaSessionModel.SessionInfo.VigorousActivityTime = 0;
 		}
 	}
 }
