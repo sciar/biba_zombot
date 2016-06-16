@@ -15,6 +15,8 @@ namespace BibaFramework.BibaAnalytic
 		void TrackStartRound();
 		//Track the end of a round
 		void TrackEndRound();
+		//Track Activities
+		void TrackActivites();
         //Track equipments selected in a sessions
         void TrackEquipmentSelected(BibaEquipmentType equipmentType);
         //Track equipments played in a sessions
