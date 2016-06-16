@@ -60,9 +60,9 @@ namespace BibaFramework.BibaAnalytic
     	public void TrackEndRound ()
     	{
 			var parameters = TrackingParams;
-			parameters.Add (BibaAnalyticConstants.SEDENTARY_TIME, BibaSessionModel.RoundInfo.SedentaryTime.ToString());
-			parameters.Add (BibaAnalyticConstants.MODERATE_TIME, BibaSessionModel.RoundInfo.ModerateTime.ToString());
-			parameters.Add (BibaAnalyticConstants.VIGOROUS_TIME, BibaSessionModel.RoundInfo.VigorousTime.ToString());
+			parameters.Add (BibaAnalyticConstants.LIGHT_TIME, BibaSessionModel.RoundInfo.LightActivityTime.ToString());
+			parameters.Add (BibaAnalyticConstants.MODERATE_TIME, BibaSessionModel.RoundInfo.ModerateActivityTime.ToString());
+			parameters.Add (BibaAnalyticConstants.VIGOROUS_TIME, BibaSessionModel.RoundInfo.VigorousActivityTime.ToString());
 
 			_service.LogEvent (BibaAnalyticConstants.END_ROUND_EVENT, parameters);
     	}

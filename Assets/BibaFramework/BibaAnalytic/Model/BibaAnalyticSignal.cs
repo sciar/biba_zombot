@@ -2,7 +2,8 @@
 
 namespace BibaFramework.BibaAnalytic
 {
-	public class ToggleTrackSedentarySignal : Signal<bool> { }
-	public class ToggleTrackModerateSignal : Signal<bool> { }
-	public class ToggleTrackVigorousSignal : Signal<bool> { }
+	public abstract class BaseTrackActivitySignal : Signal <bool> { }
+	public class ToggleTrackLightActivitySignal : BaseTrackActivitySignal { }
+	public class ToggleTrackModerateActivitySignal : BaseTrackActivitySignal { }
+	public class ToggleTrackVigorousActivitySignal : BaseTrackActivitySignal { }
 }

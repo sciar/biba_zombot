@@ -38,7 +38,7 @@ namespace BibaFramework.BibaAnalytic
 
 		public const string START_ROUND_EVENT = "start_round";
 		public const string END_ROUND_EVENT = "end_round";
-		public const string SEDENTARY_TIME = "total_sedentary";
+		public const string LIGHT_TIME = "total_light";
 		public const string VIGOROUS_TIME = "total_vigorous";
 		public const string MODERATE_TIME = "total_moderate";
 

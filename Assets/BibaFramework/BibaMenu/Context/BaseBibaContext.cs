@@ -6,6 +6,7 @@ using strange.extensions.context.api;
 using strange.extensions.context.impl;
 using BibaFramework.BibaGame;
 using BibaFramework.BibaNetwork;
+using BibaFramework.BibaAnalytic;
 
 namespace BibaFramework.BibaMenu
 {
@@ -76,6 +77,11 @@ namespace BibaFramework.BibaMenu
 
             //BibaNetwork
             commandBinder.Bind<ContentUpdatedFromCDNSignal>().To<ContentUpdatedFromCDNCommand>();
+
+			//Analytic
+			commandBinder.Bind<ToggleTrackModerateActivitySignal> ().To<ToggleTrackModerateActivityCommand> ();
+			commandBinder.Bind<ToggleTrackLightActivitySignal> ().To<ToggleTrackLightActivityCommand> ();
+			commandBinder.Bind<ToggleTrackVigorousActivitySignal> ().To<ToggleTrackVigorousActivityCommand> ();
         }
 
         protected abstract void BindModels();
