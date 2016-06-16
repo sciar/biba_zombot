@@ -26,14 +26,14 @@ namespace BibaFramework.BibaGame
 
         public override void Execute ()
         {
-            #if !UNITY_EDITOR
-            if (BibaSessionModel.SessionInfo != null && !string.IsNullOrEmpty(BibaSessionModel.SessionInfo.QuadTileId))
+          	#if !UNITY_EDITOR
+            if (BibaSessionModel.SessionInfo != null && !string.IsNullOrEmpty(BibaSessionModel.RoundInfo.QuadTileId))
             {
                 Retain();
 
-                var jsonData = "{\"" + QUADTILE_ID + "\":\"" + BibaSessionModel.SessionInfo.QuadTileId + "\"}";
+				var jsonData = "{\"" + QUADTILE_ID + "\":\"" + BibaSessionModel.RoundInfo.QuadTileId + "\"}";
 
-                var requestURI = string.Format(BACKEND_REGION_QUADTILE_REQUEST, BibaSessionModel.SessionInfo.QuadTileId);
+				var requestURI = string.Format(BACKEND_REGION_QUADTILE_REQUEST, BibaSessionModel.RoundInfo.QuadTileId);
                 var request = new HTTPRequest(new Uri(requestURI), HTTPMethods.Put, false, RequestCompleted);
                 request.SetHeader("Content-Type","application/json; charset=UTF-8");
                 request.RawData = Encoding.UTF8.GetBytes(jsonData);
@@ -42,7 +42,7 @@ namespace BibaFramework.BibaGame
                 request.DisableRetry = false;
                 request.Send();
             }
-            #endif
+          	#endif
         }
 
         void RequestCompleted(HTTPRequest request, HTTPResponse response)
