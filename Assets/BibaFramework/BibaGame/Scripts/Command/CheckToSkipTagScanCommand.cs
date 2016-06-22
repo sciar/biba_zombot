@@ -5,7 +5,7 @@ using System;
 
 namespace BibaFramework.BibaGame
 {
-    public class ARScanContextStartedCommand : Command
+    public class CheckToSkipTagScanCommand : Command
     {
         [Inject]
         public SetMenuStateConditionSignal SetMenuStateConditionSignal { get; set; }

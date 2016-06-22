@@ -3,7 +3,7 @@ using BibaFramework.BibaMenu;
 
 namespace BibaFramework.BibaGame
 {
-	public class BibaPresentContextStartedCommand : Command
+	public class SetBibaPresentShownCommand : Command
     {
         [Inject]
         public SetMenuStateConditionSignal SetMenuStateConditionSignal { get; set; }

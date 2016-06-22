@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace BibaFramework.BibaGame
 {
-    public class ARScanContextExitedCommand : Command
+    public class RemoveVuforiaCommand : Command
     {
         private const string VUFORIA_CAMERA_OBJECT = "TextureBufferCamera";
 

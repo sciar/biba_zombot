@@ -29,7 +29,7 @@ namespace BibaFramework.BibaGame
         
         protected override void BindCommands ()
         {   
-			commandBinder.Bind<StartSignal>().To<BibaPresentContextStartedCommand>();
+			commandBinder.Bind<StartSignal>().To<SetBibaPresentShownCommand>();
         }
         
         protected override void BindSignals ()

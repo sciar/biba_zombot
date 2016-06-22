@@ -18,6 +18,7 @@ namespace BibaFramework.BibaGame
 		public void Reset()
 		{
 			RoundInfo = new RoundInfo ();
+			SessionInfo = new SessionInfo ();
 		}
     }
 
