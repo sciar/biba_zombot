@@ -164,12 +164,10 @@ namespace BibaFramework.BibaTest
 			BibaGameModel.LastPlayedTime = DateTime.UtcNow - BibaGameConstants.INACTIVE_DURATION;
 			WaitForSeconds (1);
 			GetInstanceFromContext<TestCheckForInactiveResetCommandSignal> ().Dispatch();
-
 			Assert.IsFalse (StubAnimator.GetBool(MenuStateCondition.ShowInactive));
 
 			GetInstanceFromContext<EquipmentSelectedSignal>().Dispatch(BibaEquipmentType.bridge, true);
 			GetInstanceFromContext<TestCheckForInactiveResetCommandSignal> ().Dispatch();
-
 			Assert.IsTrue (StubAnimator.GetBool(MenuStateCondition.ShowInactive));
 
 			Reset ();

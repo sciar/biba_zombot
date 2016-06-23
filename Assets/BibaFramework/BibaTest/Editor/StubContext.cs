@@ -7,6 +7,7 @@ using strange.extensions.command.api;
 using strange.extensions.command.impl;
 using strange.extensions.context.api;
 using strange.extensions.context.impl;
+using strange.extensions.dispatcher.api;
 using strange.extensions.dispatcher.eventdispatcher.api;
 using strange.extensions.dispatcher.eventdispatcher.impl;
 using strange.extensions.injector.api;
@@ -14,7 +15,6 @@ using strange.extensions.mediation.api;
 using strange.extensions.sequencer.api;
 using strange.extensions.sequencer.impl;
 using strange.framework.api;
-using strange.extensions.dispatcher.api;
 using UnityEngine;
 using UnityEngine.Experimental.Director;
 
