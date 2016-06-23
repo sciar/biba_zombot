@@ -1,5 +1,6 @@
-using strange.extensions.command.impl;
+using System;
 using BibaFramework.BibaAnalytic;
+using strange.extensions.command.impl;
 
 namespace BibaFramework.BibaGame
 {
@@ -19,22 +20,14 @@ namespace BibaFramework.BibaGame
 
         public override void Execute ()
         {
-            var equipmentIndex = BibaGameModel.TotalPlayedEquipments.FindIndex(equip => equip.EquipmentType == BibaEquipmentType);
+			var equipment = BibaGameModel.TotalPlayedEquipments.Find(equip => equip.EquipmentType == BibaEquipmentType);
+			if (equipment == null) 
+			{
+				throw new ArgumentNullException ();
+			}
+			equipment.Play();
 
-            BibaEquipment equipment;
-            if (equipmentIndex == -1)
-            {
-                equipment = new BibaEquipment(BibaEquipmentType);
-                BibaGameModel.TotalPlayedEquipments.Add(equipment);
-            }
-            else
-            {
-                equipment = BibaGameModel.TotalPlayedEquipments[equipmentIndex];
-            }
-
-            equipment.Play();
             DataService.WriteGameModel();
-
             BibaAnalyticService.TrackEquipmentPlayed(equipment.EquipmentType);
         }
     }

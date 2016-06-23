@@ -35,15 +35,7 @@ namespace BibaFramework.BibaGame
 
         public void Reset()
         {
-            TotalPlayedEquipments = new List<BibaEquipment>() {
-                new BibaEquipment(BibaEquipmentType.bridge),
-                new BibaEquipment(BibaEquipmentType.climber),
-                new BibaEquipment(BibaEquipmentType.overhang),
-                new BibaEquipment(BibaEquipmentType.slide),
-                new BibaEquipment(BibaEquipmentType.swing),
-                new BibaEquipment(BibaEquipmentType.tube),
-            };
-            
+			TotalPlayedEquipments = DEFAULT_EQUIPENT_LIST;
 			SelectedEquipments = new List<BibaEquipment> ();
             CompletedAchievements = new List<BibaAchievement>();
 
@@ -61,5 +53,20 @@ namespace BibaFramework.BibaGame
 			Points = 0;
 			CompletedPointsEvent = new List<string> ();
         }
+
+		private static List<BibaEquipment> DEFAULT_EQUIPENT_LIST 
+		{
+			get 
+			{
+				return new List<BibaEquipment> () {
+					new BibaEquipment(BibaEquipmentType.bridge),
+					new BibaEquipment(BibaEquipmentType.climber),
+					new BibaEquipment(BibaEquipmentType.overhang),
+					new BibaEquipment(BibaEquipmentType.slide),
+					new BibaEquipment(BibaEquipmentType.swing),
+					new BibaEquipment(BibaEquipmentType.tube),
+				};
+			}
+		}
     }
 }

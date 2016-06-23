@@ -2,7 +2,7 @@ using strange.extensions.command.impl;
 
 namespace BibaFramework.BibaGame
 {
-	public class TagSelectContextStartedCommand : Command
+	public class DisableTagScanMenuConditionCommand : Command
     {
         [Inject]
 		public BibaGameModel BibaGameModel { get; set; }

@@ -4,7 +4,7 @@ using System;
 
 namespace BibaFramework.BibaGame
 {
-    public class InactiveContextStartCommand : Command
+    public class DisableInactiveMenuConditionCommand : Command
     {
         [Inject]
         public SetMenuStateConditionSignal SetMenuStateConditionSignal { get; set; }

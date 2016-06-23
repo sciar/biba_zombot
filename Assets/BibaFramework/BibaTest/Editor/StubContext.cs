@@ -84,7 +84,6 @@ namespace BibaFramework.BibaTest
 			injectionBinder.Bind<IDataService> ().To<StubDataService> ().ToSingleton ();
 			injectionBinder.Bind<IAnalyticService> ().To<StubAnalyticService> ().ToSingleton ();
 
-			injectionBinder.Bind<LocalizationService>().To<LocalizationService>().ToSingleton();
 			injectionBinder.Bind<AchievementService>().To<AchievementService>().ToSingleton();
 			injectionBinder.Bind<SpecialSceneService>().To<SpecialSceneService>().ToSingleton();
 			injectionBinder.Bind<PointEventService>().To<PointEventService>().ToSingleton();
@@ -92,9 +91,8 @@ namespace BibaFramework.BibaTest
 
 		protected void BindCommands()
 		{
-			commandBinder.Bind<StartSignal>().
-			To<StartTrackingLightActivityCommand>().
-			InSequence();
+			commandBinder.Bind<StartSignal>().To<SetupGameModelCommand>().To<StartTrackingLightActivityCommand>().InSequence();
+			commandBinder.Bind<TestModelResetSignal>().To<SetupGameModelCommand>().To<StartTrackingLightActivityCommand>().InSequence();
 
 			commandBinder.Bind<ToggleTrackModerateActivitySignal> ().To<ToggleTrackModerateActivityCommand> ();
 			commandBinder.Bind<ToggleTrackLightActivitySignal> ().To<ToggleTrackLightActivityCommand> ();
@@ -106,8 +104,12 @@ namespace BibaFramework.BibaTest
 			commandBinder.Bind<TestCheckForChartBoostCommandSignal> ().To<CheckForChartBoostCommand> ();
 			commandBinder.Bind<TestCheckForInactiveResetCommandSignal> ().To<CheckForInactiveResetCommand> ();   
 			commandBinder.Bind<TestCheckToSkipTagScanCommandSignal> ().To<CheckToSkipTagScanCommand> ();
-
+			
+			commandBinder.Bind<EquipmentPlayedSignal>().To<EquipmentPlayedCommand>();
 			commandBinder.Bind<EquipmentSelectedSignal>().To<EquipmentSelectedCommand>();
+			commandBinder.Bind<TryToSetHighScoreSignal> ().To<TryToSetHighScoreCommand> ();
+
+			//Menu
 			commandBinder.Bind<SetMenuStateConditionSignal> ().To<SetMenuStateConditionCommand> ();
 		}
 

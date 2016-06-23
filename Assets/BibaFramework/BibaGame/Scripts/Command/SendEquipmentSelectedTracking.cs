@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace BibaFramework.BibaGame
 {
-    public class EquipmentSelectContextEndCommand : Command
+    public class SendEquipmentSelectedTracking : Command
     {
         [Inject]
 		public BibaGameModel BibaGameModel { get; set; }

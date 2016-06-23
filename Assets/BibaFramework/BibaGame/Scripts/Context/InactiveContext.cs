@@ -29,7 +29,7 @@ namespace BibaFramework.BibaGame
 
         protected override void BindCommands ()
         {    
-            commandBinder.Bind<StartSignal>().To<InactiveContextStartCommand>();
+            commandBinder.Bind<StartSignal>().To<DisableInactiveMenuConditionCommand>();
 			commandBinder.Bind<ClearEquipmentsSignal> ().To<ClearEquipmentsCommand> ();
         }
 

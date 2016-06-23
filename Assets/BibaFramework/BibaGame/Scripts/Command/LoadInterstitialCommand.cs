@@ -1,14 +1,14 @@
 using System.Collections;
-using UnityEngine;
+using BibaFramework.BibaAnalytic;
 using BibaFramework.BibaMenu;
 using BibaFramework.Utility;
 using ChartboostSDK;
 using strange.extensions.command.impl;
-using BibaFramework.BibaAnalytic;
+using UnityEngine;
 
 namespace BibaFramework.BibaGame
 {
-    public class ShowInterstitialCommand : Command
+    public class LoadInterstitialCommand : Command
     {
         private const float CHART_BOOST_TIME_OUT = 5;
 
