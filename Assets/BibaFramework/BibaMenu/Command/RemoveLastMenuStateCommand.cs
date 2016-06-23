@@ -1,7 +1,7 @@
-using UnityEngine;
-using strange.extensions.command.impl;
 using System.Collections;
 using BibaFramework.Utility;
+using strange.extensions.command.impl;
+using UnityEngine;
 using UnityEngine.SceneManagement;
 
 namespace BibaFramework.BibaMenu

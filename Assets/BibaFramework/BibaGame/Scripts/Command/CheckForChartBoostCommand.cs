@@ -14,16 +14,7 @@ namespace BibaFramework.BibaGame
 
         public override void Execute ()
         {
-			if (BibaGameModel.LastChartBoostTime == DateTime.MaxValue)
-            {
-				BibaGameModel.LastChartBoostTime = DateTime.UtcNow;
-            }
-
-			var timeInactive = DateTime.UtcNow - BibaGameModel.LastChartBoostTime;
-            if (timeInactive >= BibaGameConstants.CHARTBOOST_CHECK_DURATION)
-            {
-                SetMenuStateConditionSignal.Dispatch(MenuStateCondition.ShowChartBoost, true);
-            }
+			SetMenuStateConditionSignal.Dispatch (MenuStateCondition.ShowChartBoost, (DateTime.UtcNow - BibaGameModel.LastChartBoostTime) >= BibaGameConstants.CHARTBOOST_CHECK_DURATION);
         }
     }
 }

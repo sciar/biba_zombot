@@ -2,9 +2,12 @@
 using System.Diagnostics;
 using BibaFramework.BibaAnalytic;
 using BibaFramework.BibaGame;
+using BibaFramework.BibaMenu;
 using NUnit.Framework;
 using strange.extensions.context.impl;
 using strange.extensions.mediation.api;
+using UnityEngine;
+using UnityEngine.Experimental.Director;
 
 namespace BibaFramework.BibaTest
 {
@@ -14,6 +17,8 @@ namespace BibaFramework.BibaTest
 
 		private BibaGameModel BibaGameModel { get; set; }
 		private BibaSessionModel BibaSessionModel { get; set; }
+		private SessionInfo SessionInfo { get { return BibaSessionModel.SessionInfo; }}
+		private IAnimatorControllerPlayable StubAnimator { get; set; }
 
 		[SetUp]
 		public void Init()
@@ -27,66 +32,150 @@ namespace BibaFramework.BibaTest
 			StubContext.mediationBinder.Bind<MockView>().To<MockMediator>();
 
 			//Setup Model
-			BibaGameModel = StubContext.injectionBinder.GetInstance<BibaGameModel> ();
-			BibaSessionModel = StubContext.injectionBinder.GetInstance<BibaSessionModel> ();
+			BibaGameModel = GetInstanceFromContext<BibaGameModel> ();
+			BibaSessionModel = GetInstanceFromContext<BibaSessionModel> ();
+			StubAnimator = GetInstanceFromContext<IAnimatorControllerPlayable> (BibaMenuConstants.BIBA_STATE_MACHINE);
+		}
+
+		#region - Activity Tracking
+		[Test]
+		public void TestEndActivityTracking()
+		{
+			GetInstanceFromContext<ApplicationPausedSignal> ().Dispatch ();
+			Assert.AreEqual (0, (int) SessionInfo.LightActivityTime);
 		}
 
 		[Test]
-		public void TestAppPauseActivityTracking()
+		public void TestStartActivityTracking()
 		{
-			var appPauseSignal = StubContext.injectionBinder.GetInstance<ApplicationPausedSignal> () as ApplicationPausedSignal;
-			appPauseSignal.Dispatch ();
-
-			Assert.AreEqual (0, (int) BibaSessionModel.SessionInfo.LightActivityTime);
+			GetInstanceFromContext<ApplicationUnPausedSignal> ().Dispatch();
+			Assert.AreEqual(0, GetSeondsSinceTime(SessionInfo.LightTrackingStartTime));
 		}
 
 		[Test]
-		public void TestAppUnpauseActivityTracking()
+		public void TestSwitchActivityTracking()
 		{
-			var prevActivityTime = BibaSessionModel.SessionInfo.LightActivityTime;
+			//Reset the activity tracking
+			GetInstanceFromContext<ApplicationPausedSignal>().Dispatch ();
 
-			var appUnPausedSignal = StubContext.injectionBinder.GetInstance<ApplicationUnPausedSignal> () as ApplicationUnPausedSignal;
-			appUnPausedSignal.Dispatch ();
+			//Start light activity
+			GetInstanceFromContext<ApplicationUnPausedSignal>().Dispatch ();
 
-			var secondsSinceTrackingStart = (int)(DateTime.UtcNow - BibaSessionModel.SessionInfo.LightTrackingStartTime).TotalSeconds;
-			Assert.AreEqual(0, secondsSinceTrackingStart);
-		}
+			WaitForSeconds (1);
 
-		[Test]
-		public void TestSwitchActivitytracking()
-		{
-			var appPauseSignal = StubContext.injectionBinder.GetInstance<ApplicationPausedSignal> () as ApplicationPausedSignal;
-			var appUnPausedSignal = StubContext.injectionBinder.GetInstance<ApplicationUnPausedSignal> () as ApplicationUnPausedSignal;
-			var toggleLightActivitySignal = StubContext.injectionBinder.GetInstance<ToggleTrackLightActivitySignal> () as ToggleTrackLightActivitySignal;
-			var toggleModerateActivitySignal = StubContext.injectionBinder.GetInstance<ToggleTrackModerateActivitySignal> () as ToggleTrackModerateActivitySignal;
-			var toggleVigorousActivitySignal = StubContext.injectionBinder.GetInstance<ToggleTrackVigorousActivitySignal> () as ToggleTrackVigorousActivitySignal;
+			//Start vigorous activity
+			GetInstanceFromContext<ToggleTrackVigorousActivitySignal>().Dispatch (true);
+			Assert.AreEqual(0, GetSeondsSinceTime(BibaSessionModel.SessionInfo.VigorousTrackingStartTime));
+			Assert.AreEqual (1, (int)BibaSessionModel.SessionInfo.LightActivityTime);
 
-			appPauseSignal.Dispatch ();
-			appUnPausedSignal.Dispatch ();
+			WaitForSeconds (1);
 
-			Delay (1f);
-
-			toggleVigorousActivitySignal.Dispatch (true);
-			var secondsSinceTrackingStart = (int)(DateTime.UtcNow - BibaSessionModel.SessionInfo.VigorousTrackingStartTime).TotalSeconds;
-			Assert.AreEqual(0, secondsSinceTrackingStart);
-
-			Delay (1f);
-
-			toggleModerateActivitySignal.Dispatch (true);
+			//Start moderate activity
+			GetInstanceFromContext<ToggleTrackModerateActivitySignal>().Dispatch (true);
 			Assert.AreEqual (1, (int) BibaSessionModel.SessionInfo.VigorousActivityTime); 
+			Assert.AreEqual (1, (int) BibaSessionModel.SessionInfo.LightActivityTime); 
 
-			Delay (1f);
+			WaitForSeconds (1);
 
-			toggleLightActivitySignal.Dispatch (true);
-			Assert.AreEqual (1, (int) BibaSessionModel.SessionInfo.ModerateActivityTime); 
+			//Switch back to light activity
+			GetInstanceFromContext<ToggleTrackLightActivitySignal>().Dispatch (true);
+			Assert.AreEqual (1, (int) BibaSessionModel.SessionInfo.ModerateActivityTime);
+			Assert.AreEqual (1, (int) BibaSessionModel.SessionInfo.VigorousActivityTime); 
+			Assert.AreEqual (1, (int) BibaSessionModel.SessionInfo.LightActivityTime); 
+		}
+		#endregion
+
+		#region - Inactive
+		[Test]
+		public void TestInactiveScreen()
+		{
+			BibaGameModel.LastPlayedTime = DateTime.UtcNow - BibaGameConstants.INACTIVE_DURATION;
+			WaitForSeconds (1);
+			GetInstanceFromContext<TestCheckForInactiveResetCommandSignal> ().Dispatch();
+
+			Assert.IsFalse (StubAnimator.GetBool(MenuStateCondition.ShowInactive));
+
+			GetInstanceFromContext<EquipmentSelectedSignal>().Dispatch(BibaEquipmentType.bridge, true);
+			GetInstanceFromContext<TestCheckForInactiveResetCommandSignal> ().Dispatch();
+
+			Assert.IsTrue (StubAnimator.GetBool(MenuStateCondition.ShowInactive));
+
+			BibaGameModel.Reset();
+		}
+		#endregion
+
+		#region - TagScan
+		[Test]
+		public void TestTagScan()
+		{
+			var checkTagScanSignal = GetInstanceFromContext<TestCheckToSkipTagScanCommandSignal> ();
+
+			BibaGameModel.TagEnabled = false;
+			checkTagScanSignal.Dispatch ();
+			Assert.IsFalse(StubAnimator.GetBool(MenuStateCondition.ShowTagScan));
+
+			BibaGameModel.TagEnabled = true;
+			BibaGameModel.LastCameraReminderTime = DateTime.UtcNow - BibaGameConstants.AR_REMINDER_DURATION + new TimeSpan(0,0,1);
+			checkTagScanSignal.Dispatch ();
+			Assert.IsFalse (StubAnimator.GetBool (MenuStateCondition.ShowTagScan));
+
+			WaitForSeconds (1);
+
+			checkTagScanSignal.Dispatch ();
+			Assert.IsTrue (StubAnimator.GetBool (MenuStateCondition.ShowTagScan));
+
+			BibaGameModel.Reset ();
+		}
+		#endregion
+
+		#region - Chartboost
+		[Test]
+		public void TestShowChartBoost()
+		{
+			var checkChartboostSignal = GetInstanceFromContext<TestCheckForChartBoostCommandSignal> ();
+
+			checkChartboostSignal.Dispatch ();
+			Assert.IsTrue(StubAnimator.GetBool(MenuStateCondition.ShowChartBoost));
+
+			BibaGameModel.LastChartBoostTime = DateTime.UtcNow;
+
+			checkChartboostSignal.Dispatch ();
+			Assert.IsFalse (StubAnimator.GetBool (MenuStateCondition.ShowChartBoost));
+
+			BibaGameModel.LastChartBoostTime = DateTime.UtcNow - BibaGameConstants.CHARTBOOST_CHECK_DURATION;
+
+			checkChartboostSignal.Dispatch ();
+			Assert.IsTrue(StubAnimator.GetBool(MenuStateCondition.ShowChartBoost));
+
+			BibaGameModel.Reset ();
+		}
+		#endregion
+
+		#region - Utility
+		T GetInstanceFromContext<T>(string name = "")
+		{
+			if (string.IsNullOrEmpty (name)) 
+			{
+				return StubContext.injectionBinder.GetInstance<T> ();
+			}
+
+			return StubContext.injectionBinder.GetInstance<T> (name);
 		}
 
-		private void Delay(float seconds)
+		int GetSeondsSinceTime(DateTime startTime)
+		{
+			return (int) ((DateTime.UtcNow - startTime).TotalSeconds);
+		}
+		#endregion
+
+		private void WaitForSeconds(float milliSeconds)
 		{
 			var stopWatch = new Stopwatch ();
 			stopWatch.Reset();
 			stopWatch.Start();
-			while (stopWatch.ElapsedMilliseconds < seconds * 1000) { }
+			while (stopWatch.ElapsedMilliseconds < milliSeconds * 1000) 
+			{
+			}
 			stopWatch.Stop();
 		}
 	}

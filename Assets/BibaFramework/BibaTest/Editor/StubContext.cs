@@ -15,6 +15,8 @@ using strange.extensions.sequencer.api;
 using strange.extensions.sequencer.impl;
 using strange.framework.api;
 using strange.extensions.dispatcher.api;
+using UnityEngine;
+using UnityEngine.Experimental.Director;
 
 namespace BibaFramework.BibaTest
 {
@@ -74,6 +76,7 @@ namespace BibaFramework.BibaTest
 		{
 			injectionBinder.Bind<BibaGameModel>().To<BibaGameModel>().ToSingleton();
 			injectionBinder.Bind<BibaSessionModel>().To<BibaSessionModel>().ToSingleton();
+			injectionBinder.Bind<IAnimatorControllerPlayable> ().ToName(BibaMenuConstants.BIBA_STATE_MACHINE).To<StubAnimator> ().ToSingleton();
 		}
 
 		protected void BindServices()
@@ -99,17 +102,17 @@ namespace BibaFramework.BibaTest
 
 			commandBinder.Bind<ApplicationPausedSignal>().To<EndTrackingAllActivitiesCommand>();
 			commandBinder.Bind<ApplicationUnPausedSignal> ().To<StartTrackingLightActivityCommand> ();
-			commandBinder.Bind<SetLanguageOverwriteSignal> ().To<SetLanguageOverwriteCommand> ();
 
-			commandBinder.Bind<TestCheckForAchievementCommandSignal> ().To<CheckForAchievementsCommand> ();
 			commandBinder.Bind<TestCheckForChartBoostCommandSignal> ().To<CheckForChartBoostCommand> ();
 			commandBinder.Bind<TestCheckForInactiveResetCommandSignal> ().To<CheckForInactiveResetCommand> ();   
 			commandBinder.Bind<TestCheckToSkipTagScanCommandSignal> ().To<CheckToSkipTagScanCommand> ();
+
+			commandBinder.Bind<EquipmentSelectedSignal>().To<EquipmentSelectedCommand>();
+			commandBinder.Bind<SetMenuStateConditionSignal> ().To<SetMenuStateConditionCommand> ();
 		}
 
 		protected void BindSignals()
 		{
-			injectionBinder.Bind<SetMenuStateConditionSignal> ().To<SetMenuStateTriggerSignal> ();
 			injectionBinder.Bind<SetMenuStateTriggerSignal> ().To<SetMenuStateTriggerSignal> ();
 		}
 	}
