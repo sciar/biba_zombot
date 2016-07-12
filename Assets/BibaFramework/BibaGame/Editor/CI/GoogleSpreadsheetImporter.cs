@@ -3,6 +3,7 @@ using Google.GData.Client;
 using Google.GData.Spreadsheets;
 using UnityEditor;
 using UnityEngine;
+using System.Collections.Generic;
 
 namespace BibaFramework.BibaEditor
 {
@@ -121,37 +122,18 @@ namespace BibaFramework.BibaEditor
             return parameters;
         }
 
-        /*
-        static void RetrieveInitialTokens()
-        {
-            // OAuth2Parameters holds all the parameters related to OAuth 2.0.
-            OAuth2Parameters parameters = GetOAuth2Parameters();
-            
-            // Set your Redirect URI, which can be registered at
-            // https://code.google.com/apis/console.
-            parameters.RedirectUri = REDIRECT_URI;
-            
-            // Get the authorization url.  The user of your application must visit
-            // this url in order to authorize with Google.  If you are building a
-            // browser-based application, you can redirect the user to the authorization
-            // url.
-            string authorizationUrl = OAuthUtil.CreateOAuth2AuthorizationUrl(parameters);
-            Debug.Log(authorizationUrl);
-            Debug.Log("Please visit the URL above to authorize your OAuth "
-                              + "request token.  Once that is complete, type in your access code to "
-                              + "continue...");
-            parameters.AccessCode = OAUTH_PARAMETERS_ACCESS_CODE;
 
-            // Once the user authorizes with Google, the request token can be exchanged
-            // for a long-lived access token.  If you are building a browser-based
-            // application, you should parse the incoming request token from the url and
-            // set it in OAuthParameters before calling GetAccessToken().
-            OAuthUtil.GetAccessToken(parameters);
-            string accessToken = parameters.AccessToken;
-            string refreshToken = parameters.RefreshToken;
-            Debug.Log("OAuth Access Token: " + accessToken + "\n");
-            Debug.Log("OAuth Refresh Token: " + refreshToken + "\n");
-        }
-        */
+		public static Dictionary<string,string> GetListEntryDict(ListEntry listEntry)
+		{
+			var dict = new Dictionary<string,string> ();
+			foreach (ListEntry.Custom element in listEntry.Elements) 
+			{
+				if (!string.IsNullOrEmpty(element.Value)) 
+				{
+					dict.Add (element.XmlName, element.Value);
+				}
+			}
+			return dict;
+		}
 	}
 }

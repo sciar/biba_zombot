@@ -10,7 +10,7 @@ namespace BibaFramework.BibaGame
 
 	public class BibaPointEvent
 	{
-		public string Key;
+		public string Id;
 		public int Points;
 		public bool Repeat;
 	}

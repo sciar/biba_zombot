@@ -46,7 +46,7 @@ namespace BibaFramework.BibaEditor
 		[MenuItem ("Biba/Content Generation/Run AssetBundle Pipeline Without Upload", false, 4)]
 		public static void RunAssetBundlePipeLineWithoutUpload()
 		{
-			BibaSpecialSceneImporter.ImportSettings();
+			ImportSettingsFromGoogleDocs();
 			BibaAssetBundleBuilder.BuildSpecialScenesAssetBundles();
 			UpdateManifestForContent();
 			CopyContentToResources();
@@ -85,9 +85,7 @@ namespace BibaFramework.BibaEditor
         static void ImportSettingsFromGoogleDocs()
         {
             BibaLocalizationImporter.ImportSettings();
-            BibaAchievementImporter.ImportSettings();
-			BibaPointEventsImporter.ImportSettings ();
-            BibaSpecialSceneImporter.ImportSettings();
+			BibaEventSettingsImporter.ImportSettings();
             AssetDatabase.Refresh();
         }
 

@@ -27,7 +27,7 @@ namespace BibaFramework.BibaGame
 
 		public void CheckAndCompletePointEvent(string keyToCheck)
 		{
-			var setting = Settings.BibaPointSettings.Find(sett => sett.Key == keyToCheck);
+			var setting = Settings.BibaPointSettings.Find(sett => sett.Id == keyToCheck);
 			if(setting == null)
 			{
 				return;
