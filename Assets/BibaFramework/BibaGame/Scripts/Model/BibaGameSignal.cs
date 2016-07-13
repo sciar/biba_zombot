@@ -9,14 +9,14 @@ namespace BibaFramework.BibaGame
     public class EndSignal : Signal{ }
     public class ApplicationPausedSignal : Signal{ }
     public class ApplicationUnPausedSignal : Signal{ }
-	public class GameModelUpdatedSignal : Signal { }
+	public class AccountUpdatedSignal : Signal { }
 	public class LanguageUpdatedSignal : Signal { }
 
 	//Gameplay
 	public class ClearEquipmentsSignal : Signal { }
     public class EquipmentSelectedSignal : Signal <BibaEquipmentType, bool> { }
     public class EquipmentPlayedSignal : Signal<BibaEquipmentType> { }
-    public class TryToSetHighScoreSignal : Signal<double> { }
+    public class TryToSetHighScoreSignal : Signal<int> { }
 	public class CheckForPointsGainSignal : Signal<string>{ };
 	public class PointsGainedSignal : Signal<int, int>{ };
 

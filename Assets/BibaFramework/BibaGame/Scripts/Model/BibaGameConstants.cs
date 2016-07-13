@@ -5,7 +5,8 @@ namespace BibaFramework.BibaGame
     public class BibaGameConstants
     {
         public const int FRAMEWORK_VERSION = 1;
-        public const string GAME_MODEL_DATA_PATH = "gamemodel.txt";
+		public const string ACCOUNT_MODEL_DATA_PATH = "account.txt";
+		public const string SYSTEM_MODEL_DATA_PATH = "system.txt";
 
         public const string BIBA_URL = "http://www.playbiba.com";
         public const string BIBA_PRIVACY_URL = "http://www.playbiba.com/privacy-policy";

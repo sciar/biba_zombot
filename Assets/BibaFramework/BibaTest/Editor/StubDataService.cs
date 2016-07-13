@@ -15,14 +15,19 @@ namespace BibaFramework.BibaTest
 			return default(T);
 		}
 
-		public void WriteGameModel ()
+		public void Save ()
 		{
 			
 		}
 
-		public BibaGameModel ReadGameModel ()
+		public BibaSystem LoadSystemModel ()
 		{
-			return new BibaGameModel ();
+			return new BibaSystem ();
+		}
+
+		public BibaAccount LoadAccountModel ()
+		{
+			return new BibaAccount ();
 		}
 	}
 }

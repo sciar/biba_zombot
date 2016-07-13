@@ -18,7 +18,10 @@ namespace BibaFramework.BibaAnalytic
 		public IAnalyticService AnalyticService { get; set; }
 
 		[Inject]
-		public BibaSessionModel BibaSessionModel { get; set; }
+		public BibaSession BibaSessionModel { get; set; }
+
+		[Inject]
+		public BibaAccount BibaAccount { get; set; }
 
 		public override void Execute ()
 		{
@@ -27,10 +30,7 @@ namespace BibaFramework.BibaAnalytic
 			ToggleTrackVigorousActivitySignal.Dispatch (false);
 
 			AnalyticService.TrackActivites ();
-
-			BibaSessionModel.SessionInfo.LightActivityTime = 0;
-			BibaSessionModel.SessionInfo.ModerateActivityTime = 0;
-			BibaSessionModel.SessionInfo.VigorousActivityTime = 0;
+			BibaAccount.ResetLMVScores ();
 		}
 	}
 }

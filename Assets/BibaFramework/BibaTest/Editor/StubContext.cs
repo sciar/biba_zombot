@@ -74,8 +74,9 @@ namespace BibaFramework.BibaTest
 
 		protected void BindModels()
 		{
-			injectionBinder.Bind<BibaGameModel>().To<BibaGameModel>().ToSingleton();
-			injectionBinder.Bind<BibaSessionModel>().To<BibaSessionModel>().ToSingleton();
+			injectionBinder.Bind<BibaSystem>().To<BibaSystem>().ToSingleton();
+			injectionBinder.Bind<BibaSession>().To<BibaSession>().ToSingleton();
+			injectionBinder.Bind<BibaAccount>().To<BibaSession>().ToSingleton();
 			injectionBinder.Bind<IAnimatorControllerPlayable> ().ToName(BibaMenuConstants.BIBA_STATE_MACHINE).To<StubAnimator> ().ToSingleton();
 		}
 
@@ -91,8 +92,8 @@ namespace BibaFramework.BibaTest
 
 		protected void BindCommands()
 		{
-			commandBinder.Bind<StartSignal>().To<SetupGameModelCommand>().To<StartTrackingLightActivityCommand>().InSequence();
-			commandBinder.Bind<TestModelResetSignal>().To<SetupGameModelCommand>().To<StartTrackingLightActivityCommand>().InSequence();
+			commandBinder.Bind<StartSignal>().To<SetupSystemModelCommand>().To<StartTrackingLightActivityCommand>().InSequence();
+			commandBinder.Bind<TestModelResetSignal>().To<SetupSystemModelCommand>().To<StartTrackingLightActivityCommand>().InSequence();
 
 			commandBinder.Bind<ToggleTrackModerateActivitySignal> ().To<ToggleTrackModerateActivityCommand> ();
 			commandBinder.Bind<ToggleTrackLightActivitySignal> ().To<ToggleTrackLightActivityCommand> ();

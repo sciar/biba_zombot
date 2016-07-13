@@ -9,20 +9,24 @@ namespace BibaFramework.BibaGame
 		public BibaGameView view { get; set; }
 
 		[Inject]
-		public BibaGameModel model { get; set; }
+		public BibaAccount BibaAccount { get; set; }
+
+		[Inject]
+		public BibaSession BibaSession { get; set; }
 
 		[Inject]
 		public IDataService service { get; set; }
 
 		public override void RegisterSceneDependentSignals ()
 		{
-			view.controller.model = model;
-			view.controller.dataService = service;
+			view.controller.BibaProfile = BibaAccount.SelectedProfile;
+			view.controller.BibaSession = BibaSession;
+			view.controller.DataService = service;
 		}
 
 		public override void UnRegisterSceneDependentSignals ()
 		{
-			service.WriteGameModel ();
+			service.Save ();
 		}
 
         public override void SetupSceneDependentMenu ()

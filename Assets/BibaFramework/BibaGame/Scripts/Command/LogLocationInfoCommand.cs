@@ -25,10 +25,10 @@ namespace BibaFramework.BibaGame
         public IAnalyticService BibaAnalyticService { get; set; }
 
         [Inject]
-        public BibaSessionModel BibaSessionModel { get; set; } 
+        public BibaSession BibaSessionModel { get; set; } 
 
         [Inject]
-        public BibaGameModel BibaGameModel { get; set; }
+		public BibaSession BibaSession { get; set; }
 
         //This call also prompt the enable GPS request for the frist time.
         public override void Execute ()
@@ -103,8 +103,8 @@ namespace BibaFramework.BibaGame
 
         void StoreSessionLatLong()
         {
-			BibaSessionModel.RoundInfo.QuadTileId = LatLongToQuadKey(Input.location.lastData.longitude, Input.location.lastData.latitude, MAP_LEVEL_OF_DETAIL);
-			BibaSessionModel.RoundInfo.Location = new Vector2(Input.location.lastData.latitude, Input.location.lastData.longitude);
+			BibaSession.QuadTileId = LatLongToQuadKey(Input.location.lastData.longitude, Input.location.lastData.latitude, MAP_LEVEL_OF_DETAIL);
+			BibaSession.Location = new Vector2(Input.location.lastData.latitude, Input.location.lastData.longitude);
         }
 
         BibaWeatherInfo ProcessWeatherJSON(string text)

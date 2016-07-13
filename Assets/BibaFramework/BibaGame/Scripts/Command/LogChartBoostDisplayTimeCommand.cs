@@ -10,17 +10,17 @@ namespace BibaFramework.BibaGame
         public SetMenuStateConditionSignal SetMenuStateConditionSignal { get; set; }
 
         [Inject]
-		public BibaGameModel BibaGameModel { get; set; }
+		public BibaSystem BibaSystem { get; set; }
 
         [Inject]
         public IDataService DataService { get; set; }
 
         public override void Execute ()
         {
-			BibaGameModel.LastChartBoostTime = DateTime.UtcNow;
+			BibaSystem.LastChartBoostTime = DateTime.UtcNow;
             SetMenuStateConditionSignal.Dispatch(MenuStateCondition.ShowChartBoost, false);
 
-			DataService.WriteGameModel ();
+			DataService.Save ();
         }
     }
 }

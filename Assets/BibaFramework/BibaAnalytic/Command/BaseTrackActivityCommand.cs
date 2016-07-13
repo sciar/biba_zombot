@@ -9,7 +9,10 @@ namespace BibaFramework.BibaAnalytic
 		public bool Status { get; set; }
 
 		[Inject]
-		public BibaSessionModel BibaSessionModel { get; set; }
+		public BibaSession BibaSession { get; set; }
+
+		[Inject]
+		public BibaAccount BibaAccount { get; set; }
 
 		public override void Execute ()
 		{

@@ -22,9 +22,9 @@ namespace BibaFramework.BibaAnalytic
         //Track equipments played in a sessions
         void TrackEquipmentPlayed(BibaEquipmentType equipmentType);
         //Track when the satellite tag is enabled
-        void TrackSatelliteTagEnabled(bool enabled);
+        void TrackTagEnabled(bool enabled);
         //Track when the satellite tag is scanned and recognized
-        void TrackSatelliteTagScanned(BibaTagType tagType);
+        void TrackTagScanned(BibaTagType tagType);
         //Track weather information
         void TrackWeatherInfo(BibaWeatherInfo weatherInfo);
     }

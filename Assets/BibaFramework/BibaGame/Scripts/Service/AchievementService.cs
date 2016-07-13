@@ -7,7 +7,7 @@ namespace BibaFramework.BibaGame
     public class AchievementService : BaseSettingsService<BibaAchievementSettings>
     {
         [Inject]
-        public BibaGameModel BibaGameModel { get; set; }
+		public BibaSystem BibaSystem { get; set; }
 
 		[Inject]
 		public LocalizationService LocalizationService { get; set; }
@@ -36,10 +36,10 @@ namespace BibaFramework.BibaGame
         {
             foreach (var setting in _settings.AchievementSettings)
             {
-                var index = BibaGameModel.CompletedAchievements.FindIndex(achievement => achievement.Id == setting.Id);
+				var index = BibaSystem.CompletedAchievements.FindIndex(achievement => achievement.Id == setting.Id);
                 if(index != -1)
                 {
-                    BibaGameModel.CompletedAchievements[index].Config = setting;
+					BibaSystem.CompletedAchievements[index].Config = setting;
                 }
             }
         }
@@ -47,7 +47,7 @@ namespace BibaFramework.BibaGame
         private IEnumerable<BibaAchievementConfig> InCompletedAchievements {
             get 
             {
-                return Settings.AchievementSettings.Where(config => BibaGameModel.CompletedAchievements.FindIndex(completedAchievement => completedAchievement.Id == config.Id) == -1);
+				return Settings.AchievementSettings.Where(config => BibaSystem.CompletedAchievements.FindIndex(completedAchievement => completedAchievement.Id == config.Id) == -1);
             }
         }
 
@@ -56,15 +56,15 @@ namespace BibaFramework.BibaGame
             //Check settings all unFinished achievements
             foreach (var config in InCompletedAchievements)
             {
-                var equipment = BibaGameModel.TotalPlayedEquipments.Find(equip => equip.EquipmentType == config.EquipmentType);
+				var equipment = BibaSystem.PlayedEquipments.Find(equip => equip.EquipmentType == config.EquipmentType);
 
                 if((config is BibaAchievementConfig && IsBasicAchievementCompleted(equipment, config)) ||
                    (config is BibaSeasonalAchievementConfig && IsSeasonalAchievementCompleted(equipment, config)))
                 {
                     //New achievement obtained
                     var newAchievement = new BibaAchievement(config);
-                    BibaGameModel.CompletedAchievements.Add(newAchievement);
-                    DataService.WriteGameModel();
+					BibaSystem.CompletedAchievements.Add(newAchievement);
+					DataService.Save();
                 }
             }
         }

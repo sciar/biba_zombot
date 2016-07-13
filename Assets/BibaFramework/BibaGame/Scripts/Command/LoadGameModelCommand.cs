@@ -14,9 +14,13 @@ namespace BibaFramework.BibaGame
 
         void LoadGameModel()
         {
-            var gameModel = LoaderService.ReadGameModel();
-            injectionBinder.Unbind<BibaGameModel>();
-            injectionBinder.Bind<BibaGameModel>().To(gameModel).ToSingleton().CrossContext();
-        }
+			var systemModel = LoaderService.LoadSystemModel ();
+			injectionBinder.Unbind<BibaSystem>();
+			injectionBinder.Bind<BibaSystem>().To(systemModel).ToSingleton().CrossContext();
+
+			var accountModel = LoaderService.LoadAccountModel ();
+			injectionBinder.Unbind<BibaAccount>();
+			injectionBinder.Bind<BibaAccount>().To(accountModel).ToSingleton().CrossContext();
+	     }
     } 
 }

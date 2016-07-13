@@ -7,7 +7,7 @@ namespace BibaFramework.BibaGame
 	public class PointEventService : BaseSettingsService<BibaPointEventSettings>
 	{
 		[Inject]
-		public BibaGameModel BibaGameModel { get; set; }
+		public BibaAccount BibaAccount { get; set; }
 
 		[Inject]
 		public PointsGainedSignal PointsGainedSignal { get; set; }
@@ -33,18 +33,18 @@ namespace BibaFramework.BibaGame
 				return;
 			}
 
-			var pointEventCompleted = BibaGameModel.CompletedPointsEvent.Find(pe => pe == keyToCheck);
+			var pointEventCompleted = BibaAccount.SelectedProfile.CompletedPointEvents.Find(pe => pe == keyToCheck);
 			if(pointEventCompleted == null || setting.Repeat)
 			{
-				BibaGameModel.Points += setting.Points;
+				BibaAccount.SelectedProfile.Points += setting.Points;
 
-				if (!BibaGameModel.CompletedPointsEvent.Contains(keyToCheck)) 
+				if (!BibaAccount.SelectedProfile.CompletedPointEvents.Contains(keyToCheck)) 
 				{
-					BibaGameModel.CompletedPointsEvent.Add(keyToCheck);
+					BibaAccount.SelectedProfile.CompletedPointEvents.Add(keyToCheck);
 				}
 
-				DataService.WriteGameModel();
-				PointsGainedSignal.Dispatch (setting.Points, BibaGameModel.Points);
+				DataService.Save();
+				PointsGainedSignal.Dispatch (setting.Points, BibaAccount.SelectedProfile.Points);
 			}
 		}
 	}

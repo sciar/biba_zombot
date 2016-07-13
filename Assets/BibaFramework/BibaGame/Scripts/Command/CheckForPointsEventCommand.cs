@@ -31,11 +31,11 @@ namespace BibaFramework.BibaGame
 	public abstract class BaseCheckFirstTimePointsEventCommand : BaseCheckForPointsEventCommand
 	{
 		[Inject]
-		public BibaGameModel BibaGameModel { get; set; }
+		public BibaAccount BibaAccount { get; set; }
 
 		public override void Execute ()
 		{
-			if (!BibaGameModel.CompletedPointsEvent.Contains (KeyToCheck)) 
+			if (!BibaAccount.SelectedProfile.CompletedPointEvents.Contains (KeyToCheck)) 
 			{
 				base.Execute ();
 				Fail ();

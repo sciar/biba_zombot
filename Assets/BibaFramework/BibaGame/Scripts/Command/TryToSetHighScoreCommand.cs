@@ -5,20 +5,20 @@ namespace BibaFramework.BibaGame
     public class TryToSetHighScoreCommand : Command
     {
         [Inject]
-        public double Score { get; set; }
+        public int Score { get; set; }
 
         [Inject]
-        public BibaGameModel BibaGameModel { get; set; }
+		public BibaSystem BibaSystem { get; set; }
 
         [Inject]
         public IDataService DataService { get; set; }
 
         public override void Execute ()
         {
-            if (Score > BibaGameModel.HighScore)
+			if (Score > BibaSystem.Highscore)
             {
-                BibaGameModel.HighScore = Score;
-                DataService.WriteGameModel();
+				BibaSystem.Highscore = Score;
+				DataService.Save();
             }
         }
     }

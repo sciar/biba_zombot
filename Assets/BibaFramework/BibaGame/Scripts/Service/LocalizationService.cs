@@ -8,11 +8,11 @@ namespace BibaFramework.BibaGame
     public class LocalizationService : BaseSettingsService<Dictionary<string, Dictionary<SystemLanguage, string>>>
     {
 		[Inject]
-		public BibaGameModel BibaGameModel { get; set; }
+		public BibaSystem BibaSystem { get; set; }
 
 		private SystemLanguage SystemLanguage {
 			get {
-				return BibaGameModel.LanguageOverwrite != SystemLanguage.Unknown ? BibaGameModel.LanguageOverwrite : Application.systemLanguage;
+				return BibaSystem.LanguageOverwrite != SystemLanguage.Unknown ? BibaSystem.LanguageOverwrite : Application.systemLanguage;
 			}
 		} 
 

@@ -12,9 +12,9 @@ namespace BibaFramework.BibaAnalytic
 
 		protected override void StartTracking ()
 		{
-			if(BibaSessionModel.SessionInfo.LightTrackingStartTime == default(DateTime))
+			if(BibaSession.LScoreStartTime == default(DateTime))
 			{
-				BibaSessionModel.SessionInfo.LightTrackingStartTime = DateTime.UtcNow;
+				BibaSession.LScoreStartTime = DateTime.UtcNow;
 			}
 		}
 
@@ -26,10 +26,10 @@ namespace BibaFramework.BibaAnalytic
 
 		protected override void AddActivityTime ()
 		{
-			if (BibaSessionModel.SessionInfo.LightTrackingStartTime != default(DateTime)) 
+			if (BibaSession.LScoreStartTime != default(DateTime)) 
 			{
-				BibaSessionModel.SessionInfo.LightActivityTime += (float)(DateTime.UtcNow - BibaSessionModel.SessionInfo.LightTrackingStartTime).TotalSeconds;
-				BibaSessionModel.SessionInfo.LightTrackingStartTime = default(DateTime);
+				BibaAccount.SetAllLScoreDelta ((float)(DateTime.UtcNow - BibaSession.LScoreStartTime).TotalSeconds);
+				BibaSession.LScoreStartTime = default(DateTime);
 			}
 		}
 	}

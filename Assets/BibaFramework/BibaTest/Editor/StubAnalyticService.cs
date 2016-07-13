@@ -37,11 +37,11 @@ namespace BibaFramework.BibaTest
 		{
 		}
 
-		public void TrackSatelliteTagEnabled (bool enabled)
+		public void TrackTagEnabled (bool enabled)
 		{
 		}
 
-		public void TrackSatelliteTagScanned (BibaFramework.BibaGame.BibaTagType tagType)
+		public void TrackTagScanned (BibaFramework.BibaGame.BibaTagType tagType)
 		{
 		}
 

@@ -6,7 +6,7 @@ namespace BibaFramework.BibaGame
 	public class SetLanguageOverwriteCommand : Command
     {
         [Inject]
-        public BibaGameModel BibaGameModel { get; set; }
+		public BibaSystem BibaSystem { get; set; }
 
         [Inject]
 		public SystemLanguage SystemLanguage { get; set; }
@@ -19,8 +19,8 @@ namespace BibaFramework.BibaGame
 
         public override void Execute ()
         {
-			BibaGameModel.LanguageOverwrite = SystemLanguage;
-			DataService.WriteGameModel ();
+			BibaSystem.LanguageOverwrite = SystemLanguage;
+			DataService.Save ();
 			LanguageUpdatedSignal.Dispatch();
 		}
     }

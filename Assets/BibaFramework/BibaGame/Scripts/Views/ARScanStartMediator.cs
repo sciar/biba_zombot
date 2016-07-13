@@ -18,10 +18,7 @@ namespace BibaFramework.BibaGame
         public TagScannedSignal TagScannedSignal { get; set; }
         
         [Inject]
-        public BibaSessionModel BibaSessionModel { get; set; }
-
-        [Inject]
-        public BibaGameModel BibaGameModel { get; set; }
+		public BibaSession BibaSession { get; set; }
         
         [Inject]
         public SetMenuStateTriggerSignal SetMenuStateTriggerSignal { get; set; }
@@ -75,8 +72,8 @@ namespace BibaFramework.BibaGame
 
         void SetupTagToScan()
         {
-			var rndIndex = Random.Range(0, BibaGameModel.SelectedEquipments.Count);
-			var equipmentToScan = new BibaEquipment(BibaGameModel.SelectedEquipments[rndIndex].EquipmentType);
+			var rndIndex = Random.Range(0, BibaSession.SelectedEquipments.Count);
+			var equipmentToScan = new BibaEquipment(BibaSession.SelectedEquipments[rndIndex].EquipmentType);
             
             _tagToScan = equipmentToScan.TagType;
             ARScanStartView.SetupTag(_tagToScan);
@@ -96,7 +93,7 @@ namespace BibaFramework.BibaGame
         void ScanCompleted()
         {
             SetMenuStateTriggerSignal.Dispatch(MenuStateTrigger.Yes);
-			BibaSessionModel.RoundInfo.TagScanned = true;
+			BibaSession.TagScanned = true;
             TagScanCompletedSignal.Dispatch();
 
         }

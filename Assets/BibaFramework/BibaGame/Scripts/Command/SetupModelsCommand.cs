@@ -6,13 +6,10 @@ using System.Collections.Generic;
 
 namespace BibaFramework.BibaGame
 {
-    public class SetupGameModelCommand : Command
+    public class SetupSystemModelCommand : Command
     {
         [Inject]
-        public BibaGameModel BibaGameModel { get; set; }
-
-		[Inject]
-		public BibaSessionModel BibaSessionModel { get; set; }
+		public BibaSystem BibaSystem { get; set; }
 
         [Inject]
         public SetMenuStateConditionSignal SetMenuStateConditionSignal { get; set; }
@@ -38,32 +35,31 @@ namespace BibaFramework.BibaGame
 
 		void SetupMenuStateByGameModel()
 		{
-			SetMenuStateConditionSignal.Dispatch(MenuStateCondition.PrivacyEnabled, BibaGameModel.PrivacyEnabled);
-			SetMenuStateConditionSignal.Dispatch(MenuStateCondition.HowToEnabled, BibaGameModel.HowToEnabled);
-			SetMenuStateConditionSignal.Dispatch(MenuStateCondition.HelpBubblesEnabled, BibaGameModel.HelpBubblesEnabled);
+			SetMenuStateConditionSignal.Dispatch(MenuStateCondition.PrivacyEnabled, BibaSystem.PrivacyEnabled);
+			SetMenuStateConditionSignal.Dispatch(MenuStateCondition.HowToEnabled, BibaSystem.HowToEnabled);
+			SetMenuStateConditionSignal.Dispatch(MenuStateCondition.HelpBubblesEnabled, BibaSystem.HelpBubblesEnabled);
 		}
 
 		void SetupSessionModel()
 		{
-			BibaSessionModel.SessionInfo = new SessionInfo();
-			BibaSessionModel.SessionInfo.UUID = Guid.NewGuid().ToString();
-			BibaSessionModel.SessionInfo.DeviceModel = SystemInfo.deviceModel;
-			BibaSessionModel.SessionInfo.DeviceOS = SystemInfo.operatingSystem;
+			BibaSystem.UUID = Guid.NewGuid().ToString();
+			BibaSystem.DeviceModel = SystemInfo.deviceModel;
+			BibaSystem.DeviceOS = SystemInfo.operatingSystem;
 		}
 
         //Where we handle the migration of BibaGameModel
         void CheckForGameModelMigration()
         {
-            if (BibaGameModel.FrameworkVersion < BibaGameConstants.FRAMEWORK_VERSION)
+			if (BibaSystem.FrameworkVersion < BibaGameConstants.FRAMEWORK_VERSION)
             {
                 //Reset Achievements since we changed the way AchievementId is stored
-                if(BibaGameModel.FrameworkVersion == 0)
+				if(BibaSystem.FrameworkVersion == 0)
                 {
-                    BibaGameModel.CompletedAchievements = new List<BibaAchievement>();
+					BibaSystem.CompletedAchievements = new List<BibaAchievement>();
                 }
 
-                BibaGameModel.FrameworkVersion = BibaGameConstants.FRAMEWORK_VERSION;
-                DataService.WriteGameModel();
+				BibaSystem.FrameworkVersion = BibaGameConstants.FRAMEWORK_VERSION;
+				DataService.Save();
             }
         }
     }

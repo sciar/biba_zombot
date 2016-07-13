@@ -16,7 +16,7 @@ namespace BibaFramework.BibaGame
 		public LanguageUpdatedSignal LanguageUpdatedSignal { get; set; }
 
 		[Inject]
-		public BibaGameModel BibaGameModel { get; set; }
+		public BibaSystem BibaSystem { get; set; }
 
 		public override void OnRegister ()
 		{
@@ -44,7 +44,7 @@ namespace BibaFramework.BibaGame
 
 		void UpdateToggle()
 		{
-			SetLanguageToggleView.Toggle.isOn = BibaGameModel.LanguageOverwrite == SetLanguageToggleView.SystemLanguage;
+			SetLanguageToggleView.Toggle.isOn = BibaSystem.LanguageOverwrite == SetLanguageToggleView.SystemLanguage;
 		}
 	}
 }

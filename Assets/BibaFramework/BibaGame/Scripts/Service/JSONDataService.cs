@@ -9,26 +9,51 @@ namespace BibaFramework.BibaGame
     public class JSONDataService : IDataService
     {
         [Inject]
-        public BibaGameModel BibaGameModel { get; set; }
+		public BibaAccount BibaAccount { get; set; }
+
+		[Inject]
+		public BibaSystem BibaSystem { get; set; }
 
         [Inject]
-        public GameModelUpdatedSignal GameModelUpdatedSignal { get; set; }
+        public AccountUpdatedSignal GameModelUpdatedSignal { get; set; }
 
-        public void WriteGameModel ()
+		public void Save()
+		{
+			WriteAccountModel ();
+			WriteSystemModel ();
+		}
+
+		void WriteAccountModel ()
         {
-            var path = Path.Combine(Application.persistentDataPath, BibaGameConstants.GAME_MODEL_DATA_PATH);
+			var path = Path.Combine(Application.persistentDataPath, BibaGameConstants.ACCOUNT_MODEL_DATA_PATH);
 
-            WriteToDisk(BibaGameModel, path);
+			WriteToDisk(BibaAccount, path);
             GameModelUpdatedSignal.Dispatch();
         }
 
-        public BibaGameModel ReadGameModel ()
+		public BibaAccount LoadAccountModel ()
         {
-            var path = Path.Combine(Application.persistentDataPath, BibaGameConstants.GAME_MODEL_DATA_PATH);
+			var path = Path.Combine(Application.persistentDataPath, BibaGameConstants.ACCOUNT_MODEL_DATA_PATH);
 
-            BibaGameModel = ReadFromDisk<BibaGameModel>(path);
-            return BibaGameModel;
+			BibaAccount = ReadFromDisk<BibaAccount>(path);
+			return BibaAccount;
         }
+
+		void WriteSystemModel ()
+		{
+			var path = Path.Combine(Application.persistentDataPath, BibaGameConstants.SYSTEM_MODEL_DATA_PATH);
+
+			WriteToDisk(BibaAccount, path);
+			GameModelUpdatedSignal.Dispatch();
+		}
+
+		public BibaSystem LoadSystemModel ()
+		{
+			var path = Path.Combine(Application.persistentDataPath, BibaGameConstants.SYSTEM_MODEL_DATA_PATH);
+
+			BibaSystem = ReadFromDisk<BibaSystem>(path);
+			return BibaSystem;
+		}
 
         public void WriteToDisk<T>(T objectToWrite, string path)
         {

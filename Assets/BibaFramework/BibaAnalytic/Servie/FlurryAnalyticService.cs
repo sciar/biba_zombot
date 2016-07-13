@@ -10,10 +10,13 @@ namespace BibaFramework.BibaAnalytic
     public class FlurryAnalyticService : IAnalyticService
     {
         [Inject]
-        public BibaGameModel BibaGameModel { get; set; }
+		public BibaSession BibaSession { get; set; }
 
 		[Inject]
-		public BibaSessionModel BibaSessionModel { get; set; }
+		public BibaAccount BibaAccount { get; set; }
+
+		[Inject]
+		public BibaSystem BibaSystem { get; set; }
 
         [Inject]
         public BibaSceneStack BibaSceneStack { get; set; }
@@ -44,7 +47,7 @@ namespace BibaFramework.BibaAnalytic
             var parameters = TrackingParams;
             parameters.Add(BibaAnalyticConstants.END_GAME_LAST_MENU_SHOWN, BibaSceneStack.Count > 0 ? BibaSceneStack.Peek().ToString() : "GameScene.Null");
 
-            foreach (var equipment in BibaGameModel.TotalPlayedEquipments)
+			foreach (var equipment in BibaAccount.SelectedProfile.PlayedEquipments)
             {
                 parameters.Add(string.Format("{0}{1}", equipment.EquipmentType.ToString(), BibaAnalyticConstants.EQUIPMENT_PLAYED), equipment.NumberOfTimeSelected.ToString());
             }
@@ -64,14 +67,14 @@ namespace BibaFramework.BibaAnalytic
 
 		public void TrackActivites()
 		{
-			if (BibaSessionModel.SessionInfo.LightActivityTime > 0 ||
-				BibaSessionModel.SessionInfo.ModerateActivityTime > 0 ||
-				BibaSessionModel.SessionInfo.VigorousActivityTime > 0) 
+			if (BibaAccount.SelectedProfile.LScore > 0 ||
+				BibaAccount.SelectedProfile.MScore > 0 ||
+				BibaAccount.SelectedProfile.VScore > 0) 
 			{
 				var parameters = TrackingParams;
-				parameters.Add (BibaAnalyticConstants.LIGHT_TIME, BibaSessionModel.SessionInfo.LightActivityTime.ToString ());
-				parameters.Add (BibaAnalyticConstants.MODERATE_TIME, BibaSessionModel.SessionInfo.ModerateActivityTime.ToString ());
-				parameters.Add (BibaAnalyticConstants.VIGOROUS_TIME, BibaSessionModel.SessionInfo.VigorousActivityTime.ToString ());
+				parameters.Add (BibaAnalyticConstants.LIGHT_TIME, BibaAccount.SelectedProfile.LScore.ToString ());
+				parameters.Add (BibaAnalyticConstants.MODERATE_TIME, BibaAccount.SelectedProfile.MScore.ToString ());
+				parameters.Add (BibaAnalyticConstants.VIGOROUS_TIME, BibaAccount.SelectedProfile.VScore.ToString ());
 
 				_service.LogEvent (BibaAnalyticConstants.ACTIVITIES_EVENT, parameters);
 			}
@@ -93,7 +96,7 @@ namespace BibaFramework.BibaAnalytic
             _service.LogEvent(BibaAnalyticConstants.EQUIPMENT_PLAYED_EVENT, parameters);
         }
 
-        public void TrackSatelliteTagEnabled (bool enabled)
+		public void TrackTagEnabled (bool enabled)
         {
             var parameters = TrackingParams;
             parameters.Add(BibaAnalyticConstants.TAG_ENABLED, enabled.ToString());
@@ -101,7 +104,7 @@ namespace BibaFramework.BibaAnalytic
             _service.LogEvent(BibaAnalyticConstants.TAG_ENABLED_EVENT, parameters);;
         }
        
-        public void TrackSatelliteTagScanned (BibaTagType tagType)
+		public void TrackTagScanned (BibaTagType tagType)
         {
             var parameters = TrackingParams;
             parameters.Add(BibaAnalyticConstants.TAG_SCANNED_TYPE, tagType.ToString());
@@ -126,15 +129,15 @@ namespace BibaFramework.BibaAnalytic
                     {BibaAnalyticConstants.TIME_STAMP, DateTime.Now.ToString()}
                 };
 
-				if(BibaSessionModel != null && BibaSessionModel.SessionInfo != null)
+				if(BibaSession != null)
 				{
-					param.Add(BibaAnalyticConstants.UDID, BibaSessionModel.SessionInfo.UUID);
-                    param.Add(BibaAnalyticConstants.DEVICE_MODEL, BibaSessionModel.SessionInfo.DeviceModel);
-                    param.Add(BibaAnalyticConstants.DEVICE_OS, BibaSessionModel.SessionInfo.DeviceOS);
+					param.Add(BibaAnalyticConstants.UDID, BibaSystem.UUID);
+					param.Add(BibaAnalyticConstants.DEVICE_MODEL, BibaSystem.DeviceModel);
+					param.Add(BibaAnalyticConstants.DEVICE_OS, BibaSystem.DeviceOS);
 
-					if(!string.IsNullOrEmpty(BibaSessionModel.RoundInfo.QuadTileId))
+					if(!string.IsNullOrEmpty(BibaSession.QuadTileId))
                     {
-						param.Add(BibaAnalyticConstants.QUADTILE_ID, BibaSessionModel.RoundInfo.QuadTileId);
+						param.Add(BibaAnalyticConstants.QUADTILE_ID, BibaSession.QuadTileId);
                     }
 				}
 

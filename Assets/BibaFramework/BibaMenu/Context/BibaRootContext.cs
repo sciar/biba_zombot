@@ -28,9 +28,10 @@ namespace BibaFramework.BibaMenu
         {
             injectionBinder.Bind<BibaSceneStack>().To<BibaSceneStack>().ToSingleton().CrossContext();
 
-            //Create a bogus binding for the BibaGameModel because we are going to rebind it in LoadGameDataCommand
-            injectionBinder.Bind<BibaGameModel>().To<BibaGameModel>();
-            injectionBinder.Bind<BibaSessionModel>().To<BibaSessionModel>().ToSingleton().CrossContext();
+			injectionBinder.Bind<BibaAccount>().To<BibaAccount>();
+			injectionBinder.Bind<BibaSystem>().To<BibaSystem>();
+
+            injectionBinder.Bind<BibaSession>().To<BibaSession>().ToSingleton().CrossContext();
         }
 
         protected override void BindServices ()
@@ -59,7 +60,7 @@ namespace BibaFramework.BibaMenu
             commandBinder.Bind<StartSignal>().
 					To<SetupServicesCommand>().
                     To<LoadGameModelCommand>().
-                    To<SetupGameModelCommand>().
+                    To<SetupSystemModelCommand>().
                     To<SetupGameConfigCommand>().
                     To<SetupEditorDebugSceneCommand>().
 					To<UpdateFromCDNCommand>().
@@ -120,7 +121,7 @@ namespace BibaFramework.BibaMenu
         protected override void BindSignals ()
         {
 			//BibaGame
-            injectionBinder.Bind<GameModelUpdatedSignal>().ToSingleton().CrossContext();
+            injectionBinder.Bind<AccountUpdatedSignal>().ToSingleton().CrossContext();
 			injectionBinder.Bind<LanguageUpdatedSignal>().ToSingleton().CrossContext();
 			injectionBinder.Bind<PointsGainedSignal> ().ToSingleton ().CrossContext ();
 

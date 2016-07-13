@@ -1,11 +1,11 @@
 ﻿using UnityEngine;
-using System.Collections;
-using System.Collections.Generic;
-using BibaFramework.BibaGame;
 
-public class GameController : MonoBehaviour {
-
-	public BibaGameModel model;
-	public IDataService dataService;
-
+namespace BibaFramework.BibaGame
+{
+	public class GameController : MonoBehaviour 
+	{
+		public BibaProfile BibaProfile { get; set; }
+		public BibaSession BibaSession { get; set; }
+		public IDataService DataService { get; set; }
+	}
 }

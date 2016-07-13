@@ -5,15 +5,11 @@ namespace BibaFramework.BibaGame
 	public class DisableTagScanMenuConditionCommand : Command
     {
         [Inject]
-		public BibaGameModel BibaGameModel { get; set; }
-
-		[Inject]
-		public IDataService DataService { get; set; }
+		public BibaSession BibaSession { get; set; }
 
         public override void Execute ()
         {
-			BibaGameModel.TagEnabled = false;
-			DataService.WriteGameModel ();
-        }
+			BibaSession.TagEnabled = false;
+      	}
     }
 }

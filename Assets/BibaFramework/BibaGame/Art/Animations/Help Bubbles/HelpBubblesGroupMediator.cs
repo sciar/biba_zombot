@@ -9,13 +9,13 @@ public class HelpBubblesGroupMediator : Mediator {
 	public HelpBubblesGroupView view { get; set; }
 
 	[Inject]
-	public BibaGameModel model { get; set; }
+	public BibaSystem BibaSystem { get; set; }
 
 	public override void OnRegister ()
 	{
 		//base.OnRegister ();
-		view.SetAnimatorBoolean (model.HelpBubblesEnabled);
-		view.bubblesEnabled = model.HelpBubblesEnabled;
+		view.SetAnimatorBoolean (BibaSystem.HelpBubblesEnabled);
+		view.bubblesEnabled = BibaSystem.HelpBubblesEnabled;
 	}
 
 	public override void OnRemove ()

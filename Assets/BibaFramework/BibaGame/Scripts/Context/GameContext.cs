@@ -18,12 +18,12 @@ namespace BibaFramework.BibaGame
         protected override void BindModels ()
         {
 			#if UNITY_EDITOR
-			var gameModel = injectionBinder.GetInstance<BibaGameModel>();
-			if(gameModel.SelectedEquipments.Count == 0)
+			var session = injectionBinder.GetInstance<BibaSession>();
+			if(session.SelectedEquipments.Count == 0)
 			{
-				gameModel.SelectedEquipments.Add(new BibaEquipment(BibaEquipmentType.bridge));
-				gameModel.SelectedEquipments.Add(new BibaEquipment(BibaEquipmentType.climber));
-				gameModel.SelectedEquipments.Add(new BibaEquipment(BibaEquipmentType.overhang));
+				session.SelectedEquipments.Add(new BibaEquipment(BibaEquipmentType.bridge));
+				session.SelectedEquipments.Add(new BibaEquipment(BibaEquipmentType.climber));
+				session.SelectedEquipments.Add(new BibaEquipment(BibaEquipmentType.overhang));
 			}
 			#endif
         }

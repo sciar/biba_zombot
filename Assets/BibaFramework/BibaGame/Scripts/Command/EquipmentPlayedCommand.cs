@@ -10,7 +10,7 @@ namespace BibaFramework.BibaGame
         public BibaEquipmentType BibaEquipmentType { get; set; }
 
         [Inject]
-        public BibaGameModel BibaGameModel { get; set; }
+		public BibaAccount BibaAccount { get; set; }
 
         [Inject]
         public IDataService DataService { get; set; }
@@ -20,14 +20,14 @@ namespace BibaFramework.BibaGame
 
         public override void Execute ()
         {
-			var equipment = BibaGameModel.TotalPlayedEquipments.Find(equip => equip.EquipmentType == BibaEquipmentType);
+			var equipment = BibaAccount.SelectedProfile.PlayedEquipments.Find(equip => equip.EquipmentType == BibaEquipmentType);
 			if (equipment == null) 
 			{
 				throw new ArgumentNullException ();
 			}
 			equipment.Play();
 
-            DataService.WriteGameModel();
+			DataService.Save();
             BibaAnalyticService.TrackEquipmentPlayed(equipment.EquipmentType);
         }
     }

@@ -8,14 +8,14 @@ namespace BibaFramework.BibaGame
     public class SendEquipmentSelectedTracking : Command
     {
         [Inject]
-		public BibaGameModel BibaGameModel { get; set; }
+		public BibaSession BibaSession { get; set; }
 
         [Inject]
         public IAnalyticService AnalyticService { get; set; }
 
         public override void Execute ()
         {
-			foreach (var equip in BibaGameModel.SelectedEquipments)
+			foreach (var equip in BibaSession.SelectedEquipments)
             {
                 AnalyticService.TrackEquipmentSelected(equip.EquipmentType);
             }
@@ -28,7 +28,7 @@ namespace BibaFramework.BibaGame
             var stringBuilder = new StringBuilder();
             stringBuilder.Append("Selected Equipment: ");
             
-			foreach (var equipType in BibaGameModel.SelectedEquipments)
+			foreach (var equipType in BibaSession.SelectedEquipments)
             {
                 stringBuilder.Append(string.Format("{0}, ", equipType.ToString()));
             }

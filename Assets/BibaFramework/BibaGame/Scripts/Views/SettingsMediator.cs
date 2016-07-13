@@ -14,14 +14,14 @@ namespace BibaFramework.BibaGame
         public EnableHowToSignal EnableHowToSignal { get; set; }
 
         [Inject]
-        public BibaGameModel BibaGameModel { get; set; }
+		public BibaSystem BibaSystem { get; set; }
 
         public override SceneMenuStateView View { get { return SettingsView; } }
 
         public override void SetupSceneDependentMenu ()
         {
-            SettingsView.ShowHowToToggle.isOn = BibaGameModel.HowToEnabled;
-            SettingsView.ShowHelpBubblesToggle.isOn = BibaGameModel.HelpBubblesEnabled;
+			SettingsView.ShowHowToToggle.isOn = BibaSystem.HowToEnabled;
+			SettingsView.ShowHelpBubblesToggle.isOn = BibaSystem.HelpBubblesEnabled;
         }
 
         public override void RegisterSceneDependentSignals ()

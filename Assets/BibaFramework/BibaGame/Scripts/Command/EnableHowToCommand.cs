@@ -9,7 +9,7 @@ namespace BibaFramework.BibaGame
         public bool Status { get; set; }
 
         [Inject]
-        public BibaGameModel BibaGameModel { get; set; }
+		public BibaSystem BibaSystem { get; set; }
 
         [Inject]
         public IDataService DataService { get; set; }
@@ -19,8 +19,8 @@ namespace BibaFramework.BibaGame
 
         public override void Execute ()
         {
-            BibaGameModel.HowToEnabled = Status;
-            DataService.WriteGameModel();
+			BibaSystem.HowToEnabled = Status;
+			DataService.Save();
 
             SetMenuStateConditionSignal.Dispatch(MenuStateCondition.HowToEnabled, Status);
         }
