@@ -118,18 +118,11 @@ namespace BibaFramework.BibaAnalytic
                 var param = new Dictionary<string, string>() {
                     {BibaAnalyticConstants.TIME_STAMP, DateTime.Now.ToString()}
                 };
-
-				if(BibaSession != null)
-				{
-					param.Add(BibaAnalyticConstants.UDID, BibaSystem.UUID);
-					param.Add(BibaAnalyticConstants.DEVICE_MODEL, BibaSystem.DeviceModel);
-					param.Add(BibaAnalyticConstants.DEVICE_OS, BibaSystem.DeviceOS);
-
-					if(!string.IsNullOrEmpty(BibaSession.QuadTileId))
-                    {
-						param.Add(BibaAnalyticConstants.QUADTILE_ID, BibaSession.QuadTileId);
-                    }
-				}
+					
+				if(BibaSession != null && !string.IsNullOrEmpty(BibaSession.QuadTileId))
+                {
+					param.Add(BibaAnalyticConstants.QUADTILE_ID, BibaSession.QuadTileId);
+                }
 
 				return param;
             }

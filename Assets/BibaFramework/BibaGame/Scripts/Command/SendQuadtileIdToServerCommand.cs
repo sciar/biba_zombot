@@ -22,18 +22,18 @@ namespace BibaFramework.BibaGame
         private const string QUADTILE_ID = "quadtile_id";
 
         [Inject]
-        public BibaSession BibaSessionModel { get; set; }
+		public BibaSession BibaSession { get; set; }
 
         public override void Execute ()
         {
           	#if !UNITY_EDITOR
-            if (BibaSessionModel.SessionInfo != null && !string.IsNullOrEmpty(BibaSessionModel.RoundInfo.QuadTileId))
+			if (!string.IsNullOrEmpty(BibaSession.QuadTileId))
             {
                 Retain();
 
-				var jsonData = "{\"" + QUADTILE_ID + "\":\"" + BibaSessionModel.RoundInfo.QuadTileId + "\"}";
+				var jsonData = "{\"" + QUADTILE_ID + "\":\"" + BibaSession.QuadTileId + "\"}";
 
-				var requestURI = string.Format(BACKEND_REGION_QUADTILE_REQUEST, BibaSessionModel.RoundInfo.QuadTileId);
+				var requestURI = string.Format(BACKEND_REGION_QUADTILE_REQUEST, BibaSession.QuadTileId);
                 var request = new HTTPRequest(new Uri(requestURI), HTTPMethods.Put, false, RequestCompleted);
                 request.SetHeader("Content-Type","application/json; charset=UTF-8");
                 request.RawData = Encoding.UTF8.GetBytes(jsonData);

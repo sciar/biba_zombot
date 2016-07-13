@@ -13,11 +13,15 @@ namespace BibaFramework.BibaGame
 		[Inject]
 		public BibaSession BibaSession { get; set; }
 
+		[Inject]
+		public SessionUpdatedSignal SessionUpdatedSignal { get; set; }
+
         public override void Execute ()
         {
             if (Status)
             {
 				BibaSession.SelectedEquipments.Add(new BibaEquipment(BibaEquipmentType));
+				SessionUpdatedSignal.Dispatch ();
             } 
             else
             {

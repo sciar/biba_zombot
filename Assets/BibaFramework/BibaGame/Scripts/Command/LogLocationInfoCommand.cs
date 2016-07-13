@@ -25,7 +25,7 @@ namespace BibaFramework.BibaGame
         public IAnalyticService BibaAnalyticService { get; set; }
 
         [Inject]
-        public BibaSession BibaSessionModel { get; set; } 
+		public BibaSystem BibaSystem { get; set; } 
 
         [Inject]
 		public BibaSession BibaSession { get; set; }
@@ -34,7 +34,7 @@ namespace BibaFramework.BibaGame
         public override void Execute ()
         { 
             #if !UNITY_EDITOR
-            if(BibaGameModel.PrivacyEnabled)
+			if(BibaSystem.PrivacyEnabled)
             {
                 Retain();
                 new Task(RetrieveLocationInfo(), true);

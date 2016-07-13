@@ -9,10 +9,10 @@ namespace BibaFramework.BibaGame
         public EquipmentSelectView EquipmentSelectView { get; set; }
 
         [Inject]
-        public AccountUpdatedSignal GameModelUpdatedSignal { get; set; }
-
-        [Inject]
 		public BibaSession BibaSession { get; set; }
+
+		[Inject]
+		public SessionUpdatedSignal SessionUpdatedSignal { get; set; }
 
         public override SceneMenuStateView View {
             get {
@@ -22,20 +22,20 @@ namespace BibaFramework.BibaGame
 
         public override void RegisterSceneDependentSignals ()
         {
-			OnGameModelUpdated ();
-            GameModelUpdatedSignal.AddListener(OnGameModelUpdated);
+			UpdateNextButton ();
+			SessionUpdatedSignal.AddListener(UpdateNextButton);
         }
 
         public override void UnRegisterSceneDependentSignals ()
         {
-            GameModelUpdatedSignal.RemoveListener(OnGameModelUpdated);
+			SessionUpdatedSignal.RemoveListener(UpdateNextButton);
         }
 
         public override void SetupSceneDependentMenu ()
         {
         }
 
-        void OnGameModelUpdated()
+		void UpdateNextButton()
         {
             if (EquipmentSelectView != null && EquipmentSelectView.ConfirmButton.Button != null)
             {

@@ -14,9 +14,6 @@ namespace BibaFramework.BibaGame
 		[Inject]
 		public BibaSystem BibaSystem { get; set; }
 
-        [Inject]
-        public AccountUpdatedSignal GameModelUpdatedSignal { get; set; }
-
 		public void Save()
 		{
 			WriteAccountModel ();
@@ -25,33 +22,23 @@ namespace BibaFramework.BibaGame
 
 		void WriteAccountModel ()
         {
-			var path = Path.Combine(Application.persistentDataPath, BibaGameConstants.ACCOUNT_MODEL_DATA_PATH);
-
-			WriteToDisk(BibaAccount, path);
-            GameModelUpdatedSignal.Dispatch();
+			WriteToDisk(BibaAccount, Path.Combine(Application.persistentDataPath, BibaGameConstants.ACCOUNT_MODEL_DATA_PATH));
         }
 
 		public BibaAccount LoadAccountModel ()
         {
-			var path = Path.Combine(Application.persistentDataPath, BibaGameConstants.ACCOUNT_MODEL_DATA_PATH);
-
-			BibaAccount = ReadFromDisk<BibaAccount>(path);
+			BibaAccount = ReadFromDisk<BibaAccount>(Path.Combine(Application.persistentDataPath, BibaGameConstants.ACCOUNT_MODEL_DATA_PATH));
 			return BibaAccount;
         }
 
 		void WriteSystemModel ()
 		{
-			var path = Path.Combine(Application.persistentDataPath, BibaGameConstants.SYSTEM_MODEL_DATA_PATH);
-
-			WriteToDisk(BibaAccount, path);
-			GameModelUpdatedSignal.Dispatch();
+			WriteToDisk(BibaAccount, Path.Combine(Application.persistentDataPath, BibaGameConstants.SYSTEM_MODEL_DATA_PATH));
 		}
 
 		public BibaSystem LoadSystemModel ()
 		{
-			var path = Path.Combine(Application.persistentDataPath, BibaGameConstants.SYSTEM_MODEL_DATA_PATH);
-
-			BibaSystem = ReadFromDisk<BibaSystem>(path);
+			BibaSystem = ReadFromDisk<BibaSystem>(Path.Combine(Application.persistentDataPath, BibaGameConstants.SYSTEM_MODEL_DATA_PATH));
 			return BibaSystem;
 		}
 

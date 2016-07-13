@@ -9,7 +9,6 @@ namespace BibaFramework.BibaGame
 		public const string SYSTEM_MODEL_DATA_PATH = "system.txt";
 
         public const string BIBA_URL = "http://www.playbiba.com";
-        public const string BIBA_PRIVACY_URL = "http://www.playbiba.com/privacy-policy";
 
         private const int ONE_DAY_IN_SECONDS = 86400; //1 day
         private const int ONE_HOUR_IN_SECONDS = 3600; //1 hr
