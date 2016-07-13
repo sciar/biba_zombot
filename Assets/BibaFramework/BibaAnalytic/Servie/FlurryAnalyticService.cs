@@ -55,16 +55,6 @@ namespace BibaFramework.BibaAnalytic
             _service.LogEvent(BibaAnalyticConstants.END_SESSION_EVENT, parameters);
         }
 
-		public void TrackStartRound ()
-    	{
-			_service.LogEvent (BibaAnalyticConstants.START_ROUND_EVENT, TrackingParams);
-    	}
-
-    	public void TrackEndRound ()
-    	{
-			_service.LogEvent (BibaAnalyticConstants.END_ROUND_EVENT, TrackingParams);
-    	}
-
 		public void TrackActivites()
 		{
 			if (BibaAccount.SelectedProfile.LScore > 0 ||

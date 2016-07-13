@@ -19,7 +19,7 @@ namespace BibaFramework.BibaGame
 
 		public override void RegisterSceneDependentSignals ()
 		{
-			view.controller.BibaProfile = BibaAccount.SelectedProfile;
+			view.controller.BibaAccount = BibaAccount;
 			view.controller.BibaSession = BibaSession;
 			view.controller.DataService = service;
 		}

@@ -10,7 +10,7 @@ namespace BibaFramework.BibaGame
         public TagScannedSignal TagScannedSignal { get; set; }
 
         [Inject]
-        public TagServiceInitFailedSignal TagServiceInitFailedSignal { get; set; }
+        public TagInitFailedSignal TagServiceInitFailedSignal { get; set; }
 
         private BibaTrackableEventHandler[] TrackableEventHandlers {
             get {

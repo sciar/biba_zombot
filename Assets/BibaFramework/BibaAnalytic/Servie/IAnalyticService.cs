@@ -11,10 +11,6 @@ namespace BibaFramework.BibaAnalytic
         void TrackStartSession();
         //Track the end of an app session, session length, the last game scene the user is on
         void TrackEndSession();
-		//Track the start of a round
-		void TrackStartRound();
-		//Track the end of a round
-		void TrackEndRound();
 		//Track Activities
 		void TrackActivites();
         //Track equipments selected in a sessions

@@ -24,7 +24,7 @@ namespace BibaFramework.BibaGame
         public SetMenuStateTriggerSignal SetMenuStateTriggerSignal { get; set; }
 
         [Inject]
-        public TagServiceInitFailedSignal TagServiceInitFailedSignal { get; set; }
+		public TagInitFailedSignal TagInitFailedSignal { get; set; }
 
         [Inject]
         public LogCameraReminderTimeSignal LogCameraReminderTimeSignal { get; set; }
@@ -40,7 +40,7 @@ namespace BibaFramework.BibaGame
         protected override void RegisterMenuStateDependentSignals() 
         { 
             TagScannedSignal.AddListener(TagScanned);
-            TagServiceInitFailedSignal.AddListener(TagServiceInitFailed);
+			TagInitFailedSignal.AddListener(TagServiceInitFailed);
             
 			ARScanStartView.LocalizationService = LocalizationService;
             SetupTagToScan();
@@ -49,7 +49,7 @@ namespace BibaFramework.BibaGame
         protected override void UnRegisterMenuStateDependentSignals() 
         {
             TagScannedSignal.RemoveListener(TagScanned);
-            TagServiceInitFailedSignal.RemoveListener(TagServiceInitFailed);
+			TagInitFailedSignal.RemoveListener(TagServiceInitFailed);
         }
 
         protected override void MenuStateObjectEnabled()

@@ -39,7 +39,7 @@ namespace BibaFramework.BibaGame
         
         protected override void BindSignals ()
         {
-            injectionBinder.Bind<TagServiceInitFailedSignal>().To<TagServiceInitFailedSignal>().ToSingleton();
+            injectionBinder.Bind<TagInitFailedSignal>().To<TagInitFailedSignal>().ToSingleton();
 			injectionBinder.Bind<TagScanCompletedSignal> ().To<TagScanCompletedSignal> ().ToSingleton ();
         }
     }

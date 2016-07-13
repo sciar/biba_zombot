@@ -7,8 +7,8 @@ namespace BibaFramework.BibaGame
 {
     public class BibaSession
     {
-		public DateTime StartTime { get; set; }
-		public DateTime EndTime { get; set; }
+		public DateTime Start { get; set; }
+		public DateTime End { get; set; }
 
 		public bool TagScanned { get; set; }
 		public bool TagEnabled { get; set; }
@@ -17,9 +17,9 @@ namespace BibaFramework.BibaGame
 		public string QuadTileId { get; set; }
 		public Vector2 Location { get; set; }
 
-		public DateTime LScoreStartTime { get; set; }
-		public DateTime MScoreStartTime { get; set; }
-		public DateTime VScoreStartTime { get; set; }
+		public DateTime LScoreStart { get; set; }
+		public DateTime MScoreStart { get; set; }
+		public DateTime VScoreStart { get; set; }
 
 		public BibaSession()
 		{

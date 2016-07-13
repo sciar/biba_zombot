@@ -65,7 +65,7 @@ namespace BibaFramework.BibaTest
 			GetInstanceFromContext<ApplicationPausedSignal> ().Dispatch ();
 			WaitForSeconds (1);
 			GetInstanceFromContext<ApplicationUnPausedSignal> ().Dispatch();
-			Assert.AreEqual(0, GetSeondsSinceTime(BibaSession.LScoreStartTime));
+			Assert.AreEqual(0, GetSeondsSinceTime(BibaSession.LScoreStart));
 
 			Reset ();
 		}
@@ -83,7 +83,7 @@ namespace BibaFramework.BibaTest
 
 			//Start vigorous activity
 			GetInstanceFromContext<ToggleTrackVigorousActivitySignal>().Dispatch (true);
-			Assert.AreEqual(0, GetSeondsSinceTime(BibaSession.VScoreStartTime));
+			Assert.AreEqual(0, GetSeondsSinceTime(BibaSession.VScoreStart));
 			Assert.AreEqual (1, (int)BibaAccount.SelectedProfile.LScore);
 
 			WaitForSeconds (1);
