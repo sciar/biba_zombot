@@ -28,8 +28,10 @@ namespace BibaFramework.BibaAnalytic
 		{
 			if (BibaSession.LScoreStart != default(DateTime)) 
 			{
-				BibaAccount.SetAllLScoreDelta ((float)(DateTime.UtcNow - BibaSession.LScoreStart).TotalSeconds);
+				BibaAccount.SelectedProfile.LScore += ((float)(DateTime.UtcNow - BibaSession.LScoreStart).TotalSeconds);
 				BibaSession.LScoreStart = default(DateTime);
+
+				DataService.Save ();
 			}
 		}
 	}

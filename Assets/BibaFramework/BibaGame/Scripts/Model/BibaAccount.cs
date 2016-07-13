@@ -23,27 +23,6 @@ namespace BibaFramework.BibaGame
 			}
 		}
 
-		public void SetAllLScoreDelta(float delta)
-		{
-			BibaProfiles.ForEach (profile => {
-				profile.LScore += delta;
-			});
-		}
-
-		public void SetAllMScoreDelta(float delta)
-		{
-			BibaProfiles.ForEach (profile => {
-				profile.MScore += delta;
-			});
-		}
-
-		public void SetAllVScoreDelta(float delta)
-		{
-			BibaProfiles.ForEach (profile => {
-				profile.VScore += delta;
-			});
-		}
-
 		public void ResetLMVScores()
 		{
 			BibaProfiles.ForEach (profile => {

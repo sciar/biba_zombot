@@ -14,6 +14,9 @@ namespace BibaFramework.BibaAnalytic
 		[Inject]
 		public BibaAccount BibaAccount { get; set; }
 
+		[Inject]
+		public IDataService DataService { get; set; }
+
 		public override void Execute ()
 		{
 			if (Status) 
@@ -22,7 +25,7 @@ namespace BibaFramework.BibaAnalytic
 				TurnOffOtherTrackingSignals ();
 			} 
 			else
-			{
+			{	
 				AddActivityTime ();
 			}
 		}

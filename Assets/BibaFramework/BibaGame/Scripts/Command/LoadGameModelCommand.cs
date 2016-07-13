@@ -9,18 +9,13 @@ namespace BibaFramework.BibaGame
 
         public override void Execute ()
         {
-            LoadGameModel();
-        }
-
-        void LoadGameModel()
-        {
-			var systemModel = LoaderService.LoadSystemModel ();
+            var systemModel = LoaderService.LoadSystemModel ();
 			injectionBinder.Unbind<BibaSystem>();
 			injectionBinder.Bind<BibaSystem>().To(systemModel).ToSingleton().CrossContext();
-
+			
 			var accountModel = LoaderService.LoadAccountModel ();
 			injectionBinder.Unbind<BibaAccount>();
 			injectionBinder.Bind<BibaAccount>().To(accountModel).ToSingleton().CrossContext();
-	     }
+		}
     } 
 }

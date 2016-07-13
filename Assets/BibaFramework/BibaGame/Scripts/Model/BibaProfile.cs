@@ -33,14 +33,9 @@ namespace BibaFramework.BibaGame
 		{
 			get 
 			{
-				return new List<BibaEquipment> () {
-					new BibaEquipment(BibaEquipmentType.bridge),
-					new BibaEquipment(BibaEquipmentType.climber),
-					new BibaEquipment(BibaEquipmentType.overhang),
-					new BibaEquipment(BibaEquipmentType.slide),
-					new BibaEquipment(BibaEquipmentType.swing),
-					new BibaEquipment(BibaEquipmentType.tube),
-				};
+				var defaults = new List<BibaEquipment> ();
+				Array.ForEach((BibaEquipmentType[])Enum.GetValues(typeof(BibaEquipmentType)), eq => defaults.Add(new BibaEquipment(eq)));
+				return defaults;
 			}
 		}
 	}
