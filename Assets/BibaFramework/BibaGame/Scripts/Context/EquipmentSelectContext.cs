@@ -26,6 +26,7 @@ namespace BibaFramework.BibaGame
         {
             mediationBinder.Bind<EquipmentSelectView>().To<EquipmentSelectMediator>();
             mediationBinder.Bind<EquipmentSelectToggleView>().To<EquipmentSelectToggleMediator>();
+			mediationBinder.Bind<EquipmentConfirmView> ().To<EquipmentConfirmMediator> ();
         }
 
         protected override void BindCommands ()

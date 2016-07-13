@@ -32,8 +32,6 @@ namespace BibaFramework.BibaGame
 			CompletedAchievements = new List<BibaAchievement> ();
 			LanguageOverwrite = SystemLanguage.Unknown;
 			LastPlayedTime = DateTime.MaxValue;
-			LastChartBoostTime = DateTime.MinValue;
-			LastCameraReminderTime = DateTime.MinValue;
 		}
 	}
 }
