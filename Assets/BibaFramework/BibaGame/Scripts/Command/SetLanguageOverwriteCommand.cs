@@ -15,7 +15,7 @@ namespace BibaFramework.BibaGame
         public IDataService DataService { get; set; }
 
 		[Inject]
-		public LanguageUpdatedSignal LanguageUpdatedSignal { get; set; }
+		public SystemUpdatedSignal LanguageUpdatedSignal { get; set; }
 
         public override void Execute ()
         {

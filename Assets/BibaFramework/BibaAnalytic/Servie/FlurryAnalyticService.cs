@@ -47,6 +47,7 @@ namespace BibaFramework.BibaAnalytic
 			foreach (var profile in BibaAccount.BibaProfiles) 
 			{
 				parameters.Add(BibaAnalyticConstants.PROFILE_ID, profile.Id);
+
 				if (BibaAccount.SelectedProfile.LScore > 0 ||
 					BibaAccount.SelectedProfile.MScore > 0 ||
 					BibaAccount.SelectedProfile.VScore > 0) 
@@ -64,27 +65,12 @@ namespace BibaFramework.BibaAnalytic
 
 			foreach (var equipment in BibaAccount.SelectedProfile.PlayedEquipments)
             {
-				parameters.Add(string.Format("{0}_{1}", BibaAnalyticConstants.EQUIPMENT_PLAYED, equipment.EquipmentType.ToString()), equipment.NumberOfTimeSelected.ToString());
+				parameters.Add(string.Format("{0}_{1}", BibaAnalyticConstants.EQUIPMENT_PLAYED, equipment.EquipmentType.ToString()), equipment.NumberOfTimePlayed.ToString());
             }
 
             _service.LogEvent(BibaAnalyticConstants.END_SESSION_EVENT, parameters);
         }
-
-		public void TrackActivites()
-		{
-			if (BibaAccount.SelectedProfile.LScore > 0 ||
-				BibaAccount.SelectedProfile.MScore > 0 ||
-				BibaAccount.SelectedProfile.VScore > 0) 
-			{
-				var parameters = TrackingParams;
-				parameters.Add (BibaAnalyticConstants.LIGHT_TIME, BibaAccount.SelectedProfile.LScore.ToString ());
-				parameters.Add (BibaAnalyticConstants.MODERATE_TIME, BibaAccount.SelectedProfile.MScore.ToString ());
-				parameters.Add (BibaAnalyticConstants.VIGOROUS_TIME, BibaAccount.SelectedProfile.VScore.ToString ());
-
-				_service.LogEvent (BibaAnalyticConstants.ACTIVITIES_EVENT, parameters);
-			}
-		}
-
+		
         public void TrackWeatherInfo(BibaWeatherInfo weatherInfo)
         {
             var parameters = TrackingParams;
@@ -94,12 +80,16 @@ namespace BibaFramework.BibaAnalytic
             parameters.Add(BibaAnalyticConstants.WEATHER_WIND_SPEED, weatherInfo.WindSpeed.ToString("F2"));
 
             _service.LogEvent(BibaAnalyticConstants.WEATHER_EVENT, parameters);
-        }
+		}
 
         public Dictionary<string, string> TrackingParams {
             get {
                 var param = new Dictionary<string, string>() {
-                    {BibaAnalyticConstants.TIME_STAMP, DateTime.Now.ToString()}
+                    {BibaAnalyticConstants.TIME_STAMP, DateTime.Now.ToString()},
+					{BibaAnalyticConstants.UDID, BibaSystem.UUID},
+					{BibaAnalyticConstants.ACCOUNT_ID, BibaAccount.Id},
+					{BibaAnalyticConstants.DEVICE_MODEL, BibaSystem.DeviceModel},
+					{BibaAnalyticConstants.DEVICE_OS, BibaSystem.DeviceOS }
                 };
 					
 				if(BibaSession != null && !string.IsNullOrEmpty(BibaSession.QuadTileId))

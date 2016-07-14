@@ -9,7 +9,7 @@ namespace BibaFramework.BibaGame
     public class EndSignal : Signal{ }
     public class ApplicationPausedSignal : Signal{ }
     public class ApplicationUnPausedSignal : Signal{ }
-	public class LanguageUpdatedSignal : Signal { }
+	public class SystemUpdatedSignal : Signal { }
 	public class SessionUpdatedSignal : Signal { }
 
 	//Gameplay

@@ -12,8 +12,6 @@ namespace BibaFramework.BibaGame
         public List<DateTime> TimesPlayed { get; set; }
         public int NumberOfTimePlayed { get { return TimesPlayed.Count; } }
 
-        public int NumberOfTimeSelected { get; set; }
-
         public BibaEquipment()
         {
             TimesPlayed = new List<DateTime>();

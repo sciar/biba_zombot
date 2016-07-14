@@ -123,7 +123,7 @@ namespace BibaFramework.BibaMenu
         {
 			//BibaGame
 			injectionBinder.Bind<SessionUpdatedSignal>().ToSingleton().CrossContext();
-          	injectionBinder.Bind<LanguageUpdatedSignal>().ToSingleton().CrossContext();
+          	injectionBinder.Bind<SystemUpdatedSignal>().ToSingleton().CrossContext();
 			injectionBinder.Bind<PointsGainedSignal> ().ToSingleton ().CrossContext ();
 
 			//BibaMenu

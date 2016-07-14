@@ -22,9 +22,7 @@ namespace BibaFramework.BibaGame
 				BibaSession.End = DateTime.UtcNow;
 				AnalyticService.TrackEndSession ();
 			}
-
-			//TODO: Call SessionEnd call for tracking
-
+				
 			BibaSession = new BibaSession ();
 			AnalyticService.TrackStartSession ();
 			ToggleTrackLightActivitySignal.Dispatch (true);

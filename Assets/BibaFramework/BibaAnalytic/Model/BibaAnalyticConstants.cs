@@ -4,9 +4,10 @@ namespace BibaFramework.BibaAnalytic
     {
 		//Tracking
         public const string UDID = "udid";
-        public const string SESSION_ID = "session_id";
-        public const string QUADTILE_ID = "quadtile_id";
+		public const string ACCOUNT_ID = "account_id";	
 		public const string PROFILE_ID = "profile_id";
+        public const string QUADTILE_ID = "quadtile_id";
+
         public const string DEVICE_MODEL = "device_model";
         public const string DEVICE_OS = "device_os";
         public const string TIME_STAMP = "time_stamp";
@@ -19,7 +20,6 @@ namespace BibaFramework.BibaAnalytic
 
         public const string EQUIPMENT_SELECTED= "equipment_selected";
         public const string EQUIPMENT_PLAYED = "equipment_played";
-        
         public const string TAG_ENABLED = "tag_enabled";
         public const string TAG_SCANNED = "tag_scanned";
 
@@ -29,7 +29,6 @@ namespace BibaFramework.BibaAnalytic
         public const string WEATHER_WIND_SPEED = "weather_wind_speed";
         public const string WEATHER_API_KEY = "69e7f849ba55efb65fffccbbb2ea1eba";
 
-		public const string ACTIVITIES_EVENT = "activities";
 		public const string LIGHT_TIME = "total_light";
 		public const string VIGOROUS_TIME = "total_vigorous";
 		public const string MODERATE_TIME = "total_moderate";
