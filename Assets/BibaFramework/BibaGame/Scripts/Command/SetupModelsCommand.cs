@@ -20,10 +20,19 @@ namespace BibaFramework.BibaGame
         public override void Execute ()
         {
 			ResetMenuStateCondition();
+			SetupSystemModel();
 			SetupMenuStateByGameModel();
-			SetupSessionModel();
             CheckForGameModelMigration();
+
+			SetFramerate ();
         }
+
+		void SetupSystemModel()
+		{
+			BibaSystem.UUID = Guid.NewGuid().ToString();
+			BibaSystem.DeviceModel = SystemInfo.deviceModel;
+			BibaSystem.DeviceOS = SystemInfo.operatingSystem;
+		}
 
 		void ResetMenuStateCondition()
 		{
@@ -39,14 +48,7 @@ namespace BibaFramework.BibaGame
 			SetMenuStateConditionSignal.Dispatch(MenuStateCondition.HowToEnabled, BibaSystem.HowToEnabled);
 			SetMenuStateConditionSignal.Dispatch(MenuStateCondition.HelpBubblesEnabled, BibaSystem.HelpBubblesEnabled);
 		}
-
-		void SetupSessionModel()
-		{
-			BibaSystem.UUID = Guid.NewGuid().ToString();
-			BibaSystem.DeviceModel = SystemInfo.deviceModel;
-			BibaSystem.DeviceOS = SystemInfo.operatingSystem;
-		}
-
+			
         //Where we handle the migration of BibaGameModel
         void CheckForGameModelMigration()
         {
@@ -62,5 +64,11 @@ namespace BibaFramework.BibaGame
 				DataService.Save();
             }
         }
-    }
+
+		void SetFramerate()
+		{
+			Application.targetFrameRate = 60;
+			QualitySettings.vSyncCount = 0;
+		}
+	}
 }

@@ -11,7 +11,7 @@ namespace BibaFramework.BibaGame
 		public BibaSystem BibaSystem { get; set; }
 
 		[Inject]
-		public ClearEquipmentsSignal ClearEquipmentsSignal { get; set; }
+		public StartNewSessionSignal StartNewSessionSignal { get; set; }
 
         public override SceneMenuStateView View { get { return InactiveView; } }
 
@@ -23,17 +23,17 @@ namespace BibaFramework.BibaGame
 
         public override void RegisterSceneDependentSignals ()
         {
-			InactiveView.NoButton.onClick.AddListener (ClearSelectedEquipments);
+			InactiveView.NoButton.onClick.AddListener (StartNewSession);
         }
         
         public override void UnRegisterSceneDependentSignals ()
         {
-			InactiveView.NoButton.onClick.RemoveListener (ClearSelectedEquipments);
+			InactiveView.NoButton.onClick.RemoveListener (StartNewSession);
         }
 
-		void ClearSelectedEquipments()
+		void StartNewSession()
 		{
-			ClearEquipmentsSignal.Dispatch ();
+			StartNewSessionSignal.Dispatch ();
 		}
 	}
 }

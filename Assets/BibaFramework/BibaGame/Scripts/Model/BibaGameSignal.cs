@@ -13,7 +13,7 @@ namespace BibaFramework.BibaGame
 	public class SessionUpdatedSignal : Signal { }
 
 	//Gameplay
-	public class ClearEquipmentsSignal : Signal { }
+	public class StartNewSessionSignal : Signal { }
     public class EquipmentSelectedSignal : Signal <BibaEquipmentType, bool> { }
     public class EquipmentPlayedSignal : Signal<BibaEquipmentType> { }
     public class TryToSetHighScoreSignal : Signal<int> { }

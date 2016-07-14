@@ -3,7 +3,7 @@ using BibaFramework.BibaGame;
 
 namespace BibaFramework.BibaAnalytic
 {
-	public class EndTrackingAllActivitiesCommand : Command
+	public class EndTrackingActivitiesCommand : Command
 	{
 		[Inject]
 		public ToggleTrackLightActivitySignal ToggleTrackLightActivitySignal { get; set; }

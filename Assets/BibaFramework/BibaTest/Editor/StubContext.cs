@@ -92,18 +92,18 @@ namespace BibaFramework.BibaTest
 
 		protected void BindCommands()
 		{
-			commandBinder.Bind<StartSignal>().To<SetupSystemModelCommand>().To<StartTrackingLightActivityCommand>().InSequence();
-			commandBinder.Bind<TestModelResetSignal>().To<SetupSystemModelCommand>().To<StartTrackingLightActivityCommand>().InSequence();
+			commandBinder.Bind<StartSignal>().To<SetupSystemModelCommand>().To<StartTrackingActivitiesCommand>().InSequence();
+			commandBinder.Bind<TestModelResetSignal>().To<SetupSystemModelCommand>().To<StartTrackingActivitiesCommand>().InSequence();
 
 			commandBinder.Bind<ToggleTrackModerateActivitySignal> ().To<ToggleTrackModerateActivityCommand> ();
 			commandBinder.Bind<ToggleTrackLightActivitySignal> ().To<ToggleTrackLightActivityCommand> ();
 			commandBinder.Bind<ToggleTrackVigorousActivitySignal> ().To<ToggleTrackVigorousActivityCommand> ();
 
-			commandBinder.Bind<ApplicationPausedSignal>().To<EndTrackingAllActivitiesCommand>();
-			commandBinder.Bind<ApplicationUnPausedSignal> ().To<StartTrackingLightActivityCommand> ();
+			commandBinder.Bind<ApplicationPausedSignal>().To<EndTrackingActivitiesCommand>();
+			commandBinder.Bind<ApplicationUnPausedSignal> ().To<StartTrackingActivitiesCommand> ();
 
 			commandBinder.Bind<TestCheckForChartBoostCommandSignal> ().To<CheckForChartBoostCommand> ();
-			commandBinder.Bind<TestCheckForInactiveResetCommandSignal> ().To<CheckForInactiveResetCommand> ();   
+			commandBinder.Bind<TestCheckForInactiveResetCommandSignal> ().To<CheckForSessionEndCommand> ();   
 			commandBinder.Bind<TestCheckToSkipTagScanCommandSignal> ().To<CheckToSkipTagScanCommand> ();
 			
 			commandBinder.Bind<EquipmentPlayedSignal>().To<EquipmentPlayedCommand>();

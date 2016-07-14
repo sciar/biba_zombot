@@ -36,10 +36,5 @@ namespace BibaFramework.BibaGame
     {
         public Vector2 Center { get; set; }
         public double Radius { get; set; }
-
-        public GeoSceneSetting()
-        {
-            Radius = BibaGameConstants.LOCALE_BASED_SCENE_SETTING_RADIUS;
-        }
     }
 }

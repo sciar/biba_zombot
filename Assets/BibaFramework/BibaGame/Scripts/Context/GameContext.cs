@@ -51,7 +51,7 @@ namespace BibaFramework.BibaGame
 				To<CheckForAchievementsCommand>().
 				To<CheckForFirstGameCompletedPointsEventCommand>().
 				To<CheckForGameCompletedPointsEventCommand>().
-				To<StartTrackingLightActivityCommand>();
+				To<StartTrackingActivitiesCommand>();
         }
         
         protected override void BindSignals ()

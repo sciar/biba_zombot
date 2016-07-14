@@ -59,27 +59,28 @@ namespace BibaFramework.BibaMenu
 			//Start setup - order is important
             commandBinder.Bind<StartSignal>().
 					To<SetupServicesCommand>().
-                    To<LoadGameModelCommand>().
+                    To<LoadModelsCommand>().
                     To<SetupSystemModelCommand>().
-                    To<SetupGameConfigCommand>().
-                    To<SetupEditorDebugSceneCommand>().
+					To<StartNewSessionCommand>().
 					To<UpdateFromCDNCommand>().
-					To<StartTrackingLightActivityCommand>().
+			#if UNITY_EDITOR
+					To<SetupEditorDebugSceneCommand>().
+			#endif
                     InSequence();
            
+			commandBinder.Bind<StartNewSessionSignal>().To<StartNewSessionCommand>();
+
 			commandBinder.Bind<ApplicationPausedSignal>().
 				To<LogLocationInfoCommand>().
-				To<EndTrackingAllActivitiesCommand>();
+				To<EndTrackingActivitiesCommand>();
 
             commandBinder.Bind<ApplicationUnPausedSignal>().
 					To<UpdateFromCDNCommand>().
                     To<LogLocationInfoCommand>().
-					To<StartTrackingLightActivityCommand>().
+					To<StartTrackingActivitiesCommand>().
                     //TODO: reenable when location based theme is up
 					//To<CheckForDownloadContentCommand>().
-                    To<CheckForInactiveResetCommand>();
-
-			commandBinder.Bind<SetLanguageOverwriteSignal> ().To<SetLanguageOverwriteCommand> ();
+					To<CheckForSessionEndCommand>();
 
             //BibaMenu
             commandBinder.Bind<ProcessNextMenuStateSignal>().To<ProcessNextMenuStateCommand>();

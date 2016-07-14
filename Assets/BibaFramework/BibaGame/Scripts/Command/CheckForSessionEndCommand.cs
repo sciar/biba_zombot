@@ -4,7 +4,7 @@ using System;
 
 namespace BibaFramework.BibaGame
 {
-    public class CheckForInactiveResetCommand : Command
+    public class CheckForSessionEndCommand : Command
     {
         [Inject]
 		public BibaSystem BibaSystem { get; set; }

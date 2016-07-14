@@ -23,6 +23,7 @@ namespace BibaFramework.BibaGame
 
 		public BibaSession()
 		{
+			Start = DateTime.UtcNow;
 			SelectedEquipments = new List<BibaEquipment> ();
 		}
     }

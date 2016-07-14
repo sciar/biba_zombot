@@ -2,6 +2,7 @@
 using BibaFramework.BibaMenu;
 using strange.extensions.context.api;
 using BibaFramework.BibaNetwork;
+using BibaFramework.BibaAnalytic;
 
 namespace BibaFramework.BibaGame
 {
@@ -31,7 +32,7 @@ namespace BibaFramework.BibaGame
 			
         protected override void BindCommands ()
         {
-			commandBinder.Bind<StartSignal> ().To<CheckForInactiveResetCommand> ();
+			commandBinder.Bind<StartSignal>().To<CheckForSessionEndCommand>();
         }
 
         protected override void BindSignals ()
