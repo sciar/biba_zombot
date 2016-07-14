@@ -134,14 +134,12 @@ namespace BibaFramework.BibaTest
 
 			var equipmentPlayed = BibaAccount.SelectedProfile.PlayedEquipments.Find (equip => equip.EquipmentType == BibaEquipmentType.bridge);
 			Assert.IsNotNull (equipmentPlayed);
-			Assert.AreEqual (equipmentPlayed.NumberOfTimeSelected, 1);
 
 			//Deselect the bridge equipment
 			GetInstanceFromContext<EquipmentSelectedSignal> ().Dispatch (BibaEquipmentType.bridge, false);
 
 			equipmentSelected = BibaSession.SelectedEquipments.Find (equip => equip.EquipmentType == BibaEquipmentType.bridge);
 			Assert.IsNull (equipmentSelected);
-			Assert.AreEqual (equipmentPlayed.NumberOfTimeSelected, 0);
 
 			Reset ();
 		}
