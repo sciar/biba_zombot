@@ -12,13 +12,21 @@ namespace BibaFramework.BibaGame
 		[Inject]
 		public ToggleTrackLightActivitySignal ToggleTrackLightActivitySignal { get; set; }
 
+		[Inject]
+		public IAnalyticService AnalyticService { get; set; }
+
 		public override void Execute ()
 		{
-			BibaSession.End = DateTime.UtcNow;
+			if (BibaSession.SelectedEquipments.Count > 0) 
+			{
+				BibaSession.End = DateTime.UtcNow;
+				AnalyticService.TrackEndSession ();
+			}
 
 			//TODO: Call SessionEnd call for tracking
 
 			BibaSession = new BibaSession ();
+			AnalyticService.TrackStartSession ();
 			ToggleTrackLightActivitySignal.Dispatch (true);
 		}
 	}

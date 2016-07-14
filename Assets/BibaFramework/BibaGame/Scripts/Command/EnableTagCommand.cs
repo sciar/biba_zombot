@@ -1,6 +1,5 @@
 using strange.extensions.command.impl;
 using BibaFramework.BibaMenu;
-using BibaFramework.BibaAnalytic;
 
 namespace BibaFramework.BibaGame
 {
@@ -12,14 +11,9 @@ namespace BibaFramework.BibaGame
         [Inject]
 		public BibaSession BibaSession { get; set; }
 
-        [Inject]
-        public IAnalyticService BibaAnalyticService { get; set; } 
-
-
         public override void Execute ()
         {
 			BibaSession.TagEnabled = Status;
-            BibaAnalyticService.TrackTagEnabled(Status);
 	    }
     }
 }

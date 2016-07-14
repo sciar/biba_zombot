@@ -5,7 +5,7 @@ namespace BibaFramework.BibaTest
 {
 	public class StubAnalyticService : IAnalyticService
 	{
-		public void StartTracking (string iosKey, string androidKey)
+		public void SetupTracking (string iosKey, string androidKey)
 		{
 		}
 
@@ -16,35 +16,7 @@ namespace BibaFramework.BibaTest
 		public void TrackEndSession ()
 		{
 		}
-
-		public void TrackStartRound ()
-		{
-		}
-
-		public void TrackEndRound ()
-		{
-		}
-
-		public void TrackActivites ()
-		{
-		}
-
-		public void TrackEquipmentSelected (BibaFramework.BibaGame.BibaEquipmentType equipmentType)
-		{
-		}
-
-		public void TrackEquipmentPlayed (BibaFramework.BibaGame.BibaEquipmentType equipmentType)
-		{
-		}
-
-		public void TrackTagEnabled (bool enabled)
-		{
-		}
-
-		public void TrackTagScanned (BibaFramework.BibaGame.BibaTagType tagType)
-		{
-		}
-
+			
 		public void TrackWeatherInfo (BibaWeatherInfo weatherInfo)
 		{
 		}

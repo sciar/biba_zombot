@@ -23,33 +23,48 @@ namespace BibaFramework.BibaAnalytic
 
         private Flurry _service;
 
-		public void StartTracking (string iosKey, string androidKey)
+		public void SetupTracking (string iosKey, string androidKey)
     	{
 			_service = Flurry.Instance;
 			_service.SetLogLevel(LogLevel.All);
 			_service.StartSession(iosKey, androidKey);
-
-			TrackStartSession();
     	}
-
-        ~FlurryAnalyticService()
-        {
-            TrackEndSession();
-        }
 
         public void TrackStartSession ()
         {
-            _service.LogEvent(BibaAnalyticConstants.START_SESSION_EVENT, TrackingParams);
+			var parameters = TrackingParams;
+			parameters.Add (BibaAnalyticConstants.SESSION_START_TIME, BibaSession.Start.ToString());
+			_service.LogEvent(BibaAnalyticConstants.START_SESSION_EVENT, parameters);
         }
 
         public void TrackEndSession ()
         {
             var parameters = TrackingParams;
-            parameters.Add(BibaAnalyticConstants.END_GAME_LAST_MENU_SHOWN, BibaSceneStack.Count > 0 ? BibaSceneStack.Peek().ToString() : "GameScene.Null");
+			parameters.Add (BibaAnalyticConstants.SESSION_END_TIME, BibaSession.End.ToString());
+			parameters.Add (BibaAnalyticConstants.TAG_ENABLED, BibaSession.TagEnabled.ToString());
+			parameters.Add (BibaAnalyticConstants.TAG_SCANNED, BibaSession.TagScanned.ToString());
+
+			foreach (var profile in BibaAccount.BibaProfiles) 
+			{
+				parameters.Add(BibaAnalyticConstants.PROFILE_ID, profile.Id);
+				if (BibaAccount.SelectedProfile.LScore > 0 ||
+					BibaAccount.SelectedProfile.MScore > 0 ||
+					BibaAccount.SelectedProfile.VScore > 0) 
+				{
+					parameters.Add (BibaAnalyticConstants.LIGHT_TIME + "_" + profile.Id, BibaAccount.SelectedProfile.LScore.ToString ());
+					parameters.Add (BibaAnalyticConstants.MODERATE_TIME + "_" + profile.Id, BibaAccount.SelectedProfile.MScore.ToString ());
+					parameters.Add (BibaAnalyticConstants.VIGOROUS_TIME + "_" + profile.Id, BibaAccount.SelectedProfile.VScore.ToString ());
+				}
+			}
+
+			foreach (var equipment in BibaSession.SelectedEquipments) 
+			{
+				parameters.Add(BibaAnalyticConstants.EQUIPMENT_SELECTED, equipment.EquipmentType.ToString());
+			}
 
 			foreach (var equipment in BibaAccount.SelectedProfile.PlayedEquipments)
             {
-                parameters.Add(string.Format("{0}{1}", equipment.EquipmentType.ToString(), BibaAnalyticConstants.EQUIPMENT_PLAYED), equipment.NumberOfTimeSelected.ToString());
+				parameters.Add(string.Format("{0}_{1}", BibaAnalyticConstants.EQUIPMENT_PLAYED, equipment.EquipmentType.ToString()), equipment.NumberOfTimeSelected.ToString());
             }
 
             _service.LogEvent(BibaAnalyticConstants.END_SESSION_EVENT, parameters);
@@ -69,38 +84,6 @@ namespace BibaFramework.BibaAnalytic
 				_service.LogEvent (BibaAnalyticConstants.ACTIVITIES_EVENT, parameters);
 			}
 		}
-
-        public void TrackEquipmentSelected (BibaEquipmentType equipmentType)
-        {
-            var parameters = TrackingParams;
-            parameters.Add(BibaAnalyticConstants.EQUIPMENT_SELECTED_TYPE, equipmentType.ToString());
-
-            _service.LogEvent(BibaAnalyticConstants.EQUIPMENT_SELECTED_EVENT, parameters);
-        }
-
-        public void TrackEquipmentPlayed(BibaEquipmentType equipmentType)
-        {
-            var parameters = TrackingParams;
-            parameters.Add(BibaAnalyticConstants.EQUIPMENT_PLAYED_TYPE, equipmentType.ToString());
-            
-            _service.LogEvent(BibaAnalyticConstants.EQUIPMENT_PLAYED_EVENT, parameters);
-        }
-
-		public void TrackTagEnabled (bool enabled)
-        {
-            var parameters = TrackingParams;
-            parameters.Add(BibaAnalyticConstants.TAG_ENABLED, enabled.ToString());
-            
-            _service.LogEvent(BibaAnalyticConstants.TAG_ENABLED_EVENT, parameters);;
-        }
-       
-		public void TrackTagScanned (BibaTagType tagType)
-        {
-            var parameters = TrackingParams;
-            parameters.Add(BibaAnalyticConstants.TAG_SCANNED_TYPE, tagType.ToString());
-
-            _service.LogEvent(BibaAnalyticConstants.TAG_SCANNED_EVENT, parameters);
-        }
 
         public void TrackWeatherInfo(BibaWeatherInfo weatherInfo)
         {

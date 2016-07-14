@@ -38,7 +38,7 @@ namespace BibaFramework.BibaGame
 		void SetupAnalyticService()
 		{
 			var flurryConfig = RootContextView.GetComponent<FlurryConfigs>();
-			AnalyticService.StartTracking(flurryConfig.FlurryIosKey, flurryConfig.FlurryAndroidKey);
+			AnalyticService.SetupTracking(flurryConfig.FlurryIosKey, flurryConfig.FlurryAndroidKey);
 		}
     }
 }

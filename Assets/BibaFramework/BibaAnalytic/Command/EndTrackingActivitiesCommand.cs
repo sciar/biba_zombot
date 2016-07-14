@@ -15,9 +15,6 @@ namespace BibaFramework.BibaAnalytic
 		public ToggleTrackVigorousActivitySignal ToggleTrackVigorousActivitySignal { get; set; }
 
 		[Inject]
-		public IAnalyticService AnalyticService { get; set; }
-
-		[Inject]
 		public BibaAccount BibaAccount { get; set; }
 
 		public override void Execute ()
@@ -26,7 +23,6 @@ namespace BibaFramework.BibaAnalytic
 			ToggleTrackModerateActivitySignal.Dispatch (false);
 			ToggleTrackVigorousActivitySignal.Dispatch (false);
 
-			AnalyticService.TrackActivites ();
 			BibaAccount.ResetLMVScores ();
 		}
 	}
