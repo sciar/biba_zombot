@@ -103,7 +103,7 @@ namespace BibaFramework.BibaTest
 			commandBinder.Bind<ApplicationUnPausedSignal> ().To<StartTrackingActivitiesCommand> ();
 
 			commandBinder.Bind<TestCheckForChartBoostCommandSignal> ().To<CheckForChartBoostCommand> ();
-			commandBinder.Bind<TestCheckForInactiveResetCommandSignal> ().To<CheckForSessionEndCommand> ();   
+			commandBinder.Bind<TestCheckForSessionEndCommandSignal> ().To<CheckForSessionEndCommand> ();   
 			commandBinder.Bind<TestCheckToSkipTagScanCommandSignal> ().To<CheckToSkipTagScanCommand> ();
 			
 			commandBinder.Bind<EquipmentPlayedSignal>().To<EquipmentPlayedCommand>();

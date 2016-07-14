@@ -165,13 +165,18 @@ namespace BibaFramework.BibaTest
 		[Test]
 		public void TestInactiveScreen()
 		{
+			GetInstanceFromContext<EquipmentSelectedSignal>().Dispatch(BibaEquipmentType.bridge, true);
+			GetInstanceFromContext<TestCheckForSessionEndCommandSignal> ().Dispatch();
+			Assert.IsFalse(StubAnimator.GetBool(MenuStateCondition.ShowInactive));
+
+			GetInstanceFromContext<EquipmentSelectedSignal>().Dispatch(BibaEquipmentType.bridge, false);
 			BibaSystem.LastPlayedTime = DateTime.UtcNow - BibaGameConstants.INACTIVE_DURATION;
 			WaitForSeconds (1);
-			GetInstanceFromContext<TestCheckForInactiveResetCommandSignal> ().Dispatch();
+			GetInstanceFromContext<TestCheckForSessionEndCommandSignal> ().Dispatch();
 			Assert.IsFalse (StubAnimator.GetBool(MenuStateCondition.ShowInactive));
 
 			GetInstanceFromContext<EquipmentSelectedSignal>().Dispatch(BibaEquipmentType.bridge, true);
-			GetInstanceFromContext<TestCheckForInactiveResetCommandSignal> ().Dispatch();
+			GetInstanceFromContext<TestCheckForSessionEndCommandSignal> ().Dispatch();
 			Assert.IsTrue (StubAnimator.GetBool(MenuStateCondition.ShowInactive));
 
 			Reset ();
