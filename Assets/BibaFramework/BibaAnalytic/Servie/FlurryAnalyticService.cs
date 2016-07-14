@@ -51,9 +51,9 @@ namespace BibaFramework.BibaAnalytic
 					BibaAccount.SelectedProfile.MScore > 0 ||
 					BibaAccount.SelectedProfile.VScore > 0) 
 				{
-					parameters.Add (BibaAnalyticConstants.LIGHT_TIME + "_" + profile.Id, BibaAccount.SelectedProfile.LScore.ToString ());
-					parameters.Add (BibaAnalyticConstants.MODERATE_TIME + "_" + profile.Id, BibaAccount.SelectedProfile.MScore.ToString ());
-					parameters.Add (BibaAnalyticConstants.VIGOROUS_TIME + "_" + profile.Id, BibaAccount.SelectedProfile.VScore.ToString ());
+					parameters.Add (BibaAnalyticConstants.LIGHT_TIME + "_" + profile.Id, profile.LScore.ToString ());
+					parameters.Add (BibaAnalyticConstants.MODERATE_TIME + "_" + profile.Id, profile.MScore.ToString ());
+					parameters.Add (BibaAnalyticConstants.VIGOROUS_TIME + "_" + profile.Id, profile.VScore.ToString ());
 				}
 			}
 
