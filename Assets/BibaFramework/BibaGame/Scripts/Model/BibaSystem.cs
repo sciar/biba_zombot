@@ -27,6 +27,10 @@ namespace BibaFramework.BibaGame
 
 		public BibaSystem()
 		{
+			UUID = Guid.NewGuid().ToString();
+			DeviceModel = SystemInfo.deviceModel;
+			DeviceOS = SystemInfo.operatingSystem;
+
 			CompletedAchievements = new List<BibaAchievement> ();
 			LanguageOverwrite = SystemLanguage.Unknown;
 			LastPlayedTime = DateTime.MaxValue;

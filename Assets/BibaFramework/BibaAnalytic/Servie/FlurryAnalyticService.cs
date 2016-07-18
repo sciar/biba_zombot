@@ -85,14 +85,10 @@ namespace BibaFramework.BibaAnalytic
         public Dictionary<string, string> TrackingParams {
             get {
                 var param = new Dictionary<string, string>() {
-                    {BibaAnalyticConstants.TIME_STAMP, DateTime.Now.ToString()},
-					{BibaAnalyticConstants.UDID, BibaSystem.UUID},
-					{BibaAnalyticConstants.ACCOUNT_ID, BibaAccount.Id},
-					{BibaAnalyticConstants.DEVICE_MODEL, BibaSystem.DeviceModel},
-					{BibaAnalyticConstants.DEVICE_OS, BibaSystem.DeviceOS }
+                    {BibaAnalyticConstants.TIME_STAMP, DateTime.Now.ToString()}
                 };
 					
-				if(BibaSession != null && !string.IsNullOrEmpty(BibaSession.QuadTileId))
+				if(!string.IsNullOrEmpty(BibaSession.QuadTileId))
                 {
 					param.Add(BibaAnalyticConstants.QUADTILE_ID, BibaSession.QuadTileId);
                 }

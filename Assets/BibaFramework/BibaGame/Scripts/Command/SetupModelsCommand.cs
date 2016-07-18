@@ -20,19 +20,11 @@ namespace BibaFramework.BibaGame
         public override void Execute ()
         {
 			ResetMenuStateCondition();
-			SetupSystemModel();
 			SetupMenuStateByGameModel();
             CheckForGameModelMigration();
 
 			SetFramerate ();
         }
-
-		void SetupSystemModel()
-		{
-			BibaSystem.UUID = Guid.NewGuid().ToString();
-			BibaSystem.DeviceModel = SystemInfo.deviceModel;
-			BibaSystem.DeviceOS = SystemInfo.operatingSystem;
-		}
 
 		void ResetMenuStateCondition()
 		{
