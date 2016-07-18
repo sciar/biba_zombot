@@ -15,7 +15,6 @@ using strange.extensions.mediation.api;
 using strange.extensions.sequencer.api;
 using strange.extensions.sequencer.impl;
 using strange.framework.api;
-using UnityEngine;
 using UnityEngine.Experimental.Director;
 
 namespace BibaFramework.BibaTest
@@ -120,4 +119,6 @@ namespace BibaFramework.BibaTest
 			injectionBinder.Bind<SessionUpdatedSignal> ().To<SessionUpdatedSignal> ();
 		}
 	}
-}
+};
+
+ 
