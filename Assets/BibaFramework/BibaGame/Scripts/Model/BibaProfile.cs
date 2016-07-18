@@ -20,23 +20,11 @@ namespace BibaFramework.BibaGame
 		public float MScore { get; set; }
 		public float VScore { get; set; }
 
-		public List<BibaEquipment> PlayedEquipments { get; set; }
 		public List<string> CompletedPointEvents { get; set; }
 
 		public BibaProfile()
 		{
-			PlayedEquipments = DEFAULT_EQUIPENT_LIST;
 			CompletedPointEvents = new List<string> ();
-		}
-
-		private static List<BibaEquipment> DEFAULT_EQUIPENT_LIST 
-		{
-			get 
-			{
-				var defaults = new List<BibaEquipment> ();
-				Array.ForEach((BibaEquipmentType[])Enum.GetValues(typeof(BibaEquipmentType)), eq => defaults.Add(new BibaEquipment(eq)));
-				return defaults;
-			}
 		}
 	}
 

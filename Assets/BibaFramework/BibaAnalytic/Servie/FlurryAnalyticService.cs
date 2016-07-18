@@ -63,7 +63,7 @@ namespace BibaFramework.BibaAnalytic
 				parameters.Add(BibaAnalyticConstants.EQUIPMENT_SELECTED, equipment.EquipmentType.ToString());
 			}
 
-			foreach (var equipment in BibaAccount.SelectedProfile.PlayedEquipments)
+			foreach (var equipment in BibaSystem.PlayedEquipments)
             {
 				parameters.Add(string.Format("{0}_{1}", BibaAnalyticConstants.EQUIPMENT_PLAYED, equipment.EquipmentType.ToString()), equipment.NumberOfTimePlayed.ToString());
             }

@@ -132,7 +132,7 @@ namespace BibaFramework.BibaTest
 			equipmentSelected = BibaSession.SelectedEquipments.Find (equip => equip.EquipmentType == BibaEquipmentType.bridge);
 			Assert.IsNotNull (equipmentSelected);
 
-			var equipmentPlayed = BibaAccount.SelectedProfile.PlayedEquipments.Find (equip => equip.EquipmentType == BibaEquipmentType.bridge);
+			var equipmentPlayed = BibaSystem.PlayedEquipments.Find (equip => equip.EquipmentType == BibaEquipmentType.bridge);
 			Assert.IsNotNull (equipmentPlayed);
 
 			//Deselect the bridge equipment
@@ -147,7 +147,7 @@ namespace BibaFramework.BibaTest
 		[Test]
 		public void TestEquipmentPlayed()
 		{
-			var equipment = BibaAccount.SelectedProfile.PlayedEquipments.Find (equip => equip.EquipmentType == BibaEquipmentType.bridge);
+			var equipment = BibaSystem.PlayedEquipments.Find (equip => equip.EquipmentType == BibaEquipmentType.bridge);
 			Assert.IsNotNull (equipment);
 			Assert.AreEqual (equipment.NumberOfTimePlayed, 0);
 
