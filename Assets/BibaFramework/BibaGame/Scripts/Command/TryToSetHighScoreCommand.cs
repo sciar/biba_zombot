@@ -8,16 +8,16 @@ namespace BibaFramework.BibaGame
         public int Score { get; set; }
 
         [Inject]
-		public BibaSystem BibaSystem { get; set; }
+		public BibaDevice BibaDevice { get; set; }
 
         [Inject]
         public IDataService DataService { get; set; }
 
         public override void Execute ()
         {
-			if (Score > BibaSystem.Highscore)
+			if (Score > BibaDevice.Highscore)
             {
-				BibaSystem.Highscore = Score;
+				BibaDevice.Highscore = Score;
 				DataService.Save();
             }
         }

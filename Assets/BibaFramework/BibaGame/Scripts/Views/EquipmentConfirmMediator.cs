@@ -10,7 +10,7 @@ namespace BibaFramework.BibaGame
 		public EquipmentConfirmView EquipmentConfirmView { get; set; }
 
 		[Inject]
-		public BibaSession BibaSession { get; set; }
+		public BibaDeviceSession BibaDeviceSession { get; set; }
 
 		[Inject]
 		public SessionUpdatedSignal SessionUpdatedSignal { get; set; }
@@ -28,8 +28,8 @@ namespace BibaFramework.BibaGame
 
 		void UpdateNextButton()
 		{
-			EquipmentConfirmView.BibaButtonView.Button.interactable = BibaSession.SelectedEquipments.Count > 0;
-			EquipmentConfirmView.BibaButtonView.MenuStateTriggerString = BibaSession.SelectedEquipments.Count >= 3 ? MenuStateTrigger.Yes : MenuStateTrigger.No;
+			EquipmentConfirmView.BibaButtonView.Button.interactable = BibaDeviceSession.SelectedEquipments.Count > 0;
+			EquipmentConfirmView.BibaButtonView.MenuStateTriggerString = BibaDeviceSession.SelectedEquipments.Count >= 3 ? MenuStateTrigger.Yes : MenuStateTrigger.No;
 		}
 	}
 }

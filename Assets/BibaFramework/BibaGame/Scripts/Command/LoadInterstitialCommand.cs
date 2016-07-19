@@ -19,7 +19,7 @@ namespace BibaFramework.BibaGame
         public BibaSceneStack BibaSceneStack { get; set; }
 
 		[Inject]
-		public BibaSession BibaSession { get; set; }
+		public BibaDeviceSession BibaDeviceSession { get; set; }
 
         private bool _loadedChartboost = false;
 
@@ -45,7 +45,7 @@ namespace BibaFramework.BibaGame
                 }
 
                 Chartboost.setShouldPauseClickForConfirmation(true);
-				Chartboost.showInterstitial(BibaSession.TagEnabled ? CBLocation.locationFromName(BibaAnalyticConstants.HOUSE_AD) : CBLocation.Default);
+				Chartboost.showInterstitial(BibaDeviceSession.TagEnabled ? CBLocation.locationFromName(BibaAnalyticConstants.HOUSE_AD) : CBLocation.Default);
 
 				Chartboost.didDisplayInterstitial += InterstitialLoaded;
 				Chartboost.didFailToLoadInterstitial += FailToLoadInterstitial;

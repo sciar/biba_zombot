@@ -9,7 +9,7 @@ namespace BibaFramework.BibaGame
         public bool Status { get; set; }
 
         [Inject]
-		public BibaSystem BibaSystem { get; set; }
+		public BibaDevice BibaDevice { get; set; }
 
         [Inject]
         public IDataService DataService { get; set; }
@@ -19,7 +19,7 @@ namespace BibaFramework.BibaGame
 
         public override void Execute ()
         {
-			BibaSystem.HelpBubblesEnabled = Status;
+			BibaDevice.HelpBubblesEnabled = Status;
 			DataService.Save();
 
             SetMenuStateConditionSignal.Dispatch(MenuStateCondition.HelpBubblesEnabled, Status);

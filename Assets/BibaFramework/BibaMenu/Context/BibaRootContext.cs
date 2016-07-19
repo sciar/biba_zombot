@@ -27,11 +27,10 @@ namespace BibaFramework.BibaMenu
         protected override void BindModels ()
         {
             injectionBinder.Bind<BibaSceneStack>().To<BibaSceneStack>().ToSingleton().CrossContext();
+			injectionBinder.Bind<BibaDeviceSession>().To<BibaDeviceSession>().ToSingleton().CrossContext();
 
 			injectionBinder.Bind<BibaAccount>().To<BibaAccount>();
-			injectionBinder.Bind<BibaSystem>().To<BibaSystem>();
-
-            injectionBinder.Bind<BibaSession>().To<BibaSession>().ToSingleton().CrossContext();
+			injectionBinder.Bind<BibaDevice>().To<BibaDevice>();
         }
 
         protected override void BindServices ()
@@ -60,7 +59,7 @@ namespace BibaFramework.BibaMenu
             commandBinder.Bind<StartSignal>().
 					To<SetupServicesCommand>().
                     To<LoadModelsCommand>().
-                    To<SetupSystemModelCommand>().
+                    To<SetupDeviceModelCommand>().
 					To<StartNewSessionCommand>().
 					To<UpdateFromCDNCommand>().
 			#if UNITY_EDITOR

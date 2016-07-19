@@ -7,18 +7,18 @@ namespace BibaFramework.BibaGame
     public class CheckForSessionEndCommand : Command
     {
         [Inject]
-		public BibaSystem BibaSystem { get; set; }
+		public BibaDevice BibaDevice { get; set; }
 
 		[Inject]
-		public BibaSession BibaSession { get; set; }
+		public BibaDeviceSession BibaDeviceSession { get; set; }
 
         [Inject]
         public SetMenuStateConditionSignal SetMenuStateConditionSignal { get; set; }
 
         public override void Execute ()
         {
-			var timeInactive = DateTime.UtcNow - BibaSystem.LastPlayedTime;
-			if (timeInactive >= BibaGameConstants.INACTIVE_DURATION && BibaSession.SelectedEquipments.Count > 0)
+			var timeInactive = DateTime.UtcNow - BibaDevice.LastPlayedTime;
+			if (timeInactive >= BibaGameConstants.INACTIVE_DURATION && BibaDeviceSession.SelectedEquipments.Count > 0)
             {
                 SetMenuStateConditionSignal.Dispatch(MenuStateCondition.ShowInactive, true);
             }

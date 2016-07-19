@@ -11,7 +11,7 @@ namespace BibaFramework.BibaGame
         public bool Status { get; set; }
 
 		[Inject]
-		public BibaSession BibaSession { get; set; }
+		public BibaDeviceSession BibaDeviceSession { get; set; }
 
 		[Inject]
 		public SessionUpdatedSignal SessionUpdatedSignal { get; set; }
@@ -20,15 +20,15 @@ namespace BibaFramework.BibaGame
         {
             if (Status)
             {
-				BibaSession.SelectedEquipments.Add(new BibaEquipment(BibaEquipmentType));
+				BibaDeviceSession.SelectedEquipments.Add(new BibaEquipment(BibaEquipmentType));
 				SessionUpdatedSignal.Dispatch ();
             } 
             else
             {
-				var indexToRemove = BibaSession.SelectedEquipments.FindIndex(equip => equip.EquipmentType == BibaEquipmentType);
+				var indexToRemove = BibaDeviceSession.SelectedEquipments.FindIndex(equip => equip.EquipmentType == BibaEquipmentType);
                 if(indexToRemove != -1)
                 {
-					BibaSession.SelectedEquipments.RemoveAt(indexToRemove);
+					BibaDeviceSession.SelectedEquipments.RemoveAt(indexToRemove);
                 }
             }
         }

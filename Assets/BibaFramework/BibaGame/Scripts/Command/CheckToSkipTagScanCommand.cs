@@ -11,23 +11,23 @@ namespace BibaFramework.BibaGame
         public SetMenuStateConditionSignal SetMenuStateConditionSignal { get; set; }
 
         [Inject]
-		public BibaSession BibaSession { get; set; }
+		public BibaDeviceSession BibaDeviceSession { get; set; }
 
 		[Inject]
-		public BibaSystem BibaSystem { get; set; }
+		public BibaDevice BibaDevice { get; set; }
 
         public override void Execute ()
         {
             var shouldSkipTag = false;
 
-			if(!BibaSession.TagEnabled)
+			if(!BibaDeviceSession.TagEnabled)
             {
                 shouldSkipTag = true;
             }
             else
             {
                 //If the CameraDisabled reminder is shown less than a day ago 
-				var timeSinceLastCameraReminder = DateTime.UtcNow - BibaSystem.LastCameraReminderTime;
+				var timeSinceLastCameraReminder = DateTime.UtcNow - BibaDevice.LastCameraReminderTime;
                 shouldSkipTag = timeSinceLastCameraReminder < BibaGameConstants.AR_REMINDER_DURATION;
             }
 

@@ -10,13 +10,13 @@ namespace BibaFramework.BibaAnalytic
     public class FlurryAnalyticService : IAnalyticService
     {
         [Inject]
-		public BibaSession BibaSession { get; set; }
+		public BibaDeviceSession BibaDeviceSession { get; set; }
 
 		[Inject]
 		public BibaAccount BibaAccount { get; set; }
 
 		[Inject]
-		public BibaSystem BibaSystem { get; set; }
+		public BibaDevice BibaDevice { get; set; }
 
         [Inject]
         public BibaSceneStack BibaSceneStack { get; set; }
@@ -32,21 +32,24 @@ namespace BibaFramework.BibaAnalytic
 
         public void TrackStartSession ()
         {
-			var parameters = TrackingParams;
-			parameters.Add (BibaAnalyticConstants.SESSION_START_TIME, BibaSession.Start.ToString());
-			_service.LogEvent(BibaAnalyticConstants.START_SESSION_EVENT, parameters);
+			foreach (var profile in BibaAccount.BibaProfiles) 
+			{
+				var parameters = TrackingParams;
+				parameters.Add (BibaAnalyticConstants.SESSION_START_TIME, BibaDeviceSession.Start.ToString());
+				_service.LogEvent(BibaAnalyticConstants.START_SESSION_EVENT, parameters);
+			}
         }
 
         public void TrackEndSession ()
         {
-            var parameters = TrackingParams;
-			parameters.Add (BibaAnalyticConstants.SESSION_END_TIME, BibaSession.End.ToString());
-			parameters.Add (BibaAnalyticConstants.TAG_ENABLED, BibaSession.TagEnabled.ToString());
-			parameters.Add (BibaAnalyticConstants.TAG_SCANNED, BibaSession.TagScanned.ToString());
-
-			foreach (var profile in BibaAccount.BibaProfiles) 
+			foreach(var profile in BibaAccount.BibaProfiles)
 			{
-				parameters.Add(BibaAnalyticConstants.PROFILE_ID, profile.Id);
+				var playerSession = profile.BibaPlayerSession;
+				var parameters = TrackingParams;
+
+				parameters.Add (BibaAnalyticConstants.PROFILE_ID, profile.Id);
+				parameters.Add (BibaAnalyticConstants.SESSION_END_TIME, BibaDeviceSession.End.ToString());
+				parameters.Add (BibaAnalyticConstants.TAG_SCANNED, BibaDeviceSession.TagScanned.ToString());
 
 				if (BibaAccount.SelectedProfile.LScore > 0 ||
 					BibaAccount.SelectedProfile.MScore > 0 ||
@@ -56,19 +59,19 @@ namespace BibaFramework.BibaAnalytic
 					parameters.Add (BibaAnalyticConstants.MODERATE_TIME + "_" + profile.Id, profile.MScore.ToString ());
 					parameters.Add (BibaAnalyticConstants.VIGOROUS_TIME + "_" + profile.Id, profile.VScore.ToString ());
 				}
+
+				foreach (var equipment in BibaDeviceSession.SelectedEquipments) 
+				{
+					parameters.Add(BibaAnalyticConstants.EQUIPMENT_SELECTED, equipment.EquipmentType.ToString());
+				}
+
+				foreach (var equipment in BibaDevice.PlayedEquipments)
+	            {
+					parameters.Add(string.Format("{0}_{1}", BibaAnalyticConstants.EQUIPMENT_PLAYED, equipment.EquipmentType.ToString()), equipment.NumberOfTimePlayed.ToString());
+	            }
+
+	            _service.LogEvent(BibaAnalyticConstants.END_SESSION_EVENT, parameters);
 			}
-
-			foreach (var equipment in BibaSession.SelectedEquipments) 
-			{
-				parameters.Add(BibaAnalyticConstants.EQUIPMENT_SELECTED, equipment.EquipmentType.ToString());
-			}
-
-			foreach (var equipment in BibaSystem.PlayedEquipments)
-            {
-				parameters.Add(string.Format("{0}_{1}", BibaAnalyticConstants.EQUIPMENT_PLAYED, equipment.EquipmentType.ToString()), equipment.NumberOfTimePlayed.ToString());
-            }
-
-            _service.LogEvent(BibaAnalyticConstants.END_SESSION_EVENT, parameters);
         }
 		
         public void TrackWeatherInfo(BibaWeatherInfo weatherInfo)
@@ -88,9 +91,9 @@ namespace BibaFramework.BibaAnalytic
                     {BibaAnalyticConstants.TIME_STAMP, DateTime.Now.ToString()}
                 };
 					
-				if(!string.IsNullOrEmpty(BibaSession.QuadTileId))
+				if(!string.IsNullOrEmpty(BibaDeviceSession.QuadTileId))
                 {
-					param.Add(BibaAnalyticConstants.QUADTILE_ID, BibaSession.QuadTileId);
+					param.Add(BibaAnalyticConstants.QUADTILE_ID, BibaDeviceSession.QuadTileId);
                 }
 
 				return param;

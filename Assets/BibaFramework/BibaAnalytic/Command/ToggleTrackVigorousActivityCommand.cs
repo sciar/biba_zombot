@@ -12,9 +12,9 @@ namespace BibaFramework.BibaAnalytic
 
 		protected override void StartTracking ()
 		{
-			if (BibaSession.VScoreStart == default(DateTime)) 
+			if (BibaAccount.SelectedProfile.BibaPlayerSession.VScoreStart == default(DateTime)) 
 			{
-				BibaSession.VScoreStart = DateTime.UtcNow;
+				BibaAccount.SelectedProfile.BibaPlayerSession.VScoreStart = DateTime.UtcNow;
 			}
 		}
 
@@ -26,10 +26,10 @@ namespace BibaFramework.BibaAnalytic
 
 		protected override void AddActivityTime ()
 		{
-			if (BibaSession.VScoreStart != default(DateTime)) 
+			if (BibaAccount.SelectedProfile.BibaPlayerSession.VScoreStart != default(DateTime)) 
 			{
-				BibaAccount.SelectedProfile.VScore += ((float)(DateTime.UtcNow - BibaSession.VScoreStart).TotalSeconds);
-				BibaSession.VScoreStart = default(DateTime);
+				BibaAccount.SelectedProfile.VScore += ((float)(DateTime.UtcNow - BibaAccount.SelectedProfile.BibaPlayerSession.VScoreStart).TotalSeconds);
+				BibaAccount.SelectedProfile.BibaPlayerSession.VScoreStart = default(DateTime);
 
 				DataService.Save ();
 			}

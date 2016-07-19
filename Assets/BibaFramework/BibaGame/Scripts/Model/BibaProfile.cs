@@ -1,6 +1,7 @@
 ﻿using System;
 using UnityEngine;
 using System.Collections.Generic;
+using LitJson;
 
 namespace BibaFramework.BibaGame
 {
@@ -22,9 +23,13 @@ namespace BibaFramework.BibaGame
 
 		public List<string> CompletedPointEvents { get; set; }
 
+		[JsonIgnore]
+		public BibaProfileSession BibaPlayerSession { get; set; }
+
 		public BibaProfile()
 		{
 			CompletedPointEvents = new List<string> ();
+			BibaPlayerSession = new BibaProfileSession ();
 		}
 	}
 

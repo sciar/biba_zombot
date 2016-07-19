@@ -9,14 +9,14 @@ namespace BibaFramework.BibaGame
         public BibaEquipmentType BibaEquipmentType { get; set; }
 
         [Inject]
-		public BibaSystem BibaSystem { get; set; }
+		public BibaDevice BibaDevice { get; set; }
 
         [Inject]
         public IDataService DataService { get; set; }
 
         public override void Execute ()
         {
-			var equipment = BibaSystem.PlayedEquipments.Find(equip => equip.EquipmentType == BibaEquipmentType);
+			var equipment = BibaDevice.PlayedEquipments.Find(equip => equip.EquipmentType == BibaEquipmentType);
 			if (equipment == null) 
 			{
 				throw new ArgumentNullException ();

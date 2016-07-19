@@ -5,7 +5,7 @@ namespace BibaFramework.BibaGame
         void WriteToDisk<T>(T objectToWrite, string path);
         T ReadFromDisk<T>(string path);
 
-		BibaSystem LoadSystemModel();
+		BibaDevice LoadSystemModel();
 		BibaAccount LoadAccountModel();
 
 		void Save();

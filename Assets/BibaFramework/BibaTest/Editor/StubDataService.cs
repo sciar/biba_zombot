@@ -20,9 +20,9 @@ namespace BibaFramework.BibaTest
 			
 		}
 
-		public BibaSystem LoadSystemModel ()
+		public BibaDevice LoadSystemModel ()
 		{
-			return new BibaSystem ();
+			return new BibaDevice ();
 		}
 
 		public BibaAccount LoadAccountModel ()

@@ -6,10 +6,10 @@ namespace BibaFramework.BibaGame
     public class ResetGameModelCommand : Command
     {
         [Inject]
-		public BibaSystem BibaSystem { get; set; }
+		public BibaDevice BibaDevice { get; set; }
 
 		[Inject]
-		public BibaSession BibaSession { get; set; }
+		public BibaDeviceSession BibaSession { get; set; }
 
 		[Inject]
 		public BibaAccount BibaAccount { get; set; }
@@ -26,8 +26,8 @@ namespace BibaFramework.BibaGame
         public override void Execute ()
         {
 			BibaAccount = new BibaAccount ();
-			BibaSystem = new BibaSystem ();
-			BibaSession = new BibaSession ();
+			BibaDevice = new BibaDevice ();
+			BibaSession = new BibaDeviceSession ();
 			DataService.Save ();
 
 			LanguageUpdatedSignal.Dispatch ();

@@ -6,10 +6,10 @@ using UnityEngine;
 
 namespace BibaFramework.BibaGame
 {
-    public class SetupSystemModelCommand : Command
+    public class SetupDeviceModelCommand : Command
     {
         [Inject]
-		public BibaSystem BibaSystem { get; set; }
+		public BibaDevice BibaDevice { get; set; }
 
         [Inject]
         public SetMenuStateConditionSignal SetMenuStateConditionSignal { get; set; }
@@ -36,23 +36,23 @@ namespace BibaFramework.BibaGame
 
 		void SetupMenuStateByGameModel()
 		{
-			SetMenuStateConditionSignal.Dispatch(MenuStateCondition.PrivacyEnabled, BibaSystem.PrivacyEnabled);
-			SetMenuStateConditionSignal.Dispatch(MenuStateCondition.HowToEnabled, BibaSystem.HowToEnabled);
-			SetMenuStateConditionSignal.Dispatch(MenuStateCondition.HelpBubblesEnabled, BibaSystem.HelpBubblesEnabled);
+			SetMenuStateConditionSignal.Dispatch(MenuStateCondition.PrivacyEnabled, BibaDevice.PrivacyEnabled);
+			SetMenuStateConditionSignal.Dispatch(MenuStateCondition.HowToEnabled, BibaDevice.HowToEnabled);
+			SetMenuStateConditionSignal.Dispatch(MenuStateCondition.HelpBubblesEnabled, BibaDevice.HelpBubblesEnabled);
 		}
 			
         //Where we handle the migration of BibaGameModel
         void CheckForGameModelMigration()
         {
-			if (BibaSystem.FrameworkVersion < BibaGameConstants.FRAMEWORK_VERSION)
+			if (BibaDevice.FrameworkVersion < BibaGameConstants.FRAMEWORK_VERSION)
             {
                 //Reset Achievements since we changed the way AchievementId is stored
-				if(BibaSystem.FrameworkVersion == 0)
+				if(BibaDevice.FrameworkVersion == 0)
                 {
-					BibaSystem.CompletedAchievements = new List<BibaAchievement>();
+					BibaDevice.CompletedAchievements = new List<BibaAchievement>();
                 }
 
-				BibaSystem.FrameworkVersion = BibaGameConstants.FRAMEWORK_VERSION;
+				BibaDevice.FrameworkVersion = BibaGameConstants.FRAMEWORK_VERSION;
 				DataService.Save();
             }
         }

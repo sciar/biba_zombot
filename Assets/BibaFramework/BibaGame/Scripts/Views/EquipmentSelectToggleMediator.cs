@@ -13,7 +13,7 @@ namespace BibaFramework.BibaGame
         public EquipmentSelectedSignal EquipmentSelectedSignal { get; set; }
         
 		[Inject]
-		public BibaSession BibaSession { get; set; }
+		public BibaDeviceSession BibaDeviceSession { get; set; }
 
         public override void OnRegister ()
         {
@@ -28,7 +28,7 @@ namespace BibaFramework.BibaGame
         
 		void Setup()
 		{
-			var selected = BibaSession.SelectedEquipments.FindIndex (equip => equip.EquipmentType == EquipmentSelectToggleView.BibaEquipmentType) != -1;
+			var selected = BibaDeviceSession.SelectedEquipments.FindIndex (equip => equip.EquipmentType == EquipmentSelectToggleView.BibaEquipmentType) != -1;
 			EquipmentSelectToggleView.Toggle.isOn = selected;
 		}
 

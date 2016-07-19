@@ -8,7 +8,7 @@ namespace BibaFramework.BibaGame
         public InactiveView InactiveView { get; set; }
 
         [Inject]
-		public BibaSystem BibaSystem { get; set; }
+		public BibaDevice BibaDevice { get; set; }
 
 		[Inject]
 		public StartNewSessionSignal StartNewSessionSignal { get; set; }
@@ -17,7 +17,7 @@ namespace BibaFramework.BibaGame
 
         public override void SetupSceneDependentMenu ()
         {
-			var lastPlayedTimeLocal = BibaSystem.LastPlayedTime.ToLocalTime();
+			var lastPlayedTimeLocal = BibaDevice.LastPlayedTime.ToLocalTime();
 			InactiveView.Text.text = string.Format(InactiveView.Text.text, lastPlayedTimeLocal.ToShortDateString(), lastPlayedTimeLocal.ToShortTimeString());
         }
 

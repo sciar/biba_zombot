@@ -22,7 +22,7 @@ namespace BibaFramework.BibaGame
         private const string QUADTILE_ID = "quadtile_id";
 
         [Inject]
-		public BibaSession BibaSession { get; set; }
+		public BibaDeviceSession BibaSession { get; set; }
 
         public override void Execute ()
         {

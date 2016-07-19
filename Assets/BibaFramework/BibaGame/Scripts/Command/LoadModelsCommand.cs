@@ -11,8 +11,8 @@ namespace BibaFramework.BibaGame
         public override void Execute ()
         {
             var systemModel = LoaderService.LoadSystemModel ();
-			injectionBinder.Unbind<BibaSystem>();
-			injectionBinder.Bind<BibaSystem>().To(systemModel).ToSingleton().CrossContext();
+			injectionBinder.Unbind<BibaDevice>();
+			injectionBinder.Bind<BibaDevice>().To(systemModel).ToSingleton().CrossContext();
 
 			var accountModel = LoaderService.LoadAccountModel ();
 			injectionBinder.Unbind<BibaAccount>();

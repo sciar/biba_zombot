@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 
 namespace BibaFramework.BibaGame
 {
@@ -24,5 +25,15 @@ namespace BibaFramework.BibaGame
         public const string ACHIEVEMENT_PREFIX_KEY_SLIDE = "prefix_slide";
         public const string ACHIEVEMENT_PREFIX_KEY_SWING = "prefix_swing";
         public const string ACHIEVEMENT_PREFIX_KEY_OVERHANG = "prefix_overhang";
+
+		public static List<BibaEquipment> DEFAULT_EQUIPENT_LIST 
+		{
+			get 
+			{
+				var defaults = new List<BibaEquipment> ();
+				Array.ForEach((BibaEquipmentType[])Enum.GetValues(typeof(BibaEquipmentType)), eq => defaults.Add(new BibaEquipment(eq)));
+				return defaults;
+			}
+		}
     }
 }

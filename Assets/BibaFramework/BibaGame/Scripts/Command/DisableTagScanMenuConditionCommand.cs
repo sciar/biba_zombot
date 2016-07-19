@@ -5,11 +5,11 @@ namespace BibaFramework.BibaGame
 	public class DisableTagScanMenuConditionCommand : Command
     {
         [Inject]
-		public BibaSession BibaSession { get; set; }
+		public BibaDeviceSession BibaDeviceSession { get; set; }
 
         public override void Execute ()
         {
-			BibaSession.TagEnabled = false;
+			BibaDeviceSession.TagEnabled = false;
       	}
     }
 }

@@ -12,7 +12,7 @@ namespace BibaFramework.BibaGame
 		public BibaAccount BibaAccount { get; set; }
 
 		[Inject]
-		public BibaSession BibaSession { get; set; }
+		public BibaDeviceSession BibaSession { get; set; }
 
 		[Inject]
 		public IDataService service { get; set; }

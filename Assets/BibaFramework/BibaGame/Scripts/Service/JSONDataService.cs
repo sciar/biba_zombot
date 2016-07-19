@@ -12,7 +12,7 @@ namespace BibaFramework.BibaGame
 		public BibaAccount BibaAccount { get; set; }
 
 		[Inject]
-		public BibaSystem BibaSystem { get; set; }
+		public BibaDevice BibaDevice { get; set; }
 
 		public void Save()
 		{
@@ -36,10 +36,10 @@ namespace BibaFramework.BibaGame
 			WriteToDisk(BibaAccount, Path.Combine(Application.persistentDataPath, BibaGameConstants.SYSTEM_MODEL_DATA_PATH));
 		}
 
-		public BibaSystem LoadSystemModel ()
+		public BibaDevice LoadSystemModel ()
 		{
-			BibaSystem = ReadFromDisk<BibaSystem>(Path.Combine(Application.persistentDataPath, BibaGameConstants.SYSTEM_MODEL_DATA_PATH));
-			return BibaSystem;
+			BibaDevice = ReadFromDisk<BibaDevice>(Path.Combine(Application.persistentDataPath, BibaGameConstants.SYSTEM_MODEL_DATA_PATH));
+			return BibaDevice;
 		}
 
         public void WriteToDisk<T>(T objectToWrite, string path)

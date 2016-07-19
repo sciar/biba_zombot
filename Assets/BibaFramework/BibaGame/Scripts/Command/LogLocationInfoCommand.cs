@@ -25,10 +25,10 @@ namespace BibaFramework.BibaGame
         public IAnalyticService BibaAnalyticService { get; set; }
 
         [Inject]
-		public BibaSystem BibaSystem { get; set; } 
+		public BibaDevice BibaDevice { get; set; } 
 
         [Inject]
-		public BibaSession BibaSession { get; set; }
+		public BibaDeviceSession BibaSession { get; set; }
 
         //This call also prompt the enable GPS request for the frist time.
         public override void Execute ()

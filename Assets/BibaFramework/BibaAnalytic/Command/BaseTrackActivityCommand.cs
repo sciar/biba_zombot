@@ -9,9 +9,6 @@ namespace BibaFramework.BibaAnalytic
 		public bool Status { get; set; }
 
 		[Inject]
-		public BibaSession BibaSession { get; set; }
-
-		[Inject]
 		public BibaAccount BibaAccount { get; set; }
 
 		[Inject]

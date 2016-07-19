@@ -6,7 +6,7 @@ namespace BibaFramework.BibaGame
     public class EnablePrivacyStatementCommand : Command
     {
         [Inject]
-		public BibaSystem BibaSystem { get; set; }
+		public BibaDevice BibaDevice { get; set; }
 
         [Inject]
         public IDataService DataService { get; set; }
@@ -16,7 +16,7 @@ namespace BibaFramework.BibaGame
 
         public override void Execute ()
         {
-			BibaSystem.PrivacyEnabled = true;
+			BibaDevice.PrivacyEnabled = true;
 			DataService.Save();
 
             SetMenuStateConditionSignal.Dispatch(MenuStateCondition.PrivacyEnabled, true);

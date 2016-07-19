@@ -15,8 +15,8 @@ namespace BibaFramework.BibaTest
 	{
 		private StubContext StubContext { get; set; }
 
-		private BibaSystem BibaSystem { get; set; }
-		private BibaSession BibaSession { get; set; }
+		private BibaDevice BibaDevice { get; set; }
+		private BibaDeviceSession BibaDeviceSession { get; set; }
 		private BibaAccount BibaAccount { get; set; }
 
 		private IAnimatorControllerPlayable StubAnimator { get; set; }
@@ -33,8 +33,8 @@ namespace BibaFramework.BibaTest
 			StubContext.mediationBinder.Bind<MockView>().To<MockMediator>();
 
 			//Setup Model
-			BibaSystem = GetInstanceFromContext<BibaSystem> ();
-			BibaSession = GetInstanceFromContext<BibaSession> ();
+			BibaDevice = GetInstanceFromContext<BibaDevice> ();
+			BibaDeviceSession = GetInstanceFromContext<BibaDeviceSession> ();
 			BibaAccount = GetInstanceFromContext<BibaAccount> ();
 
 			StubAnimator = GetInstanceFromContext<IAnimatorControllerPlayable> (BibaMenuConstants.BIBA_STATE_MACHINE);
@@ -42,8 +42,8 @@ namespace BibaFramework.BibaTest
 
 		void Reset()
 		{
-			BibaSystem = new BibaSystem ();
-			BibaSession = new BibaSession ();
+			BibaDevice = new BibaDevice ();
+			BibaDeviceSession = new BibaDeviceSession ();
 			BibaAccount = new BibaAccount ();
 
 			GetInstanceFromContext<TestModelResetSignal> ().Dispatch ();
@@ -65,7 +65,7 @@ namespace BibaFramework.BibaTest
 			GetInstanceFromContext<ApplicationPausedSignal> ().Dispatch ();
 			WaitForSeconds (1);
 			GetInstanceFromContext<ApplicationUnPausedSignal> ().Dispatch();
-			Assert.AreEqual(0, GetSeondsSinceTime(BibaSession.LScoreStart));
+			Assert.AreEqual(0, GetSeondsSinceTime(BibaAccount.SelectedProfile.BibaPlayerSession.LScoreStart));
 
 			Reset ();
 		}
@@ -83,7 +83,7 @@ namespace BibaFramework.BibaTest
 
 			//Start vigorous activity
 			GetInstanceFromContext<ToggleTrackVigorousActivitySignal>().Dispatch (true);
-			Assert.AreEqual(0, GetSeondsSinceTime(BibaSession.VScoreStart));
+			Assert.AreEqual(0, GetSeondsSinceTime(BibaAccount.SelectedProfile.BibaPlayerSession.VScoreStart));
 			Assert.AreEqual (1, (int)BibaAccount.SelectedProfile.LScore);
 
 			WaitForSeconds (1);
@@ -109,13 +109,13 @@ namespace BibaFramework.BibaTest
 		[Test]
 		public void TestTrySetHighScore()
 		{
-			var newScore = BibaSystem.Highscore - 1;
+			var newScore = BibaDevice.Highscore - 1;
 			GetInstanceFromContext<TryToSetHighScoreSignal> ().Dispatch (newScore);
-			Assert.Greater(BibaSystem.Highscore, newScore);
+			Assert.Greater(BibaDevice.Highscore, newScore);
 
-			newScore = BibaSystem.Highscore + 1;
+			newScore = BibaDevice.Highscore + 1;
 			GetInstanceFromContext<TryToSetHighScoreSignal> ().Dispatch (newScore);
-			Assert.AreEqual (BibaSystem.Highscore, newScore);
+			Assert.AreEqual (BibaDevice.Highscore, newScore);
 
 			Reset ();
 		}
@@ -123,22 +123,22 @@ namespace BibaFramework.BibaTest
 		[Test]
 		public void TestEquipmentSelected()
 		{
-			var equipmentSelected = BibaSession.SelectedEquipments.Find (equip => equip.EquipmentType == BibaEquipmentType.bridge);
+			var equipmentSelected = BibaDeviceSession.SelectedEquipments.Find (equip => equip.EquipmentType == BibaEquipmentType.bridge);
 			Assert.IsNull (equipmentSelected);
 
 			//Select the bridge equipment
 			GetInstanceFromContext<EquipmentSelectedSignal> ().Dispatch (BibaEquipmentType.bridge, true);
 
-			equipmentSelected = BibaSession.SelectedEquipments.Find (equip => equip.EquipmentType == BibaEquipmentType.bridge);
+			equipmentSelected = BibaDeviceSession.SelectedEquipments.Find (equip => equip.EquipmentType == BibaEquipmentType.bridge);
 			Assert.IsNotNull (equipmentSelected);
 
-			var equipmentPlayed = BibaSystem.PlayedEquipments.Find (equip => equip.EquipmentType == BibaEquipmentType.bridge);
+			var equipmentPlayed = BibaDevice.PlayedEquipments.Find (equip => equip.EquipmentType == BibaEquipmentType.bridge);
 			Assert.IsNotNull (equipmentPlayed);
 
 			//Deselect the bridge equipment
 			GetInstanceFromContext<EquipmentSelectedSignal> ().Dispatch (BibaEquipmentType.bridge, false);
 
-			equipmentSelected = BibaSession.SelectedEquipments.Find (equip => equip.EquipmentType == BibaEquipmentType.bridge);
+			equipmentSelected = BibaDeviceSession.SelectedEquipments.Find (equip => equip.EquipmentType == BibaEquipmentType.bridge);
 			Assert.IsNull (equipmentSelected);
 
 			Reset ();
@@ -147,7 +147,7 @@ namespace BibaFramework.BibaTest
 		[Test]
 		public void TestEquipmentPlayed()
 		{
-			var equipment = BibaSystem.PlayedEquipments.Find (equip => equip.EquipmentType == BibaEquipmentType.bridge);
+			var equipment = BibaDevice.PlayedEquipments.Find (equip => equip.EquipmentType == BibaEquipmentType.bridge);
 			Assert.IsNotNull (equipment);
 			Assert.AreEqual (equipment.NumberOfTimePlayed, 0);
 
@@ -170,7 +170,7 @@ namespace BibaFramework.BibaTest
 			Assert.IsFalse(StubAnimator.GetBool(MenuStateCondition.ShowInactive));
 
 			GetInstanceFromContext<EquipmentSelectedSignal>().Dispatch(BibaEquipmentType.bridge, false);
-			BibaSystem.LastPlayedTime = DateTime.UtcNow - BibaGameConstants.INACTIVE_DURATION;
+			BibaDevice.LastPlayedTime = DateTime.UtcNow - BibaGameConstants.INACTIVE_DURATION;
 			WaitForSeconds (1);
 			GetInstanceFromContext<TestCheckForSessionEndCommandSignal> ().Dispatch();
 			Assert.IsFalse (StubAnimator.GetBool(MenuStateCondition.ShowInactive));
@@ -189,12 +189,12 @@ namespace BibaFramework.BibaTest
 		{
 			var checkTagScanSignal = GetInstanceFromContext<TestCheckToSkipTagScanCommandSignal> ();
 
-			BibaSession.TagEnabled = false;
+			BibaDeviceSession.TagEnabled = false;
 			checkTagScanSignal.Dispatch ();
 			Assert.IsFalse(StubAnimator.GetBool(MenuStateCondition.ShowTagScan));
 
-			BibaSession.TagEnabled = true;
-			BibaSystem.LastCameraReminderTime = DateTime.UtcNow - BibaGameConstants.AR_REMINDER_DURATION + new TimeSpan(0,0,1);
+			BibaDeviceSession.TagEnabled = true;
+			BibaDevice.LastCameraReminderTime = DateTime.UtcNow - BibaGameConstants.AR_REMINDER_DURATION + new TimeSpan(0,0,1);
 			checkTagScanSignal.Dispatch ();
 			Assert.IsFalse (StubAnimator.GetBool (MenuStateCondition.ShowTagScan));
 
@@ -216,12 +216,12 @@ namespace BibaFramework.BibaTest
 			checkChartboostSignal.Dispatch ();
 			Assert.IsTrue(StubAnimator.GetBool(MenuStateCondition.ShowChartBoost));
 
-			BibaSystem.LastChartBoostTime = DateTime.UtcNow;
+			BibaDevice.LastChartBoostTime = DateTime.UtcNow;
 
 			checkChartboostSignal.Dispatch ();
 			Assert.IsFalse (StubAnimator.GetBool (MenuStateCondition.ShowChartBoost));
 
-			BibaSystem.LastChartBoostTime = DateTime.UtcNow - BibaGameConstants.CHARTBOOST_CHECK_DURATION;
+			BibaDevice.LastChartBoostTime = DateTime.UtcNow - BibaGameConstants.CHARTBOOST_CHECK_DURATION;
 
 			checkChartboostSignal.Dispatch ();
 			Assert.IsTrue(StubAnimator.GetBool(MenuStateCondition.ShowChartBoost));

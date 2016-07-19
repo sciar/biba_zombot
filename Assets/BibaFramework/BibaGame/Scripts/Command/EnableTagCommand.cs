@@ -9,11 +9,11 @@ namespace BibaFramework.BibaGame
 		public bool Status { get; set; }
 
         [Inject]
-		public BibaSession BibaSession { get; set; }
+		public BibaDeviceSession BibaDeviceSession { get; set; }
 
         public override void Execute ()
         {
-			BibaSession.TagEnabled = Status;
+			BibaDeviceSession.TagEnabled = Status;
 	    }
     }
 }

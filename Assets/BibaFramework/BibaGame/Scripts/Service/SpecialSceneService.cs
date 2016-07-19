@@ -10,7 +10,7 @@ namespace BibaFramework.BibaGame
     public class SpecialSceneService : BaseSettingsService<BibaSpecialSceneSettings>
     {
         [Inject]
-		public BibaSession BibaSession { get; set; }
+		public BibaDeviceSession BibaDeviceSession { get; set; }
 
         public override string SettingsFileName {
             get {
@@ -32,7 +32,7 @@ namespace BibaFramework.BibaGame
 
         List<GeoSceneSetting> GetGeoBasedScenesSettings()
         {
-			return Settings.GeoSceneSettings.Where(setting => DistanceTo(setting.Center.x, setting.Center.y, BibaSession.Location.x, BibaSession.Location.y) <= setting.Radius).ToList();
+			return Settings.GeoSceneSettings.Where(setting => DistanceTo(setting.Center.x, setting.Center.y, BibaDeviceSession.Location.x, BibaDeviceSession.Location.y) <= setting.Radius).ToList();
         }
 
         public string GetNextSceneToShow(string nextScene)

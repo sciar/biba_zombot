@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using LitJson;
+using System;
 
 namespace BibaFramework.BibaGame
 {
@@ -37,6 +38,7 @@ namespace BibaFramework.BibaGame
 		public BibaAccount()
 		{
 			SelectedProfile = new BibaProfile ();
+			SelectedProfile.Id = Guid.NewGuid ().ToString ();
 
 			BibaProfiles = new List<BibaProfile> ();
 			BibaProfiles.Add(SelectedProfile);

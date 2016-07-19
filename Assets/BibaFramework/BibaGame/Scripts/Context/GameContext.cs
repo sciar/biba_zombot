@@ -18,7 +18,7 @@ namespace BibaFramework.BibaGame
         protected override void BindModels ()
         {
 			#if UNITY_EDITOR
-			var session = injectionBinder.GetInstance<BibaSession>();
+			var session = injectionBinder.GetInstance<BibaDeviceSession>();
 			if(session.SelectedEquipments.Count == 0)
 			{
 				session.SelectedEquipments.Add(new BibaEquipment(BibaEquipmentType.bridge));
