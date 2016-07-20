@@ -7,7 +7,10 @@ namespace BibaFramework.BibaGame
 	public class StartNewSessionCommand : Command
 	{
 		[Inject]
-		public BibaDeviceSession BibaGameSession { get; set; }
+		public BibaDeviceSession BibaDeviceSession { get; set; }
+
+		[Inject]
+		public BibaAccount BibaAccount { get; set; }
 
 		[Inject]
 		public ToggleTrackLightActivitySignal ToggleTrackLightActivitySignal { get; set; }
@@ -17,13 +20,17 @@ namespace BibaFramework.BibaGame
 
 		public override void Execute ()
 		{
-			if (BibaGameSession.SelectedEquipments.Count > 0) 
+			if (BibaDeviceSession.SelectedEquipments.Count > 0) 
 			{
-				BibaGameSession.End = DateTime.UtcNow;
 				AnalyticService.TrackEndSession ();
 			}
 				
-			BibaGameSession = new BibaDeviceSession ();
+			BibaDeviceSession = new BibaDeviceSession ();
+			foreach (var profile in BibaAccount.BibaProfiles) 
+			{
+				profile.BibaProfileSession = new BibaProfileSession ();
+			}
+
 			AnalyticService.TrackStartSession ();
 			ToggleTrackLightActivitySignal.Dispatch (true);
 		}

@@ -1,12 +1,15 @@
 ﻿using UnityEngine;
 using System;
 using System.Collections.Generic;
+using BibaFramework.BibaNetwork;
 
 namespace BibaFramework.BibaGame
 {
 	public class BibaDevice
 	{
-		public string UUID { get; set; }
+		public string Id { get { return BibaContentConstants.CI_GAME_ID; } }
+		public string DeviceId { get { return SystemInfo.deviceUniqueIdentifier; } }
+		public string InstanceId { get; set; }
 
 		public int Highscore { get; set; }
 		public int FrameworkVersion { get; set; }
@@ -25,7 +28,7 @@ namespace BibaFramework.BibaGame
 
 		public BibaDevice()
 		{
-			UUID = Guid.NewGuid().ToString();
+			InstanceId = Guid.NewGuid().ToString();
 
 			LanguageOverwrite = SystemLanguage.Unknown;
 			LastPlayedTime = DateTime.MaxValue;

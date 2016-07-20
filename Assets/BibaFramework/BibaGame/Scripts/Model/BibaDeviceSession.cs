@@ -7,7 +7,6 @@ namespace BibaFramework.BibaGame
     public class BibaDeviceSession
     {
 		public DateTime Start { get; set; }
-		public DateTime End { get; set; }
 
 		public string QuadTileId { get; set; }
 		public Vector2 Location { get; set; }

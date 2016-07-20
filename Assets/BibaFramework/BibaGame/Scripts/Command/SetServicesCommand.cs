@@ -8,7 +8,7 @@ using UnityEngine.Experimental.Director;
 
 namespace BibaFramework.BibaGame
 {
-    public class SetupServicesCommand : Command
+    public class SetServicesCommand : Command
     {
         [Inject(BibaMenuConstants.BIBA_ROOT_CONTEXT_VIEW)]
         public GameObject RootContextView { get; set; }

@@ -3,7 +3,6 @@ namespace BibaFramework.BibaAnalytic
     public class BibaAnalyticConstants
     {
 		//Tracking
-        public const string UDID = "udid";
 		public const string ACCOUNT_ID = "account_id";	
 		public const string PROFILE_ID = "profile_id";
         public const string QUADTILE_ID = "quadtile_id";

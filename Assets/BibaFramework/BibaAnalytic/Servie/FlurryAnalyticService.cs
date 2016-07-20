@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using Analytics;
 using BibaFramework.BibaGame;
 using BibaFramework.BibaMenu;
-using UnityEngine;
 
 namespace BibaFramework.BibaAnalytic
 {
@@ -14,9 +13,6 @@ namespace BibaFramework.BibaAnalytic
 
 		[Inject]
 		public BibaAccount BibaAccount { get; set; }
-
-		[Inject]
-		public BibaDevice BibaDevice { get; set; }
 
         [Inject]
         public BibaSceneStack BibaSceneStack { get; set; }
@@ -44,20 +40,21 @@ namespace BibaFramework.BibaAnalytic
         {
 			foreach(var profile in BibaAccount.BibaProfiles)
 			{
-				var playerSession = profile.BibaPlayerSession;
+				var playerSession = profile.BibaProfileSession;
 				var parameters = TrackingParams;
 
 				parameters.Add (BibaAnalyticConstants.PROFILE_ID, profile.Id);
-				parameters.Add (BibaAnalyticConstants.SESSION_END_TIME, BibaDeviceSession.End.ToString());
+				parameters.Add (BibaAnalyticConstants.SESSION_END_TIME, DateTime.UtcNow.ToString());
+				parameters.Add (BibaAnalyticConstants.TAG_ENABLED, BibaDeviceSession.TagEnabled.ToString());
 				parameters.Add (BibaAnalyticConstants.TAG_SCANNED, BibaDeviceSession.TagScanned.ToString());
 
-				if (profile.LScore > 0 ||
-					profile.MScore > 0 ||
-					profile.VScore > 0) 
+				if (playerSession.SessionLScore > 0 ||
+					playerSession.SessionMScore> 0 ||
+					playerSession.SessionVScore > 0) 
 				{
-					parameters.Add (BibaAnalyticConstants.LIGHT_TIME + "_" + profile.Id, profile.LScore.ToString ());
-					parameters.Add (BibaAnalyticConstants.MODERATE_TIME + "_" + profile.Id, profile.MScore.ToString ());
-					parameters.Add (BibaAnalyticConstants.VIGOROUS_TIME + "_" + profile.Id, profile.VScore.ToString ());
+					parameters.Add (BibaAnalyticConstants.LIGHT_TIME, playerSession.SessionLScore.ToString ());
+					parameters.Add (BibaAnalyticConstants.MODERATE_TIME, playerSession.SessionMScore.ToString ());
+					parameters.Add (BibaAnalyticConstants.VIGOROUS_TIME, playerSession.SessionVScore.ToString ());
 				}
 
 				foreach (var equipment in BibaDeviceSession.SelectedEquipments) 
@@ -65,7 +62,7 @@ namespace BibaFramework.BibaAnalytic
 					parameters.Add(BibaAnalyticConstants.EQUIPMENT_SELECTED, equipment.EquipmentType.ToString());
 				}
 
-				foreach (var equipment in BibaDevice.TotalEquipments)
+				foreach (var equipment in playerSession.SessionEquipments)
 	            {
 					parameters.Add(string.Format("{0}_{1}", BibaAnalyticConstants.EQUIPMENT_PLAYED, equipment.EquipmentType.ToString()), equipment.NumberOfTimePlayed.ToString());
 	            }

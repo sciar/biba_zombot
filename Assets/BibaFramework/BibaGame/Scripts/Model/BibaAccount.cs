@@ -22,15 +22,6 @@ namespace BibaFramework.BibaGame
 			}
 		}
 
-		public void ResetLMVScores()
-		{
-			BibaProfiles.ForEach (profile => {
-				profile.LScore = 0;
-				profile.MScore = 0;
-				profile.VScore = 0;
-			});
-		}
-
 		public List<BibaProfile> BibaProfiles { get; set; }
 
 		public BibaAccount()

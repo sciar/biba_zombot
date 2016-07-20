@@ -37,7 +37,9 @@ namespace BibaFramework.BibaTest
 			BibaDevice = GetInstanceFromContext<BibaDevice> ();
 			BibaDeviceSession = GetInstanceFromContext<BibaDeviceSession> ();
 			BibaAccount = GetInstanceFromContext<BibaAccount> ();
-			BibaProfile = BibaAccount.BibaProfiles [0];
+
+			BindInstanceToContext<BibaProfile> (BibaAccount.BibaProfiles [0]);
+			BibaProfile = GetInstanceFromContext<BibaProfile>();
 
 			StubAnimator = GetInstanceFromContext<IAnimatorControllerPlayable> (BibaMenuConstants.BIBA_STATE_MACHINE);
 		}
@@ -47,7 +49,9 @@ namespace BibaFramework.BibaTest
 			BibaDevice = new BibaDevice ();
 			BibaDeviceSession = new BibaDeviceSession ();
 			BibaAccount = new BibaAccount ();
-			BibaProfile = BibaAccount.BibaProfiles [0];
+
+			BindInstanceToContext<BibaProfile> (BibaAccount.BibaProfiles [0]);
+			BibaProfile = GetInstanceFromContext<BibaProfile>();
 
 			GetInstanceFromContext<TestModelResetSignal> ().Dispatch ();
 		}
@@ -57,7 +61,7 @@ namespace BibaFramework.BibaTest
 		public void TestEndActivityTracking()
 		{
 			GetInstanceFromContext<ApplicationPausedSignal> ().Dispatch ();
-			Assert.AreEqual (0, (int) BibaProfile.LScore);
+			Assert.AreEqual (0, (int) BibaProfile.BibaProfileSession.SessionLScore);
 
 			Reset ();
 		}
@@ -68,7 +72,7 @@ namespace BibaFramework.BibaTest
 			GetInstanceFromContext<ApplicationPausedSignal> ().Dispatch ();
 			WaitForSeconds (1);
 			GetInstanceFromContext<ApplicationUnPausedSignal> ().Dispatch();
-			Assert.AreEqual(0, GetSeondsSinceTime(BibaProfile.BibaPlayerSession.LScoreStart));
+			Assert.AreEqual(0, GetSeondsSinceTime(BibaProfile.BibaProfileSession.LScoreStart));
 
 			Reset ();
 		}
@@ -86,23 +90,23 @@ namespace BibaFramework.BibaTest
 
 			//Start vigorous activity
 			GetInstanceFromContext<ToggleTrackVigorousActivitySignal>().Dispatch (true);
-			Assert.AreEqual(0, GetSeondsSinceTime(BibaProfile.BibaPlayerSession.VScoreStart));
-			Assert.AreEqual (1, (int)BibaProfile.LScore);
+			Assert.AreEqual(0, GetSeondsSinceTime(BibaProfile.BibaProfileSession.VScoreStart));
+			Assert.AreEqual (1, (int)BibaProfile.BibaProfileSession.SessionLScore);
 
 			WaitForSeconds (1);
 
 			//Start moderate activity
 			GetInstanceFromContext<ToggleTrackModerateActivitySignal>().Dispatch (true);
-			Assert.AreEqual (1, (int) BibaProfile.VScore); 
-			Assert.AreEqual (1, (int) BibaProfile.LScore); 
+			Assert.AreEqual (1, (int) BibaProfile.BibaProfileSession.SessionVScore); 
+			Assert.AreEqual (1, (int) BibaProfile.BibaProfileSession.SessionLScore); 
 
 			WaitForSeconds (1);
 
 			//Switch back to light activity
 			GetInstanceFromContext<ToggleTrackLightActivitySignal>().Dispatch (true);
-			Assert.AreEqual (1, (int) BibaProfile.MScore);
-			Assert.AreEqual (1, (int) BibaProfile.VScore); 
-			Assert.AreEqual (1, (int) BibaProfile.LScore); 
+			Assert.AreEqual (1, (int) BibaProfile.BibaProfileSession.SessionMScore);
+			Assert.AreEqual (1, (int) BibaProfile.BibaProfileSession.SessionVScore); 
+			Assert.AreEqual (1, (int) BibaProfile.BibaProfileSession.SessionLScore); 
 
 			Reset ();
 		}
@@ -234,6 +238,12 @@ namespace BibaFramework.BibaTest
 		#endregion
 
 		#region - Utility
+		void BindInstanceToContext<T>(T instance)
+		{
+			StubContext.injectionBinder.Unbind<T> ();
+			StubContext.injectionBinder.Bind<T> ().To (instance).ToSingleton ();
+		}
+
 		T GetInstanceFromContext<T>(string name = "")
 		{
 			if (string.IsNullOrEmpty (name)) 

@@ -11,17 +11,27 @@ namespace BibaFramework.BibaGame
 		[Inject]
 		public BibaProfile BibaProfile { get; set; }
 
+		[Inject]
+		public BibaDevice BibaDevice { get; set; }
+
         [Inject]
         public IDataService DataService { get; set; }
 
         public override void Execute ()
         {
-			var equipment = BibaProfile.BibaPlayerSession.SessionEquipments.Find(equip => equip.EquipmentType == BibaEquipmentType);
-			if (equipment == null) 
+			var sessionEquipment = BibaProfile.BibaProfileSession.SessionEquipments.Find(equip => equip.EquipmentType == BibaEquipmentType);
+			if (sessionEquipment == null) 
 			{
 				throw new ArgumentNullException ();
 			}
-			equipment.Play();
+			sessionEquipment.Play();
+
+			var deviceEquipment = BibaDevice.TotalEquipments.Find(equip => equip.EquipmentType == BibaEquipmentType);
+			if (deviceEquipment == null) 
+			{
+				throw new ArgumentNullException ();
+			}
+			deviceEquipment.Play();
 
 			DataService.Save();
         }

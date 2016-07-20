@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace BibaFramework.BibaGame
 {
-    public class LoadModelsCommand : Command
+	public class SetModelsCommand : Command
     {
         [Inject]
         public IDataService LoaderService { get; set; }

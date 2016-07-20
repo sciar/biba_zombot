@@ -58,10 +58,10 @@ namespace BibaFramework.BibaMenu
 
 			//Start setup - order is important
             commandBinder.Bind<StartSignal>().
-					To<SetupServicesCommand>().
-                    To<LoadModelsCommand>().
+					To<SetServicesCommand>().
+                    To<SetModelsCommand>().
 					To<SetDefaultProfileCommand>().
-                    To<SetupDeviceModelCommand>().
+                    To<SetDeviceModelCommand>().
 					To<StartNewSessionCommand>().
 					To<UpdateFromCDNCommand>().
 					To<CheckForFirstStartPointsEventCommand>().

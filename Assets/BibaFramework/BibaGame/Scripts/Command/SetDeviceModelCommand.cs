@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace BibaFramework.BibaGame
 {
-    public class SetupDeviceModelCommand : Command
+    public class SetDeviceModelCommand : Command
     {
         [Inject]
 		public BibaDevice BibaDevice { get; set; }

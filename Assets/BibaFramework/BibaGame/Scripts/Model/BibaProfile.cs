@@ -12,25 +12,20 @@ namespace BibaFramework.BibaGame
 		public Gender Gender { get; set; }
 		public DateTime Birthday { get; set; }
 	
-		public byte[] PlayerIcon { get; set; }
+		public byte[] Avatar { get; set; }
 
 		public int Points { get; set; }
-
-		//LMV Scores: Seconds spent during Light, Moderate, Vigorous activities
-		public float LScore { get; set; }
-		public float MScore { get; set; }
-		public float VScore { get; set; }
 
 		public List<string> CompletedPointEvents { get; set; }
 
 		[JsonIgnore]
-		public BibaProfileSession BibaPlayerSession { get; set; }
+		public BibaProfileSession BibaProfileSession { get; set; }
 
 		public BibaProfile()
 		{
 			Id = Guid.NewGuid().ToString ();
 			CompletedPointEvents = new List<string> ();
-			BibaPlayerSession = new BibaProfileSession ();
+			BibaProfileSession = new BibaProfileSession ();
 		}
 	}
 
