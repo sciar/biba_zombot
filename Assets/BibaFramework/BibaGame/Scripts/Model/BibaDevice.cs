@@ -21,16 +21,16 @@ namespace BibaFramework.BibaGame
 		public DateTime LastCameraReminderTime { get; set; }
 
 		public List<BibaAchievement> CompletedAchievements { get; set; }
-		public List<BibaEquipment> PlayedEquipments { get; set; }
+		public List<BibaEquipment> TotalEquipments { get; set; }
 
 		public BibaDevice()
 		{
 			UUID = Guid.NewGuid().ToString();
 
-			CompletedAchievements = new List<BibaAchievement> ();
 			LanguageOverwrite = SystemLanguage.Unknown;
 			LastPlayedTime = DateTime.MaxValue;
-			PlayedEquipments = BibaGameConstants.DEFAULT_EQUIPENT_LIST;
+			CompletedAchievements = new List<BibaAchievement> ();
+			TotalEquipments = BibaGameConstants.DEFAULT_EQUIPENT_LIST;
 		}
 	}
 }

@@ -7,6 +7,7 @@ namespace BibaFramework.BibaGame
     //Application
     public class StartSignal : Signal{ }
     public class EndSignal : Signal{ }
+	public class SetProfileSignal : Signal<string>{ }
     public class ApplicationPausedSignal : Signal{ }
     public class ApplicationUnPausedSignal : Signal{ }
 	public class SystemUpdatedSignal : Signal { }

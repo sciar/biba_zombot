@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace BibaFramework.BibaGame
 {
@@ -12,8 +13,11 @@ namespace BibaFramework.BibaGame
 		public float MScore { get; set; }
 		public float VScore { get; set; }
 
+		public List<BibaEquipment> SessionEquipments { get; set; }
+
 		public BibaProfileSession ()
 		{
+			SessionEquipments = BibaGameConstants.DEFAULT_EQUIPENT_LIST;
 		}
 	}
 }

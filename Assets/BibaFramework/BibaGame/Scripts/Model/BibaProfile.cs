@@ -28,6 +28,7 @@ namespace BibaFramework.BibaGame
 
 		public BibaProfile()
 		{
+			Id = Guid.NewGuid().ToString ();
 			CompletedPointEvents = new List<string> ();
 			BibaPlayerSession = new BibaProfileSession ();
 		}

@@ -16,6 +16,17 @@ namespace BibaFramework.BibaGame
         
         protected override void BindModels ()
         {
+			//For debuggin from the Scene in Unity
+			#if UNITY_EDITOR
+			var session = injectionBinder.GetInstance<BibaDeviceSession>();
+			if(session.SelectedEquipments.Count == 0)
+			{
+				session.SelectedEquipments.Add(new BibaEquipment(BibaEquipmentType.bridge));
+				session.SelectedEquipments.Add(new BibaEquipment(BibaEquipmentType.climber));
+				session.SelectedEquipments.Add(new BibaEquipment(BibaEquipmentType.overhang));
+				session.TagEnabled = true;
+			}
+			#endif
         }
         
         protected override void BindServices ()

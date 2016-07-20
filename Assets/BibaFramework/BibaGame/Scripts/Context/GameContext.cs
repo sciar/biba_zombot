@@ -17,6 +17,7 @@ namespace BibaFramework.BibaGame
         
         protected override void BindModels ()
         {
+			//For debugging from the GameScene in Unity
 			#if UNITY_EDITOR
 			var session = injectionBinder.GetInstance<BibaDeviceSession>();
 			if(session.SelectedEquipments.Count == 0)

@@ -9,7 +9,7 @@ namespace BibaFramework.BibaAnalytic
 		public bool Status { get; set; }
 
 		[Inject]
-		public BibaAccount BibaAccount { get; set; }
+		public BibaProfile BibaProfile { get; set; }
 
 		[Inject]
 		public IDataService DataService { get; set; }
@@ -32,4 +32,3 @@ namespace BibaFramework.BibaAnalytic
 		protected abstract void AddActivityTime();
 	}
 }
-

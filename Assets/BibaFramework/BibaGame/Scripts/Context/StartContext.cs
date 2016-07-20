@@ -29,7 +29,6 @@ namespace BibaFramework.BibaGame
 
         protected override void BindCommands ()
         {    
-			commandBinder.Bind<EndSignal> ().To<CheckForFirstStartPointsEventCommand> ();
         }
 
         protected override void BindSignals ()

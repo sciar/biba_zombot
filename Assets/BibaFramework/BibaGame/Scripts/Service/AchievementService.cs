@@ -56,7 +56,7 @@ namespace BibaFramework.BibaGame
             //Check settings all unFinished achievements
             foreach (var config in InCompletedAchievements)
             {
-				var equipment = BibaDevice.PlayedEquipments.Find(equip => equip.EquipmentType == config.EquipmentType);
+				var equipment = BibaDevice.TotalEquipments.Find(equip => equip.EquipmentType == config.EquipmentType);
 
                 if((config is BibaAchievementConfig && IsBasicAchievementCompleted(equipment, config)) ||
                    (config is BibaSeasonalAchievementConfig && IsSeasonalAchievementCompleted(equipment, config)))

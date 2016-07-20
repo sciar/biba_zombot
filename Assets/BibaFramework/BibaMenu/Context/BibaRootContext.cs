@@ -30,6 +30,7 @@ namespace BibaFramework.BibaMenu
 			injectionBinder.Bind<BibaDeviceSession>().To<BibaDeviceSession>().ToSingleton().CrossContext();
 
 			injectionBinder.Bind<BibaAccount>().To<BibaAccount>();
+			injectionBinder.Bind<BibaProfile>().To<BibaProfile>();
 			injectionBinder.Bind<BibaDevice>().To<BibaDevice>();
         }
 
@@ -59,15 +60,18 @@ namespace BibaFramework.BibaMenu
             commandBinder.Bind<StartSignal>().
 					To<SetupServicesCommand>().
                     To<LoadModelsCommand>().
+					To<SetDefaultProfileCommand>().
                     To<SetupDeviceModelCommand>().
 					To<StartNewSessionCommand>().
 					To<UpdateFromCDNCommand>().
+					To<CheckForFirstStartPointsEventCommand>().
 			#if UNITY_EDITOR
 					To<SetupEditorDebugSceneCommand>().
 			#endif
                     InSequence();
            
 			commandBinder.Bind<StartNewSessionSignal>().To<StartNewSessionCommand>();
+			commandBinder.Bind<SetProfileSignal>().To<SetProfileCommand>();
 
 			commandBinder.Bind<ApplicationPausedSignal>().
 				To<LogLocationInfoCommand>().

@@ -10,8 +10,6 @@ namespace BibaFramework.BibaGame
 		public string EmailAddress { get; set; }
 		public string Password { get; set; }
 
-		public BibaProfile SelectedProfile { get; set; }
-
 		[JsonIgnore]
 		public int TotalPoints {
 			get {
@@ -37,11 +35,9 @@ namespace BibaFramework.BibaGame
 
 		public BibaAccount()
 		{
-			SelectedProfile = new BibaProfile ();
-			SelectedProfile.Id = Guid.NewGuid ().ToString ();
-
+			Id = Guid.NewGuid().ToString ();
 			BibaProfiles = new List<BibaProfile> ();
-			BibaProfiles.Add(SelectedProfile);
+			BibaProfiles.Add(new BibaProfile ());
 		}
 	}
 }
