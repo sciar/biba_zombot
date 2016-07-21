@@ -1,14 +1,27 @@
-﻿using UnityEngine;
+﻿using System;
 using System.Collections;
-using System;
+using BibaFramework.Utility;
+using UnityEngine;
+using BibaFramework.BibaGame;
 
-public static class ExtensionMethods {
-	public static void FadeAlphaTo(this CanvasGroup canvasGroup, float targetAlpha, float duration = 1f, float delay = 0f, Action callback = null) {
-		TransitionManager.Instance.FadeTo (canvasGroup, targetAlpha, duration, delay, callback);
+public static class ExtensionMethods 
+{
+	public static void FadeAlphaTo(this CanvasGroup canvasGroup, float targetAlpha, float duration = 1f, float delay = 0f, Action callback = null) 
+	{
+		if (canvasGroup != null) 
+		{
+			var fadeToBehaviour = canvasGroup.gameObject.AddComponent<FadeBehaviour> ();
+			fadeToBehaviour.FadeTo (canvasGroup, targetAlpha, duration, delay, callback);
+		}
 	}
-	public static void EnableInteraction(this CanvasGroup canvasGroup, bool value) {
-		canvasGroup.blocksRaycasts = value;
-		canvasGroup.interactable = value;
+
+	public static void EnableInteraction(this CanvasGroup canvasGroup, bool value) 
+	{
+		if (canvasGroup != null) 
+		{
+			canvasGroup.blocksRaycasts = value;
+			canvasGroup.interactable = value;
+		}	
 	}
 
 	public static void EnableEmission(this ParticleSystem particleSystem, bool enabled)
