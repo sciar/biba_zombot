@@ -14,6 +14,9 @@ namespace BibaFramework.BibaGame
 		public bool TagEnabled { get; set; }
 		public bool TagScanned { get; set; }
 
+		public Transform TagTransform { get; set; }
+		public Transform TagCameraTransform { get; set; }
+
 		public List<BibaEquipment> SelectedEquipments { get; set; }
 
 		public BibaDeviceSession()

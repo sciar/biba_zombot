@@ -15,7 +15,7 @@ namespace BibaFramework.BibaGame
 		public IBibaTagService BibaTagService { get; set; }
         
         [Inject]
-        public TagScannedSignal TagScannedSignal { get; set; }
+        public TagFoundSignal TagScannedSignal { get; set; }
         
         [Inject]
 		public BibaDeviceSession BibaDeviceSession { get; set; }

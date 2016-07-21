@@ -135,9 +135,6 @@ namespace BibaFramework.BibaMenu
             injectionBinder.Bind<MenuStateExitAnimationEndedSignal>().ToSingleton().CrossContext();
             
             injectionBinder.Bind<ToggleObjectMenuStateSignal>().ToSingleton().CrossContext();
-
-            //BibaTag
-            injectionBinder.Bind<TagScannedSignal>().ToSingleton().CrossContext();
         }
     }
 }

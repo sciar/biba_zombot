@@ -7,7 +7,8 @@ namespace BibaFramework.BibaGame
     public class BibaTrackableEventHandler : MonoBehaviour,
                                                 ITrackableEventHandler
     {
-        public Signal<string> TrackingFoundSignal = new Signal<string>();
+		public Signal<string,Transform> TrackingFoundSignal = new Signal<string,Transform>();
+		public Signal<string,Transform> TrackingLostSignal = new Signal<string,Transform>();
 
         #region PRIVATE_MEMBER_VARIABLES
         private TrackableBehaviour mTrackableBehaviour;
@@ -46,12 +47,14 @@ namespace BibaFramework.BibaGame
         #region PRIVATE_METHODS
         private void OnTrackingFound()
         {
-            Debug.Log(mTrackableBehaviour.TrackableName + " tag is scanned.");
-            TrackingFoundSignal.Dispatch(mTrackableBehaviour.TrackableName);
+            Debug.Log(mTrackableBehaviour.TrackableName + " tag is found.");
+			TrackingFoundSignal.Dispatch(mTrackableBehaviour.TrackableName,transform);
         }
 
         private void OnTrackingLost()
         {
+			Debug.Log(mTrackableBehaviour.TrackableName + " tag is lost.");
+			TrackingLostSignal.Dispatch(mTrackableBehaviour.TrackableName,transform);
         }
         #endregion // PRIVATE_METHODS
     }

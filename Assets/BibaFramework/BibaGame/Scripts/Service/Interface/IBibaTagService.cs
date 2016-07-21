@@ -2,7 +2,9 @@
 {
     public interface IBibaTagService 
     {
-        TagScannedSignal TagScannedSignal { get; set; }
+		TagFoundSignal TagFoundSignal { get; set; }
+		TagLostSignal TagLostSignal { get; set; }
+		TagInitFailedSignal TagInitFailedSignal { get; set; }
 
         void StartScan();
         void StopScan();
