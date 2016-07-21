@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections;
+using BibaFramework.BibaGame;
 using BibaFramework.Utility;
 using UnityEngine;
-using BibaFramework.BibaGame;
 
 public static class ExtensionMethods 
 {
