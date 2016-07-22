@@ -20,7 +20,7 @@ namespace BibaFramework.BibaTest
 			
 		}
 
-		public BibaDevice LoadSystemModel ()
+		public BibaDevice LoadDeviceModel ()
 		{
 			return new BibaDevice ();
 		}

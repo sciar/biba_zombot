@@ -31,14 +31,18 @@ namespace BibaFramework.BibaGame
     public class OpenURLSignal : Signal<string> { }
     public class EnableHowToSignal : Signal<bool> { }
     public class EnableHelpBubblesSignal : Signal<bool> { }
-    public class ResetModelsSignal : Signal { }
+    public class ResetDeviceSignal : Signal { }
 	public class SetLanguageOverwriteSignal : Signal<SystemLanguage>{ }
 
     //Tag
+
+    public class SetTagToScanSignal : Signal { }
+    public class SetSatelliteTagToScanAtViewSignal : Signal<BibaEquipment> { }
     public class EnableTagSignal : Signal<bool> { }
     public class TagInitFailedSignal : Signal { } 
 	public class TagFoundSignal : Signal<BibaTagType> { }
 	public class TagLostSignal : Signal<BibaTagType> { }
     public class LogCameraReminderTimeSignal : Signal { }
+    public class CheckForAchievementsSignal : Signal { }
     public class TagScanCompletedSignal : Signal { } 
 }

@@ -82,6 +82,8 @@ namespace BibaFramework.BibaMenu
 					//To<CheckForDownloadContentCommand>().
 					To<CheckForSessionEndCommand>();
 
+			commandBinder.Bind<SetProfileSignal> ().To<SetProfileCommand> ();
+
             //BibaMenu
             commandBinder.Bind<ProcessNextMenuStateSignal>().To<ProcessNextMenuStateCommand>();
 

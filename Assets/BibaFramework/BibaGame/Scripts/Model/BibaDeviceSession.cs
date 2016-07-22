@@ -21,6 +21,11 @@ namespace BibaFramework.BibaGame
 
 		public BibaDeviceSession()
 		{
+			Reset ();
+		}
+
+		public void Reset()
+		{
 			Start = DateTime.UtcNow;
 			SelectedEquipments = new List<BibaEquipment> ();
 		}

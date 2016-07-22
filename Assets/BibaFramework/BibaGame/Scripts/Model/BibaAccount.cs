@@ -26,6 +26,11 @@ namespace BibaFramework.BibaGame
 
 		public BibaAccount()
 		{
+			Reset ();
+		}
+
+		public void Reset()
+		{
 			Id = Guid.NewGuid().ToString ();
 			BibaProfiles = new List<BibaProfile> ();
 			BibaProfiles.Add(new BibaProfile ());

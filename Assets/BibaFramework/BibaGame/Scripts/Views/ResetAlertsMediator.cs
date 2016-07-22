@@ -9,7 +9,7 @@ namespace BibaFramework.BibaGame
 		public ResetAlertsView ResetAlertsView { get; set; }
 
 		[Inject]
-		public ResetModelsSignal ResetGameModelSignal { get; set; }
+		public ResetDeviceSignal ResetDeviceSignal { get; set; }
 
 		public override void OnRegister ()
 		{
@@ -23,7 +23,7 @@ namespace BibaFramework.BibaGame
 
 		void ResetPlayer()
 		{
-			ResetGameModelSignal.Dispatch ();
+			ResetDeviceSignal.Dispatch ();
 		}
 	}
 }

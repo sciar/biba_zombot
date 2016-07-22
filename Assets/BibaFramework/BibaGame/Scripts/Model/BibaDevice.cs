@@ -28,6 +28,11 @@ namespace BibaFramework.BibaGame
 
 		public BibaDevice()
 		{
+			Reset ();
+		}
+
+		public void Reset()
+		{
 			InstanceId = Guid.NewGuid().ToString();
 
 			PrivacyEnabled = true;

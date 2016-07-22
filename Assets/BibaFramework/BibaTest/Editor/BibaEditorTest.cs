@@ -46,9 +46,9 @@ namespace BibaFramework.BibaTest
 
 		void Reset()
 		{
-			BibaDevice = new BibaDevice ();
-			BibaDeviceSession = new BibaDeviceSession ();
-			BibaAccount = new BibaAccount ();
+			BibaDevice.Reset();
+			BibaDeviceSession.Reset();
+			BibaAccount.Reset();
 
 			BindInstanceToContext<BibaProfile> (BibaAccount.BibaProfiles [0]);
 			BibaProfile = GetInstanceFromContext<BibaProfile>();

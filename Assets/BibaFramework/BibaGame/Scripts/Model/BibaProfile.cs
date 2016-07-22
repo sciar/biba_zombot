@@ -23,6 +23,11 @@ namespace BibaFramework.BibaGame
 
 		public BibaProfile()
 		{
+			Reset ();
+		}
+
+		public void Reset()
+		{
 			Id = Guid.NewGuid().ToString ();
 			CompletedPointEvents = new List<string> ();
 			BibaProfileSession = new BibaProfileSession ();

@@ -18,6 +18,11 @@ namespace BibaFramework.BibaGame
 
 		public BibaProfileSession ()
 		{
+			Reset ();
+		}
+
+		public void Reset()
+		{
 			SessionEquipments = BibaGameConstants.DEFAULT_EQUIPENT_LIST;
 		}
 	}

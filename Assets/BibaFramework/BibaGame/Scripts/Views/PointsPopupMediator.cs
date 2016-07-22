@@ -18,7 +18,7 @@ namespace BibaFramework.BibaGame
 		public BibaSceneStack BibaSceneStack { get; set; }
 
 		[Inject]
-		public ResetModelsSignal ResetGameModelSignal { get; set; }
+		public ResetDeviceSignal ResetGameModelSignal { get; set; }
 
 		[Inject]
 		public PlayBibaSFXLoopSignal PlayBibaSFXLoopSignal { get; set; }

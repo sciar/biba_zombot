@@ -16,7 +16,7 @@ namespace BibaFramework.BibaGame
 			var profile = BibaAccount.BibaProfiles.Find (player => player.Id == PlayerId);
 			if (profile == null) 
 			{
-				profile = BibaAccount.BibaProfiles [0];
+				profile = new BibaProfile ();
 			}
 
 			injectionBinder.Unbind<BibaProfile>();

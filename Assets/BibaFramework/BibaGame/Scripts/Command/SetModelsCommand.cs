@@ -10,7 +10,7 @@ namespace BibaFramework.BibaGame
 
         public override void Execute ()
         {
-            var systemModel = LoaderService.LoadSystemModel ();
+            var systemModel = LoaderService.LoadDeviceModel ();
 			injectionBinder.Unbind<BibaDevice>();
 			injectionBinder.Bind<BibaDevice>().To(systemModel).ToSingleton().CrossContext();
 

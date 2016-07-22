@@ -14,6 +14,9 @@ namespace BibaFramework.BibaGame
         public EnableHowToSignal EnableHowToSignal { get; set; }
 
         [Inject]
+		public ResetDeviceSignal ResetDeviceSignal { get; set; }
+
+		[Inject]
 		public BibaDevice BibaDevice { get; set; }
 
         public override SceneMenuStateView View { get { return SettingsView; } }
@@ -22,7 +25,8 @@ namespace BibaFramework.BibaGame
         {
 			SettingsView.ShowHowToToggle.isOn = BibaDevice.HowToEnabled;
 			SettingsView.ShowHelpBubblesToggle.isOn = BibaDevice.HelpBubblesEnabled;
-        }
+			SettingsView.ResetDeviceSignal = ResetDeviceSignal;
+      }
 
         public override void RegisterSceneDependentSignals ()
         {
