@@ -12,7 +12,13 @@ namespace BibaFramework.BibaGame
 		public BibaAccount BibaAccount { get; set; }
 
 		[Inject]
-		public BibaDeviceSession BibaSession { get; set; }
+		public BibaProfile BibaProfile { get; set; }
+
+		[Inject]
+		public BibaDevice BibaDevice { get; set; }
+
+		[Inject]
+		public BibaDeviceSession BibaDeviceSession { get; set; }
 
 		[Inject]
 		public IDataService service { get; set; }
@@ -20,8 +26,11 @@ namespace BibaFramework.BibaGame
 		public override void RegisterSceneDependentSignals ()
 		{
 			view.controller.BibaAccount = BibaAccount;
-			view.controller.BibaSession = BibaSession;
+			view.controller.BibaProfile = BibaProfile;
+			view.controller.BibaDevice = BibaDevice;
+			view.controller.BibaDeviceSession = BibaDeviceSession;
 			view.controller.DataService = service;
+			view.controller.SetupController ();
 		}
 
 		public override void UnRegisterSceneDependentSignals ()

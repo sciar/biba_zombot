@@ -3,16 +3,19 @@ using BibaFramework.BibaMenu;
 
 namespace BibaFramework.BibaGame
 {
-    public class ResetGameModelCommand : Command
+    public class ResetModelsCommand : Command
     {
         [Inject]
 		public BibaDevice BibaDevice { get; set; }
 
 		[Inject]
-		public BibaDeviceSession BibaSession { get; set; }
+		public BibaDeviceSession BibaDeviceSession { get; set; }
 
 		[Inject]
 		public BibaAccount BibaAccount { get; set; }
+
+		[Inject]
+		public BibaProfile BibaProfile { get; set; }
 
         [Inject]
         public IDataService DataService { get; set; }
@@ -27,8 +30,10 @@ namespace BibaFramework.BibaGame
         {
 			BibaAccount = new BibaAccount ();
 			BibaDevice = new BibaDevice ();
-			BibaSession = new BibaDeviceSession ();
 			DataService.Save ();
+
+			BibaProfile = BibaAccount.BibaProfiles [0];
+			BibaDeviceSession = new BibaDeviceSession ();
 
 			LanguageUpdatedSignal.Dispatch ();
             SetMenuStateTriggerSignal.Dispatch(MenuStateTrigger.Reset);

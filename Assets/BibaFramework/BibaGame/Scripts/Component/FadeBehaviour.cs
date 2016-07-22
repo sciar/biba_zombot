@@ -26,10 +26,14 @@ namespace BibaFramework.BibaGame
 				yield return null;
 			}
 
+			canvasGroup.alpha = targetAlpha;
+
 			if (callback != null) 
 			{
 				callback ();
 			}
+
+			Destroy (this);
 		}
 	}
 }

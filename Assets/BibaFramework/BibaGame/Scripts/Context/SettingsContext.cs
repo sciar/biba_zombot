@@ -33,7 +33,7 @@ namespace BibaFramework.BibaGame
         {   
             commandBinder.Bind<EnableHelpBubblesSignal>().To<EnableHelpBubblesCommand>();
             commandBinder.Bind<EnableHowToSignal>().To<EnableHowToCommand>();
-			commandBinder.Bind<ResetGameModelSignal>().To<ResetGameModelCommand>().To<SetDeviceModelCommand>().InSequence();
+			commandBinder.Bind<ResetModelsSignal>().To<ResetModelsCommand>().To<SetDeviceModelCommand>().InSequence();
 			commandBinder.Bind<SetLanguageOverwriteSignal>().To<SetLanguageOverwriteCommand>();
         }
         

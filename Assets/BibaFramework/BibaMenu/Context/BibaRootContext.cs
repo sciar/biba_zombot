@@ -69,9 +69,6 @@ namespace BibaFramework.BibaMenu
 					To<SetupEditorDebugSceneCommand>().
 			#endif
                     InSequence();
-           
-			commandBinder.Bind<StartNewSessionSignal>().To<StartNewSessionCommand>();
-			commandBinder.Bind<SetProfileSignal>().To<SetProfileCommand>();
 
 			commandBinder.Bind<ApplicationPausedSignal>().
 				To<LogLocationInfoCommand>().

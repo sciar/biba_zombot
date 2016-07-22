@@ -9,7 +9,7 @@ namespace BibaFramework.BibaGame
 		public ResetAlertsView ResetAlertsView { get; set; }
 
 		[Inject]
-		public ResetGameModelSignal ResetGameModelSignal { get; set; }
+		public ResetModelsSignal ResetGameModelSignal { get; set; }
 
 		public override void OnRegister ()
 		{

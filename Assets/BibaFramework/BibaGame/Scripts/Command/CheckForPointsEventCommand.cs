@@ -38,7 +38,6 @@ namespace BibaFramework.BibaGame
 			if (!BibaProfile.CompletedPointEvents.Contains (KeyToCheck)) 
 			{
 				base.Execute ();
-				Fail ();
 			}
 		}
 	}

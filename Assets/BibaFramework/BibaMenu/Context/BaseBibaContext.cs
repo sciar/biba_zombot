@@ -59,11 +59,12 @@ namespace BibaFramework.BibaMenu
         {   
             injectionBinder.Bind<StartSignal>().To<StartSignal>().ToSingleton();
             injectionBinder.Bind<EndSignal>().To<EndSignal>().ToSingleton();
-			injectionBinder.Bind<ResetGameModelSignal>().To<ResetGameModelSignal>().ToSingleton();
+			injectionBinder.Bind<ResetModelsSignal>().To<ResetModelsSignal>().ToSingleton();
 			  
 			//Common
             commandBinder.Bind<OpenURLSignal>().To<OpenURLCommand>();
-			commandBinder.Bind<CheckForPointsGainSignal>().To<CheckForPointsEventCommand>();           
+			commandBinder.Bind<CheckForPointsGainSignal>().To<CheckForPointsEventCommand>();  
+			commandBinder.Bind<SetProfileSignal>().To<SetProfileCommand>();
 
 			//Menu
             commandBinder.Bind<SetMenuStateTriggerSignal>().To<SetMenuStateTriggerCommand>();

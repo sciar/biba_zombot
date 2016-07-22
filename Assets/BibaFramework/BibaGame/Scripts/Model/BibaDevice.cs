@@ -30,7 +30,11 @@ namespace BibaFramework.BibaGame
 		{
 			InstanceId = Guid.NewGuid().ToString();
 
+			PrivacyEnabled = true;
+			HowToEnabled = true;
+			HelpBubblesEnabled = true;
 			LanguageOverwrite = SystemLanguage.Unknown;
+
 			LastPlayedTime = DateTime.MaxValue;
 			CompletedAchievements = new List<BibaAchievement> ();
 			TotalEquipments = BibaGameConstants.DEFAULT_EQUIPENT_LIST;

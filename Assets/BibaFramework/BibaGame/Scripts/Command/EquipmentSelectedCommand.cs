@@ -29,6 +29,7 @@ namespace BibaFramework.BibaGame
                 if(indexToRemove != -1)
                 {
 					BibaDeviceSession.SelectedEquipments.RemoveAt(indexToRemove);
+					SessionUpdatedSignal.Dispatch ();
                 }
             }
         }

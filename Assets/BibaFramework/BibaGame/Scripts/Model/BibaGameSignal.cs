@@ -31,7 +31,7 @@ namespace BibaFramework.BibaGame
     public class OpenURLSignal : Signal<string> { }
     public class EnableHowToSignal : Signal<bool> { }
     public class EnableHelpBubblesSignal : Signal<bool> { }
-    public class ResetGameModelSignal : Signal { }
+    public class ResetModelsSignal : Signal { }
 	public class SetLanguageOverwriteSignal : Signal<SystemLanguage>{ }
 
     //Tag

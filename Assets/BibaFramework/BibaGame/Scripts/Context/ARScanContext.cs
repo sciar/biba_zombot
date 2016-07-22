@@ -51,8 +51,8 @@ namespace BibaFramework.BibaGame
         protected override void BindSignals ()
         {
             injectionBinder.Bind<TagInitFailedSignal>().To<TagInitFailedSignal>().ToSingleton();
-			injectionBinder.Bind<TagFoundSignal>().ToSingleton().CrossContext();
-			injectionBinder.Bind<TagLostSignal>().ToSingleton().CrossContext();
+			injectionBinder.Bind<TagFoundSignal>().ToSingleton();
+			injectionBinder.Bind<TagLostSignal>().ToSingleton();
         }
     }
 }
