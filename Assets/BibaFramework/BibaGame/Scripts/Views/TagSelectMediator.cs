@@ -19,19 +19,19 @@ namespace BibaFramework.BibaGame
 
         public override void RegisterSceneDependentSignals ()
         {
-			TagSelectView.EnableTagSignal.AddListener(TagSelected);
+			TagSelectView.EnableTagSignal.AddListener(TagEnabled);
         }
 
         public override void UnRegisterSceneDependentSignals ()
 		{
-			TagSelectView.EnableTagSignal.RemoveListener(TagSelected);
+			TagSelectView.EnableTagSignal.RemoveListener(TagEnabled);
         }
 
         public override void SetupSceneDependentMenu ()	
         {
         }
 
-		void TagSelected(bool status)
+		void TagEnabled(bool status)
 		{
 			EnableTagSignal.Dispatch(status);
 		}

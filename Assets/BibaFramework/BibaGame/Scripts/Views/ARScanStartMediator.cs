@@ -15,10 +15,7 @@ namespace BibaFramework.BibaGame
 		public IBibaTagService BibaTagService { get; set; }
         
         [Inject]
-        public TagFoundSignal TagScannedSignal { get; set; }
-        
-        [Inject]
-		public BibaDeviceSession BibaDeviceSession { get; set; }
+        public TagFoundSignal TagFoundSignal { get; set; }
         
         [Inject]
         public SetMenuStateTriggerSignal SetMenuStateTriggerSignal { get; set; }
@@ -35,11 +32,17 @@ namespace BibaFramework.BibaGame
 		[Inject]
 		public LocalizationService LocalizationService { get; set; }
 
+		[Inject]
+		public SetTagToScanSignal SetTagToScanSignal { get; set; }
+
+		[Inject]
+		public SetTagToScanAtViewSignal SetTagToScanAtViewSignal { get; set; }
+
         private BibaTagType _tagToScan;
 
         protected override void RegisterMenuStateDependentSignals() 
         { 
-            TagScannedSignal.AddListener(TagScanned);
+            TagFoundSignal.AddListener(TagFound);
 			TagInitFailedSignal.AddListener(TagServiceInitFailed);
             
 			ARScanStartView.LocalizationService = LocalizationService;
@@ -48,7 +51,7 @@ namespace BibaFramework.BibaGame
 
         protected override void UnRegisterMenuStateDependentSignals() 
         {
-            TagScannedSignal.RemoveListener(TagScanned);
+            TagFoundSignal.RemoveListener(TagFound);
 			TagInitFailedSignal.RemoveListener(TagServiceInitFailed);
         }
 
@@ -70,16 +73,21 @@ namespace BibaFramework.BibaGame
             }
         }
 
-        void SetupTagToScan()
-        {
-			var rndIndex = Random.Range(0, BibaDeviceSession.SelectedEquipments.Count);
-			var equipmentToScan = new BibaEquipment(BibaDeviceSession.SelectedEquipments[rndIndex].EquipmentType);
-            
-            _tagToScan = equipmentToScan.TagType;
-            ARScanStartView.SetupTag(_tagToScan);
-        }
+		void SetupTagToScan()
+		{
+			SetTagToScanAtViewSignal.AddListener (SetTagToScanAtView);
+			SetTagToScanSignal.Dispatch ();
+		}
 
-        void TagScanned(BibaTagType tagType)
+		void SetTagToScanAtView(BibaEquipment equipment)
+		{
+			SetTagToScanAtViewSignal.RemoveListener (SetTagToScanAtView);
+
+			_tagToScan = equipment.TagType;
+			ARScanStartView.SetupTag(_tagToScan);
+		}
+
+        void TagFound(BibaTagType tagType)
         {
             //TODO: implement scanning logic
             Debug.Log(tagType.ToString() + " tag is scanned. We are expecting " + _tagToScan.ToString());
@@ -92,10 +100,8 @@ namespace BibaFramework.BibaGame
 
         void ScanCompleted()
         {
+			TagScanCompletedSignal.Dispatch();
             SetMenuStateTriggerSignal.Dispatch(MenuStateTrigger.Yes);
-			BibaDeviceSession.TagScanned = true;
-            TagScanCompletedSignal.Dispatch();
-
         }
 
         void TagServiceInitFailed()

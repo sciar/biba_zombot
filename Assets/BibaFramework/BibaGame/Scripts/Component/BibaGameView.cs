@@ -16,7 +16,8 @@ public class BibaGameView : GameView {
 	public AnimationEventCollection AnimationEventSuscribers;
 
 	// Use this for initialization
-	public new void Awake () {
+	protected override void Awake () {
+		base.Awake ();
 		statesToBibaCanvasGroups = new Dictionary<BibaGameStatesEnum, BibaCanvasGroup> ();
 		foreach (BibaCanvasGroup relayCanvasGroup in canvas.GetComponentsInChildren<BibaCanvasGroup>()) {
 			if (!statesToBibaCanvasGroups.ContainsKey(relayCanvasGroup.currentState)) {

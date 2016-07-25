@@ -25,17 +25,20 @@ namespace BibaFramework.BibaGame
 				session.SelectedEquipments.Add(new BibaEquipment(BibaEquipmentType.bridge));
 				session.SelectedEquipments.Add(new BibaEquipment(BibaEquipmentType.climber));
 				session.SelectedEquipments.Add(new BibaEquipment(BibaEquipmentType.overhang));
+				session.TagEnabled = true;
 			}
 			#endif
         }
         
         protected override void BindServices ()
         {
+			injectionBinder.Bind<IBibaTagService> ().To<VuforiaTagService> ();
         }
         
         protected override void BindViews ()
         { 
             mediationBinder.Bind<GameView>().To<GameMediator>();
+			mediationBinder.Bind<ScanningTagView>().To<ScanningTagMediator>();
         }
         
         protected override void BindCommands ()
@@ -45,8 +48,16 @@ namespace BibaFramework.BibaGame
 				To<CheckForChartBoostCommand>().
 				To<LogLastPlayedTimeCommand>();
 
-            commandBinder.Bind<EquipmentPlayedSignal>().To<EquipmentPlayedCommand>();
-            commandBinder.Bind<TryToSetHighScoreSignal>().To<TryToSetHighScoreCommand>();
+			commandBinder.Bind<EquipmentPlayedSignal>().To<EquipmentPlayedCommand>();
+			commandBinder.Bind<TryToSetHighScoreSignal>().To<TryToSetHighScoreCommand>();
+
+			commandBinder.Bind<SetTagToScanSignal>().To<SetTagToScanCommand>();
+			commandBinder.Bind<LogCameraReminderTimeSignal>().To<LogCameraReminderTimeCommand>();
+			commandBinder.Bind<TagScanCompletedSignal>().
+				To<TagScanCompletedCommand>().
+				To<RemoveVuforiaCommand>().
+				To<CheckForFirstScanCompletedPointsEventCommand>().
+				To<CheckForScanCompletedPointsEventCommand>();
 
 			commandBinder.Bind<EndSignal>().
 				To<CheckForAchievementsCommand>().
@@ -57,6 +68,10 @@ namespace BibaFramework.BibaGame
         
         protected override void BindSignals ()
         {
+			injectionBinder.Bind<SetTagToScanAtViewSignal>().To<SetTagToScanAtViewSignal>().ToSingleton();
+			injectionBinder.Bind<TagInitFailedSignal>().To<TagInitFailedSignal>().ToSingleton();
+			injectionBinder.Bind<TagFoundSignal>().ToSingleton();
+			injectionBinder.Bind<TagLostSignal>().ToSingleton();
         }
     }
 }

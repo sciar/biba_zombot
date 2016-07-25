@@ -37,7 +37,7 @@ namespace BibaFramework.BibaGame
     //Tag
 
     public class SetTagToScanSignal : Signal { }
-    public class SetSatelliteTagToScanAtViewSignal : Signal<BibaEquipment> { }
+    public class SetTagToScanAtViewSignal : Signal<BibaEquipment> { }
     public class EnableTagSignal : Signal<bool> { }
     public class TagInitFailedSignal : Signal { } 
 	public class TagFoundSignal : Signal<BibaTagType> { }
