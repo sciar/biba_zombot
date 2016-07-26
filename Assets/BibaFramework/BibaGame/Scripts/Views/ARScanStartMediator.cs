@@ -32,6 +32,9 @@ namespace BibaFramework.BibaGame
 		[Inject]
 		public BibaDeviceSession BibaDeviceSession { get; set; }
 
+		[Inject]
+		public ToggleTagScanSignal ToggleTagScanSignal { get; set; }
+
         protected override void RegisterMenuStateDependentSignals() 
         { 
 			TagScanCompletedSignal.AddListener(TagScanCompleted);
@@ -49,11 +52,12 @@ namespace BibaFramework.BibaGame
         protected override void MenuStateObjectEnabled()
         {
 			SetupTagToScan();
+			ToggleTagScanSignal.Dispatch (true);
         }
 
 		protected override void MenuStateObjectDisabled()
 		{
-			
+			ToggleTagScanSignal.Dispatch (false);
 		}
 
 		void SetupTagToScan()

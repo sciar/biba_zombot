@@ -1,5 +1,6 @@
 ﻿using strange.extensions.mediation.impl;
 using Vuforia;
+using UnityEngine;
 
 namespace BibaFramework.BibaGame
 {
@@ -13,17 +14,6 @@ namespace BibaFramework.BibaGame
 					_vuforiaBehaviour = GetComponent<VuforiaBehaviour> ();
 				}
 				return _vuforiaBehaviour;
-			}
-		}
-
-		private VideoBackgroundManager _videoBackground;
-		public VideoBackgroundManager VideoBackgroundManager { 
-			get {
-				if (_videoBackground == null) 
-				{
-					_videoBackground = GetComponent<VideoBackgroundManager> ();
-				}
-				return _videoBackground;
 			}
 		}
 	}

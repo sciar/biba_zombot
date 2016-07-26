@@ -29,6 +29,7 @@ public class ScanningTagView : View
 	public TagView GreenTagView;
 	
 	public Signal ScanningTagViewEnabledSignal = new Signal();
+	public Signal ScanningTagViewDisabledSignal = new Signal ();
 
 	public LocalizationService LocalizationService { get; set; }
 	
@@ -52,6 +53,11 @@ public class ScanningTagView : View
 		ScanImage.gameObject.SetActive(true);
 		
 		ScanningTagViewEnabledSignal.Dispatch();
+	}
+
+	void OnDisable()
+	{
+		ScanningTagViewDisabledSignal.Dispatch ();
 	}
 
 	public void SetupTag(BibaTagType tagType)

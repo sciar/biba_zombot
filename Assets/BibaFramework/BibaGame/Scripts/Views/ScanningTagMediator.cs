@@ -28,6 +28,9 @@ public class ScanningTagMediator : Mediator
 	[Inject]
 	public BibaDeviceSession BibaDeviceSession { get; set; }
 
+	[Inject]
+	public ToggleTagScanSignal ToggleTagScanSignal { get; set; }
+
 	public override void OnRegister ()
 	{
 		ScanningTagView.LocalizationService = LocalizationService;
@@ -50,10 +53,16 @@ public class ScanningTagMediator : Mediator
 		ScanningTagView.ShowCameraFailedMessage();
 	}
 
+	void TagScanDisabled()
+	{
+		ToggleTagScanSignal.Dispatch (false);
+	}
+
 	void TagScanEnabled()
 	{
 		SetTagToScanAtViewSignal.AddListener(SetTagToScanAtView);
 		SetTagToScanSignal.Dispatch();
+		ToggleTagScanSignal.Dispatch (true);
 	}
 
 	void SetTagToScanAtView()
