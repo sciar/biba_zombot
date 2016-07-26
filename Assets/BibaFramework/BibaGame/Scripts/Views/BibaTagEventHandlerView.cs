@@ -5,11 +5,10 @@ using strange.extensions.mediation.impl;
 
 namespace BibaFramework.BibaGame
 {
-    public class BibaTagEventHandlerView : View,
-                                                ITrackableEventHandler
+    public class BibaTagEventHandlerView : View, ITrackableEventHandler
     {
-		public Signal<string,Transform> TrackingFoundSignal = new Signal<string,Transform>();
-		public Signal<string,Transform> TrackingLostSignal = new Signal<string,Transform>();
+		public Signal<string> TrackingFoundSignal = new Signal<string>();
+		public Signal<string> TrackingLostSignal = new Signal<string>();
 
         #region PRIVATE_MEMBER_VARIABLES
         private TrackableBehaviour mTrackableBehaviour;
@@ -45,18 +44,17 @@ namespace BibaFramework.BibaGame
         }
         #endregion // PUBLIC_METHODS
 
-
         #region PRIVATE_METHODS
         private void OnTrackingFound()
         {
             Debug.Log(mTrackableBehaviour.TrackableName + " tag is found.");
-			TrackingFoundSignal.Dispatch(mTrackableBehaviour.TrackableName,transform);
+			TrackingFoundSignal.Dispatch(mTrackableBehaviour.TrackableName);
         }
 
         private void OnTrackingLost()
         {
 			Debug.Log(mTrackableBehaviour.TrackableName + " tag is lost.");
-			TrackingLostSignal.Dispatch(mTrackableBehaviour.TrackableName,transform);
+			TrackingLostSignal.Dispatch(mTrackableBehaviour.TrackableName);
         }
         #endregion // PRIVATE_METHODS
     }

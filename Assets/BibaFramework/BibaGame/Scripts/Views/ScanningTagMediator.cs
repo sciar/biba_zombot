@@ -35,6 +35,7 @@ public class ScanningTagMediator : Mediator
 	{
 		ScanningTagView.LocalizationService = LocalizationService;
 		ScanningTagView.ScanningTagViewEnabledSignal.AddListener(TagScanEnabled);
+		ScanningTagView.ScanningTagViewDisabledSignal.AddListener (TagScanDisabled);
 		
 		TagScanCompletedSignal.AddListener(TagScanCompleted);
 		TagInitFailedSignal.AddListener(TagServiceInitFailed);
@@ -43,6 +44,7 @@ public class ScanningTagMediator : Mediator
 	public override void OnRemove ()
 	{
 		ScanningTagView.ScanningTagViewEnabledSignal.RemoveListener(TagScanEnabled);
+		ScanningTagView.ScanningTagViewDisabledSignal.RemoveListener (TagScanDisabled);
 		
 		TagInitFailedSignal.RemoveListener(TagServiceInitFailed);
 		TagScanCompletedSignal.RemoveListener(TagScanCompleted);

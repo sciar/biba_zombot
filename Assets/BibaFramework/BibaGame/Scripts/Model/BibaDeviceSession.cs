@@ -15,7 +15,6 @@ namespace BibaFramework.BibaGame
 		public bool TagScanned { get; set; }
 
 		public BibaTagType TagToScan { get; set; }
-		public Transform TagTransform { get; set; }
 
 		public List<BibaEquipment> SelectedEquipments { get; set; }
 

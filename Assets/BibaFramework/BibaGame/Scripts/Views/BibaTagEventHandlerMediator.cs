@@ -40,19 +40,19 @@ namespace BibaFramework.BibaGame
 			}
 		}
 
-		void TrackingFound(string fileName, Transform tagTransform)
+		void TrackingFound(string fileName)
 		{
 			if (Enum.IsDefined (typeof(BibaTagType), fileName)) 
 			{
-				TagFoundSignal.Dispatch ((BibaTagType)Enum.Parse (typeof(BibaTagType), fileName), BibaTagEventHandlerView.transform);
+				TagFoundSignal.Dispatch ((BibaTagType)Enum.Parse (typeof(BibaTagType), fileName), gameObject);
 			}
 		}
 
-		void TrackingLost(string fileName, Transform tagTransform)
+		void TrackingLost(string fileName)
 		{
 			if(Enum.IsDefined(typeof(BibaTagType), fileName))
 			{
-				TagLostSignal.Dispatch((BibaTagType)Enum.Parse(typeof(BibaTagType), fileName), BibaTagEventHandlerView.transform);
+				TagLostSignal.Dispatch((BibaTagType)Enum.Parse(typeof(BibaTagType), fileName), gameObject);
 			}
 		}
 	}
