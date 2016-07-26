@@ -31,33 +31,34 @@ namespace BibaFramework.BibaGame
         
         protected override void BindServices ()
         {
-            injectionBinder.Bind<IBibaTagService>().To<VuforiaTagService>();
         }
         
         protected override void BindViews ()
         { 
             mediationBinder.Bind<ARScanView>().To<ARScanMediator>();
             mediationBinder.Bind<ARScanStartView>().To<ARScanStartMediator>();
+			mediationBinder.Bind<VuforiaView> ().To<VuforiaMediator> ();
+			mediationBinder.Bind<BibaTagEventHandlerView> ().To<BibaTagEventHandlerMediator> ();
         }
         
         protected override void BindCommands ()
         {   
             commandBinder.Bind<StartSignal>().To<CheckToSkipTagScanCommand>();
 
-			commandBinder.Bind<SetTagToScanSignal>().To<SetTagToScanCommand>();
-            commandBinder.Bind<LogCameraReminderTimeSignal>().To<LogCameraReminderTimeCommand>();
+			commandBinder.Bind<StartTagScanSignal>().To<StartTagScanCommand>();
+			commandBinder.Bind<TagInitFailedSignal>().To<TagInitFailedCommand>();
+			commandBinder.Bind<TagFoundSignal>().To<TagFoundCommand>();
 			commandBinder.Bind<TagScanCompletedSignal> ().
-					To<TagScanCompletedCommand>().
-					To<RemoveVuforiaCommand>().
 					To<CheckForFirstScanCompletedPointsEventCommand>().
 					To<CheckForScanCompletedPointsEventCommand>();
+
+			commandBinder.Bind<EndSignal> ().To<RemoveVuforiaCommand> ();
         }
         
         protected override void BindSignals ()
         {
+			injectionBinder.Bind<ToggleTagScanSignal>().To<ToggleTagScanSignal>().ToSingleton();
 			injectionBinder.Bind<SetTagToScanAtViewSignal>().To<SetTagToScanAtViewSignal>().ToSingleton();
-            injectionBinder.Bind<TagInitFailedSignal>().To<TagInitFailedSignal>().ToSingleton();
-			injectionBinder.Bind<TagFoundSignal>().ToSingleton();
 			injectionBinder.Bind<TagLostSignal>().ToSingleton();
         }
     }

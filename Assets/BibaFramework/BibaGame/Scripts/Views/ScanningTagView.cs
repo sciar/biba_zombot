@@ -31,8 +31,6 @@ public class ScanningTagView : View
 	public Signal ScanningTagViewEnabledSignal = new Signal();
 
 	public LocalizationService LocalizationService { get; set; }
-
-	private GameObject _arCamera;
 	
 	protected override void Awake()
 	{
@@ -48,38 +46,17 @@ public class ScanningTagView : View
 	}
 	
 	void OnEnable()
-	{
-		SetupArCamera();
-		
+	{		
 		CheckImage.gameObject.SetActive(false);
 		ScanFailPanel.gameObject.SetActive(false);
 		ScanImage.gameObject.SetActive(true);
 		
 		ScanningTagViewEnabledSignal.Dispatch();
 	}
-	
-	void OnDisable()
+
+	public void SetupTag(BibaTagType tagType)
 	{
-		DestroyArCamera();
-	}
-	
-	void SetupArCamera()
-	{
-		DestroyArCamera();
-		_arCamera = Instantiate(ARCameraPrefab);
-	}
-	
-	void DestroyArCamera()
-	{
-		if (_arCamera != null)
-		{
-			Destroy(_arCamera);
-		}
-	}
-	
-	public void SetupTag(BibaEquipment equipment)
-	{
-		var tagView = TagViewDict [equipment.TagType];
+		var tagView = TagViewDict [tagType];
 		
 		TagText.text = LocalizationService.GetText(tagView.TagName);
 		TagText.color = tagView.TagColor;

@@ -35,14 +35,15 @@ namespace BibaFramework.BibaGame
 	public class SetLanguageOverwriteSignal : Signal<SystemLanguage>{ }
 
     //Tag
-
-    public class SetTagToScanSignal : Signal { }
-    public class SetTagToScanAtViewSignal : Signal<BibaEquipment> { }
-    public class EnableTagSignal : Signal<bool> { }
+	public class EnableTagSignal : Signal<bool> { }
+	public class StartTagScanSignal : Signal { }
+	public class ToggleTagScanSignal : Signal<bool> { }
+    public class SetTagToScanAtViewSignal : Signal { }
     public class TagInitFailedSignal : Signal { } 
-	public class TagFoundSignal : Signal<BibaTagType> { }
-	public class TagLostSignal : Signal<BibaTagType> { }
-    public class LogCameraReminderTimeSignal : Signal { }
+	public class TagFoundSignal : Signal<BibaTagType, Transform> { }
+	public class TagLostSignal : Signal<BibaTagType, Transform> { }
+	public class TagScanCompletedSignal : Signal { } 
+
+	//Achievements
     public class CheckForAchievementsSignal : Signal { }
-    public class TagScanCompletedSignal : Signal { } 
 }

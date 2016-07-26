@@ -8,5 +8,6 @@ namespace BibaFramework.BibaGame
         purple,
         red,
         yellow,
+		none
     }
 }

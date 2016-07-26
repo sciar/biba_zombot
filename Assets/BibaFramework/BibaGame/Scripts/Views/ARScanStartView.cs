@@ -2,7 +2,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using BibaFramework.BibaMenu;
-using strange.extensions.mediation.impl;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -18,10 +17,7 @@ namespace BibaFramework.BibaGame
         public GameObject Spinner;
         public GameObject CheckMark;
 
-        public GameObject ARCameraPrefab;
-
 		public LocalizationService LocalizationService { get; set; }
-        private GameObject _arCamera;
 
         protected override void Start()
         {
@@ -38,12 +34,6 @@ namespace BibaFramework.BibaGame
             TagIcon.sprite = tagInfo.TagIcon;
         }
 
-        public void SetupCamera()
-        {
-            DestroyCamera();
-            _arCamera = Instantiate(ARCameraPrefab);
-        }
-
         public void CompleteScan(Action onComplete)
         {
             StartCoroutine(WaitAndComplete(onComplete));
@@ -56,14 +46,6 @@ namespace BibaFramework.BibaGame
 
             yield return new WaitForSeconds(CompleteWaitTime);
             onComplete();
-        }
-
-        public void DestroyCamera()
-        {
-            if (_arCamera != null)
-            {
-                GameObject.Destroy(_arCamera);
-            }
         }
     }
     

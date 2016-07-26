@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace BibaFramework.BibaGame
 {
-    public class SetTagToScanCommand : Command
+    public class StartTagScanCommand : Command
     {
         [Inject]
         public SetTagToScanAtViewSignal SetTagToScanAtViewSignal { get; set; }
@@ -12,12 +12,19 @@ namespace BibaFramework.BibaGame
         [Inject]
 		public BibaDeviceSession BibaDeviceSession { get; set; }
 
+		[Inject]
+		public ToggleTagScanSignal ToggleTagScanSignal { get; set; }
+
         public override void Execute ()
         {
 			if (BibaDeviceSession.SelectedEquipments.Count > 0)
             {
+				ToggleTagScanSignal.Dispatch (true);
+
 				var rndIndex = Random.Range(0, BibaDeviceSession.SelectedEquipments.Count);
-				SetTagToScanAtViewSignal.Dispatch(BibaDeviceSession.SelectedEquipments[rndIndex]);
+				BibaDeviceSession.TagToScan = BibaDeviceSession.SelectedEquipments [rndIndex].TagType;
+
+				SetTagToScanAtViewSignal.Dispatch();
             }
         }
     }

@@ -5,24 +5,19 @@ using BibaFramework.BibaGame;
 
 public class ScanningTagMediator : Mediator 
 {
-	[Inject] public IBibaTagService bibaTagService {
-		get;
-		set;
-	}
-	
 	[Inject] public ScanningTagView ScanningTagView {
 		get;
 		set;
 	}
 	
 	[Inject]
-	public TagFoundSignal TagFoundSignal { get; set; }
+	public TagScanCompletedSignal TagScanCompletedSignal { get; set; }
 	
 	[Inject]
 	public SetTagToScanAtViewSignal SetTagToScanAtViewSignal { get; set; }
 	
 	[Inject]
-	public SetTagToScanSignal SetTagToScanSignal { get; set; }
+	public StartTagScanSignal SetTagToScanSignal { get; set; }
 	
 	[Inject]
 	public TagInitFailedSignal TagInitFailedSignal { get; set; }
@@ -30,24 +25,24 @@ public class ScanningTagMediator : Mediator
 	[Inject]
 	public LocalizationService LocalizationService { get; set; }
 
-	private BibaEquipment equipmentToScan;
-	
+	[Inject]
+	public BibaDeviceSession BibaDeviceSession { get; set; }
+
 	public override void OnRegister ()
 	{
 		ScanningTagView.LocalizationService = LocalizationService;
-
-		ScanningTagView.ScanningTagViewEnabledSignal.AddListener(ScanningTagEnabled);
+		ScanningTagView.ScanningTagViewEnabledSignal.AddListener(TagScanEnabled);
 		
+		TagScanCompletedSignal.AddListener(TagScanCompleted);
 		TagInitFailedSignal.AddListener(TagServiceInitFailed);
-		TagFoundSignal.AddListener(TagFound);
 	}
 	
 	public override void OnRemove ()
 	{
-		ScanningTagView.ScanningTagViewEnabledSignal.RemoveListener(ScanningTagEnabled);
+		ScanningTagView.ScanningTagViewEnabledSignal.RemoveListener(TagScanEnabled);
 		
 		TagInitFailedSignal.RemoveListener(TagServiceInitFailed);
-		TagFoundSignal.RemoveListener(TagFound);
+		TagScanCompletedSignal.RemoveListener(TagScanCompleted);
 	}
 	
 	void TagServiceInitFailed()
@@ -55,27 +50,20 @@ public class ScanningTagMediator : Mediator
 		ScanningTagView.ShowCameraFailedMessage();
 	}
 
-	void ScanningTagEnabled()
+	void TagScanEnabled()
 	{
 		SetTagToScanAtViewSignal.AddListener(SetTagToScanAtView);
 		SetTagToScanSignal.Dispatch();
-		bibaTagService.StartScan();
 	}
 
-	void SetTagToScanAtView(BibaEquipment equipment)
+	void SetTagToScanAtView()
 	{
 		SetTagToScanAtViewSignal.RemoveListener(SetTagToScanAtView);
-
-		equipmentToScan = equipment;
-		ScanningTagView.SetupTag(equipment);
+		ScanningTagView.SetupTag(BibaDeviceSession.TagToScan);
 	}
 
-	void TagFound(BibaTagType tagType)
+	void TagScanCompleted()
 	{
-		if (tagType == equipmentToScan.TagType)
-		{
-			bibaTagService.StopScan();
-			ScanningTagView.TagScanCompleted();
-		}
+		ScanningTagView.TagScanCompleted();
 	}
 }

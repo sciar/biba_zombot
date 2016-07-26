@@ -1,10 +1,11 @@
 using UnityEngine;
 using Vuforia;
 using strange.extensions.signal.impl;
+using strange.extensions.mediation.impl;
 
 namespace BibaFramework.BibaGame
 {
-    public class BibaTrackableEventHandler : MonoBehaviour,
+    public class BibaTagEventHandlerView : View,
                                                 ITrackableEventHandler
     {
 		public Signal<string,Transform> TrackingFoundSignal = new Signal<string,Transform>();
@@ -15,8 +16,9 @@ namespace BibaFramework.BibaGame
         #endregion // PRIVATE_MEMBER_VARIABLES
 
         #region UNTIY_MONOBEHAVIOUR_METHODS
-        void Start()
+        protected override void Start()
         {
+			base.Start ();
             mTrackableBehaviour = GetComponent<TrackableBehaviour>();
             if (mTrackableBehaviour)
             {
