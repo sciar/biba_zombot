@@ -28,7 +28,11 @@ namespace BibaFramework.BibaGame
 			if (TagFound == BibaDeviceSession.TagToScan) 
 			{
 				BibaDeviceSession.TagScanned = true;
-				new Task (PlayTagScanCompleteAnimation(), true);
+				new Task (PlayTagScanCompleteAnimation (), true);
+			} 
+			else 
+			{
+				PlayIncorrectScanAnimation ();
 			}
 		}
 
@@ -41,7 +45,7 @@ namespace BibaFramework.BibaGame
 			} 
 			else 
 			{
-				anim.SetTrigger (MenuStateTrigger.Next);
+				anim.SetTrigger (MenuStateTrigger.Yes);
 				yield return new WaitUntil(() => anim.GetCurrentAnimatorStateInfo(0).IsName(ACTIVE));
 				while (anim.GetCurrentAnimatorStateInfo (0).IsName (ACTIVE)) 
 				{
@@ -49,6 +53,15 @@ namespace BibaFramework.BibaGame
 				}
 				TagScanCompletedSignal.Dispatch ();
 			}
+		}
+
+		void PlayIncorrectScanAnimation()
+		{
+			var anim = TagObject.GetComponent<Animator> ();
+			if (anim != null) 
+			{
+				anim.SetTrigger (MenuStateTrigger.No);
+			} 
 		}
 	}
 }

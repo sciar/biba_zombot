@@ -48,6 +48,7 @@ namespace BibaFramework.BibaGame
 			commandBinder.Bind<StartTagScanSignal>().To<StartTagScanCommand>();
 			commandBinder.Bind<TagInitFailedSignal>().To<TagInitFailedCommand>();
 			commandBinder.Bind<TagFoundSignal>().To<TagFoundCommand>();
+			commandBinder.Bind<TagLostSignal>().To<TagLostCommand>();
 			commandBinder.Bind<TagScanCompletedSignal> ().
 					To<CheckForFirstScanCompletedPointsEventCommand>().
 					To<CheckForScanCompletedPointsEventCommand>();
@@ -59,7 +60,6 @@ namespace BibaFramework.BibaGame
         {
 			injectionBinder.Bind<ToggleTagScanSignal>().To<ToggleTagScanSignal>().ToSingleton();
 			injectionBinder.Bind<SetTagToScanAtViewSignal>().To<SetTagToScanAtViewSignal>().ToSingleton();
-			injectionBinder.Bind<TagLostSignal>().ToSingleton();
         }
     }
 }
