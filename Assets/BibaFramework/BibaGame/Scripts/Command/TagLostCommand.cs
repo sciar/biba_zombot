@@ -14,7 +14,11 @@ namespace BibaFramework.BibaGame
 
 		public override void Execute ()
 		{
-			TagObject.GetComponent<Animator>().SetTrigger(MenuStateTrigger.Reset);
+			var anim = TagObject.GetComponent<Animator> ();
+			if (anim != null) 
+			{
+				anim.SetTrigger(MenuStateTrigger.Reset);
+			}
 		}
 	}
 }

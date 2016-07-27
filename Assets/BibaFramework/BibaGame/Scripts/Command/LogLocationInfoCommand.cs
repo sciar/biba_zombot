@@ -34,7 +34,7 @@ namespace BibaFramework.BibaGame
         public override void Execute ()
         { 
             #if !UNITY_EDITOR
-			if(BibaSystem.PrivacyEnabled)
+			if(BibaDevice.PrivacyEnabled)
             {
                 Retain();
                 new Task(RetrieveLocationInfo(), true);
