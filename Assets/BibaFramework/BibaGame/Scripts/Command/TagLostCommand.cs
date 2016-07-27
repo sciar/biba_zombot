@@ -12,15 +12,9 @@ namespace BibaFramework.BibaGame
 		[Inject]
 		public GameObject TagObject { get; set; }
 
-		[Inject]
-		public BibaDeviceSession BibaDeviceSession { get; set; }
-
 		public override void Execute ()
 		{
-			if (TagLost != BibaDeviceSession.TagToScan) 
-			{
-				TagObject.GetComponent<Animator>().SetTrigger(MenuStateTrigger.Reset);
-			}
+			TagObject.GetComponent<Animator>().SetTrigger(MenuStateTrigger.Reset);
 		}
 	}
 }

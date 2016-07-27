@@ -23,6 +23,11 @@ namespace BibaFramework.BibaGame
 		[Inject]
 		public TagScanCompletedSignal TagScanCompletedSignal { get; set; }
 
+		[Inject]
+		public TagLostSignal TagLostSignal { get; set; }
+
+		private bool _tagLost;
+
 		public override void Execute ()
 		{
 			if (TagFound == BibaDeviceSession.TagToScan) 
@@ -38,6 +43,9 @@ namespace BibaFramework.BibaGame
 
 		IEnumerator PlayTagScanCompleteAnimation()
 		{
+			TagLostSignal.AddListener (TagLost);
+			_tagLost = false;
+
 			var anim = TagObject.GetComponent<Animator> ();
 			if (anim == null) 
 			{
@@ -47,12 +55,23 @@ namespace BibaFramework.BibaGame
 			{
 				anim.SetTrigger (MenuStateTrigger.Yes);
 				yield return new WaitUntil(() => anim.GetCurrentAnimatorStateInfo(0).IsName(ACTIVE));
-				while (anim.GetCurrentAnimatorStateInfo (0).IsName (ACTIVE)) 
+				while (!_tagLost && anim.GetCurrentAnimatorStateInfo (0).IsName (ACTIVE)) 
 				{
 					yield return new WaitForEndOfFrame();
 				}
-				TagScanCompletedSignal.Dispatch ();
+
+				if (!_tagLost) 
+				{
+					TagScanCompletedSignal.Dispatch ();
+				}
 			}
+
+			TagLostSignal.RemoveListener (TagLost);
+		}
+
+		void TagLost(BibaTagType tagType, GameObject gameObject)
+		{
+			_tagLost = true;
 		}
 
 		void PlayIncorrectScanAnimation()

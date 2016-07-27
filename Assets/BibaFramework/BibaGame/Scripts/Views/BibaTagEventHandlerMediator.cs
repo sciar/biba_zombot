@@ -33,10 +33,12 @@ namespace BibaFramework.BibaGame
 			if (status) 
 			{
 				BibaTagEventHandlerView.TrackingFoundSignal.AddListener (TrackingFound);
+				BibaTagEventHandlerView.TrackingLostSignal.AddListener (TrackingLost);
 			} 
 			else 
 			{
 				BibaTagEventHandlerView.TrackingFoundSignal.RemoveListener (TrackingFound);
+				BibaTagEventHandlerView.TrackingLostSignal.RemoveListener (TrackingLost);
 			}
 		}
 
