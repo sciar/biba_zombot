@@ -15,6 +15,15 @@ public static class ExtensionMethods
 		}
 	}
 
+	public static void FadeAlphaTo(this SpriteRenderer spriteRenderer, float targetAlpha, float duration = 1f, float delay = 0f, Action callback = null) 
+	{
+		if (spriteRenderer != null) 
+		{
+			var fadeToBehaviour = spriteRenderer.gameObject.AddComponent<FadeBehaviour> ();
+			fadeToBehaviour.FadeTo (spriteRenderer, targetAlpha, duration, delay, callback);
+		}
+	}
+
 	public static void EnableInteraction(this CanvasGroup canvasGroup, bool value) 
 	{
 		if (canvasGroup != null) 
