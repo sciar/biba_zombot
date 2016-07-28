@@ -5,7 +5,7 @@ using BibaFramework.BibaNetwork;
 
 namespace BibaFramework.BibaGame
 {
-	public class BibaDevice
+	public class BibaDevice : IResetModel
 	{
 		public string Id { get { return BibaContentConstants.CI_GAME_ID; } }
 		public string DeviceId { get { return SystemInfo.deviceUniqueIdentifier; } }
@@ -35,12 +35,17 @@ namespace BibaFramework.BibaGame
 		{
 			InstanceId = Guid.NewGuid().ToString();
 
+			Highscore = 0;
+
 			PrivacyEnabled = true;
 			HowToEnabled = true;
 			HelpBubblesEnabled = true;
 			LanguageOverwrite = SystemLanguage.Unknown;
 
 			LastPlayedTime = DateTime.MaxValue;
+			LastChartBoostTime = default(DateTime);
+			LastCameraReminderTime = default(DateTime);
+
 			CompletedAchievements = new List<BibaAchievement> ();
 			TotalEquipments = BibaGameConstants.DEFAULT_EQUIPENT_LIST;
 		}

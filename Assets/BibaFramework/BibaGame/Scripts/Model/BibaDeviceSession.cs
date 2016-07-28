@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace BibaFramework.BibaGame
 {
-    public class BibaDeviceSession
+	public class BibaDeviceSession : IResetModel
     {
 		public DateTime Start { get; set; }
 
@@ -15,7 +15,6 @@ namespace BibaFramework.BibaGame
 		public bool TagScanned { get; set; }
 
 		public BibaTagType TagToScan { get; set; }
-
 		public List<BibaEquipment> SelectedEquipments { get; set; }
 
 		public BibaDeviceSession()
@@ -26,8 +25,14 @@ namespace BibaFramework.BibaGame
 		public void Reset()
 		{
 			Start = DateTime.UtcNow;
-			SelectedEquipments = new List<BibaEquipment> ();
+			QuadTileId = string.Empty;
+			Location = Vector2.zero;
+
+			TagEnabled = false;
+			TagScanned = false;
+
 			TagToScan = BibaTagType.none;
+			SelectedEquipments = new List<BibaEquipment> ();
 		}
     }
 }

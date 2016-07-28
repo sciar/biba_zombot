@@ -4,7 +4,7 @@ using System;
 
 namespace BibaFramework.BibaGame
 {
-	public class BibaAccount
+	public class BibaAccount : IResetModel
 	{
 		public string Id { get; set; }
 		public string EmailAddress { get; set; }
@@ -32,6 +32,9 @@ namespace BibaFramework.BibaGame
 		public void Reset()
 		{
 			Id = Guid.NewGuid().ToString ();
+			EmailAddress = string.Empty;
+			Password = string.Empty;
+
 			BibaProfiles = new List<BibaProfile> ();
 			BibaProfiles.Add(new BibaProfile ());
 		}
