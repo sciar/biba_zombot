@@ -48,7 +48,7 @@ namespace BibaFramework.BibaEditor
             if (listFeed == null || listFeed.Entries.Count == 0)
             {
                 Debug.LogWarning("There were no entries. Terminating");
-                return null;
+				return listFeed.Entries;
             }
             return listFeed.Entries;
         }
