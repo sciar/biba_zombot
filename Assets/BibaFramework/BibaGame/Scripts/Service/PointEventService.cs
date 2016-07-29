@@ -36,7 +36,6 @@ namespace BibaFramework.BibaGame
 			if(!BibaProfile.CompletedPointEvents.Contains(keyToCheck) || setting.Repeat)
 			{
 				BibaProfile.Points += setting.Points;
-
 				if (!BibaProfile.CompletedPointEvents.Contains(keyToCheck)) 
 				{
 					BibaProfile.CompletedPointEvents.Add(keyToCheck);
@@ -60,9 +59,9 @@ namespace BibaFramework.BibaGame
 					if (BibaProfile.BibaProfileSession.LMVSessionDict [setting.LMVScoreType].SessionScore >= setting.ScoreRequired) 
 					{
 						BibaProfile.Points += setting.Points;
-						if (!BibaProfile.CompletedPointEvents.Contains(setting.Id)) 
+						if (!BibaProfile.BibaProfileSession.CompletedLMVScoreEvents.Contains(setting.Id)) 
 						{
-							BibaProfile.CompletedPointEvents.Add(setting.Id);
+							BibaProfile.BibaProfileSession.CompletedLMVScoreEvents.Add(setting.Id);
 						}
 					}
 				}
