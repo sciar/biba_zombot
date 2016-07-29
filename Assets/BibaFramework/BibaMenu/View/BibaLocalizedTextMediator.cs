@@ -12,7 +12,7 @@ namespace BibaFramework.BibaMenu
         public LocalizationService LocalizationService { get; set; }
 
 		[Inject]
-		public SystemUpdatedSignal LanguageUpdatedSignal { get; set; } 
+		public DeviceUpdatedSignal LanguageUpdatedSignal { get; set; } 
 
         public override void OnRegister ()
         {

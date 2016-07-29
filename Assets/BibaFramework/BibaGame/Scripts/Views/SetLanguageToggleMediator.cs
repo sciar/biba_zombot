@@ -13,7 +13,7 @@ namespace BibaFramework.BibaGame
 		public SetLanguageOverwriteSignal SetLanguageOverwriteSignal { get; set; }
 
 		[Inject]
-		public SystemUpdatedSignal LanguageUpdatedSignal { get; set; }
+		public DeviceUpdatedSignal LanguageUpdatedSignal { get; set; }
 
 		[Inject]
 		public BibaDevice BibaDevice { get; set; }

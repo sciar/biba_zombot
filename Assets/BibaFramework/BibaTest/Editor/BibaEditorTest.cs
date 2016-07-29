@@ -61,7 +61,7 @@ namespace BibaFramework.BibaTest
 		public void TestEndActivityTracking()
 		{
 			GetInstanceFromContext<ApplicationPausedSignal> ().Dispatch ();
-			Assert.AreEqual (0, (int) BibaProfile.BibaProfileSession.SessionLScore);
+			Assert.AreEqual (0, (int) BibaProfile.BibaProfileSession.LMVSessionDict[LMVScoreType.light_score].SessionScore);
 
 			Reset ();
 		}
@@ -72,7 +72,7 @@ namespace BibaFramework.BibaTest
 			GetInstanceFromContext<ApplicationPausedSignal> ().Dispatch ();
 			WaitForSeconds (1);
 			GetInstanceFromContext<ApplicationUnPausedSignal> ().Dispatch();
-			Assert.AreEqual(0, GetSeondsSinceTime(BibaProfile.BibaProfileSession.LScoreStart));
+			Assert.AreEqual(0, GetSeondsSinceTime(BibaProfile.BibaProfileSession.LMVSessionDict[LMVScoreType.light_score].DateStart));
 
 			Reset ();
 		}
@@ -88,25 +88,29 @@ namespace BibaFramework.BibaTest
 
 			WaitForSeconds (1);
 
+			var lSession = BibaProfile.BibaProfileSession.LMVSessionDict [LMVScoreType.light_score];
+			var mSession = BibaProfile.BibaProfileSession.LMVSessionDict [LMVScoreType.moderate_score];
+			var vSession = BibaProfile.BibaProfileSession.LMVSessionDict [LMVScoreType.vigorous_score];
+
 			//Start vigorous activity
 			GetInstanceFromContext<ToggleTrackVigorousActivitySignal>().Dispatch (true);
-			Assert.AreEqual(0, GetSeondsSinceTime(BibaProfile.BibaProfileSession.VScoreStart));
-			Assert.AreEqual (1, (int)BibaProfile.BibaProfileSession.SessionLScore);
+			Assert.AreEqual(0, GetSeondsSinceTime(vSession.DateStart));
+			Assert.AreEqual (1, (int)lSession.SessionScore);
 
 			WaitForSeconds (1);
 
 			//Start moderate activity
 			GetInstanceFromContext<ToggleTrackModerateActivitySignal>().Dispatch (true);
-			Assert.AreEqual (1, (int) BibaProfile.BibaProfileSession.SessionVScore); 
-			Assert.AreEqual (1, (int) BibaProfile.BibaProfileSession.SessionLScore); 
+			Assert.AreEqual (1, (int) vSession.SessionScore); 
+			Assert.AreEqual (1, (int) lSession.SessionScore); 
 
 			WaitForSeconds (1);
 
 			//Switch back to light activity
 			GetInstanceFromContext<ToggleTrackLightActivitySignal>().Dispatch (true);
-			Assert.AreEqual (1, (int) BibaProfile.BibaProfileSession.SessionMScore);
-			Assert.AreEqual (1, (int) BibaProfile.BibaProfileSession.SessionVScore); 
-			Assert.AreEqual (1, (int) BibaProfile.BibaProfileSession.SessionLScore); 
+			Assert.AreEqual (1, (int) mSession.SessionScore);
+			Assert.AreEqual (1, (int) vSession.SessionScore); 
+			Assert.AreEqual (1, (int) lSession.SessionScore); 
 
 			Reset ();
 		}

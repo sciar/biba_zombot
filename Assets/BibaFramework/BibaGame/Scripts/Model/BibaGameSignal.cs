@@ -4,22 +4,23 @@ using UnityEngine;
 
 namespace BibaFramework.BibaGame
 {
-    //Application
+    //Device
     public class StartSignal : Signal{ }
     public class EndSignal : Signal{ }
-	public class SetProfileSignal : Signal<string>{ }
     public class ApplicationPausedSignal : Signal{ }
     public class ApplicationUnPausedSignal : Signal{ }
-	public class SystemUpdatedSignal : Signal { }
+	public class DeviceUpdatedSignal : Signal { }
 	public class SessionUpdatedSignal : Signal { }
-
-	//Gameplay
+	public class SetProfileSignal : Signal<string>{ }
 	public class StartNewSessionSignal : Signal { }
     public class EquipmentSelectedSignal : Signal <BibaEquipmentType, bool> { }
     public class EquipmentPlayedSignal : Signal<BibaEquipmentType> { }
-    public class TryToSetHighScoreSignal : Signal<int> { }
 	public class CheckForPointsGainSignal : Signal<string>{ };
 	public class PointsGainedSignal : Signal<int, int>{ };
+
+	//Gameplay
+	public class TryToSetHighScoreSignal : Signal<int> { }
+	public class CheckForAchievementsSignal : Signal { }
 
 	//Audio
     public class PlayBibaBGMSignal : Signal<string>{ };
@@ -43,7 +44,4 @@ namespace BibaFramework.BibaGame
 	public class TagFoundSignal : Signal<BibaTagType, GameObject> { }
 	public class TagLostSignal : Signal<BibaTagType, GameObject> { }
 	public class TagScanCompletedSignal : Signal { }
-
-	//Achievements
-    public class CheckForAchievementsSignal : Signal { }
 }

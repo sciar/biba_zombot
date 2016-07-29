@@ -40,7 +40,6 @@ namespace BibaFramework.BibaAnalytic
         {
 			foreach(var profile in BibaAccount.BibaProfiles)
 			{
-				var playerSession = profile.BibaProfileSession;
 				var parameters = TrackingParams;
 
 				parameters.Add (BibaAnalyticConstants.PROFILE_ID, profile.Id);
@@ -48,13 +47,16 @@ namespace BibaFramework.BibaAnalytic
 				parameters.Add (BibaAnalyticConstants.TAG_ENABLED, BibaDeviceSession.TagEnabled.ToString());
 				parameters.Add (BibaAnalyticConstants.TAG_SCANNED, BibaDeviceSession.TagScanned.ToString());
 
-				if (playerSession.SessionLScore > 0 ||
-					playerSession.SessionMScore> 0 ||
-					playerSession.SessionVScore > 0) 
+				var lSession = profile.BibaProfileSession.LMVSessionDict[LMVScoreType.light_score];
+				var mSession = profile.BibaProfileSession.LMVSessionDict[LMVScoreType.moderate_score];
+				var vSession = profile.BibaProfileSession.LMVSessionDict[LMVScoreType.vigorous_score];
+				if (lSession.SessionScore > 0 ||
+					mSession.SessionScore> 0 ||
+					vSession.SessionScore > 0) 
 				{
-					parameters.Add (BibaAnalyticConstants.LIGHT_TIME, playerSession.SessionLScore.ToString ());
-					parameters.Add (BibaAnalyticConstants.MODERATE_TIME, playerSession.SessionMScore.ToString ());
-					parameters.Add (BibaAnalyticConstants.VIGOROUS_TIME, playerSession.SessionVScore.ToString ());
+					parameters.Add (BibaAnalyticConstants.LIGHT_TIME, lSession.SessionScore.ToString ());
+					parameters.Add (BibaAnalyticConstants.MODERATE_TIME, mSession.SessionScore.ToString ());
+					parameters.Add (BibaAnalyticConstants.VIGOROUS_TIME, vSession.SessionScore.ToString ());
 				}
 
 				foreach (var equipment in BibaDeviceSession.SelectedEquipments) 
@@ -62,7 +64,7 @@ namespace BibaFramework.BibaAnalytic
 					parameters.Add(BibaAnalyticConstants.EQUIPMENT_SELECTED, equipment.EquipmentType.ToString());
 				}
 
-				foreach (var equipment in playerSession.SessionEquipments)
+				foreach (var equipment in profile.BibaProfileSession.SessionEquipments)
 	            {
 					parameters.Add(string.Format("{0}_{1}", BibaAnalyticConstants.EQUIPMENT_PLAYED, equipment.EquipmentType.ToString()), equipment.NumberOfTimePlayed.ToString());
 	            }

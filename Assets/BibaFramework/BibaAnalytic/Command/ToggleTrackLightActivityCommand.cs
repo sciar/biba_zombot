@@ -1,4 +1,5 @@
 ﻿using System;
+using BibaFramework.BibaGame;
 
 namespace BibaFramework.BibaAnalytic
 {
@@ -10,11 +11,9 @@ namespace BibaFramework.BibaAnalytic
 		[Inject]
 		public ToggleTrackVigorousActivitySignal ToggleTrackVigorousSignal { get; set; }
 
-		protected override void StartTracking ()
-		{
-			if(BibaProfile.BibaProfileSession.LScoreStart == default(DateTime))
-			{
-				BibaProfile.BibaProfileSession.LScoreStart = DateTime.UtcNow;
+		protected override LMVSession LMVSession {
+			get {
+				return BibaProfile.BibaProfileSession.LMVSessionDict [LMVScoreType.light_score];
 			}
 		}
 
@@ -22,17 +21,6 @@ namespace BibaFramework.BibaAnalytic
 		{
 			ToggleTrackModerateSignal.Dispatch (false);
 			ToggleTrackVigorousSignal.Dispatch (false);
-		}
-
-		protected override void AddActivityTime ()
-		{
-			if (BibaProfile.BibaProfileSession.LScoreStart != default(DateTime)) 
-			{
-				BibaProfile.BibaProfileSession.SessionLScore += ((float)(DateTime.UtcNow - BibaProfile.BibaProfileSession.LScoreStart).TotalSeconds);
-				BibaProfile.BibaProfileSession.LScoreStart = default(DateTime);
-
-				DataService.Save ();
-			}
 		}
 	}
 }

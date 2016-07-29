@@ -28,7 +28,7 @@ namespace BibaFramework.BibaEditor
 
         private static SpreadsheetsService _spreadsheetService;
 
-        public static AtomEntryCollection GetListEntries(string spreadsheetName, string worksheetName)
+		public static AtomEntryCollection GetListEntries(string spreadsheetName, string worksheetName, bool worksheetNullable = false)
         {
             var spreadsheetFeed = GetSpreadsheetFeed();
             if (spreadsheetFeed.Entries.Count == 0)
@@ -40,7 +40,14 @@ namespace BibaFramework.BibaEditor
             var worksheetFeed = GetWorksheetFeed(spreadsheetFeed, spreadsheetName);
             if (worksheetFeed == null || worksheetFeed.Entries.Count == 0)
             {
-                Debug.LogError("There were no worksheets. Terminating");
+				if (worksheetNullable) 
+				{
+					Debug.LogWarning("There were no worksheets. Terminating");
+				}
+				else 
+				{
+					Debug.LogError("There were no worksheets. Terminating");
+				}
                 return null;
             }
             
@@ -48,7 +55,7 @@ namespace BibaFramework.BibaEditor
             if (listFeed == null || listFeed.Entries.Count == 0)
             {
                 Debug.LogWarning("There were no entries. Terminating");
-				return listFeed.Entries;
+				return null;
             }
             return listFeed.Entries;
         }

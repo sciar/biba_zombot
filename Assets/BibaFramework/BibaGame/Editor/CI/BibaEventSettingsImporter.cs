@@ -54,7 +54,8 @@ namespace BibaFramework.BibaEditor
 			{ BibaEventType.timed_milestone, ParseTimedMilestone},
 			{ BibaEventType.timed_content, ParseTimedContent},
 			{ BibaEventType.geo_content, ParseGeoContent},
-			{ BibaEventType.checkpoint, ParseCheckpoint}
+			{ BibaEventType.checkpoint, ParseCheckpoint},
+			{ BibaEventType.lmv_checkpoint, ParseLMVCheckpoint}
 		};
 
 		private static BibaAchievementSettings _achievementSettings;
@@ -72,7 +73,7 @@ namespace BibaFramework.BibaEditor
 			ImportParameterType ();
 
 			ImportEventSheet (COMMON_WORKSHEET_NAME);
-			ImportEventSheet (BibaContentConstants.CI_GAME_ID);
+			ImportEventSheet (BibaContentConstants.CI_GAME_ID, true);
 
 			//Save Settings
 			HelperMethods.WriteConstStringFile (BIBAGAME_NAMESPACE, typeof(BibaPointEvents).Name, _pointEventSettings.BibaPointSettings.Select (setting => setting.Id).ToList (), POINTEVENTS_CONSTANTS_FILEPATH);
@@ -116,9 +117,15 @@ namespace BibaFramework.BibaEditor
 			HelperMethods.WriteConstStringFile (nameSpace, className, eventStrings, outputPath);
 		}
 
-		static void ImportEventSheet(string worksheetName)
+		static void ImportEventSheet(string worksheetName, bool worksheetNullable = false)
 		{
-			var entries = GoogleSpreadsheetImporter.GetListEntries (EVENT_SETTINGS_SPREADSHEET_NAME, worksheetName);
+			var entries = GoogleSpreadsheetImporter.GetListEntries (EVENT_SETTINGS_SPREADSHEET_NAME, worksheetName, worksheetNullable);
+
+			if (entries == null) 
+			{
+				return;
+			}
+
 			foreach (ListEntry row in entries) 
 			{
 				var eventType = row.Elements[1].Value;
@@ -194,6 +201,19 @@ namespace BibaFramework.BibaEditor
 				Id = paramDict[ID],
 				Points = Convert.ToInt32(paramDict[POINTS]),
 				Repeat = Convert.ToBoolean(paramDict[REPEAT])
+			};
+
+			_pointEventSettings.BibaPointSettings.Add (setting);
+		}
+
+		static void ParseLMVCheckpoint(Dictionary<string,string> paramDict)
+		{
+			var setting = new BibaLMVPointEvent () {
+				Id = paramDict [ID],
+				Points = Convert.ToInt32 (paramDict [POINTS]),
+				Repeat = Convert.ToBoolean (paramDict [REPEAT]),
+				LMVScoreType = (LMVScoreType) Enum.Parse(typeof(LMVScoreType), paramDict[TYPE1]),
+				ScoreRequired = Convert.ToInt32(paramDict [VALUE1])
 			};
 
 			_pointEventSettings.BibaPointSettings.Add (setting);

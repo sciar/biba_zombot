@@ -14,4 +14,10 @@ namespace BibaFramework.BibaGame
 		public int Points;
 		public bool Repeat;
 	}
+
+	public class BibaLMVPointEvent : BibaPointEvent
+	{
+		public LMVScoreType LMVScoreType;
+		public int ScoreRequired;
+	}
 }

@@ -12,5 +12,17 @@ namespace BibaFramework.BibaGame
         public const string first_successful_scan = "first_successful_scan";
         public const string scan_completed = "scan_completed";
         public const string successfully_paired = "successfully_paired";
+        public const string vigorous1 = "vigorous1";
+        public const string vigorous2 = "vigorous2";
+        public const string vigorous3 = "vigorous3";
+        public const string vigorous4 = "vigorous4";
+        public const string vigorous5 = "vigorous5";
+        public const string vigorous6 = "vigorous6";
+        public const string moderate1 = "moderate1";
+        public const string moderate2 = "moderate2";
+        public const string moderate3 = "moderate3";
+        public const string moderate4 = "moderate4";
+        public const string moderate5 = "moderate5";
+        public const string moderate6 = "moderate6";
     }
 }

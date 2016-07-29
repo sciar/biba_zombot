@@ -18,7 +18,7 @@ namespace BibaFramework.BibaGame
         public SetMenuStateTriggerSignal SetMenuStateTriggerSignal { get; set; }
 
 		[Inject]
-		public SystemUpdatedSignal LanguageUpdatedSignal { get; set; }
+		public DeviceUpdatedSignal LanguageUpdatedSignal { get; set; }
 
         public override void Execute ()
         {

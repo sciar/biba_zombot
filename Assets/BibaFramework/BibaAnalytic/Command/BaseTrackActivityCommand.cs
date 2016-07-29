@@ -1,5 +1,6 @@
 ﻿using BibaFramework.BibaGame;
 using strange.extensions.command.impl;
+using System;
 
 namespace BibaFramework.BibaAnalytic
 {
@@ -27,8 +28,26 @@ namespace BibaFramework.BibaAnalytic
 			}
 		}
 
-		protected abstract void StartTracking ();
+		void StartTracking ()
+		{
+			if(LMVSession.DateStart == default(DateTime))
+			{
+				LMVSession.DateStart = DateTime.UtcNow;
+			}
+		}
+
+		void AddActivityTime ()
+		{
+			if (LMVSession.DateStart!= default(DateTime)) 
+			{
+				LMVSession.SessionScore += (DateTime.UtcNow - LMVSession.DateStart).TotalSeconds;
+				LMVSession.DateStart = default(DateTime);
+
+				DataService.Save ();
+			}
+		}
+
+		protected abstract LMVSession LMVSession { get;	}
 		protected abstract void TurnOffOtherTrackingSignals();
-		protected abstract void AddActivityTime();
 	}
 }
