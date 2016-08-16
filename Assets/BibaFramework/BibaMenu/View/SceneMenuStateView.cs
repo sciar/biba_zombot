@@ -29,21 +29,8 @@ namespace BibaFramework.BibaMenu
 
         IEnumerator PlayEntryAnimation(Action onComplete)
         {
-            yield return StartCoroutine(AnimateMenuEntry());
+			yield return StartCoroutine(PlayAnimation(BibaMenuConstants.BIBA_MENU_ENTRY_ANIMATION_TRIGGER, BibaMenuConstants.BIBA_MENU_ENTRY_ANIMATION_STATE));
             onComplete();
-        }
-
-        protected virtual IEnumerator AnimateMenuEntry()
-        {
-            if (anim.runtimeAnimatorController != null && anim.HasState(0, Animator.StringToHash(BibaMenuConstants.BIBA_MENU_ENTRY_ANIMATION_STATE)))
-            {
-                anim.SetTrigger(BibaMenuConstants.BIBA_MENU_ENTRY_ANIMATION_TRIGGER);
-				yield return new WaitUntil(() => anim.GetCurrentAnimatorStateInfo(0).IsName(BibaMenuConstants.BIBA_MENU_ENTRY_ANIMATION_STATE));
-				while (anim.GetCurrentAnimatorStateInfo(0).IsName(BibaMenuConstants.BIBA_MENU_ENTRY_ANIMATION_STATE))
-				{
-					yield return new WaitForEndOfFrame();
-				}
-            }
         }
 
         public void StartExitAnimation(Action onComplete)
@@ -53,21 +40,21 @@ namespace BibaFramework.BibaMenu
         
         IEnumerator PlayExitAnimation(Action onComplete)
         {
-            yield return StartCoroutine(AnimateMenuExit());
+			yield return StartCoroutine(PlayAnimation(BibaMenuConstants.BIBA_MENU_EXIT_ANIMATION_TRIGGER, BibaMenuConstants.BIBA_MENU_EXIT_ANIMATION_STATE));
             onComplete();
         }
 
-        protected virtual IEnumerator AnimateMenuExit()
-        {
-            if (anim.runtimeAnimatorController != null && anim.HasState(0, Animator.StringToHash(BibaMenuConstants.BIBA_MENU_EXIT_ANIMATION_STATE)))
-            {
-                anim.SetTrigger(BibaMenuConstants.BIBA_MENU_EXIT_ANIMATION_TRIGGER);
-				yield return new WaitUntil(() => anim.GetCurrentAnimatorStateInfo(0).IsName(BibaMenuConstants.BIBA_MENU_EXIT_ANIMATION_STATE));
-				while (anim.GetCurrentAnimatorStateInfo(0).IsName(BibaMenuConstants.BIBA_MENU_EXIT_ANIMATION_STATE))
+		IEnumerator PlayAnimation(string animationTrigger, string animationStateName)
+		{
+			if (anim.runtimeAnimatorController != null && anim.HasState(0, Animator.StringToHash(animationStateName)))
+			{
+				anim.SetTrigger(animationTrigger);
+				yield return new WaitUntil(() => anim.GetCurrentAnimatorStateInfo(0).IsName(animationStateName));
+				while (anim.GetCurrentAnimatorStateInfo(0).IsName(animationStateName))
 				{
 					yield return new WaitForEndOfFrame();
 				}
-            }
-        }
+			}
+		}
 	}
-}
+} 
