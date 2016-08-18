@@ -1,6 +1,6 @@
 fileFormatVersion: 2
 guid: 1fbc50735a005437f94f720208536a5d
-timeCreated: 1471456796
+timeCreated: 1471542362
 licenseType: Pro
 TextureImporter:
   fileIDToRecycleName:
@@ -55,38 +55,36 @@ TextureImporter:
     - name: TEX_Points_0
       rect:
         serializedVersion: 2
-        x: 14
-        y: 10
-        width: 172
-        height: 173
+        x: 4
+        y: 3
+        width: 92
+        height: 91
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline:
-      - - {x: 42, y: 86.5}
-        - {x: -50, y: 86.5}
-        - {x: -86, y: 45.5}
-        - {x: -86, y: -53.5}
-        - {x: -35, y: -86.5}
-        - {x: 45, y: -86.5}
-        - {x: 86, y: -51.5}
-        - {x: 86, y: 37.5}
-        - {x: 58, y: 81.5}
+      - - {x: -21, y: 45.5}
+        - {x: -35, y: 42.5}
+        - {x: -46, y: 21.5}
+        - {x: -46, y: -45.5}
+        - {x: 46, y: -45.5}
+        - {x: 46, y: 42.5}
+        - {x: 36, y: 45.5}
     - name: TEX_Points_1
       rect:
         serializedVersion: 2
-        x: 282
-        y: 34
-        width: 122
-        height: 122
+        x: 139
+        y: 15
+        width: 66
+        height: 66
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
-      border: {x: 12, y: 12, z: 12, w: 12}
+      border: {x: 10, y: 9, z: 11, w: 10}
       outline:
-      - - {x: -61, y: 61}
-        - {x: -61, y: -61}
-        - {x: 61, y: -61}
-        - {x: 61, y: 61}
+      - - {x: -33, y: 33}
+        - {x: -33, y: -33}
+        - {x: 33, y: -33}
+        - {x: 33, y: 33}
     outline: []
   spritePackingTag: framework
   userData: 
