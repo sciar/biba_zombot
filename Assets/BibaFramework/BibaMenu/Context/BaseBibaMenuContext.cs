@@ -24,6 +24,7 @@ namespace BibaFramework.BibaMenu
 			mediationBinder.Bind<BibaPointEventServiceView> ().To<BibaPointEventServiceMediator> ();
             mediationBinder.Bind<URLButtonView>().To<URLButtonMediator>();
             mediationBinder.Bind<ObjectMenuStateView>().To<ObjectMenuStateMediator>();
+			mediationBinder.Bind<HelpBubblesGroupView> ().To<HelpBubblesGroupMediator> ();
 		}
 	}
 }
