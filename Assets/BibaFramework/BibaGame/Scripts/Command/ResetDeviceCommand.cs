@@ -28,7 +28,6 @@ namespace BibaFramework.BibaGame
 			BibaDeviceSession.Reset();
 
 			LanguageUpdatedSignal.Dispatch ();
-            SetMenuStateTriggerSignal.Dispatch(MenuStateTrigger.Reset);
         }
     }
 }
