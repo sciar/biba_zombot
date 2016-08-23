@@ -1,6 +1,7 @@
-using UnityEngine;
-using UnityEditor;
+using System;
 using BibaFramework.BibaNetwork;
+using UnityEditor;
+using UnityEngine;
 
 namespace BibaFramework.BibaEditor
 {
@@ -32,7 +33,18 @@ namespace BibaFramework.BibaEditor
 
 		private static string GetRelativePath(string fileName)
 		{
-			var platform = EditorUserBuildSettings.activeBuildTarget == BuildTarget.Android ? "Android" : "iOS";
+			var platform = "";
+			switch (EditorUserBuildSettings.activeBuildTarget) 
+			{
+				case BuildTarget.Android:
+					platform = "Android";
+						break;
+				case BuildTarget.iOS:
+					platform = "iOS";
+						break;
+				default:
+						throw new Exception ("Building for a platform that is not iOS or Android");
+			}
 			return platform + "/" + fileName;
 		}
     }

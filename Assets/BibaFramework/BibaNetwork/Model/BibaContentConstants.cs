@@ -1,5 +1,6 @@
-using UnityEngine;
+using System;
 using BibaFramework.BibaGame;
+using UnityEngine;
 
 namespace BibaFramework.BibaNetwork
 {
@@ -28,7 +29,18 @@ namespace BibaFramework.BibaNetwork
 
 		private static string PLATFORM {
 			get {
-				return Application.platform == RuntimePlatform.Android ? "Android" : "iOS";
+				switch (Application.platform) 
+				{
+					case RuntimePlatform.Android:
+						return "Android";
+					case RuntimePlatform.WindowsEditor:
+					case RuntimePlatform.OSXEditor:
+					case RuntimePlatform.IPhonePlayer:
+						return "iOS";
+					default:
+						return "iOS";
+						throw new Exception ("Runtime platform not supported.");
+				}
 			}
 		}
 
