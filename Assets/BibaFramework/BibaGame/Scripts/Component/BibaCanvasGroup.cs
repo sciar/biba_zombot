@@ -4,7 +4,17 @@ using System.Collections;
 [RequireComponent (typeof (CanvasGroup))]
 
 public class BibaCanvasGroup : MonoBehaviour {
-	[HideInInspector] public CanvasGroup canvasGroup;
+	[HideInInspector] public CanvasGroup canvasGroup
+    {
+        get {
+            if (_canvasGroup == null)
+            {
+                _canvasGroup = GetComponent<CanvasGroup>();
+                return _canvasGroup;
+            }
+            else { return _canvasGroup; }
+        }
+    }
 	[HideInInspector] public Animator bibaGameStateAnimator;
 	public BibaGameStatesEnum currentState;
 
@@ -16,9 +26,7 @@ public class BibaCanvasGroup : MonoBehaviour {
 	public delegate void OnCanvasGroupActivation();
 	public OnCanvasGroupActivation onCanvasGroupEnterSuscribers;
 
-	void Awake() {
-		canvasGroup = GetComponent<CanvasGroup> ();
-	}
+    private CanvasGroup _canvasGroup;
 
 	public void CanvasGroupIsActive() {
 		if (onCanvasGroupEnterSuscribers != null) {
