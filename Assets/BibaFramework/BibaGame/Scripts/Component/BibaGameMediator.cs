@@ -1,5 +1,6 @@
 ﻿using BibaFramework.BibaMenu;
 using strange.extensions.mediation.impl;
+using BibaFramework.BibaAnalytic;
 
 namespace BibaFramework.BibaGame
 {
@@ -23,6 +24,18 @@ namespace BibaFramework.BibaGame
 		[Inject]
 		public IDataService service { get; set; }
 
+		[Inject]
+		public ToggleTrackLightActivitySignal ToggleTrackLightActivitySignal { get; set; }
+
+		[Inject]
+		public ToggleTrackModerateActivitySignal ToggleTrackModerateActivitySignal { get; set; }
+
+		[Inject]
+		public ToggleTrackVigorousActivitySignal ToggleTrackVigorousActivitySignal { get; set; }
+
+		[Inject]
+		public EquipmentPlayedSignal EquipmentPlayedSignal { get; set; }
+
 		public override void RegisterSceneDependentSignals ()
 		{
 			view.controller.BibaAccount = BibaAccount;
@@ -30,6 +43,10 @@ namespace BibaFramework.BibaGame
 			view.controller.BibaDevice = BibaDevice;
 			view.controller.BibaDeviceSession = BibaDeviceSession;
 			view.controller.DataService = service;
+			view.controller.ToggleTrackLightActivitySignal = ToggleTrackLightActivitySignal;
+			view.controller.ToggleTrackModerateActivitySignal = ToggleTrackModerateActivitySignal;
+			view.controller.ToggleTrackVigorousActivitySignal = ToggleTrackVigorousActivitySignal;
+			view.controller.EquipmentPlayedSignal = EquipmentPlayedSignal;
 			view.controller.SetupController ();
 		}
 
