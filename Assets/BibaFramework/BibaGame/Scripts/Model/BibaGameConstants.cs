@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using UnityEngine;
 
 namespace BibaFramework.BibaGame
 {
@@ -14,7 +15,6 @@ namespace BibaFramework.BibaGame
         private const int ONE_DAY_IN_SECONDS = 86400; //1 day
         private const int ONE_HOUR_IN_SECONDS = 3600; //1 hr
 
-        public static readonly TimeSpan AR_REMINDER_DURATION = TimeSpan.FromSeconds(ONE_DAY_IN_SECONDS);
         public static readonly TimeSpan CHARTBOOST_CHECK_DURATION = TimeSpan.FromSeconds(ONE_DAY_IN_SECONDS);
         public static readonly TimeSpan INACTIVE_DURATION = TimeSpan.FromSeconds(ONE_HOUR_IN_SECONDS);
 
@@ -35,5 +35,9 @@ namespace BibaFramework.BibaGame
 				return defaults;
 			}
 		}
+
+		//Tag
+		public static readonly float TAG_FLOAT_TO_SCREEN_TIME = Time.deltaTime * 4f;
+		public static readonly TimeSpan AR_REMINDER_DURATION = TimeSpan.FromSeconds(ONE_DAY_IN_SECONDS);
     }
 }
