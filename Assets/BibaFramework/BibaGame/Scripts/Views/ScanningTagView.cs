@@ -13,7 +13,6 @@ public class ScanningTagView : View
 	private Dictionary<BibaTagType,TagView> TagViewDict;
 	
 	public Text TagText;
-	public Image TagIcon;
 	public Image CheckImage;
 	public Image ScanImage;
 	
@@ -66,7 +65,6 @@ public class ScanningTagView : View
 		
 		TagText.text = LocalizationService.GetText(tagView.TagName);
 		TagText.color = tagView.TagColor;
-		TagIcon.sprite = tagView.TagIcon;
 	}
 	
 	public void TagScanCompleted() 

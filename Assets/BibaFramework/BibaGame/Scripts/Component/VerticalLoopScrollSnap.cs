@@ -1,6 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.UI;
+using System;
+using BibaBatterUp;
 
 public class VerticalLoopScrollSnap : MonoBehaviour {
 
@@ -14,6 +16,16 @@ public class VerticalLoopScrollSnap : MonoBehaviour {
 	private float childHeight;
 	private float childWidth;
 	private int closestElement;
+	public int SelectedIndex{
+		get {
+			return (mod (closestElement, Enum.GetValues (typeof(Character)).Length));
+		}
+	}
+
+	int mod(int x, int m) {
+		int r = x%m;
+		return r<0 ? r+m : r;
+	}
 
 	void Start() {
 		rectTransform = GetComponent<RectTransform> ();
@@ -31,7 +43,6 @@ public class VerticalLoopScrollSnap : MonoBehaviour {
 		if (!Input.GetMouseButton (0)) {
 			SnapToClosestElement ();
 		}
-
 	}
 
 	void FitLayoutsToChildHeight() {
