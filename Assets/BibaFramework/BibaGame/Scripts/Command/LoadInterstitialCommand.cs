@@ -10,7 +10,7 @@ namespace BibaFramework.BibaGame
 {
     public class LoadInterstitialCommand : Command
     {
-        private const float CHART_BOOST_TIME_OUT = 5;
+        private const float CHART_BOOST_TIME_OUT = 3;
 
         [Inject]
         public SetMenuStateTriggerSignal SetMenuStateTriggerSignal { get; set; }
