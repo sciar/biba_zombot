@@ -37,7 +37,7 @@ namespace BibaFramework.BibaGame
 
 			Highscore = 0;
 
-			PrivacyEnabled = true;
+			PrivacyEnabled = false;
 			HowToEnabled = true;
 			HelpBubblesEnabled = true;
 			LanguageOverwrite = SystemLanguage.Unknown;

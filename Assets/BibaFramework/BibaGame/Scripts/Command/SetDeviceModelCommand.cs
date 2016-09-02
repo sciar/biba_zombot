@@ -30,7 +30,7 @@ namespace BibaFramework.BibaGame
 		{
 			SetMenuStateConditionSignal.Dispatch (MenuStateCondition.ShowInactive, false);
 			SetMenuStateConditionSignal.Dispatch (MenuStateCondition.ShowChartBoost, false);
-			SetMenuStateConditionSignal.Dispatch (MenuStateCondition.ShowBibaPresent, false);
+			SetMenuStateConditionSignal.Dispatch (MenuStateCondition.ShowBibaPresent, true);
 			SetMenuStateConditionSignal.Dispatch (MenuStateCondition.ShowTagScan, false);
 		}
 
