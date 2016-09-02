@@ -61,7 +61,7 @@ namespace BibaFramework.BibaAnalytic
 
 				foreach (var equipment in BibaDeviceSession.SelectedEquipments) 
 				{
-					parameters.Add(BibaAnalyticConstants.EQUIPMENT_SELECTED, equipment.EquipmentType.ToString());
+					parameters.Add(string.Format("{0}_{1}", BibaAnalyticConstants.EQUIPMENT_SELECTED, equipment.EquipmentType.ToString()), equipment.EquipmentType.ToString());
 				}
 
 				foreach (var equipment in profile.BibaProfileSession.SessionEquipments)
