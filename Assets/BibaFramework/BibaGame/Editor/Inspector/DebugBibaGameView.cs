@@ -1,35 +1,33 @@
 ﻿using UnityEngine;
 using System.Collections;
-#if UNITY_EDITOR
 using UnityEditor;
 using UnityEditor.Animations;
-#endif
 
-[ExecuteInEditMode]
-public class DebugBibaGameView : MonoBehaviour {
-	#if UNITY_EDITOR
+[CustomEditor(typeof(BibaGameView))]
+public class DebugBibaGameView : Editor {
+	
 	public bool enableAutoBibaCanvasGroupActivation {
 		set {
 			_enableAutoBibaCanvasGroupActivation = value;
-			if (!value) {
+			if (!value)
 				DeactivateLastGroup ();
-			}
-		}
-		get {
-			return _enableAutoBibaCanvasGroupActivation;
 		}
 	}
 
-	[HideInInspector] public bool _enableAutoBibaCanvasGroupActivation;
+	[HideInInspector] public static bool _enableAutoBibaCanvasGroupActivation;
 
 	private BibaCanvasGroup lastGroup;
+	private bool hasInitializedToSelectiondelegate;
 
 	void OnEnable() {
-		Selection.selectionChanged += OnSelectionChanged;
+		if (!hasInitializedToSelectiondelegate) {
+			Selection.selectionChanged += OnSelectionChanged;
+			hasInitializedToSelectiondelegate = true;
+		}
 	}
 
-	void OnDisable() {
-		Selection.selectionChanged -= OnSelectionChanged;
+	public override void OnInspectorGUI () {
+		enableAutoBibaCanvasGroupActivation = EditorGUILayout.Toggle ("Enable Auto Group Activation", _enableAutoBibaCanvasGroupActivation);
 	}
 
 	void OnSelectionChanged() {
@@ -58,7 +56,7 @@ public class DebugBibaGameView : MonoBehaviour {
 			foreach(StateMachineBehaviour behaviour in state.behaviours) {
 				BibaGameState bibaState = behaviour as BibaGameState;
 				if (bibaState) {
-					BibaCanvasGroup[] bibaCanvasGroups = GetComponentsInChildren<BibaCanvasGroup>(true);
+					BibaCanvasGroup[] bibaCanvasGroups = ((BibaGameView)target).gameObject.GetComponentsInChildren<BibaCanvasGroup>(true);
 					foreach(BibaCanvasGroup canvasGroup in bibaCanvasGroups) {
 						if (canvasGroup.currentState == bibaState.currentState) {
 							DeactivateLastGroup();
@@ -103,16 +101,4 @@ public class DebugBibaGameView : MonoBehaviour {
 			}
 		}
 	}
-	#endif
 }
-
-#if UNITY_EDITOR
-[CustomEditor (typeof(DebugBibaGameView))]
-public class DebugBibaGameViewEditor : Editor {
-	
-	public override void OnInspectorGUI () {
-		DebugBibaGameView t = (DebugBibaGameView)target;
-		t.enableAutoBibaCanvasGroupActivation = EditorGUILayout.Toggle ("Enable Auto Group Activation", t.enableAutoBibaCanvasGroupActivation);
-	}
-}
-#endif
