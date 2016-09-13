@@ -1,43 +1,33 @@
-using System;
+﻿using System;
+using BibaFramework.BibaGame;
 using System.Collections.Generic;
 using Analytics;
-using BibaFramework.BibaGame;
-using BibaFramework.BibaMenu;
 
 namespace BibaFramework.BibaAnalytic
 {
-    public class FlurryAnalyticService : IAnalyticService
-    {
-        [Inject]
+	public class BibaAnalyticService
+	{
+		[Inject]
 		public BibaDeviceSession BibaDeviceSession { get; set; }
 
 		[Inject]
 		public BibaAccount BibaAccount { get; set; }
 
-        [Inject]
-        public BibaSceneStack BibaSceneStack { get; set; }
+		//TODO: Replace Flurry with another service
+		private Flurry _service;
 
-        private Flurry _service;
-
-		public void SetupTracking (string iosKey, string androidKey)
-    	{
-			_service = Flurry.Instance;
-			_service.SetLogLevel(LogLevel.All);
-			_service.StartSession(iosKey, androidKey);
-    	}
-
-        public void TrackStartSession ()
-        {
+		public void TrackStartSession ()
+		{
 			foreach (var profile in BibaAccount.BibaProfiles) 
 			{
 				var parameters = TrackingParams;
 				parameters.Add (BibaAnalyticConstants.SESSION_START_TIME, BibaDeviceSession.Start.ToString());
 				_service.LogEvent(BibaAnalyticConstants.START_SESSION_EVENT, parameters);
 			}
-        }
+		}
 
-        public void TrackEndSession ()
-        {
+		public void TrackEndSession ()
+		{
 			foreach(var profile in BibaAccount.BibaProfiles)
 			{
 				var parameters = TrackingParams;
@@ -65,38 +55,33 @@ namespace BibaFramework.BibaAnalytic
 				}
 
 				foreach (var equipment in profile.BibaProfileSession.SessionEquipments)
-	            {
+				{
 					parameters.Add(string.Format("{0}_{1}", BibaAnalyticConstants.EQUIPMENT_PLAYED, equipment.EquipmentType.ToString()), equipment.NumberOfTimePlayed.ToString());
-	            }
+				}
 
-	            _service.LogEvent(BibaAnalyticConstants.END_SESSION_EVENT, parameters);
+				_service.LogEvent(BibaAnalyticConstants.END_SESSION_EVENT, parameters);
 			}
-        }
-		
-        public void TrackWeatherInfo(BibaWeatherInfo weatherInfo)
-        {
-            var parameters = TrackingParams;
-            
-            parameters.Add(BibaAnalyticConstants.WEATHER_TEMPERATURE, weatherInfo.Temperature.ToString("F2"));
-            parameters.Add(BibaAnalyticConstants.WEATHER_DESCRIPTION, weatherInfo.WeatherDescription);
-            parameters.Add(BibaAnalyticConstants.WEATHER_WIND_SPEED, weatherInfo.WindSpeed.ToString("F2"));
-
-            _service.LogEvent(BibaAnalyticConstants.WEATHER_EVENT, parameters);
 		}
 
-        public Dictionary<string, string> TrackingParams {
-            get {
-                var param = new Dictionary<string, string>() {
-                    {BibaAnalyticConstants.TIME_STAMP, DateTime.Now.ToString()}
-                };
-					
+		public void TrackTagScanned ()
+		{
+			throw new NotImplementedException ();
+		}
+
+		Dictionary<string, string> TrackingParams {
+			get {
+				var param = new Dictionary<string, string>() {
+					{BibaAnalyticConstants.TIME_STAMP, DateTime.Now.ToString()}
+				};
+
 				if(!string.IsNullOrEmpty(BibaDeviceSession.QuadTileId))
-                {
+				{
 					param.Add(BibaAnalyticConstants.QUADTILE_ID, BibaDeviceSession.QuadTileId);
-                }
+				}
 
 				return param;
-            }
-        }
-    }
+			}
+		}
+	}
 }
+

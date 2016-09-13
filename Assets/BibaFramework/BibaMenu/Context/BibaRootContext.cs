@@ -36,7 +36,7 @@ namespace BibaFramework.BibaMenu
 
         protected override void BindServices ()
 		{
-			injectionBinder.Bind<IAnalyticService>().To<FlurryAnalyticService>().ToSingleton().CrossContext();
+			injectionBinder.Bind<IDeviceAnalyticService>().To<FlurryDeviceAnalyticService>().ToSingleton().CrossContext();
 			injectionBinder.Bind<IDataService>().To<JSONDataService>().ToSingleton().CrossContext();
             injectionBinder.Bind<ICDNService>().To<BibaCDNService>().ToSingleton().CrossContext();
             injectionBinder.Bind<LocalizationService>().To<LocalizationService>().ToSingleton().CrossContext();

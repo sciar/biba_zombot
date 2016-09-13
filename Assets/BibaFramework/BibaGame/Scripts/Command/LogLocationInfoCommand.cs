@@ -22,7 +22,7 @@ namespace BibaFramework.BibaGame
         private const string SPEED = "speed";
 
         [Inject]
-        public IAnalyticService BibaAnalyticService { get; set; }
+        public IDeviceAnalyticService BibaAnalyticService { get; set; }
 
         [Inject]
 		public BibaDevice BibaDevice { get; set; } 

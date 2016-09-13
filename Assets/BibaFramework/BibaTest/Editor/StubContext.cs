@@ -83,7 +83,7 @@ namespace BibaFramework.BibaTest
 		protected void BindServices()
 		{
 			injectionBinder.Bind<IDataService> ().To<StubDataService> ().ToSingleton ();
-			injectionBinder.Bind<IAnalyticService> ().To<StubAnalyticService> ().ToSingleton ();
+			injectionBinder.Bind<IDeviceAnalyticService> ().To<StubAnalyticService> ().ToSingleton ();
 
 			injectionBinder.Bind<AchievementService>().To<AchievementService>().ToSingleton();
 			injectionBinder.Bind<SpecialSceneService>().To<SpecialSceneService>().ToSingleton();

@@ -1,5 +1,6 @@
 using System;
 using strange.extensions.command.impl;
+using BibaFramework.BibaAnalytic;
 
 namespace BibaFramework.BibaGame
 {
@@ -16,6 +17,9 @@ namespace BibaFramework.BibaGame
 
         [Inject]
         public IDataService DataService { get; set; }
+
+		[Inject]
+		public IDeviceAnalyticService DeviceAnalyticService { get; set; }
 
         public override void Execute ()
         {
@@ -34,6 +38,8 @@ namespace BibaFramework.BibaGame
 			deviceEquipment.Play();
 
 			DataService.Save();
+
+			DeviceAnalyticService.TrackEquipmentPlayed (BibaEquipmentType);
         }
     }
 }

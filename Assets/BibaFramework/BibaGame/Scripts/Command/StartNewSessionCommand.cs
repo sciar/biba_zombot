@@ -16,7 +16,7 @@ namespace BibaFramework.BibaGame
 		public ToggleTrackLightActivitySignal ToggleTrackLightActivitySignal { get; set; }
 
 		[Inject]
-		public IAnalyticService AnalyticService { get; set; }
+		public IDeviceAnalyticService AnalyticService { get; set; }
 
 		public override void Execute ()
 		{
