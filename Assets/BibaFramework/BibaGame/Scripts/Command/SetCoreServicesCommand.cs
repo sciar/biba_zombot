@@ -1,26 +1,20 @@
-using BibaFramework.BibaAnalytic;
 using BibaFramework.BibaGame;
 using BibaFramework.BibaMenu;
-using ChartboostSDK;
 using strange.extensions.command.impl;
 using UnityEngine;
 using UnityEngine.Experimental.Director;
 
 namespace BibaFramework.BibaGame
 {
-    public class SetServicesCommand : Command
+    public class SetCoreServicesCommand : Command
     {
         [Inject(BibaMenuConstants.BIBA_ROOT_CONTEXT_VIEW)]
         public GameObject RootContextView { get; set; }
-        
-		[Inject]
-		public IDeviceAnalyticService AnalyticService { get; set; }
 
         public override void Execute ()
         {
             SetupStateMachine();
             SetupAudioService();
-			SetupAnalyticService();
         }
 
         void SetupStateMachine()
@@ -34,12 +28,5 @@ namespace BibaFramework.BibaGame
             var audioService = RootContextView.GetComponentInChildren<AudioServices>();
             injectionBinder.Bind<AudioServices>().To(audioService).ToSingleton().CrossContext();
         }
-
-		void SetupAnalyticService()
-		{
-			var flurryConfig = RootContextView.GetComponent<FlurryConfigs>();
-			AnalyticService.SetupTracking(flurryConfig.FlurryIosKey, flurryConfig.FlurryAndroidKey);
-		}
     }
 }
-
