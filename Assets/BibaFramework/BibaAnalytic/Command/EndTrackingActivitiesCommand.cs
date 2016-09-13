@@ -14,11 +14,16 @@ namespace BibaFramework.BibaAnalytic
 		[Inject]
 		public ToggleTrackVigorousActivitySignal ToggleTrackVigorousActivitySignal { get; set; }
 
+		[Inject]
+		public IDeviceAnalyticService DeviceAnalyticService { get; set; }
+
 		public override void Execute ()
 		{
 			ToggleTrackLightActivitySignal.Dispatch (false);
 			ToggleTrackModerateActivitySignal.Dispatch (false);
 			ToggleTrackVigorousActivitySignal.Dispatch (false);
+
+			DeviceAnalyticService.TrackActivities ();
 		}
 	}
 }

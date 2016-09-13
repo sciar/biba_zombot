@@ -27,7 +27,7 @@ namespace BibaFramework.BibaGame
 				BibaDeviceSession.SelectedEquipments.Add(new BibaEquipment(BibaEquipmentType));
 				SessionUpdatedSignal.Dispatch ();
 
-				DeviceAnalyticService.TrackEquipmentPlayed (BibaEquipmentType);
+				DeviceAnalyticService.TrackEquipmentSelected (BibaEquipmentType);
             } 
             else
             {
