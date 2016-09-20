@@ -76,22 +76,16 @@ namespace BibaFramework.BibaGame
 		//TODO: Override for each game
 		void ProcessUnlockable()
 		{
-			string s_unlock = "";
-			string[] s_unlockeablesLeft = UnlockableManager.Instance.KeysWithValue (false);
-			if (s_unlockeablesLeft.Length >= 0) 
-			{
-				s_unlock = s_unlockeablesLeft [UnityEngine.Random.Range (0, s_unlockeablesLeft.Length)];
-			}
-			if (!string.IsNullOrEmpty(s_unlock) ) 
-			{
-				SetUnlockable (s_unlock);
-			}
+			SetUnlockableAtView (UnlockableManager.Instance.NextUnlock);
 		}
 
-		void SetUnlockable(string unlockedItem)
+		void SetUnlockableAtView(string unlockedItem)
 		{
-			var tagEventView = TagObject.GetComponent<BibaTagEventHandlerView> ();
-			tagEventView.SetUnlockedSprite (unlockedItem);
+			if (!string.IsNullOrEmpty(unlockedItem) ) 
+			{
+				var tagEventView = TagObject.GetComponent<BibaTagEventHandlerView> ();
+				tagEventView.SetUnlockedSprite (unlockedItem);
+			}
 		}
 	}
 }
