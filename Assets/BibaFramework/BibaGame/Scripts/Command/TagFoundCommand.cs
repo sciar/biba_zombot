@@ -73,10 +73,9 @@ namespace BibaFramework.BibaGame
 			} 
 		}
 
-		//TODO: Override for each game
 		void ProcessUnlockable()
 		{
-			SetUnlockableAtView (UnlockableManager.Instance.NextUnlock);
+			//TODO: Override for each game
 		}
 
 		void SetUnlockableAtView(string unlockedItem)
