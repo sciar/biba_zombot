@@ -31,7 +31,7 @@ public class ScanningTagView : View
 	public Signal ScanningTagViewDisabledSignal = new Signal ();
 
 	public LocalizationService LocalizationService { get; set; }
-	
+
 	protected override void Awake()
 	{
 		base.Awake();
@@ -66,7 +66,7 @@ public class ScanningTagView : View
 		TagText.text = LocalizationService.GetText(tagView.TagName);
 		TagText.color = tagView.TagColor;
 	}
-	
+
 	public void TagScanCompleted() 
 	{
 		StartCoroutine(TransitionToSuccessState());
@@ -97,6 +97,5 @@ public class ScanningTagView : View
 public class TagView
 {
 	public string TagName;
-	public Sprite TagIcon;
 	public Color TagColor;
 }

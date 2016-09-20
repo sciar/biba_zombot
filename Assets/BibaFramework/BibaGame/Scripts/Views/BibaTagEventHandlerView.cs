@@ -1,7 +1,9 @@
+using System.Collections.Generic;
+using strange.extensions.mediation.impl;
+using strange.extensions.signal.impl;
 using UnityEngine;
 using Vuforia;
-using strange.extensions.signal.impl;
-using strange.extensions.mediation.impl;
+using System;
 
 namespace BibaFramework.BibaGame
 {
@@ -9,6 +11,8 @@ namespace BibaFramework.BibaGame
     {
 		public Signal<string> TrackingFoundSignal = new Signal<string>();
 		public Signal<string> TrackingLostSignal = new Signal<string>();
+
+		public List<UnlockSprite> UnlockSprites;
 
         #region PRIVATE_MEMBER_VARIABLES
         private TrackableBehaviour mTrackableBehaviour;
@@ -57,5 +61,27 @@ namespace BibaFramework.BibaGame
 			TrackingLostSignal.Dispatch(mTrackableBehaviour.TrackableName);
         }
         #endregion // PRIVATE_METHODS
+
+		#region ANIMATION_UNLOCK
+		public ARUnlock ARUnlock;
+
+		public void SetUnlockedSprite(string unlockedItem)
+		{
+			ARUnlock.SpriteRenderer.sprite = UnlockSprites.Find(uls => uls.Id == unlockedItem).Sprite;
+		}
+
+		public void Chase() 
+		{
+			ARUnlock.Reset () ;
+			ARUnlock.ChaseTarget ();
+		}
+		#endregion
     }
+
+	[Serializable]
+	public class UnlockSprite
+	{
+		public string Id;
+		public Sprite Sprite;
+	}
 }

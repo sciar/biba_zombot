@@ -2,8 +2,19 @@
 using System.Collections;
 using BibaFramework.BibaGame;
 
-public class ARBibletMove : MonoBehaviour {
-
+[RequireComponent(typeof(SpriteRenderer))]
+public class ARUnlock : MonoBehaviour 
+{
+	private SpriteRenderer _renderer;
+	public SpriteRenderer SpriteRenderer
+	{
+		get {
+			if (_renderer == null) {
+				_renderer = GetComponent<SpriteRenderer> ();
+			}
+			return _renderer;
+		}
+	}
 	public Transform targetCameraTransform;
 
 	private Transform originalParent;

@@ -50,6 +50,8 @@ namespace BibaFramework.BibaGame
 			else 
 			{
 				anim.SetTrigger (MenuStateTrigger.Yes);
+				ProcessUnlockable ();
+
 				yield return new WaitUntil(() => anim.GetCurrentAnimatorStateInfo(0).IsName(ACTIVE));
 				while (anim.GetCurrentAnimatorStateInfo (0).IsName (ACTIVE)) 
 				{
@@ -69,6 +71,27 @@ namespace BibaFramework.BibaGame
 			{
 				anim.SetTrigger (MenuStateTrigger.No);
 			} 
+		}
+
+		//TODO: Override for each game
+		void ProcessUnlockable()
+		{
+			string s_unlock = "";
+			string[] s_unlockeablesLeft = UnlockableManager.Instance.KeysWithValue (false);
+			if (s_unlockeablesLeft.Length >= 0) 
+			{
+				s_unlock = s_unlockeablesLeft [UnityEngine.Random.Range (0, s_unlockeablesLeft.Length)];
+			}
+			if (!string.IsNullOrEmpty(s_unlock) ) 
+			{
+				SetUnlockable (s_unlock);
+			}
+		}
+
+		void SetUnlockable(string unlockedItem)
+		{
+			var tagEventView = TagObject.GetComponent<BibaTagEventHandlerView> ();
+			tagEventView.SetUnlockedSprite (unlockedItem);
 		}
 	}
 }
