@@ -10,7 +10,6 @@ class TextureModifier : AssetPostprocessor
 		{
 			var importer = (assetImporter as TextureImporter);
 			importer.textureType = TextureImporterType.Advanced;
-			importer.spriteImportMode = SpriteImportMode.Multiple;
 			importer.textureFormat = TextureImporterFormat.RGBA32;
 		}
 	}
