@@ -15,7 +15,7 @@ public class PlaySFXOnToggle : MonoBehaviour {
 	}
 	
 	void Toggled(bool value) {
-		if (!view.AudioServices == null) {
+		if (view != null && view.AudioServices != null) {
 			view.AudioServices.PlaySFX (sfxString);
 		}
 	}

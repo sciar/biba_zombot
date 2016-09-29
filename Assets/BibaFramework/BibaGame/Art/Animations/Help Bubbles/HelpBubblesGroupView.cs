@@ -18,11 +18,13 @@ public class HelpBubblesGroupView : View {
 	}
 
 	public void SetAnimatorBoolean(bool value) {
-		animator.SetBool ("Enabled", value);
+		if (animator.isInitialized) {
+			animator.SetBool ("Enabled", value);
+		}
 	}
 
 	public void SetAnimatorBooleanIfEnabled(bool value) {
-		if (bubblesEnabled) {
+		if (bubblesEnabled && animator.isInitialized) {
 			animator.SetBool ("Enabled", value);
 		}
 	}
