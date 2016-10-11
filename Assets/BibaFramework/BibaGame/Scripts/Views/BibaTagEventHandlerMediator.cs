@@ -15,9 +15,6 @@ namespace BibaFramework.BibaGame
 		[Inject]
 		public TagFoundSignal TagFoundSignal { get; set; }
 
-		[Inject]
-		public TagLostSignal TagLostSignal { get; set; }
-
 		public override void OnRegister ()
 		{
 			ToggleTagScanSignal.AddListener (ToggleTagScan);
@@ -33,12 +30,10 @@ namespace BibaFramework.BibaGame
 			if (status) 
 			{
 				BibaTagEventHandlerView.TrackingFoundSignal.AddListener (TrackingFound);
-				BibaTagEventHandlerView.TrackingLostSignal.AddListener (TrackingLost);
 			} 
 			else 
 			{
 				BibaTagEventHandlerView.TrackingFoundSignal.RemoveListener (TrackingFound);
-				BibaTagEventHandlerView.TrackingLostSignal.RemoveListener (TrackingLost);
 			}
 		}
 
@@ -47,14 +42,6 @@ namespace BibaFramework.BibaGame
 			if (Enum.IsDefined (typeof(BibaTagType), fileName)) 
 			{
 				TagFoundSignal.Dispatch ((BibaTagType)Enum.Parse (typeof(BibaTagType), fileName), gameObject);
-			}
-		}
-
-		void TrackingLost(string fileName)
-		{
-			if(Enum.IsDefined(typeof(BibaTagType), fileName))
-			{
-				TagLostSignal.Dispatch((BibaTagType)Enum.Parse(typeof(BibaTagType), fileName), gameObject);
 			}
 		}
 	}

@@ -10,7 +10,6 @@ namespace BibaFramework.BibaGame
     public class BibaTagEventHandlerView : View, ITrackableEventHandler
     {
 		public Signal<string> TrackingFoundSignal = new Signal<string>();
-		public Signal<string> TrackingLostSignal = new Signal<string>();
 
 		public List<UnlockSprite> UnlockSprites;
 
@@ -58,7 +57,6 @@ namespace BibaFramework.BibaGame
         private void OnTrackingLost()
         {
 			Debug.Log(mTrackableBehaviour.TrackableName + " tag is lost.");
-			TrackingLostSignal.Dispatch(mTrackableBehaviour.TrackableName);
         }
         #endregion // PRIVATE_METHODS
 

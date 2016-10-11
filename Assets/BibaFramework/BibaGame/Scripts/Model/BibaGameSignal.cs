@@ -42,6 +42,5 @@ namespace BibaFramework.BibaGame
     public class SetTagToScanAtViewSignal : Signal { }
     public class TagInitFailedSignal : Signal { } 
 	public class TagFoundSignal : Signal<BibaTagType, GameObject> { }
-	public class TagLostSignal : Signal<BibaTagType, GameObject> { }
 	public class TagScanCompletedSignal : Signal { }
 }
