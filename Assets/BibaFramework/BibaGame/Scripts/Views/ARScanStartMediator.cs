@@ -33,7 +33,7 @@ namespace BibaFramework.BibaGame
 		public BibaDeviceSession BibaDeviceSession { get; set; }
 
 		[Inject]
-		public ToggleTagScanSignal ToggleTagScanSignal { get; set; }
+		public ToggleARCameraSignal ToggleARCameraSignal { get; set; }
 
         protected override void RegisterMenuStateDependentSignals() 
         { 
@@ -52,12 +52,12 @@ namespace BibaFramework.BibaGame
         protected override void MenuStateObjectEnabled()
         {
 			SetupTagToScan();
-			ToggleTagScanSignal.Dispatch (true);
+			ToggleARCameraSignal.Dispatch (true);
         }
 
 		protected override void MenuStateObjectDisabled()
 		{
-			ToggleTagScanSignal.Dispatch (false);
+			ToggleARCameraSignal.Dispatch (false);
 		}
 
 		void SetupTagToScan()

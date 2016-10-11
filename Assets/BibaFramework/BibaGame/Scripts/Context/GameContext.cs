@@ -71,7 +71,8 @@ namespace BibaFramework.BibaGame
         
         protected override void BindSignals ()
         {
-			injectionBinder.Bind<ToggleTagScanSignal>().To<ToggleTagScanSignal>().ToSingleton();
+			injectionBinder.Bind<ToggleARCameraSignal>().To<ToggleARCameraSignal>().ToSingleton();
+			injectionBinder.Bind<ToggleTagSignal> ().To<ToggleTagSignal> ().ToSingleton ();
 			injectionBinder.Bind<SetTagToScanAtViewSignal>().To<SetTagToScanAtViewSignal>().ToSingleton();
         }
     }
