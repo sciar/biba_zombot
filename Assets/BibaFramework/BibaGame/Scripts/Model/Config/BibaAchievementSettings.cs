@@ -1,10 +1,10 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
-using LitJson;
 
 namespace BibaFramework.BibaGame
 {
+	[Serializable]
     public class BibaAchievementSettings
     {
         public List<BibaAchievementConfig> AchievementSettings = new List<BibaAchievementConfig>();
@@ -18,7 +18,6 @@ namespace BibaFramework.BibaGame
         public int TimePlayed;
         public string DescriptionSuffix;
 
-        [JsonIgnore]
         public string DescriptionPrefix { get { return _prefixDict [EquipmentType]; } }
 
         public virtual string Id {

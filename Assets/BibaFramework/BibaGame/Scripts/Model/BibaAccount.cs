@@ -1,16 +1,15 @@
 ﻿using System.Collections.Generic;
-using LitJson;
 using System;
 
 namespace BibaFramework.BibaGame
 {
+	[Serializable]
 	public class BibaAccount : IResetModel
 	{
 		public string Id { get; set; }
 		public string EmailAddress { get; set; }
 		public string Password { get; set; }
 
-		[JsonIgnore]
 		public int TotalPoints {
 			get {
 				var result = 0;

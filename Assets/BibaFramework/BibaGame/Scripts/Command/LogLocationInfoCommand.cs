@@ -3,9 +3,9 @@ using System.Collections;
 using UnityEngine;
 using BibaFramework.BibaAnalytic;
 using BibaFramework.Utility;
-using LitJson;
 using strange.extensions.command.impl;
 using BestHTTP;
+using ThirdParty.Json.LitJson;
 
 namespace BibaFramework.BibaGame
 {
@@ -109,7 +109,7 @@ namespace BibaFramework.BibaGame
 
         BibaWeatherInfo ProcessWeatherJSON(string text)
         {
-            JsonData jsonData = JsonMapper.ToObject(text);
+			JsonData jsonData = JsonUtility.FromJson<JsonData>(text);
             
             var weatherInfo = new BibaWeatherInfo();
             weatherInfo.TimeStamp = DateTime.UtcNow;

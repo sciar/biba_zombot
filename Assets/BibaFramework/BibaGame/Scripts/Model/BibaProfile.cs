@@ -1,10 +1,10 @@
 ﻿using System;
 using UnityEngine;
 using System.Collections.Generic;
-using LitJson;
 
 namespace BibaFramework.BibaGame
 {
+	[Serializable]
 	public class BibaProfile : IResetModel
 	{
 		public string Id { get; set; }
@@ -15,7 +15,6 @@ namespace BibaFramework.BibaGame
 		public int Points { get; set; }
 		public List<string> CompletedPointEvents { get; set; }
 
-		[JsonIgnore]
 		public BibaProfileSession BibaProfileSession { get; set; }
 
 		public BibaProfile()
