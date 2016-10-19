@@ -7,13 +7,13 @@ namespace BibaFramework.BibaGame
 	[Serializable]
 	public class BibaProfile : IResetModel
 	{
-		public string Id { get; set; }
-		public string Nickname { get; set; }
-		public byte[] Avatar { get; set; }
-		public Gender Gender { get; set; }
-		public DateTime Birthday { get; set; }
-		public int Points { get; set; }
-		public List<string> CompletedPointEvents { get; set; }
+		public string Id;
+		public string Nickname;
+		public byte[] Avatar;
+		public Gender Gender;
+		public DateTime Birthday;
+		public int Points;
+		public List<string> CompletedPointEvents;
 
 		public BibaProfileSession BibaProfileSession { get; set; }
 
@@ -34,6 +34,7 @@ namespace BibaFramework.BibaGame
 		}
 	}
 
+	[Serializable]
 	public enum Gender
 	{
 		male,

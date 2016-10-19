@@ -8,6 +8,6 @@ namespace BibaFramework.BibaGame
 	{
 		public string Version { get { return Application.version; } }
 
-		public string BuildNumber { get; set; }
+		public string BuildNumber;
 	}
 }

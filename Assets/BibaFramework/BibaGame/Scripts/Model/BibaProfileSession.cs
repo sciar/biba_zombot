@@ -22,13 +22,13 @@ namespace BibaFramework.BibaGame
 			CompletedLMVScoreEvents = new List<string> ();
 		}
 	}
-
+		
 	public class LMVSession
 	{
 		public DateTime DateStart { get; set; }
 		public double SessionScore { get; set; }
 	}
-
+		
 	public enum LMVScoreType
 	{
 		light_score,

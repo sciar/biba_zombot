@@ -6,9 +6,9 @@ namespace BibaFramework.BibaGame
 	[Serializable]
 	public class BibaAccount : IResetModel
 	{
-		public string Id { get; set; }
-		public string EmailAddress { get; set; }
-		public string Password { get; set; }
+		public string Id;
+		public string EmailAddress;
+		public string Password;
 
 		public int TotalPoints {
 			get {
@@ -21,7 +21,7 @@ namespace BibaFramework.BibaGame
 			}
 		}
 
-		public List<BibaProfile> BibaProfiles { get; set; }
+		public List<BibaProfile> BibaProfiles;
 
 		public BibaAccount()
 		{

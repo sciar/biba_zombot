@@ -124,7 +124,8 @@ namespace BibaFramework.BibaAnalytic
 		}
 		#endregion
 			
-        Dictionary<string, string> TrackingParams {
+        Dictionary<string, string> TrackingParams 
+		{
             get {
                 var param = new Dictionary<string, string>() {
                     {BibaAnalyticConstants.TIME_STAMP, DateTime.Now.ToString()}

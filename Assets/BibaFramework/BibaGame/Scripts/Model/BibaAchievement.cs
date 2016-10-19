@@ -7,8 +7,8 @@ namespace BibaFramework.BibaGame
 	[Serializable]
     public class BibaAchievement
     {
-        public string  Id { get; private set; }
-        public bool Shown { get; set; }
+		public string Id;
+		public bool Shown;
 
         public BibaAchievementConfig Config;
 
