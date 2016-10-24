@@ -1,0 +1,29 @@
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2008
+
+Project("{63B8CE63-7341-F042-7267-12BC9E2E3A37}") = "biba_zombot", "Assembly-CSharp.csproj", "{E28C3B85-7A6F-27A5-5400-E810D14FBBE8}"
+EndProject
+Project("{63B8CE63-7341-F042-7267-12BC9E2E3A37}") = "biba_zombot", "Assembly-CSharp-Editor.csproj", "{62515A8C-30C3-E09E-686A-4CAE16631903}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{E28C3B85-7A6F-27A5-5400-E810D14FBBE8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E28C3B85-7A6F-27A5-5400-E810D14FBBE8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E28C3B85-7A6F-27A5-5400-E810D14FBBE8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E28C3B85-7A6F-27A5-5400-E810D14FBBE8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{62515A8C-30C3-E09E-686A-4CAE16631903}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{62515A8C-30C3-E09E-686A-4CAE16631903}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{62515A8C-30C3-E09E-686A-4CAE16631903}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{62515A8C-30C3-E09E-686A-4CAE16631903}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(MonoDevelopProperties) = preSolution
+		StartupItem = Assembly-CSharp.csproj
+	EndGlobalSection
+EndGlobal

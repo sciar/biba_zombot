@@ -6,7 +6,7 @@
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <RootNamespace></RootNamespace>
-    <ProjectGuid>{99323025-23FE-4B0E-516B-67CFDC24BB85}</ProjectGuid>
+    <ProjectGuid>{E28C3B85-7A6F-27A5-5400-E810D14FBBE8}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <AssemblyName>Assembly-CSharp</AssemblyName>
@@ -1633,7 +1633,6 @@
      <Compile Include="Assets\BibaFramework\BibaGame\Scripts\RecessGame\PlaySFXOnStateEnter.cs" />
      <Compile Include="Assets\BibaFramework\BibaGame\Scripts\RecessGame\RecessHowTo.cs" />
      <Compile Include="Assets\BibaFramework\BibaGame\Scripts\RecessGame\RecessHowToDragArea.cs" />
-     <Compile Include="Assets\BibaFramework\BibaGame\Scripts\RecessGame\SyncTargetGameObject.cs" />
      <Compile Include="Assets\BibaFramework\BibaGame\Scripts\RecessGame\TimerCircle.cs" />
      <Compile Include="Assets\BibaFramework\BibaGame\Scripts\RecessGame\WinScreen.cs" />
      <Compile Include="Assets\BibaFramework\BibaGame\Scripts\Service\AchievementService.cs" />
@@ -1786,14 +1785,12 @@
      <Compile Include="Assets\MDev\Scripts\ExitButton.cs" />
      <Compile Include="Assets\MDev\Scripts\FreedomText.cs" />
      <Compile Include="Assets\MDev\Scripts\GoScript.cs" />
-     <Compile Include="Assets\MDev\Scripts\JailTimer.cs" />
      <Compile Include="Assets\MDev\Scripts\Jailbreak.cs" />
      <Compile Include="Assets\MDev\Scripts\LanguageOverwrite.cs" />
      <Compile Include="Assets\MDev\Scripts\Navigation.cs" />
      <Compile Include="Assets\MDev\Scripts\PhotoTakenText.cs" />
      <Compile Include="Assets\MDev\Scripts\TakeScreenshot.cs" />
      <Compile Include="Assets\MDev\Scripts\ThemeSelector.cs" />
-     <Compile Include="Assets\MDev\Scripts\TreasureScript.cs" />
      <Compile Include="Assets\MDev\Scripts\TriggerFocus.cs" />
      <Compile Include="Assets\MDev\SelectRobbers\selectRobbers.cs" />
      <Compile Include="Assets\StrangeIoC\scripts\strange\ReadMe.cs" />
@@ -2086,22 +2083,22 @@
  <HintPath>/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
  </Reference>
  <Reference Include="Google.GData.Client">
- <HintPath>/Users/Biba/biba_recessgame/Assets/Google Data API/Google.GData.Client.dll</HintPath>
+ <HintPath>/Users/Biba/biba_zombot/Assets/Google Data API/Google.GData.Client.dll</HintPath>
  </Reference>
  <Reference Include="Google.GData.Extensions">
- <HintPath>/Users/Biba/biba_recessgame/Assets/Google Data API/Google.GData.Extensions.dll</HintPath>
+ <HintPath>/Users/Biba/biba_zombot/Assets/Google Data API/Google.GData.Extensions.dll</HintPath>
  </Reference>
  <Reference Include="Google.GData.Spreadsheets">
- <HintPath>/Users/Biba/biba_recessgame/Assets/Google Data API/Google.GData.Spreadsheets.dll</HintPath>
+ <HintPath>/Users/Biba/biba_zombot/Assets/Google Data API/Google.GData.Spreadsheets.dll</HintPath>
  </Reference>
  <Reference Include="Newtonsoft.Json">
- <HintPath>/Users/Biba/biba_recessgame/Assets/Google Data API/Newtonsoft.Json.dll</HintPath>
+ <HintPath>/Users/Biba/biba_zombot/Assets/Google Data API/Newtonsoft.Json.dll</HintPath>
  </Reference>
  <Reference Include="WP8Screenshot">
- <HintPath>/Users/Biba/biba_recessgame/Assets/Plugins/WP8Screenshot.dll</HintPath>
+ <HintPath>/Users/Biba/biba_zombot/Assets/Plugins/WP8Screenshot.dll</HintPath>
  </Reference>
  <Reference Include="Vuforia.UnityExtensions">
- <HintPath>/Users/Biba/biba_recessgame/Assets/Vuforia/Scripts/Internal/Vuforia.UnityExtensions.dll</HintPath>
+ <HintPath>/Users/Biba/biba_zombot/Assets/Vuforia/Scripts/Internal/Vuforia.UnityExtensions.dll</HintPath>
  </Reference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
