@@ -78,7 +78,7 @@ namespace BibaFramework.BibaEditor
 			get {
 
 				int versionNumber = -1;
-				Int32.TryParse(System.Environment.GetCommandLineArgs() [System.Environment.GetCommandLineArgs().Length - 1], out versionNumber);
+				Int32.TryParse(System.Environment.GetCommandLineArgs() [System.Environment.GetCommandLineArgs().Length - 2], out versionNumber);
 
 				return versionNumber;
 			}
