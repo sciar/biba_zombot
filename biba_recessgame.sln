@@ -1,0 +1,29 @@
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2008
+
+Project("{142705EB-FBE2-46C9-DFBA-69D1011BF275}") = "biba_recessgame", "Assembly-CSharp.csproj", "{99323025-23FE-4B0E-516B-67CFDC24BB85}"
+EndProject
+Project("{142705EB-FBE2-46C9-DFBA-69D1011BF275}") = "biba_recessgame", "Assembly-CSharp-Editor.csproj", "{06667F06-FB5E-11FD-5ABC-BA43441008C1}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{99323025-23FE-4B0E-516B-67CFDC24BB85}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{99323025-23FE-4B0E-516B-67CFDC24BB85}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{99323025-23FE-4B0E-516B-67CFDC24BB85}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{99323025-23FE-4B0E-516B-67CFDC24BB85}.Release|Any CPU.Build.0 = Release|Any CPU
+		{06667F06-FB5E-11FD-5ABC-BA43441008C1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{06667F06-FB5E-11FD-5ABC-BA43441008C1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{06667F06-FB5E-11FD-5ABC-BA43441008C1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{06667F06-FB5E-11FD-5ABC-BA43441008C1}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(MonoDevelopProperties) = preSolution
+		StartupItem = Assembly-CSharp.csproj
+	EndGlobalSection
+EndGlobal

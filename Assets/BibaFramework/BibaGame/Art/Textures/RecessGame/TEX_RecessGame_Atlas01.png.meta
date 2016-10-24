@@ -1,0 +1,331 @@
+fileFormatVersion: 2
+guid: 2d0a7776a77ed439489f6e837ba87377
+timeCreated: 1458688994
+licenseType: Pro
+TextureImporter:
+  fileIDToRecycleName:
+    21300000: TEX_RecessGame_Atlas01_0
+    21300002: TEX_RecessGame_Atlas01_1
+    21300004: TEX_RecessGame_Atlas01_2
+    21300006: TEX_RecessGame_Atlas01_3
+    21300008: TEX_RecessGame_Atlas01_4
+    21300010: TEX_RecessGame_Atlas01_5
+    21300012: TEX_RecessGame_Atlas01_6
+    21300014: TEX_RecessGame_Atlas01_7
+    21300016: TEX_RecessGame_Atlas01_9
+    21300018: TEX_RecessGame_Atlas01_16
+    21300020: TEX_RecessGame_Atlas01_17
+    21300022: TEX_RecessGame_Atlas01_18
+    21300024: TEX_RecessGame_Atlas01_19
+    21300026: TEX_RecessGame_Atlas01_8
+    21300028: TEX_RecessGame_Atlas01_10
+    21300030: TEX_RecessGame_Atlas01_11
+    21300032: TEX_RecessGame_Atlas01_12
+    21300034: TEX_RecessGame_Atlas01_13
+    21300036: TEX_RecessGame_Atlas01_14
+    21300038: TEX_RecessGame_Atlas01_15
+    21300040: TEX_RecessGame_Atlas01_20
+    21300042: TEX_RecessGame_Atlas01_21
+    21300044: TEX_RecessGame_Atlas01_22
+    21300046: TEX_RecessGame_Atlas01_23
+    21300048: TEX_RecessGame_Atlas01_24
+  serializedVersion: 2
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 1
+    linearTexture: 0
+    correctGamma: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: .25
+    normalMapFilter: 0
+  isReadable: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 0
+  cubemapConvolution: 0
+  cubemapConvolutionSteps: 8
+  cubemapConvolutionExponent: 1.5
+  seamlessCubemap: 0
+  textureFormat: 4
+  maxTextureSize: 2048
+  textureSettings:
+    filterMode: -1
+    aniso: 16
+    mipBias: -1
+    wrapMode: 1
+  nPOTScale: 1
+  lightmap: 0
+  rGBM: 0
+  compressionQuality: 0
+  allowsAlphaSplitting: 0
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: .5, y: .5}
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spritePixelsToUnits: 100
+  alphaIsTransparency: 0
+  textureType: 5
+  buildTargetSettings: []
+  spriteSheet:
+    sprites:
+    - name: TEX_RecessGame_Atlas01_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 1527
+        width: 472
+        height: 521
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: TEX_RecessGame_Atlas01_1
+      rect:
+        serializedVersion: 2
+        x: 482
+        y: 1753
+        width: 1057
+        height: 295
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: TEX_RecessGame_Atlas01_2
+      rect:
+        serializedVersion: 2
+        x: 1653
+        y: 1735
+        width: 395
+        height: 313
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: TEX_RecessGame_Atlas01_3
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 1278
+        width: 600
+        height: 239
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: TEX_RecessGame_Atlas01_4
+      rect:
+        serializedVersion: 2
+        x: 1578
+        y: 1422
+        width: 470
+        height: 313
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: TEX_RecessGame_Atlas01_5
+      rect:
+        serializedVersion: 2
+        x: 1764
+        y: 1316
+        width: 82
+        height: 82
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: TEX_RecessGame_Atlas01_6
+      rect:
+        serializedVersion: 2
+        x: 1865
+        y: 1316
+        width: 82
+        height: 82
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: TEX_RecessGame_Atlas01_7
+      rect:
+        serializedVersion: 2
+        x: 1966
+        y: 1316
+        width: 82
+        height: 82
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 15, y: 15, z: 15, w: 15}
+    - name: TEX_RecessGame_Atlas01_9
+      rect:
+        serializedVersion: 2
+        x: 906
+        y: 1047
+        width: 245
+        height: 245
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 65, y: 65, z: 65, w: 65}
+    - name: TEX_RecessGame_Atlas01_16
+      rect:
+        serializedVersion: 2
+        x: 1196
+        y: 1046
+        width: 246
+        height: 246
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: TEX_RecessGame_Atlas01_17
+      rect:
+        serializedVersion: 2
+        x: 1499
+        y: 1046
+        width: 246
+        height: 246
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: TEX_RecessGame_Atlas01_18
+      rect:
+        serializedVersion: 2
+        x: 1802
+        y: 1046
+        width: 246
+        height: 246
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 42, y: 42, z: 42, w: 42}
+    - name: TEX_RecessGame_Atlas01_19
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 493
+        width: 409
+        height: 766
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: TEX_RecessGame_Atlas01_8
+      rect:
+        serializedVersion: 2
+        x: 1129
+        y: 554
+        width: 214
+        height: 217
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: TEX_RecessGame_Atlas01_10
+      rect:
+        serializedVersion: 2
+        x: 1364
+        y: 554
+        width: 214
+        height: 217
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: TEX_RecessGame_Atlas01_11
+      rect:
+        serializedVersion: 2
+        x: 1599
+        y: 554
+        width: 214
+        height: 217
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: TEX_RecessGame_Atlas01_12
+      rect:
+        serializedVersion: 2
+        x: 1834
+        y: 554
+        width: 214
+        height: 217
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: TEX_RecessGame_Atlas01_13
+      rect:
+        serializedVersion: 2
+        x: 1129
+        y: 277
+        width: 214
+        height: 217
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: TEX_RecessGame_Atlas01_14
+      rect:
+        serializedVersion: 2
+        x: 1364
+        y: 277
+        width: 214
+        height: 217
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: TEX_RecessGame_Atlas01_15
+      rect:
+        serializedVersion: 2
+        x: 1599
+        y: 277
+        width: 214
+        height: 217
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: TEX_RecessGame_Atlas01_20
+      rect:
+        serializedVersion: 2
+        x: 1834
+        y: 277
+        width: 214
+        height: 217
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: TEX_RecessGame_Atlas01_21
+      rect:
+        serializedVersion: 2
+        x: 1129
+        y: 0
+        width: 214
+        height: 217
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: TEX_RecessGame_Atlas01_22
+      rect:
+        serializedVersion: 2
+        x: 1364
+        y: 0
+        width: 214
+        height: 217
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: TEX_RecessGame_Atlas01_23
+      rect:
+        serializedVersion: 2
+        x: 1599
+        y: 0
+        width: 214
+        height: 217
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: TEX_RecessGame_Atlas01_24
+      rect:
+        serializedVersion: 2
+        x: 1834
+        y: 0
+        width: 214
+        height: 217
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+  spritePackingTag: recessgame
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

@@ -1,0 +1,4 @@
+sceneSetups:
+- path: Assets/BibaFramework/BibaGame/Scenes/Intro.unity
+  isLoaded: 1
+  isActive: 1
