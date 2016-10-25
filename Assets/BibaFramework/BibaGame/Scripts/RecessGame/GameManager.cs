@@ -84,7 +84,6 @@ public class GameManager : MonoBehaviour {
 
 	void Update() 
     {
-        
         gameTime += Time.deltaTime; // Increment Gametime
 
         // Arrest Touches
@@ -147,6 +146,11 @@ public class GameManager : MonoBehaviour {
             freeMessage.transform.position = temporaryPosition;
             freeMessage.transform.parent = this.transform;
         }
+    }
+
+    public void StartGame()
+    {
+        // Once you hit start begin the roulette
     }
         
     // This is called when the game ends and you pass who the winner is (cops/robbers)
