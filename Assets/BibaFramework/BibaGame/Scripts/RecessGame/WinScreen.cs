@@ -12,7 +12,7 @@ public class WinScreen : MonoBehaviour {
     	
 	// Update is called once per frame
 	void Update () {
-        if (GameManager.Instance.victor == "cops") { victoryText.text = "COPS WIN!"; image.color = Color.blue; } //LOCALIZATION controller.LocalizationService.GetText("copWin");
-        else if (GameManager.Instance.victor == "robbers") { victoryText.text = "ROBBERS WIN!"; image.color = Color.red; } //controller.LocalizationService.GetText("robberWin");
+        if (GameManager.Instance.victor == "Survivors") { victoryText.text = "SURVIVORS WIN!"; image.color = Color.blue; } //LOCALIZATION controller.LocalizationService.GetText("copWin");
+        else if (GameManager.Instance.victor == "Zombies") { victoryText.text = "ZOMBIES WIN!"; image.color = Color.red; } //controller.LocalizationService.GetText("robberWin");
 	}
 }
