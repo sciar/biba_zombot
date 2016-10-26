@@ -5,26 +5,27 @@ using BibaFramework.BibaNetwork;
 
 namespace BibaFramework.BibaGame
 {
+	[Serializable]
 	public class BibaDevice : IResetModel
 	{
 		public string Id { get { return BibaContentConstants.CI_GAME_ID; } }
 		public string DeviceId { get { return SystemInfo.deviceUniqueIdentifier; } }
-		public string InstanceId { get; set; }
+		public string InstanceId;
 
-		public int Highscore { get; set; }
-		public int FrameworkVersion { get; set; }
+		public int Highscore;
+		public int FrameworkVersion;
 
-		public bool PrivacyEnabled { get; set; }
-		public bool HowToEnabled { get; set; }
-		public bool HelpBubblesEnabled { get; set; }
-		public SystemLanguage LanguageOverwrite { get; set; }
+		public bool PrivacyEnabled;
+		public bool HowToEnabled;
+		public bool HelpBubblesEnabled;
+		public SystemLanguage LanguageOverwrite;
 
-		public DateTime LastPlayedTime { get; set; }
-		public DateTime LastChartBoostTime { get; set; }
-		public DateTime LastCameraReminderTime { get; set; }
+		public DateTime LastPlayedTime;
+		public DateTime LastChartBoostTime;
+		public DateTime LastCameraReminderTime;
 
-		public List<BibaAchievement> CompletedAchievements { get; set; }
-		public List<BibaEquipment> TotalEquipments { get; set; }
+		public List<BibaAchievement> CompletedAchievements;
+		public List<BibaEquipment> TotalEquipments;
 
 		public BibaDevice()
 		{

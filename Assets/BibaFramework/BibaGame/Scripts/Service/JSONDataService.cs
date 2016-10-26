@@ -1,7 +1,6 @@
 using System;
 using System.IO;
 using BibaFramework.BibaNetwork;
-using LitJson;
 using UnityEngine;
 
 namespace BibaFramework.BibaGame
@@ -51,7 +50,7 @@ namespace BibaFramework.BibaGame
                 Directory.CreateDirectory(Path.GetDirectoryName(path));
             }
 
-            var jsonStr = JsonMapper.ToJson(objectToWrite);
+			var jsonStr = JsonUtility.ToJson(objectToWrite);
             File.WriteAllText(path, jsonStr);
         }
 
@@ -62,14 +61,14 @@ namespace BibaFramework.BibaGame
             //Check if file is accessible in the fileSystem
             if (File.Exists(path))
             {
-                return JsonMapper.ToObject<T>(File.ReadAllText(path));
+				return JsonUtility.FromJson<T>(File.ReadAllText(path));
             }
 
             //Check in the Resources folder if not found in the file system
             var textAsset = Resources.Load<TextAsset>(BibaContentConstants.GetRelativePath(Path.GetFileNameWithoutExtension(path)));
             if (textAsset != null && !string.IsNullOrEmpty(textAsset.text))
             {
-                return JsonMapper.ToObject<T>(textAsset.text);
+				return JsonUtility.FromJson<T>(textAsset.text);
             }
 
             return Activator.CreateInstance<T>(); 

@@ -1,15 +1,16 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
-using LitJson;
 
 namespace BibaFramework.BibaGame
 {
+	[Serializable]
     public class BibaAchievementSettings
     {
         public List<BibaAchievementConfig> AchievementSettings = new List<BibaAchievementConfig>();
     }
 
+	[Serializable]
     public class BibaAchievementConfig
     {   
         private const string BASIC_ACHIEVEMENT_ID_FORMATTED = "achievement_{0}_{1}";
@@ -18,7 +19,6 @@ namespace BibaFramework.BibaGame
         public int TimePlayed;
         public string DescriptionSuffix;
 
-        [JsonIgnore]
         public string DescriptionPrefix { get { return _prefixDict [EquipmentType]; } }
 
         public virtual string Id {
@@ -38,11 +38,12 @@ namespace BibaFramework.BibaGame
         };
     }
 
+	[Serializable]
     public class BibaSeasonalAchievementConfig : BibaAchievementConfig
     {   
         private const string SEASONAL_ACHIEVEMENT_ID_FORMATTED = "seasonal_achievement_{0}_{1}_{2}_{3}";
-        public DateTime StartDate { get; set; }
-        public DateTime EndDate { get; set; }
+		public DateTime StartDate;
+		public DateTime EndDate;
 
         public override string Id {
             get {

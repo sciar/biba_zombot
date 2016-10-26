@@ -4,11 +4,13 @@ using UnityEngine;
 
 namespace BibaFramework.BibaGame
 {
+	[Serializable]
     public class BibaLocalizationSettings
     {
         public List<Localization> Localizations = new List<Localization>();
     }
 
+	[Serializable]
     public class Localization
     {
         public string Key;

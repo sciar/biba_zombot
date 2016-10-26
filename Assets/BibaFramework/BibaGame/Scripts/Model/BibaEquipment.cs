@@ -4,12 +4,13 @@ using System.Collections.Generic;
 
 namespace BibaFramework.BibaGame
 {
+	[Serializable]
     public class BibaEquipment
     {
-        public BibaEquipmentType EquipmentType { get; private set; }
+		public BibaEquipmentType EquipmentType;
         public BibaTagType TagType { get { return TagMapDict[EquipmentType]; } }
 
-        public List<DateTime> TimesPlayed { get; set; }
+		public List<DateTime> TimesPlayed;
         public int NumberOfTimePlayed { get { return TimesPlayed.Count; } }
 
         public BibaEquipment()
@@ -49,6 +50,7 @@ namespace BibaFramework.BibaGame
         };
     }
 
+	[Serializable]
     public enum BibaEquipmentType
     {
         bridge,
