@@ -1788,6 +1788,7 @@
      <Compile Include="Assets\MDev\Scripts\LanguageOverwrite.cs" />
      <Compile Include="Assets\MDev\Scripts\MissionDeployment.cs" />
      <Compile Include="Assets\MDev\Scripts\Navigation.cs" />
+     <Compile Include="Assets\MDev\Scripts\OrangeRobotRequest.cs" />
      <Compile Include="Assets\MDev\Scripts\PhotoTakenText.cs" />
      <Compile Include="Assets\MDev\Scripts\TakeScreenshot.cs" />
      <Compile Include="Assets\MDev\Scripts\ThemeSelector.cs" />
