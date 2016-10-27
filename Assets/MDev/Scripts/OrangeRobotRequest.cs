@@ -4,7 +4,7 @@ using System.Collections;
 
 public class OrangeRobotRequest : MonoBehaviour {
 
-    public Text requestText;
+	public Text requestText;
     private float disableTimer;
 
 	// Use this for initialization

@@ -47,7 +47,7 @@ public class GameManager : MonoBehaviour {
     // Helper Variables
     private int helperCounter;
     private int helperCounterTriggerValue;
-    public string missionText;
+	public string missionText;
     public GameObject helperRobot;
 
     // Z Axis Fix on Screen Touch Updates
@@ -168,8 +168,8 @@ public class GameManager : MonoBehaviour {
                 helperCounter++;
                 if (helperCounter >= helperCounterTriggerValue)
                 {
-                    if (missionText != null) // MissionDeployment.cs sends the mission text over it randomizes
-                        helperRobot.GetComponent<OrangeRobotRequest>().requestText = missionText;
+                    if (missionText != null) // MissionDeployment.cs sends the mission text over that it randomizes
+						//helperRobot.GetComponent<OrangeRobotRequest>().requestText = missionText;
 
                     // Turn on the Robot
                     helperRobot.SetActive(true);
