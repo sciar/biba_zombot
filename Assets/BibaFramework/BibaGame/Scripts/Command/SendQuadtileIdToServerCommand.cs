@@ -39,7 +39,7 @@ namespace BibaFramework.BibaGame
 
 			var requestURI = string.Format(BACKEND_REGION_QUADTILE_REQUEST, BibaSession.QuadTileId);
 
-			var www = UnityWebRequest.Put (requestURI, jsonData);
+			var www = UnityEngine.Networking.UnityWebRequest.Put (requestURI, jsonData);
 
 			yield return www.Send ();
 

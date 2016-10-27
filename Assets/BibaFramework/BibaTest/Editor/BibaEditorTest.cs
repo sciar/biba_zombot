@@ -20,7 +20,7 @@ namespace BibaFramework.BibaTest
 		private BibaAccount BibaAccount { get; set; }
 		private BibaProfile BibaProfile { get; set; }
 
-		private IAnimatorControllerPlayable StubAnimator { get; set; }
+		private Animator StubAnimator { get; set; }
 
 		[SetUp]
 		public void Init()
@@ -41,7 +41,7 @@ namespace BibaFramework.BibaTest
 			BindInstanceToContext<BibaProfile> (BibaAccount.BibaProfiles [0]);
 			BibaProfile = GetInstanceFromContext<BibaProfile>();
 
-			StubAnimator = GetInstanceFromContext<IAnimatorControllerPlayable> (BibaMenuConstants.BIBA_STATE_MACHINE);
+			StubAnimator = GetInstanceFromContext<Animator> (BibaMenuConstants.BIBA_STATE_MACHINE);
 		}
 
 		void Reset()

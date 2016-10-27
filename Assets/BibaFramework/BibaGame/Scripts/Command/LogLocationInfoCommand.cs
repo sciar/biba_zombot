@@ -80,7 +80,7 @@ namespace BibaFramework.BibaGame
                 var locInfo = Input.location.lastData;
                 var weatherAPIUrl = string.Format(WEATHER_API_CALL_FORMATTED, locInfo.latitude, locInfo.longitude);
 
-				var www = UnityWebRequest.Get (weatherAPIUrl);
+				var www = UnityEngine.Networking.UnityWebRequest.Get (weatherAPIUrl);
 				yield return www.Send ();
 
 				if (www.isError) 
