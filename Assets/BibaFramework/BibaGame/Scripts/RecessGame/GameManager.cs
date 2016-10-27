@@ -44,6 +44,12 @@ public class GameManager : MonoBehaviour {
     // Send Rate
     private float sendRate;
 
+    // Helper Variables
+    private int helperCounter;
+    private int helperCounterTriggerValue;
+    public string missionText;
+    public GameObject helperRobot;
+
     // Z Axis Fix on Screen Touch Updates
     private float defaultZ;
 
@@ -83,6 +89,9 @@ public class GameManager : MonoBehaviour {
         gameStartGO.GetComponent<Text>().text = Mathf.CeilToInt(gameStartTimer).ToString();
         gameStartGO.SetActive(true);
         preGameText.SetActive(true);
+
+        helperCounter = 0; // Reset how many times we've called the helper
+        helperCounterTriggerValue = Random.Range(3,6); // Reset the random value so we don't know which rounds he'll come out on
 
         noSurvivors.SetActive(false); // Make sure the no survivors warning is off
 
@@ -142,7 +151,7 @@ public class GameManager : MonoBehaviour {
                 {
                     playerToSend = Random.Range(0, activeTouchList.Length);
                 }
-
+                    
                 // After we've made sure everything checks out we send a kid to a piece of equipment
                 GameObject freeMessage = (GameObject)Instantiate(Resources.Load("Free"));
                 if (freeMessage)
@@ -154,8 +163,21 @@ public class GameManager : MonoBehaviour {
                     freeMessage.transform.position = temporaryPosition;
                     freeMessage.transform.parent = touchMarkerObjects[playerToSend].transform;
                 }
+
+                // Then we turn on the helper guy
+                helperCounter++;
+                if (helperCounter >= helperCounterTriggerValue)
+                {
+                    if (missionText != null) // MissionDeployment.cs sends the mission text over it randomizes
+                        helperRobot.GetComponent<OrangeRobotRequest>().requestText = missionText;
+
+                    // Turn on the Robot
+                    helperRobot.SetActive(true);
+                    helperCounter = 0; // Reset the counter so we now have to build up to the trigger value again
+                    helperCounterTriggerValue = Random.Range(3,6); // Reset the random value so we don't know which rounds he'll come out on
+                }
                    
-                sendRate = Random.Range(2.0f, 8.0f);
+                sendRate = Random.Range(3.0f, 8.0f);
             }
 
             noSurvivorsTimer = noSurvivorsTimerMax; // Reset the no survivors timer since we are now tracking a survivor

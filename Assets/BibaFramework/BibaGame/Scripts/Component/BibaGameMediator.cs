@@ -24,6 +24,9 @@ namespace BibaFramework.BibaGame
 		[Inject]
 		public IDataService service { get; set; }
 
+        [Inject]
+        public LocalizationService LocalizationService { get; set; }
+
 		[Inject]
 		public ToggleTrackLightActivitySignal ToggleTrackLightActivitySignal { get; set; }
 
@@ -43,6 +46,7 @@ namespace BibaFramework.BibaGame
 			view.controller.BibaDevice = BibaDevice;
 			view.controller.BibaDeviceSession = BibaDeviceSession;
 			view.controller.DataService = service;
+            view.controller.LocalizationService = LocalizationService;
 			view.controller.ToggleTrackLightActivitySignal = ToggleTrackLightActivitySignal;
 			view.controller.ToggleTrackModerateActivitySignal = ToggleTrackModerateActivitySignal;
 			view.controller.ToggleTrackVigorousActivitySignal = ToggleTrackVigorousActivitySignal;

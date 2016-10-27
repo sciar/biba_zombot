@@ -17,6 +17,12 @@ namespace BibaCops
         {
         }
 
+        protected override void BindViews ()
+        { 
+            base.BindViews();
+            mediationBinder.Bind<BibaGameView>().To<BibaGameMediator>();
+        }
+
         protected override void BindCommands()
         {   
             base.BindCommands();
