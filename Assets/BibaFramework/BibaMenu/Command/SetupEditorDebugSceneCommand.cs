@@ -7,7 +7,7 @@ namespace BibaFramework.BibaMenu
     public class SetupEditorDebugSceneCommand : Command
     {
         [Inject(BibaMenuConstants.BIBA_STATE_MACHINE)]
-		public IAnimatorControllerPlayable StateMachine { get; set; }
+		public Animator StateMachine { get; set; }
 
         public override void Execute ()
         {

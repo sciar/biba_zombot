@@ -16,6 +16,7 @@ using strange.extensions.sequencer.api;
 using strange.extensions.sequencer.impl;
 using strange.framework.api;
 using UnityEngine.Experimental.Director;
+using UnityEngine;
 
 namespace BibaFramework.BibaTest
 {
@@ -77,7 +78,7 @@ namespace BibaFramework.BibaTest
 			injectionBinder.Bind<BibaDeviceSession>().To<BibaDeviceSession>().ToSingleton();
 			injectionBinder.Bind<BibaAccount>().To<BibaAccount>().ToSingleton();
 			injectionBinder.Bind<BibaProfile>().To<BibaProfile> ().ToSingleton ();
-			injectionBinder.Bind<IAnimatorControllerPlayable> ().ToName(BibaMenuConstants.BIBA_STATE_MACHINE).To<StubAnimator> ().ToSingleton();
+			injectionBinder.Bind<Animator> ().ToName(BibaMenuConstants.BIBA_STATE_MACHINE).To<StubAnimator> ().ToSingleton();
 		}
 
 		protected void BindServices()

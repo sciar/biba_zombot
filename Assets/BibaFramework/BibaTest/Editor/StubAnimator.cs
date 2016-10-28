@@ -5,7 +5,7 @@ using UnityEngine.Experimental.Director;
 
 namespace BibaFramework.BibaTest
 {
-	public class StubAnimator : IAnimatorControllerPlayable
+	public class StubAnimator : DirectorPlayer, IAnimatorControllerPlayable
 	{
 		private Dictionary<string, bool> _boolDict = new Dictionary<string,bool>();
 
