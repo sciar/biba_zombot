@@ -70,9 +70,9 @@ public class GameManager : MonoBehaviour {
             
 	}
 
-	public void SetSurvivorTimer(int totalTime) // Called in the time select screen
+	public void SetSurvivorTimer(int totalTime) // Called in the time select screen to set overall game time
 	{
-		noSurvivorsTimerMax = totalTime;
+        survivorTimerMax = totalTime;
 	}
 
     void OnEnable()
@@ -89,9 +89,9 @@ public class GameManager : MonoBehaviour {
     void ResetVariables() // Every time we come back to this screen we reset the necessary variables
     {
         gameTime = 0; //Reset the gametime (Used by treasure to easy reset)
-        gameStartTimer = 10; // Countdown to let the game start
+        gameStartTimer = 5; // Countdown to let the game start
         noSurvivorsTimer = noSurvivorsTimerMax;
-        gameStartGO.GetComponent<Text>().text = Mathf.CeilToInt(gameStartTimer).ToString();
+        gameStartGO.GetComponent<Text>().text = Mathf.CeilToInt(gameStartTimer).ToString(); // Set the game timer immediately upon loading in
         gameStartGO.SetActive(true);
         preGameText.SetActive(true);
 
@@ -103,6 +103,7 @@ public class GameManager : MonoBehaviour {
         // Setting the survivor timer
         sTimerMinutes = survivorTimerMax;
         sTimerSeconds = 0f;
+        survivorTimer.GetComponent<Text>().text = "Survivor Timer " + Mathf.FloorToInt(sTimerMinutes).ToString("00") + ":" + Mathf.FloorToInt(sTimerSeconds % 60).ToString("00");
 
         originalBGMusic = AudioManager.Instance.bgMusic.clip;
         AudioManager.Instance.bgMusic.Stop();
@@ -241,13 +242,13 @@ public class GameManager : MonoBehaviour {
             sTimerSeconds -= Time.deltaTime;
             if (sTimerSeconds <= 0)
             {
-                if (sTimerMinutes == 0)
-                    gameOver("Survivors");
+                if (sTimerMinutes == 0) // If no survivor has returned for the time then trigger the zombie win condition
+                    gameOver("Zombies");
                 
-                sTimerSeconds = 59; // Yeah this is dumb, rewrite it if it ever matters
+                sTimerSeconds = 60; // Set the seconds to 60 once we roll over a minute
                 sTimerMinutes--;
             }
-            survivorTimer.GetComponent<Text>().text = "Survivor Timer " + sTimerMinutes.ToString() + ":" + Mathf.RoundToInt(sTimerSeconds).ToString();
+            survivorTimer.GetComponent<Text>().text = "Survivor Timer " + Mathf.FloorToInt(sTimerMinutes).ToString("00") + ":" + Mathf.FloorToInt(sTimerSeconds % 60).ToString("00");
         }
             
         if (noSurvivorsTimer <= 0) // If you ever run out of time on the Survivor Timer the Zombies win
@@ -285,33 +286,8 @@ public class GameManager : MonoBehaviour {
         // Once you hit start begin the roulette
         preGameText.SetActive(false);
         gameStartGO.SetActive(false); // Let the GameManager know the games started
-        //StartCoroutine(SelectZombie());
 
     }
-
-    //IEnumerator SelectZombie()
-    //{
-        /*
-        var randomZombieChoice = Random.Range(10, 40);
-        for (int i = 0; i < randomZombieChoice; i++)
-        {     
-            if (zombieCount > 0)
-                touchMarkerObjects[zombieCount - 1].GetComponent<Image>().color = Color.blue; // Turn the last green one back to blue
-            
-            touchMarkerObjects[zombieCount].GetComponent<Image>().color = Color.green;
-            if (zombieCount >= Input.touchCount)
-            {
-                zombieStop = true;
-                zombieCount = 0; // Reset
-            }
-            else
-                zombieCount++;
-        
-            Debug.LogError(zombieCount);
-            yield return new WaitForSeconds(0.2f);
-        }
-        */
-    //}
         
     // This is called when the game ends and you pass who the winner is (cops/robbers)
     void gameOver(string winner)
