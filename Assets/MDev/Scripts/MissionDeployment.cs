@@ -8,7 +8,7 @@ public class MissionDeployment : MonoBehaviour {
     private float growthRate = 0.1f;
     private bool grow = true;
 
-    public string missionText;
+	public string missionText;
 
     public GameController gameController;
 
