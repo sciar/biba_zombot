@@ -4,8 +4,8 @@ using System.Collections;
 
 public class ARMomentTheme : MonoBehaviour {
 
-    public Sprite[] bgOptionsRobbers;
-    public Sprite[] bgOptionsCops;
+    public Sprite[] bgOptionsZombies;
+    public Sprite[] bgOptionsSurvivors;
 
     public Text themeText; // Text at the top 
     public GameObject themeBackground; // BG color only (hole for face)
@@ -32,13 +32,13 @@ public class ARMomentTheme : MonoBehaviour {
     {
         DisableChildren(); // Disables biblet scan thing
         themeBackground.SetActive(true);
-        if (GameManager.Instance.victor == "cops")
+        if (GameManager.Instance.victor == "Zombies")
         {
-            themeBackground.GetComponent<Image>().sprite = bgOptionsCops[Random.Range(0, bgOptionsCops.Length)];
+            themeBackground.GetComponent<Image>().sprite = bgOptionsZombies[Random.Range(0, bgOptionsZombies.Length)];
         }
         else
         {
-            themeBackground.GetComponent<Image>().sprite = bgOptionsRobbers[Random.Range(0, bgOptionsRobbers.Length)];
+            themeBackground.GetComponent<Image>().sprite = bgOptionsSurvivors[Random.Range(0, bgOptionsSurvivors.Length)];
         }
         //themeBackground.GetComponent<Image>.image = - Setup a random image if we have a bunch
     }

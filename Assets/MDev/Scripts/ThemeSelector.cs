@@ -4,9 +4,8 @@ using UnityEngine.UI;
 
 public class ThemeSelector : MonoBehaviour {
 
-    public Sprite[] robberThemes;
-    public Sprite[] copThemes;
-    public GameObject mainBG;
+    public Sprite[] zombieThemes;
+    public Sprite[] survivorThemes;
     private float imageSwapTimer;
     private float imageSwapTimerMax; // This will slowly grow to slow down the flipping
     private int rotationTotal = 0; // How many times we want to flip before swapping screens
@@ -22,20 +21,19 @@ public class ThemeSelector : MonoBehaviour {
 
     void OnEnable()
     {
-        if (GameManager.Instance.victor == "robbers")
-            maxThemeCount = robberThemes.Length;
+        if (GameManager.Instance.victor == "Zombies")
+            maxThemeCount = zombieThemes.Length;
         else
-            maxThemeCount = copThemes.Length;
+            maxThemeCount = survivorThemes.Length;
 
         themeCounter = 0; // Reset theme counter so we always start at 0
         rotationTotal = 0; // Reset every time we start back up
         triggerOnce = false; // Reset this so we only send one flag to the animator
         imageSwapTimerMax = 0.1f;
-        mainBG.SetActive(false);
     }
     void OnDisable()
     {
-        mainBG.SetActive(true);
+
     }
         
 	
@@ -47,9 +45,9 @@ public class ThemeSelector : MonoBehaviour {
         else
         {
             if (GameManager.Instance.victor == "robbers")
-                GetComponent<Image>().sprite = robberThemes[themeCounter];
+                GetComponent<Image>().sprite = zombieThemes[themeCounter];
             else
-                GetComponent<Image>().sprite = copThemes[themeCounter];
+                GetComponent<Image>().sprite = survivorThemes[themeCounter];
             imageSwapTimer = imageSwapTimerMax;
             rotationTotal++;
             AudioManager.Instance.PlaySFX(AudioManager.Instance.rouletteTick);
