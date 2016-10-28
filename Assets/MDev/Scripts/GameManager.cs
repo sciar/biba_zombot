@@ -70,6 +70,11 @@ public class GameManager : MonoBehaviour {
             
 	}
 
+	public void SetSurvivorTimer(int totalTime) // Called in the time select screen
+	{
+		noSurvivorsTimerMax = totalTime;
+	}
+
     void OnEnable()
     {
         bibaCanvasGroup.onCanvasGroupEnterSuscribers += ResetVariables;
