@@ -13,7 +13,7 @@ namespace BibaFramework.BibaMenu
         public bool Status { get; set; }
 
         [Inject(BibaMenuConstants.BIBA_STATE_MACHINE)]
-		public Animator StateMachine { get; set; }
+		public IAnimatorControllerPlayable StateMachine { get; set; }
 
         public override void Execute ()
         {
