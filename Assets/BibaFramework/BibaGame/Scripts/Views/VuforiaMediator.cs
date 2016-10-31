@@ -13,19 +13,19 @@ namespace BibaFramework.BibaGame
 		public TagInitFailedSignal TagInitFailedSignal { get; set; }
 
 		[Inject]
-		public ToggleTagScanSignal ToggleTagScanSignal { get; set; }
+		public ToggleARCameraSignal ToggleARCameraSignal { get; set; }
 
 		public override void OnRegister ()
 		{
 			ToggleTagScan (false);
 			VuforiaView.VuforiaBehaviour.RegisterVuforiaInitErrorCallback (TagInitFailed);
-			ToggleTagScanSignal.AddListener (ToggleTagScan);
+			ToggleARCameraSignal.AddListener (ToggleTagScan);
 		}
 
 		public override void OnRemove ()
 		{
 			VuforiaView.VuforiaBehaviour.UnregisterVuforiaInitErrorCallback (TagInitFailed);
-			ToggleTagScanSignal.RemoveListener (ToggleTagScan);
+			ToggleARCameraSignal.RemoveListener (ToggleTagScan);
 		}
 
 		void TagInitFailed(Vuforia.VuforiaUnity.InitError error)

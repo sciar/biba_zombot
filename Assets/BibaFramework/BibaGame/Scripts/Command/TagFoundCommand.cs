@@ -11,6 +11,7 @@ namespace BibaFramework.BibaGame
 	public class TagFoundCommand : Command
 	{
 		private const string ACTIVE = "Active";
+		private const float COMPLETE_WAITTIME = 0.25f;
 
 		[Inject]
 		public BibaTagType TagFound { get; set; }
@@ -27,11 +28,15 @@ namespace BibaFramework.BibaGame
 		[Inject]
 		public IDeviceAnalyticService DeviceAnalyticService { get; set; }
 
+		[Inject]
+		public ToggleTagSignal ToggleTagSignal { get; set; }
+
 		public override void Execute ()
 		{
-            if (IsCorrectTag) 
+			if (TagFound == BibaDeviceSession.TagToScan) 
 			{
 				BibaDeviceSession.TagScanned = true;
+				ToggleTagSignal.Dispatch (false);
 				new Task (PlayTagScanCompleteAnimation (), true);
 			} 
 			else 
@@ -39,12 +44,6 @@ namespace BibaFramework.BibaGame
 				PlayIncorrectScanAnimation ();
 			}
 		}
-
-        protected virtual bool IsCorrectTag {
-            get {
-                return true;//TagFound == BibaDeviceSession.TagToScan;
-            }
-        }
 
 		IEnumerator PlayTagScanCompleteAnimation()
 		{
@@ -64,7 +63,9 @@ namespace BibaFramework.BibaGame
 					yield return new WaitForEndOfFrame();
 				}
 
+				yield return new WaitForSeconds (COMPLETE_WAITTIME);
 				TagScanCompletedSignal.Dispatch ();
+				TagObject.GetComponent<BibaTagEventHandlerView> ().ARUnlock.Reset ();
 			}
 
 			DeviceAnalyticService.TrackTagScanned ();

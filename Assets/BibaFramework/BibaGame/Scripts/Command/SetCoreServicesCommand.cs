@@ -20,7 +20,7 @@ namespace BibaFramework.BibaGame
         void SetupStateMachine()
         {
             var stateMachine = RootContextView.GetComponentInChildren<Animator>();
-			injectionBinder.Bind<IAnimatorControllerPlayable>().To(stateMachine).ToName(BibaMenuConstants.BIBA_STATE_MACHINE).ToSingleton().CrossContext();
+			injectionBinder.Bind<Animator>().To(stateMachine).ToName(BibaMenuConstants.BIBA_STATE_MACHINE).ToSingleton().CrossContext();
         }
 
         void SetupAudioService()

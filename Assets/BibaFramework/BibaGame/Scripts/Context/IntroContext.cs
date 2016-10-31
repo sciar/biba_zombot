@@ -28,22 +28,15 @@ namespace BibaFramework.BibaGame
         {
             mediationBinder.Bind<IntroView>().To<IntroMediator>();
 			mediationBinder.Bind<PointsPopupView> ().To<IntroPointsPopupMediator> ();
-
-            //Cops
-            mediationBinder.Bind<SetLanguageToggleView>().To<SetLanguageToggleMediator>();
         }
 			
         protected override void BindCommands ()
         {
 			commandBinder.Bind<StartSignal>().To<CheckForSessionEndCommand>();
-            //Cops
-            commandBinder.Bind<SetLanguageOverwriteSignal>().To<SetLanguageOverwriteCommand>();
-
         }
 
         protected override void BindSignals ()
         {
-            
         }
     }
 }

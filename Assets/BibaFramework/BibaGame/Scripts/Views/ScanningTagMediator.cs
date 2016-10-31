@@ -17,7 +17,7 @@ public class ScanningTagMediator : Mediator
 	public SetTagToScanAtViewSignal SetTagToScanAtViewSignal { get; set; }
 	
 	[Inject]
-	public StartTagScanSignal SetTagToScanSignal { get; set; }
+	public StartTagScanSignal StartTagScanSignal { get; set; }
 	
 	[Inject]
 	public TagInitFailedSignal TagInitFailedSignal { get; set; }
@@ -29,7 +29,7 @@ public class ScanningTagMediator : Mediator
 	public BibaDeviceSession BibaDeviceSession { get; set; }
 
 	[Inject]
-	public ToggleTagScanSignal ToggleTagScanSignal { get; set; }
+	public ToggleARCameraSignal ToggleARCameraSignal { get; set; }
 
 	public override void OnRegister ()
 	{
@@ -57,14 +57,14 @@ public class ScanningTagMediator : Mediator
 
 	void TagScanDisabled()
 	{
-		ToggleTagScanSignal.Dispatch (false);
+		ToggleARCameraSignal.Dispatch (false);
 	}
 
 	void TagScanEnabled()
 	{
 		SetTagToScanAtViewSignal.AddListener(SetTagToScanAtView);
-		SetTagToScanSignal.Dispatch();
-		ToggleTagScanSignal.Dispatch (true);
+		StartTagScanSignal.Dispatch();
+		ToggleARCameraSignal.Dispatch (true);
 	}
 
 	void SetTagToScanAtView()

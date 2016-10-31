@@ -10,19 +10,19 @@ namespace BibaFramework.BibaGame
 		public BibaTagEventHandlerView BibaTagEventHandlerView { get; set; }
 
 		[Inject]
-		public ToggleTagScanSignal ToggleTagScanSignal { get; set; }
+		public TagFoundSignal TagFoundSignal { get; set; }
 
 		[Inject]
-		public TagFoundSignal TagFoundSignal { get; set; }
+		public ToggleTagSignal ToggleTagSignal { get; set; }
 
 		public override void OnRegister ()
 		{
-			ToggleTagScanSignal.AddListener (ToggleTagScan);
+			ToggleTagSignal.AddListener (ToggleTagScan);
 		}
 
 		public override void OnRemove ()
 		{
-			ToggleTagScanSignal.RemoveListener (ToggleTagScan);
+			ToggleTagSignal.RemoveListener (ToggleTagScan);
 		}
 
 		void ToggleTagScan(bool status)

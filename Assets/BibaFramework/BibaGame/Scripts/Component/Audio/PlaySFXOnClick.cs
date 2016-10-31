@@ -8,7 +8,7 @@ using BibaFramework.BibaMenu;
 public class PlaySFXOnClick : MonoBehaviour {
 
 	public SceneMenuStateView view;
-    public UnityEngine.AudioClip sfxString;
+	public string sfxString;
 	
 	void Awake() {
 		GetComponent<Button> ().onClick.AddListener (Clicked);

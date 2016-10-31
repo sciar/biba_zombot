@@ -13,7 +13,7 @@ namespace BibaFramework.BibaNetwork
     public class BibaContentConstants
     {
         //Overwrite for different games
-        public const string CI_GAME_ID = "biba-zombot";
+        public const string CI_GAME_ID = "biba-framework";
 
 		//Change for Production or Development build
 		public const Environment ENVIRONMENT = Environment.Production;

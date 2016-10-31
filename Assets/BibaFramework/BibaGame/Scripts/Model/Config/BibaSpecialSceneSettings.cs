@@ -4,12 +4,14 @@ using UnityEngine;
 
 namespace BibaFramework.BibaGame
 {
+	[Serializable]
     public class BibaSpecialSceneSettings
     {
         public List<TimedSceneSetting> TimedSceneSettings = new List<TimedSceneSetting>();
         public List<GeoSceneSetting> GeoSceneSettings = new List<GeoSceneSetting>();
     }
 
+	[Serializable]
     public class BibaSpecialSceneSetting
     { 
         public string Id;
@@ -21,10 +23,11 @@ namespace BibaFramework.BibaGame
         }
     }
 
+	[Serializable]
     public class TimedSceneSetting : BibaSpecialSceneSetting
     {  
-        public DateTime StartDate { get; set; }
-        public DateTime EndDate { get; set; }
+		public DateTime StartDate;
+		public DateTime EndDate;
 
         public override string ToString()
         {
@@ -32,9 +35,10 @@ namespace BibaFramework.BibaGame
         }  
     }
 
+	[Serializable]
     public class GeoSceneSetting : BibaSpecialSceneSetting
     {
-        public Vector2 Center { get; set; }
-        public double Radius { get; set; }
+		public Vector2 Center;
+		public double Radius;
     }
 }

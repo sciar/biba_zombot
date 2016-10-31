@@ -32,8 +32,6 @@ public class ScanningTagView : View
 
 	public LocalizationService LocalizationService { get; set; }
 
-    public GameObject Background;
-
 	protected override void Awake()
 	{
 		base.Awake();
@@ -54,15 +52,11 @@ public class ScanningTagView : View
 		ScanImage.gameObject.SetActive(true);
 		
 		ScanningTagViewEnabledSignal.Dispatch();
-
-        Background.SetActive(false);
 	}
 
 	void OnDisable()
 	{
 		ScanningTagViewDisabledSignal.Dispatch ();
-
-        Background.SetActive(true);
 	}
 
 	public void SetupTag(BibaTagType tagType)

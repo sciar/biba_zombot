@@ -38,7 +38,8 @@ namespace BibaFramework.BibaGame
     //Tag
 	public class EnableTagSignal : Signal<bool> { }
 	public class StartTagScanSignal : Signal { }
-	public class ToggleTagScanSignal : Signal<bool> { }
+	public class ToggleARCameraSignal : Signal<bool> { }
+	public class ToggleTagSignal : Signal<bool> { }
     public class SetTagToScanAtViewSignal : Signal { }
     public class TagInitFailedSignal : Signal { } 
 	public class TagFoundSignal : Signal<BibaTagType, GameObject> { }

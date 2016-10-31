@@ -1,10 +1,7 @@
-using System;
-using System.IO;
-using System.Text;
-using UnityEngine;
-using BestHTTP;
 using strange.extensions.command.impl;
-using LitJson;
+using BibaFramework.Utility;
+using System.Collections;
+using UnityEngine;
 
 namespace BibaFramework.BibaGame
 {
@@ -29,30 +26,32 @@ namespace BibaFramework.BibaGame
           	#if !UNITY_EDITOR
 			if (!string.IsNullOrEmpty(BibaSession.QuadTileId))
             {
-                Retain();
-
-				var jsonData = "{\"" + QUADTILE_ID + "\":\"" + BibaSession.QuadTileId + "\"}";
-
-				var requestURI = string.Format(BACKEND_REGION_QUADTILE_REQUEST, BibaSession.QuadTileId);
-                var request = new HTTPRequest(new Uri(requestURI), HTTPMethods.Put, false, RequestCompleted);
-                request.SetHeader("Content-Type","application/json; charset=UTF-8");
-                request.RawData = Encoding.UTF8.GetBytes(jsonData);
-
-                request.UseAlternateSSL = true;
-                request.DisableRetry = false;
-                request.Send();
+				Retain();
+				new Task (SendPutRequest (), true);
             }
           	#endif
         }
 
-        void RequestCompleted(HTTPRequest request, HTTPResponse response)
-        {
-            if (response != null)
-            {
-                Debug.Log(response.DataAsText);
-            }
+		IEnumerator SendPutRequest()
+		{
+			var jsonData = "{\"" + QUADTILE_ID + "\":\"" + BibaSession.QuadTileId + "\"}";
 
-            Release();
-        }
+			var requestURI = string.Format(BACKEND_REGION_QUADTILE_REQUEST, BibaSession.QuadTileId);
+
+			var www = UnityEngine.Networking.UnityWebRequest.Put (requestURI, jsonData);
+
+			yield return www.Send ();
+
+			if (www.isError) 
+			{
+				Debug.LogWarning (www.error);
+			}
+			else 
+			{
+				Debug.Log (www.downloadHandler.text);
+			}
+
+			Release ();
+		}
     }
 }

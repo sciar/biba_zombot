@@ -7,8 +7,8 @@ namespace BibaFramework.BibaGame
 {
 	public class AudioServices : MonoBehaviour
 	{
-        public Dictionary<string, UnityEngine.AudioClip> dict_SoundEffects;
-        public Dictionary<string, UnityEngine.AudioClip> dict_BackgroundMusic;
+		public Dictionary<string, AudioClip> dict_SoundEffects;
+		public Dictionary<string, AudioClip> dict_BackgroundMusic;
 		
 		private GameObject go_sfxPrefab;
 		private GameObject go_lsfxPrefab;
@@ -33,18 +33,18 @@ namespace BibaFramework.BibaGame
 			go_bgmPrefab = Resources.Load ("Audio/Prefabs/BGMPrefab") as GameObject;
 			
 			// Populate Resources/Audio/SFX into a Dictionary
-            dict_SoundEffects = new Dictionary<string, UnityEngine.AudioClip> ();
+			dict_SoundEffects = new Dictionary<string, AudioClip> ();
 			UnityEngine.Object[] objectsInSFXFolder = Resources.LoadAll ("Audio/SFX");
 			foreach (UnityEngine.Object obj in objectsInSFXFolder) {
-                UnityEngine.AudioClip clip = obj as UnityEngine.AudioClip;
+				AudioClip clip = obj as AudioClip;
 				dict_SoundEffects.Add(obj.name, clip);
 			}
 			
 			// Populate Resources/Audio/BGM into a Dictionary
-            dict_BackgroundMusic = new Dictionary<string, UnityEngine.AudioClip> ();
+			dict_BackgroundMusic = new Dictionary<string, AudioClip> ();
 			UnityEngine.Object[] objectsInBGMFolder = Resources.LoadAll ("Audio/BGM");
 			foreach (UnityEngine.Object obj in objectsInBGMFolder) {
-                UnityEngine.AudioClip clip = obj as UnityEngine.AudioClip;
+				AudioClip clip = obj as AudioClip;
 				dict_BackgroundMusic.Add(obj.name, clip);
 			}
 			
@@ -86,14 +86,14 @@ namespace BibaFramework.BibaGame
 			}
 		}
 		
-        public void PlaySFX(UnityEngine.AudioClip ac_clip) {
+		public void PlaySFX(AudioClip ac_clip) {
 			GameObject newSFX = Instantiate (go_sfxPrefab, Camera.main.transform.position, Quaternion.identity) as GameObject;
 			newSFX.transform.parent = gameObject.transform;
 			newSFX.GetComponent<AudioSource> ().clip = ac_clip;
 			newSFX.GetComponent<AudioSource>().Play();
 		}
 		
-        public void PlayIntro(UnityEngine.AudioClip ac_clip)
+		public void PlayIntro(AudioClip ac_clip)
 		{
 			GameObject newIntro = Instantiate(go_sfxPrefab, Camera.main.transform.position, Quaternion.identity) as GameObject;
 			newIntro.transform.parent = gameObject.transform;
@@ -104,7 +104,7 @@ namespace BibaFramework.BibaGame
 		
 		public void PlaySFX(string s_sfxName, float f_pitch = 1f, float f_volume = 1f) {
 			if (dict_SoundEffects.ContainsKey(s_sfxName)) {
-                UnityEngine.AudioClip clip = dict_SoundEffects [s_sfxName];
+				AudioClip clip = dict_SoundEffects [s_sfxName];
 				GameObject newSFX = Instantiate (go_sfxPrefab, Camera.main.transform.position, Quaternion.identity) as GameObject;
 				newSFX.transform.parent = gameObject.transform;
 				newSFX.GetComponent<AudioSource> ().clip = clip;
@@ -123,7 +123,7 @@ namespace BibaFramework.BibaGame
 		
 		public IEnumerator PlaySFX(string s_sfxName, Action<string> callback, string s_nextSfxName) {
 			if (dict_SoundEffects.ContainsKey(s_sfxName)) {
-                UnityEngine.AudioClip clip = dict_SoundEffects [s_sfxName];
+				AudioClip clip = dict_SoundEffects [s_sfxName];
 				GameObject newSFX = Instantiate (go_sfxPrefab, Camera.main.transform.position, Quaternion.identity) as GameObject;
 				newSFX.transform.parent = gameObject.transform;
 				newSFX.GetComponent<AudioSource> ().clip = clip;
@@ -146,7 +146,7 @@ namespace BibaFramework.BibaGame
 		
 		public void StartSFXLoop(string s_sfxNameLoop) {
 			if (dict_SoundEffects.ContainsKey(s_sfxNameLoop)) {
-                UnityEngine.AudioClip clip = dict_SoundEffects [s_sfxNameLoop];
+				AudioClip clip = dict_SoundEffects [s_sfxNameLoop];
 				GameObject newSFX = Instantiate (go_lsfxPrefab, Camera.main.transform.position, Quaternion.identity) as GameObject;
 				newSFX.transform.parent = gameObject.transform;
 				newSFX.GetComponent<AudioSource> ().clip = clip;
@@ -193,7 +193,7 @@ namespace BibaFramework.BibaGame
 		
 		public void PlayBGM(string s_bgmName, float f_volume = 1f) {
 			if (dict_BackgroundMusic.ContainsKey(s_bgmName) && s_bgmPlaying != s_bgmName) {
-                UnityEngine.AudioClip clip = dict_BackgroundMusic [s_bgmName];
+				AudioClip clip = dict_BackgroundMusic [s_bgmName];
 				s_bgmPlaying = s_bgmName;
 				if (go_bgmSource == null) {
 					GameObject newBGM = Instantiate(go_bgmPrefab, Camera.main.transform.position, Quaternion.identity) as GameObject;
@@ -214,8 +214,8 @@ namespace BibaFramework.BibaGame
 		public void PlayBGMWithIntro(string s_bgmName, string s_introName) {
 			if (dict_BackgroundMusic.ContainsKey (s_bgmName) && dict_BackgroundMusic.ContainsKey (s_introName) && s_bgmPlaying != s_bgmName) {
 				DestroyIntroIfPlaying();
-                UnityEngine.AudioClip clip = dict_BackgroundMusic [s_bgmName];
-                UnityEngine.AudioClip intro = dict_BackgroundMusic [s_introName];
+				AudioClip clip = dict_BackgroundMusic [s_bgmName];
+				AudioClip intro = dict_BackgroundMusic [s_introName];
 				s_bgmPlaying = s_bgmName;
 				if (go_bgmSource == null) {
 					GameObject newBGM = Instantiate (go_bgmPrefab, Camera.main.transform.position, Quaternion.identity) as GameObject;
@@ -240,7 +240,7 @@ namespace BibaFramework.BibaGame
 		
 		public void PlayBGMIntroOnly(string s_introName) {
 			if (dict_BackgroundMusic.ContainsKey (s_introName)) {
-                UnityEngine.AudioClip intro = dict_BackgroundMusic [s_introName];
+				AudioClip intro = dict_BackgroundMusic [s_introName];
 				s_bgmPlaying = null;
 				if (go_bgmSource == null) {
 					GameObject newBGM = Instantiate (go_bgmPrefab, Camera.main.transform.position, Quaternion.identity) as GameObject;
@@ -257,7 +257,7 @@ namespace BibaFramework.BibaGame
 			}
 		}
 		
-        IEnumerator PlayIntroThenLoop(AudioSource source, UnityEngine.AudioClip intro, UnityEngine.AudioClip newClip) {
+		IEnumerator PlayIntroThenLoop(AudioSource source, AudioClip intro, AudioClip newClip) {
 			b_bgmIntroInterrupted = false;
 			b_bgmIntroPlaying = true;
 			PlayIntro(intro);
@@ -273,7 +273,7 @@ namespace BibaFramework.BibaGame
 			b_bgmIntroInterrupted = false;
 		}
 		
-        IEnumerator PlayIntro(AudioSource source, UnityEngine.AudioClip intro) {
+		IEnumerator PlayIntro(AudioSource source, AudioClip intro) {
 			b_bgmIntroPlaying = true;
 			PlayIntro (intro);
 			yield return new WaitForSeconds (intro.length-0.1f);
@@ -281,7 +281,7 @@ namespace BibaFramework.BibaGame
 			go_introSource = null;
 		}
 		
-        IEnumerator FadeOutAndPlayWithIntro(AudioSource source, UnityEngine.AudioClip intro, UnityEngine.AudioClip newClip, float fadeLength) {
+		IEnumerator FadeOutAndPlayWithIntro(AudioSource source, AudioClip intro, AudioClip newClip, float fadeLength) {
 			for (float f = 1f; f >= 0f; f -= Time.deltaTime/fadeLength) {
 				source.volume = f;
 				yield return null;
@@ -293,7 +293,7 @@ namespace BibaFramework.BibaGame
 			yield return PlayThenLoopC;
 		}
 		
-        IEnumerator FadeOutAndPlayIntro(AudioSource source, UnityEngine.AudioClip intro, float fadeLength) {
+		IEnumerator FadeOutAndPlayIntro(AudioSource source, AudioClip intro, float fadeLength) {
 			for (float f = 1f; f >= 0f; f -= Time.deltaTime/fadeLength) {
 				source.volume = f;
 				yield return null;
@@ -303,7 +303,7 @@ namespace BibaFramework.BibaGame
 			yield return StartCoroutine(PlayIntro (source, intro));
 		}
 		
-        IEnumerator FadeOutAndPlay(AudioSource source, UnityEngine.AudioClip newClip, float fadeLength) {
+		IEnumerator FadeOutAndPlay(AudioSource source, AudioClip newClip, float fadeLength) {
 			for (float f = 1; f > 0f; f -= Time.deltaTime/fadeLength) {
 				source.volume = f;
 				yield return null;

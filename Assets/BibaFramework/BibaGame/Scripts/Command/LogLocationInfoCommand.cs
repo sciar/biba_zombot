@@ -3,9 +3,7 @@ using System.Collections;
 using UnityEngine;
 using BibaFramework.BibaAnalytic;
 using BibaFramework.Utility;
-using LitJson;
 using strange.extensions.command.impl;
-using BestHTTP;
 
 namespace BibaFramework.BibaGame
 {
@@ -81,26 +79,27 @@ namespace BibaFramework.BibaGame
                 var locInfo = Input.location.lastData;
                 var weatherAPIUrl = string.Format(WEATHER_API_CALL_FORMATTED, locInfo.latitude, locInfo.longitude);
 
-                var httpRequest = new HTTPRequest(new Uri(weatherAPIUrl), HTTPMethods.Get, false, RequestCompleted);
-                httpRequest.Send();
+				var www = UnityEngine.Networking.UnityWebRequest.Get (weatherAPIUrl);
+				yield return www.Send ();
+
+				if (www.isError) 
+				{
+					Debug.LogWarning (www.error);
+				}
+				else 
+				{
+					Debug.Log("JSON IS " + www.downloadHandler.text);
+					var weatherInfo = ProcessWeatherJSON(www.downloadHandler.text);
+					BibaAnalyticService.TrackWeatherInfo(weatherInfo);  
+				}
+
+				Release ();
             }
 
             // Stop service if there is no need to query location updates continuously
             Input.location.Stop();
         }
-
-        void RequestCompleted(HTTPRequest request, HTTPResponse response)
-        {
-            if (response != null)
-            {
-                Debug.Log(response.DataAsText);
-                var weatherInfo = ProcessWeatherJSON(response.DataAsText);
-                BibaAnalyticService.TrackWeatherInfo(weatherInfo);  
-            }
-
-            Release();
-        }
-
+			
         void StoreSessionLatLong()
         {
 			BibaSession.QuadTileId = LatLongToQuadKey(Input.location.lastData.longitude, Input.location.lastData.latitude, MAP_LEVEL_OF_DETAIL);
@@ -109,13 +108,12 @@ namespace BibaFramework.BibaGame
 
         BibaWeatherInfo ProcessWeatherJSON(string text)
         {
-            JsonData jsonData = JsonMapper.ToObject(text);
-            
+			var jsonData = JsonUtility.FromJson<BibaWeatherResponse>(text);
             var weatherInfo = new BibaWeatherInfo();
-            weatherInfo.TimeStamp = DateTime.UtcNow;
-            weatherInfo.Temperature = (float) jsonData[MAIN][TEMP];
-            weatherInfo.WeatherDescription = jsonData[WEATHER][0][MAIN].ToString();
-            weatherInfo.WindSpeed = (float) jsonData[WIND][SPEED];
+			weatherInfo.TimeStamp = DateTime.UtcNow;
+			weatherInfo.Temperature = (float) jsonData.main.temp;
+			weatherInfo.WeatherDescription = jsonData.weather[0].description;
+			weatherInfo.WindSpeed = (float)jsonData.wind.speed;
 
             return weatherInfo;
         }
