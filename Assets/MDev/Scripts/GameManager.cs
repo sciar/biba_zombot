@@ -41,6 +41,9 @@ public class GameManager : MonoBehaviour {
     // Active player tracking list
     public bool[] activeTouchList = new bool[8]; // Creates an array with 8 options
 
+    // Tracking who currently has missions
+    private bool[] missionActiveList = new bool[8];
+
     // Send Rate
     private float sendRate;
 
@@ -153,10 +156,12 @@ public class GameManager : MonoBehaviour {
                 }
 
                 // Then we reroll until we get one of those values
-                while (!activeTouchList[playerToSend] && touchExistSafety)
+                while (!activeTouchList[playerToSend] && touchExistSafety) //&& !missionActiveList[playerToSend]
                 {
                     playerToSend = Random.Range(0, activeTouchList.Length);
                 }
+
+                missionActiveList[playerToSend] = true;
                     
                 // After we've made sure everything checks out we send a kid to a piece of equipment
                 GameObject freeMessage = (GameObject)Instantiate(Resources.Load("Free"));
@@ -175,10 +180,13 @@ public class GameManager : MonoBehaviour {
                 if (helperCounter >= helperCounterTriggerValue)
                 {
                     if (missionText != null) // MissionDeployment.cs sends the mission text over that it randomizes
-						//helperRobot.GetComponent<OrangeRobotRequest>().requestText = missionText;
+                        helperRobot.GetComponent<OrangeRobotRequest>().SetEquipmentText(missionText.ToString()); // We send this to the robot so he knows the latest mission text
 
-                    // Turn on the Robot
+                    // Turn on the Robot (Or make sure he's on)
                     helperRobot.SetActive(true);
+                    // Trigger him to cmon in
+                    helperRobot.GetComponent<Animator>().SetTrigger("Next");
+                    helperRobot.GetComponent<OrangeRobotRequest>().currentlyVisible = true;
                     helperCounter = 0; // Reset the counter so we now have to build up to the trigger value again
                     helperCounterTriggerValue = Random.Range(3,6); // Reset the random value so we don't know which rounds he'll come out on
                 }
@@ -279,6 +287,7 @@ public class GameManager : MonoBehaviour {
         explosionEmmiter.transform.position = temporaryPosition;
 
         activeTouchList[fingerTracker] = false; // Updates our list of active touches
+        missionActiveList[fingerTracker] = false; // Tells us this touch # doesn't currently have a mission
     }
 
     public void StartGame()
