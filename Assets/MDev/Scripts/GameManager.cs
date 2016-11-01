@@ -165,7 +165,7 @@ public class GameManager : MonoBehaviour {
                     // Turn the text on and puts it where your finger is
                     Vector3 temporaryPosition = touchMarkerObjects[playerToSend].transform.position;
                     temporaryPosition.z = defaultZ;
-                    temporaryPosition.y = temporaryPosition.y - 1f;
+                    temporaryPosition.y = temporaryPosition.y - 1.5f;
                     freeMessage.transform.position = temporaryPosition;
                     freeMessage.transform.parent = touchMarkerObjects[playerToSend].transform;
                 }

@@ -1567,6 +1567,7 @@
      <Compile Include="Assets\BibaFramework\BibaGame\Scripts\Component\SettingsAlerts.cs" />
      <Compile Include="Assets\BibaFramework\BibaGame\Scripts\Component\Singleton.cs" />
      <Compile Include="Assets\BibaFramework\BibaGame\Scripts\Component\TransitionManager.cs" />
+     <Compile Include="Assets\BibaFramework\BibaGame\Scripts\Component\TriggerFocus.cs" />
      <Compile Include="Assets\BibaFramework\BibaGame\Scripts\Component\Version.cs" />
      <Compile Include="Assets\BibaFramework\BibaGame\Scripts\Component\VerticalLoopInfiniteScroll.cs" />
      <Compile Include="Assets\BibaFramework\BibaGame\Scripts\Component\VerticalLoopScrollSnap.cs" />
@@ -1792,7 +1793,6 @@
      <Compile Include="Assets\MDev\Scripts\PhotoTakenText.cs" />
      <Compile Include="Assets\MDev\Scripts\TakeScreenshot.cs" />
      <Compile Include="Assets\MDev\Scripts\ThemeSelector.cs" />
-     <Compile Include="Assets\MDev\Scripts\TriggerFocus.cs" />
      <Compile Include="Assets\StrangeIoC\scripts\strange\ReadMe.cs" />
      <Compile Include="Assets\StrangeIoC\scripts\strange\extensions\command\api\CommandExceptionType.cs" />
      <Compile Include="Assets\StrangeIoC\scripts\strange\extensions\command\api\CommandKeys.cs" />

@@ -33,7 +33,7 @@ namespace BibaFramework.BibaGame
 
 		public override void Execute ()
 		{
-			if (TagFound == BibaDeviceSession.TagToScan) 
+            if (IsCorrectTag) 
 			{
 				BibaDeviceSession.TagScanned = true;
 				ToggleTagSignal.Dispatch (false);
@@ -44,6 +44,12 @@ namespace BibaFramework.BibaGame
 				PlayIncorrectScanAnimation ();
 			}
 		}
+
+        protected virtual bool IsCorrectTag {
+            get {
+                return TagFound == BibaDeviceSession.TagToScan;
+            }
+        }
 
 		IEnumerator PlayTagScanCompleteAnimation()
 		{

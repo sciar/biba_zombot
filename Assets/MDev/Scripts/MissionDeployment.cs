@@ -16,7 +16,7 @@ public class MissionDeployment : MonoBehaviour {
     {
         gameController = GameObject.Find("Game").GetComponent<GameController>();
         var selectedEquipments = gameController.BibaDeviceSession.SelectedEquipments;
-        missionText = gameController.LocalizationService.GetText("equipment_"+selectedEquipments[Random.Range(0, selectedEquipments.Count)].EquipmentType.ToString());
+        missionText = "Go to the" + gameController.LocalizationService.GetText("equipment_"+selectedEquipments[Random.Range(0, selectedEquipments.Count)].EquipmentType.ToString());
         transform.localScale = new Vector3(0, 0, 0);
 
         // For some reason it seems to happily comply as long as we force the text in Update and not start
