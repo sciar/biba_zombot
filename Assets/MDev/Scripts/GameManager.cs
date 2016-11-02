@@ -160,12 +160,10 @@ public class GameManager : MonoBehaviour {
                 {
                     playerToSend = Random.Range(0, activeTouchList.Length);
                 }
-
-                missionActiveList[playerToSend] = true;
                     
                 // After we've made sure everything checks out we send a kid to a piece of equipment
                 GameObject freeMessage = (GameObject)Instantiate(Resources.Load("Free"));
-                if (freeMessage)
+                if (freeMessage && !missionActiveList[playerToSend]) // Wont spawn a mission on a player with a current mission
                 {
                     // Turn the text on and puts it where your finger is
                     Vector3 temporaryPosition = touchMarkerObjects[playerToSend].transform.position;
@@ -173,6 +171,7 @@ public class GameManager : MonoBehaviour {
                     temporaryPosition.y = temporaryPosition.y - 1.5f;
                     freeMessage.transform.position = temporaryPosition;
                     freeMessage.transform.parent = touchMarkerObjects[playerToSend].transform;
+                    missionActiveList[playerToSend] = true;
                 }
 
                 // Then we turn on the helper guy
