@@ -41,6 +41,10 @@ public class GameManager : MonoBehaviour {
     // Active player tracking list
     public bool[] activeTouchList = new bool[8]; // Creates an array with 8 options
 
+    // Reset Variables for particle system
+    private Color originalParticleColor;
+    private float originalParticleSize;
+
     // Tracking who currently has missions
     private bool[] missionActiveList = new bool[8];
 
@@ -97,6 +101,10 @@ public class GameManager : MonoBehaviour {
         gameStartGO.GetComponent<Text>().text = Mathf.CeilToInt(gameStartTimer).ToString(); // Set the game timer immediately upon loading in
         gameStartGO.SetActive(true);
         preGameText.SetActive(true);
+
+        // Particle Reset Variables
+        originalParticleColor = touchMarkerObjects[0].GetComponentInChildren<ParticleSystem>().startColor;
+        originalParticleSize = touchMarkerObjects[0].GetComponentInChildren<ParticleSystem>().startSize;
 
         helperCounter = 0; // Reset how many times we've called the helper
         helperCounterTriggerValue = Random.Range(3,6); // Reset the random value so we don't know which rounds he'll come out on
@@ -171,7 +179,9 @@ public class GameManager : MonoBehaviour {
                     temporaryPosition.y = temporaryPosition.y - 1.5f;
                     freeMessage.transform.position = temporaryPosition;
                     freeMessage.transform.parent = touchMarkerObjects[playerToSend].transform;
-                    missionActiveList[playerToSend] = true;
+                    missionActiveList[playerToSend] = true; // Adds the current mission holder to a list so we wont get duplicates
+                    touchMarkerObjects[playerToSend].GetComponentInChildren<ParticleSystem>().startColor = new Color(255,0,0,1); // Set the color to red
+                    touchMarkerObjects[playerToSend].GetComponentInChildren<ParticleSystem>().startSize = 1.6f;
                 }
 
                 // Then we turn on the helper guy
@@ -287,6 +297,9 @@ public class GameManager : MonoBehaviour {
 
         activeTouchList[fingerTracker] = false; // Updates our list of active touches
         missionActiveList[fingerTracker] = false; // Tells us this touch # doesn't currently have a mission
+
+        touchMarkerObjects[fingerTracker].GetComponentInChildren<ParticleSystem>().startColor = originalParticleColor; // Reset to default
+        touchMarkerObjects[fingerTracker].GetComponentInChildren<ParticleSystem>().startSize = originalParticleSize;
     }
 
     public void StartGame()

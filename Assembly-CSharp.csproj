@@ -1791,6 +1791,7 @@
      <Compile Include="Assets\MDev\Scripts\Navigation.cs" />
      <Compile Include="Assets\MDev\Scripts\OrangeRobotRequest.cs" />
      <Compile Include="Assets\MDev\Scripts\PhotoTakenText.cs" />
+     <Compile Include="Assets\MDev\Scripts\Prizes.cs" />
      <Compile Include="Assets\MDev\Scripts\TakeScreenshot.cs" />
      <Compile Include="Assets\MDev\Scripts\ThemeSelector.cs" />
      <Compile Include="Assets\StrangeIoC\scripts\strange\ReadMe.cs" />
