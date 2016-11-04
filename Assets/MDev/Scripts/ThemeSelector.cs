@@ -28,7 +28,7 @@ public class ThemeSelector : MonoBehaviour {
         else
             maxThemeCount = survivorThemes.Length;
 
-		if (anim.GetBool ("Custom", true)) {
+		if (anim.GetBool ("Custom")) {
 			// If the boolean is triggered for custom prizes make sure we don't run
 		} else
 			pictureRoulette = true; // If we don't use custom prizes default to images

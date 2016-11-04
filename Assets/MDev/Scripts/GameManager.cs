@@ -135,6 +135,9 @@ public class GameManager : MonoBehaviour {
 
         if (bibaRootAnimator.GetBool("ShowTagScan") == true) // If they've selected yes go to the AR moments
             mainGameAnimator.SetBool("BibaPlayground", true);
+
+		if (bibaRootAnimator.GetBool ("CustomPrizes") == true)
+			mainGameAnimator.SetBool ("CustomPrizes", true);
     }
 
 	void Update() 
