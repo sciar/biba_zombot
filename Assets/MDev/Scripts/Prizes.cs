@@ -22,5 +22,7 @@ public class Prizes : MonoBehaviour {
     public void SavePrizeData()
     {
         // Send variables with data on all the text that's been entered to the BibaRoot file holding var info
+
+
     }
 }
