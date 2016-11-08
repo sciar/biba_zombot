@@ -106,8 +106,8 @@ public class GameManager : MonoBehaviour {
         originalParticleColor = touchMarkerObjects[0].GetComponentInChildren<ParticleSystem>().startColor;
         originalParticleSize = touchMarkerObjects[0].GetComponentInChildren<ParticleSystem>().startSize;
 
-        helperCounter = 0; // Reset how many times we've called the helper
-        helperCounterTriggerValue = Random.Range(3,6); // Reset the random value so we don't know which rounds he'll come out on
+        helperCounterTriggerValue = Random.Range(2,4); // Reset the random value so we don't know which rounds he'll come out on
+        helperCounter = helperCounterTriggerValue; // Reset how many times we've called the helper
 
         noSurvivors.SetActive(false); // Make sure the no survivors warning is off
 

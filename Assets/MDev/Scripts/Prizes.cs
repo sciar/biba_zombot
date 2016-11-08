@@ -60,6 +60,18 @@ public class Prizes : MonoBehaviour {
 
     }
 
+    public void ClearPrizeData(int i)
+    {
+        if (i == 1)
+            inputField1.GetComponent<InputField>().text = "";
+        else if (i == 2)
+            inputField2.GetComponent<InputField>().text = "";
+        else if (i == 3)
+            inputField3.GetComponent<InputField>().text = "";
+        else if (i == 4)
+            inputField4.GetComponent<InputField>().text = "";
+    }
+
     void Update()
     {
         if (prizeSelectionScreen.activeSelf)
