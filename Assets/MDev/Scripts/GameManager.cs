@@ -185,6 +185,7 @@ public class GameManager : MonoBehaviour {
                     missionActiveList[playerToSend] = true; // Adds the current mission holder to a list so we wont get duplicates
                     touchMarkerObjects[playerToSend].GetComponentInChildren<ParticleSystem>().startColor = new Color(255,0,0,1); // Set the color to red
                     touchMarkerObjects[playerToSend].GetComponentInChildren<ParticleSystem>().startSize = 1.6f;
+                    touchMarkerObjects[playerToSend].GetComponent<TouchObjects>().turnOnShadingBox(); // Turns on the box to provide a bounding box behind the text
                 }
 
                 // Then we turn on the helper guy
@@ -303,6 +304,7 @@ public class GameManager : MonoBehaviour {
 
         touchMarkerObjects[fingerTracker].GetComponentInChildren<ParticleSystem>().startColor = originalParticleColor; // Reset to default
         touchMarkerObjects[fingerTracker].GetComponentInChildren<ParticleSystem>().startSize = originalParticleSize;
+        touchMarkerObjects[fingerTracker].GetComponent<TouchObjects>().turnOffShadingBox(); // Turn off the shading box once you've removed your finger
     }
 
     public void StartGame()

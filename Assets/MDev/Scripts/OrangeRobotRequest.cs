@@ -8,6 +8,7 @@ public class OrangeRobotRequest : MonoBehaviour {
     private float disableTimer;
     private int randomizeText;
     public string[] textOptions;
+    public Sprite[] imageOptions;
     public bool currentlyVisible; // Variable to check if the bot is currently visible on screen
 
     public Animator anim;
@@ -18,6 +19,7 @@ public class OrangeRobotRequest : MonoBehaviour {
         disableTimer = 5f;
 
         randomizeText = Random.Range(0, textOptions.Length);
+
 	}
 	
     void OnDisable(){
@@ -26,7 +28,7 @@ public class OrangeRobotRequest : MonoBehaviour {
 
     public void SetEquipmentText(string eText) // Set the text (MissionDeployment.cs sends which piece of equipment has been randomized)
     {
-        
+        GetComponent<Image>().sprite = imageOptions[Random.Range(0,imageOptions.Length)];
         requestText.text = textOptions[randomizeText] + " " + eText.ToUpper() +"!";
     }
     void Update()
