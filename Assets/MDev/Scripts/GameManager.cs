@@ -207,9 +207,14 @@ public class GameManager : MonoBehaviour {
                 sendRate = Random.Range(3.0f, 8.0f);
             }
 
-            noSurvivorsTimer = noSurvivorsTimerMax; // Reset the no survivors timer since we are now tracking a survivor
 
+            noSurvivorsTimer = noSurvivorsTimerMax; // Reset the no survivors timer since we are now tracking a survivor
             noSurvivors.SetActive(false);
+
+            // Check if the survivor timer is on if not turn it on as long as the game has started
+            if (gameStartTimer <= 0)
+                survivorTimer.GetComponent<Text>().CrossFadeAlpha(1,0.5f,false);
+
             if (gameStartTimer > 0) // This updates the countdown timer as long as someone is pressing on the screen we begin the game
             {
                 gameStartTimer -= Time.deltaTime;
@@ -242,7 +247,7 @@ public class GameManager : MonoBehaviour {
                 touchMarkerObjects[touch.fingerId].transform.position = temporaryPosition;
             }
         }
-        else
+        else // If no screen touches
         {
             if (gameStartTimer <= 0 && noSurvivorsTimer > 0) // make sure the game has started
             {// Display the warning that there are no survivors left and they must return within X time
@@ -255,16 +260,18 @@ public class GameManager : MonoBehaviour {
                 sendRate = 6;
             }
 
-            textGroup.FadeAlphaTo (1f, 0.25f); // Fade the text back in since we have zero touches
+            survivorTimer.GetComponent<Text>().CrossFadeAlpha(0,0.5f,false); // Fade the timer out so we can display the return timer
         }
 
+        // IF GAME HAS STARTED WE ARE CONTROLLING THE ROUND TIMER
         if (gameStartTimer <= 0)
         {
-            sTimerSeconds -= Time.deltaTime;
+            if (sTimerMinutes > 0) // Stopping the countdown in case we have no survivors at the safehouse and the timer hits 0
+                sTimerSeconds -= Time.deltaTime;
             if (sTimerSeconds <= 0)
             {
-                if (sTimerMinutes == 0) // If no survivor has returned for the time then trigger the zombie win condition
-                    gameOver("Zombies");
+                if (sTimerMinutes == 0 && touchCount > 0) // If the survivors last the full time
+                    gameOver("Survivors");
                 
                 sTimerSeconds = 60; // Set the seconds to 60 once we roll over a minute
                 sTimerMinutes--;
@@ -272,12 +279,12 @@ public class GameManager : MonoBehaviour {
             survivorTimer.GetComponent<Text>().text = "Survivor Timer " + Mathf.FloorToInt(sTimerMinutes).ToString("00") + ":" + Mathf.FloorToInt(sTimerSeconds % 60).ToString("00");
         }
             
+        // NO SURVIVORS LEFT FOR X TIME
         if (noSurvivorsTimer <= 0) // If you ever run out of time on the Survivor Timer the Zombies win
         {
             gameOver("Zombies");
             win = true;
         }
-        //if (roundTimer == 0) { gameOver("cops"); win = true; }; // Cop victory condition
 	}
 
 	void StartTouch(int fingerTracker)

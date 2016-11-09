@@ -12,6 +12,11 @@ public class Prizes : MonoBehaviour {
     public GameObject inputField3;
     public GameObject inputField4;
 
+    public GameObject button1;
+    public GameObject button2;
+    public GameObject button3;
+    public GameObject button4;
+
     private Color defaultColor;
     private Color disableColor;
 
@@ -23,6 +28,10 @@ public class Prizes : MonoBehaviour {
         inputField2.GetComponentInChildren<Image>().color = disableColor;
         inputField3.GetComponentInChildren<Image>().color = disableColor;
         inputField4.GetComponentInChildren<Image>().color = disableColor;
+
+        button2.SetActive(false);
+        button3.SetActive(false);
+        button4.SetActive(false);
     }
 
 
@@ -79,23 +88,50 @@ public class Prizes : MonoBehaviour {
             if (inputField1.GetComponent<InputField>().text != "") // If input 1 is used unlock input2
             {
                 inputField2.GetComponentInChildren<Image>().color = defaultColor;
+                button1.SetActive(true);
             }
             else
-                inputField2.GetComponentInChildren<Image>().color = disableColor;
+            {
+                if (inputField2.GetComponent<InputField>().text == "")
+                    inputField2.GetComponentInChildren<Image>().color = disableColor;
+                button1.SetActive(false);
+            }
+                
             
             if (inputField2.GetComponent<InputField>().text != "") // If Input 2 is used unlock input 3
             {
                 inputField3.GetComponentInChildren<Image>().color = defaultColor;
+                button2.SetActive(true);
+
             }
             else
-                inputField3.GetComponentInChildren<Image>().color = disableColor;
+            {
+                if (inputField3.GetComponent<InputField>().text == "")
+                    inputField3.GetComponentInChildren<Image>().color = disableColor;
+                button2.SetActive(false);
+            }
+                
 
             if (inputField3.GetComponent<InputField>().text != "") // If Input 2 is used unlock input 3
             {
                 inputField4.GetComponentInChildren<Image>().color = defaultColor;
+                button3.SetActive(true);
             }
             else
-                inputField4.GetComponentInChildren<Image>().color = disableColor;
+            {
+                if (inputField4.GetComponent<InputField>().text == "")
+                    inputField4.GetComponentInChildren<Image>().color = disableColor;
+                button3.SetActive(false);
+            }
+                
+            if (inputField4.GetComponent<InputField>().text != "")
+            {
+                button4.SetActive(true);
+            }
+            else
+            {
+                button4.SetActive(false);
+            }
 
         }
     }
