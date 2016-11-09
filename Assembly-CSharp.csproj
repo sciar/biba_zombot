@@ -1787,6 +1787,7 @@
      <Compile Include="Assets\MDev\Scripts\GoScript.cs" />
      <Compile Include="Assets\MDev\Scripts\Jailbreak.cs" />
      <Compile Include="Assets\MDev\Scripts\LanguageOverwrite.cs" />
+     <Compile Include="Assets\MDev\Scripts\MainGameIntro.cs" />
      <Compile Include="Assets\MDev\Scripts\MissionDeployment.cs" />
      <Compile Include="Assets\MDev\Scripts\Navigation.cs" />
      <Compile Include="Assets\MDev\Scripts\OrangeRobotRequest.cs" />

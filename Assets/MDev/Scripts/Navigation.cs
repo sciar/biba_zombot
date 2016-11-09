@@ -11,7 +11,9 @@ public class Navigation : MonoBehaviour {
 
 	// The Biba Button View had a weird error so I Matt'd a new nav script
 	void Start () {
-        menuNav = GameObject.Find("MenuStateMachine");
+        if (menuNav == null)
+            menuNav = GameObject.Find("MenuStateMachine");
+        
         thisButton = GetComponent<Button>();
         thisButton.onClick.AddListener( () => Navigate() ); 
         //myButton.GetComponent<Button>().onClick.AddListener(() => { someFunction(); otherFunction(); }); 
