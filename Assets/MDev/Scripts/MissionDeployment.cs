@@ -17,7 +17,7 @@ public class MissionDeployment : MonoBehaviour {
         gameController = GameObject.Find("Game").GetComponent<GameController>();
         var selectedEquipments = gameController.BibaDeviceSession.SelectedEquipments;
         missionText = gameController.LocalizationService.GetText("equipment_"+selectedEquipments[Random.Range(0, selectedEquipments.Count)].EquipmentType.ToString());
-        transform.localScale = new Vector3(0, 0, 0);
+        //transform.localScale = new Vector3(0, 0, 0);
 
         // Set the text under the current touch
         this.gameObject.GetComponent<Text>().text = "GO TO THE " + missionText.ToUpper(); // Localize later
@@ -26,18 +26,19 @@ public class MissionDeployment : MonoBehaviour {
 
     void OnDisable()
     { // Destroys itself when the player lets go
-        Destroy(this.gameObject);
+        //Destroy(this.gameObject);
+        this.gameObject.SetActive(false);
     }
 	
 	// Update is called once per frame
 	void Update () {
 
         // Code to make the text grow into place
-        if (transform.localScale.x >= 1)
-            grow = false;
+        //if (transform.localScale.x >= 1)
+        //    grow = false;
         
-        if (grow)
-            transform.localScale += Vector3.one * growthRate;
+        //if (grow)
+        //    transform.localScale += Vector3.one * growthRate;
 
     }
 }

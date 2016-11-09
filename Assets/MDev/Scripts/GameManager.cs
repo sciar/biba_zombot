@@ -146,8 +146,6 @@ public class GameManager : MonoBehaviour {
         // Total Amount of Touches
         int touchCount = Input.touchCount;
 
-        Debug.LogError(sendRate);
-
         if (touchCount > 0)
         {
             // Sending players to equipment and the frequency at which it occurs = sendRate
@@ -171,9 +169,18 @@ public class GameManager : MonoBehaviour {
                 {
                     playerToSend = Random.Range(0, activeTouchList.Length);
                 }
+
+                // Sends the data to turn on the mission stuff
+                if (!missionActiveList[playerToSend])
+                {
+                    missionActiveList[playerToSend] = true; // Adds the current mission holder to a list so we wont get duplicates
+                    touchMarkerObjects[playerToSend].GetComponentInChildren<ParticleSystem>().startColor = new Color(255,0,0,1); // Set the color to red
+                    touchMarkerObjects[playerToSend].GetComponentInChildren<ParticleSystem>().startSize = 1.6f;
+                    touchMarkerObjects[playerToSend].GetComponent<TouchObjects>().turnOnShadingBox(); // Turns on the box and mission text
+                }
                     
                 // After we've made sure everything checks out we send a kid to a piece of equipment
-                GameObject freeMessage = (GameObject)Instantiate(Resources.Load("Free"));
+                /*GameObject freeMessage = (GameObject)Instantiate(Resources.Load("Free"));
                 if (freeMessage && !missionActiveList[playerToSend]) // Wont spawn a mission on a player with a current mission
                 {
                     // Turn the text on and puts it where your finger is
@@ -186,7 +193,7 @@ public class GameManager : MonoBehaviour {
                     touchMarkerObjects[playerToSend].GetComponentInChildren<ParticleSystem>().startColor = new Color(255,0,0,1); // Set the color to red
                     touchMarkerObjects[playerToSend].GetComponentInChildren<ParticleSystem>().startSize = 1.6f;
                     touchMarkerObjects[playerToSend].GetComponent<TouchObjects>().turnOnShadingBox(); // Turns on the box to provide a bounding box behind the text
-                }
+                }*/
 
                 // Then we turn on the helper guy
                 helperCounter++;
@@ -298,7 +305,7 @@ public class GameManager : MonoBehaviour {
 
     void StopTouch(int fingerTracker)
     {
-        touchMarkerObjects[fingerTracker].SetActive(false);
+        touchMarkerObjects[fingerTracker].SetActive(false); // Turns off the particles under your finger
 
         explosionEmmiter.Emit(40);
         Vector3 temporaryPosition = touchMarkerObjects[fingerTracker].transform.position;

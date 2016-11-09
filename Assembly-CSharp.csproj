@@ -1779,6 +1779,7 @@
      <Compile Include="Assets\LitJSON\Unity\UnityTypeBindings.cs" />
      <Compile Include="Assets\MDev\Scripts\ARMomentTheme.cs" />
      <Compile Include="Assets\MDev\Scripts\AnimationTriggerAudio.cs" />
+     <Compile Include="Assets\MDev\Scripts\ButtonClickCheck.cs" />
      <Compile Include="Assets\MDev\Scripts\CameraController.cs" />
      <Compile Include="Assets\MDev\Scripts\CopsGameContext.cs" />
      <Compile Include="Assets\MDev\Scripts\CopsTagFoundCommand.cs" />
