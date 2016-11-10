@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
+using BibaFramework;
 
 public class Prizes : MonoBehaviour {
 
@@ -19,6 +20,8 @@ public class Prizes : MonoBehaviour {
 
     private Color defaultColor;
     private Color disableColor;
+
+    private BibaGameState bibaGameState; // Trying to sort out the frameworks variable saving system
 
     private void OnEnable()
     {
@@ -64,6 +67,8 @@ public class Prizes : MonoBehaviour {
         var iText2 = inputField2.GetComponentInChildren<Text>().text;
         var iText3 = inputField3.GetComponentInChildren<Text>().text;
         var iText4 = inputField4.GetComponentInChildren<Text>().text;
+
+
 
         // Send iText1-4 to the prizes page 
 
