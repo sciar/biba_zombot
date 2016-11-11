@@ -32,6 +32,8 @@ public class ScanningTagView : View
 
 	public LocalizationService LocalizationService { get; set; }
 
+    public AudioClip postGameBGMusic;
+
 	protected override void Awake()
 	{
 		base.Awake();
@@ -52,6 +54,13 @@ public class ScanningTagView : View
 		ScanImage.gameObject.SetActive(true);
 		
 		ScanningTagViewEnabledSignal.Dispatch();
+
+
+        /*/ Stop the victory music and go back to the BG music - Removed for now, music kicks back on next round
+        AudioManager.Instance.bgMusic.Stop();
+        AudioManager.Instance.bgMusic.clip = postGameBGMusic;
+        AudioManager.Instance.bgMusic.Play();
+        */
 	}
 
 	void OnDisable()

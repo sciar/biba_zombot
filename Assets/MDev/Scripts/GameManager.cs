@@ -28,6 +28,7 @@ public class GameManager : MonoBehaviour {
     public GameObject gameStartGO; // Object that holds the timer
 
     // Game Timer
+    public GameObject STContainer;
     public GameObject survivorTimer;
     public int survivorTimerMax = 5; // Tracked in full minutes
     private float sTimerMinutes;
@@ -115,6 +116,9 @@ public class GameManager : MonoBehaviour {
         sTimerMinutes = survivorTimerMax;
         sTimerSeconds = 0f;
         survivorTimer.GetComponent<Text>().text = "Survivor Timer " + Mathf.FloorToInt(sTimerMinutes).ToString("00") + ":" + Mathf.FloorToInt(sTimerSeconds % 60).ToString("00");
+        survivorTimer.GetComponent<Text>().CrossFadeAlpha(0,0f,false);
+        // MONDAY ---------------!!?!?!??!?!?????????- Resize the STContainer gameobject instead of this text object ---------------!!?!?!??!?!?????????
+        Debug.LogError("MATT FIX HERE");
 
         originalBGMusic = AudioManager.Instance.bgMusic.clip;
         AudioManager.Instance.bgMusic.Stop();
@@ -177,6 +181,7 @@ public class GameManager : MonoBehaviour {
                     touchMarkerObjects[playerToSend].GetComponentInChildren<ParticleSystem>().startColor = new Color(255,0,0,1); // Set the color to red
                     touchMarkerObjects[playerToSend].GetComponentInChildren<ParticleSystem>().startSize = 1.6f;
                     touchMarkerObjects[playerToSend].GetComponent<TouchObjects>().turnOnShadingBox(); // Turns on the box and mission text
+                    AudioManager.Instance.PlaySFX(AudioManager.Instance.missionPopup);// Adds audio to the mission popup
                 }
                     
                 // After we've made sure everything checks out we send a kid to a piece of equipment
@@ -204,6 +209,8 @@ public class GameManager : MonoBehaviour {
 
                     // Turn on the Robot (Or make sure he's on)
                     helperRobot.SetActive(true);
+                    // Play the Radio SFX when orange robot comes in
+                    AudioManager.Instance.PlaySFX(AudioManager.Instance.radioCall);
                     // Trigger him to cmon in
                     helperRobot.GetComponent<Animator>().SetTrigger("Next");
                     helperRobot.GetComponent<OrangeRobotRequest>().currentlyVisible = true;
@@ -299,13 +306,14 @@ public class GameManager : MonoBehaviour {
         textGroup.FadeAlphaTo (0f, 0.25f); // This is the canvas with the text "Jail" in it and we are fading it out
         touchMarkerObjects[fingerTracker].SetActive(true);
         //touchMarkerObjects[fingerTracker].GetComponent<JailTimer>().touchNumber = fingerTracker; // Sends the finger track # to the script
-        AudioManager.Instance.PlaySFX(AudioManager.Instance.chainSFX); // Play chain sound when you get an arrest
         activeTouchList[fingerTracker] = true; // Updates our list of active touches
 	}
 
     void StopTouch(int fingerTracker)
     {
         touchMarkerObjects[fingerTracker].SetActive(false); // Turns off the particles under your finger
+
+        AudioManager.Instance.PlaySFX(AudioManager.Instance.poofSFX); // Play poof noise when somebody lets go
 
         explosionEmmiter.Emit(40);
         Vector3 temporaryPosition = touchMarkerObjects[fingerTracker].transform.position;

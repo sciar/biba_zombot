@@ -28,10 +28,7 @@ public class ThemeSelector : MonoBehaviour {
         else
             maxThemeCount = survivorThemes.Length;
 
-		if (anim.GetBool ("Custom")) {
-			// If the boolean is triggered for custom prizes make sure we don't run
-		} else
-			pictureRoulette = true; // If we don't use custom prizes default to images
+		pictureRoulette = true; // If we don't use custom prizes default to images
 
         themeCounter = 0; // Reset theme counter so we always start at 0
         rotationTotal = 0; // Reset every time we start back up
@@ -71,7 +68,8 @@ public class ThemeSelector : MonoBehaviour {
 				anim.SetTrigger ("Next");
 			}
 
-		} else {
+		} 
+        else {
 			// Do custom prize rotation
 		}
 	}

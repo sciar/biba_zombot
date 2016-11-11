@@ -3,13 +3,11 @@ using System.Collections;
 
 public class MainGameIntro : MonoBehaviour {
 
+    public AudioClip doorCreaking;
+
 	// Use this for initialization
-	void Start () {
-	
+	void OnEnable () {
+        AudioManager.Instance.PlaySFX(doorCreaking);
 	}
 	
-	// Update is called once per frame
-	void Update () {
-	
-	}
 }

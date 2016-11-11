@@ -12,14 +12,13 @@ public class AudioManager : MonoBehaviour
 
     public UnityEngine.AudioClip goSound;
     public UnityEngine.AudioClip buttonSFX;
-    public UnityEngine.AudioClip chainSFX;
-    public UnityEngine.AudioClip lootDropSFX;
+    public UnityEngine.AudioClip poofSFX;
     public UnityEngine.AudioClip winJingle;
-    public UnityEngine.AudioClip jailBreakSFX;
-    public UnityEngine.AudioClip treasureRumble;
     public UnityEngine.AudioClip mainBGMusic;
     public UnityEngine.AudioClip cameraShutter;
     public UnityEngine.AudioClip rouletteTick;
+    public UnityEngine.AudioClip radioCall;
+    public UnityEngine.AudioClip missionPopup;
 
     private GameObject introMusic; // This is how we're going to stop the intro music
 

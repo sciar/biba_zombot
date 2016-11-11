@@ -1783,6 +1783,7 @@
      <Compile Include="Assets\MDev\Scripts\CameraController.cs" />
      <Compile Include="Assets\MDev\Scripts\CopsGameContext.cs" />
      <Compile Include="Assets\MDev\Scripts\CopsTagFoundCommand.cs" />
+     <Compile Include="Assets\MDev\Scripts\CustomPrizes.cs" />
      <Compile Include="Assets\MDev\Scripts\ExitButton.cs" />
      <Compile Include="Assets\MDev\Scripts\GameManager.cs" />
      <Compile Include="Assets\MDev\Scripts\GoScript.cs" />
@@ -1797,6 +1798,7 @@
      <Compile Include="Assets\MDev\Scripts\TakeScreenshot.cs" />
      <Compile Include="Assets\MDev\Scripts\ThemeSelector.cs" />
      <Compile Include="Assets\MDev\Scripts\TouchObjects.cs" />
+     <Compile Include="Assets\MDev\Scripts\ZombotLoose.cs" />
      <Compile Include="Assets\StrangeIoC\scripts\strange\ReadMe.cs" />
      <Compile Include="Assets\StrangeIoC\scripts\strange\extensions\command\api\CommandExceptionType.cs" />
      <Compile Include="Assets\StrangeIoC\scripts\strange\extensions\command\api\CommandKeys.cs" />

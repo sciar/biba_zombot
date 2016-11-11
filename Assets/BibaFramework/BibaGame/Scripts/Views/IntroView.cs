@@ -6,11 +6,13 @@ namespace BibaFramework.BibaGame
 {
 	public class IntroView : SceneMenuStateView
     {
+        public AudioClip sweetIntroMusic;
+
 		void Start() {
 			Application.targetFrameRate = 60;
 			QualitySettings.vSyncCount = 0;
 			Screen.orientation = ScreenOrientation.Portrait;
-			AudioServices.PlayBGM ("sickos_menubgm");
+            AudioServices.PlaySFX(sweetIntroMusic);
 		}
     }
 }
