@@ -11,7 +11,6 @@ namespace BibaFramework.BibaGame
 		void Start() {
 			Application.targetFrameRate = 60;
 			QualitySettings.vSyncCount = 0;
-			Screen.orientation = ScreenOrientation.Portrait;
             AudioServices.PlaySFX(sweetIntroMusic);
 		}
     }
