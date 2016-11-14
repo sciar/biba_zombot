@@ -25,11 +25,14 @@ public class GameManager : MonoBehaviour {
     public float gameTime; // How long we've been on this screen this round
     public GameObject preGameText;
     private float gameStartTimer; // Whether or not we've started
+    public GameObject circleBehindTimer;
     public GameObject gameStartGO; // Object that holds the timer
 
     // Game Timer
     public GameObject STContainer;
     public GameObject survivorTimer;
+    public Text survivorTimerTitle;
+    public Image survivorTimerBG;
     public int survivorTimerMax = 5; // Tracked in full minutes
     private float sTimerMinutes;
     private float sTimerSeconds;
@@ -101,6 +104,7 @@ public class GameManager : MonoBehaviour {
         noSurvivorsTimer = noSurvivorsTimerMax;
         gameStartGO.GetComponent<Text>().text = Mathf.CeilToInt(gameStartTimer).ToString(); // Set the game timer immediately upon loading in
         gameStartGO.SetActive(true);
+        circleBehindTimer.SetActive(true); // Turn on the circle behind the timer
         preGameText.SetActive(true);
 
         // Particle Reset Variables
@@ -115,10 +119,12 @@ public class GameManager : MonoBehaviour {
         // Setting the survivor timer
         sTimerMinutes = survivorTimerMax;
         sTimerSeconds = 0f;
-        survivorTimer.GetComponent<Text>().text = "Survivor Timer " + Mathf.FloorToInt(sTimerMinutes).ToString("00") + ":" + Mathf.FloorToInt(sTimerSeconds % 60).ToString("00");
+        survivorTimer.GetComponent<Text>().text = Mathf.FloorToInt(sTimerMinutes).ToString("00") + ":" + Mathf.FloorToInt(sTimerSeconds % 60).ToString("00");
         survivorTimer.GetComponent<Text>().CrossFadeAlpha(0,0f,false);
+        survivorTimerBG.CrossFadeAlpha(0, 0f, false);
+        survivorTimerTitle.CrossFadeAlpha(0, 0f, false);
+
         // MONDAY ---------------!!?!?!??!?!?????????- Resize the STContainer gameobject instead of this text object ---------------!!?!?!??!?!?????????
-        Debug.LogError("MATT FIX HERE");
 
         originalBGMusic = AudioManager.Instance.bgMusic.clip;
         AudioManager.Instance.bgMusic.Stop();
@@ -227,7 +233,11 @@ public class GameManager : MonoBehaviour {
 
             // Check if the survivor timer is on if not turn it on as long as the game has started
             if (gameStartTimer <= 0)
-                survivorTimer.GetComponent<Text>().CrossFadeAlpha(1,0.5f,false);
+            {
+                survivorTimer.GetComponent<Text>().CrossFadeAlpha(1, 0.5f, false);
+                survivorTimerBG.CrossFadeAlpha(1, 0.5f, false);
+                survivorTimerTitle.CrossFadeAlpha(1, 0.5f, false);
+            }
 
             if (gameStartTimer > 0) // This updates the countdown timer as long as someone is pressing on the screen we begin the game
             {
@@ -267,7 +277,7 @@ public class GameManager : MonoBehaviour {
             {// Display the warning that there are no survivors left and they must return within X time
                 noSurvivors.SetActive(true);
                 noSurvivorsTimer -= Time.deltaTime;
-                noSurvivors.GetComponentInChildren<Text>().text = "Return Timer: " +Mathf.RoundToInt(noSurvivorsTimer).ToString();
+                noSurvivors.GetComponentInChildren<Text>().text = "Return Timer " +Mathf.RoundToInt(noSurvivorsTimer).ToString();
             }
             if (sendRate < 5) // Just a check if the send rate is under five and nobody is back we give them a small time buffer
             {
@@ -275,6 +285,8 @@ public class GameManager : MonoBehaviour {
             }
 
             survivorTimer.GetComponent<Text>().CrossFadeAlpha(0,0.5f,false); // Fade the timer out so we can display the return timer
+            survivorTimerBG.CrossFadeAlpha(0, 0.5f, false);
+            survivorTimerTitle.CrossFadeAlpha(0, 0.5f, false);
         }
 
         // IF GAME HAS STARTED WE ARE CONTROLLING THE ROUND TIMER
@@ -290,7 +302,7 @@ public class GameManager : MonoBehaviour {
                 sTimerSeconds = 60; // Set the seconds to 60 once we roll over a minute
                 sTimerMinutes--;
             }
-            survivorTimer.GetComponent<Text>().text = "Survivor Timer " + Mathf.FloorToInt(sTimerMinutes).ToString("00") + ":" + Mathf.FloorToInt(sTimerSeconds % 60).ToString("00");
+            survivorTimer.GetComponent<Text>().text = Mathf.FloorToInt(sTimerMinutes).ToString("00") + ":" + Mathf.FloorToInt(sTimerSeconds % 60).ToString("00");
         }
             
         // NO SURVIVORS LEFT FOR X TIME
@@ -334,6 +346,7 @@ public class GameManager : MonoBehaviour {
         // Once you hit start begin the roulette
         preGameText.SetActive(false);
         gameStartGO.SetActive(false); // Let the GameManager know the games started
+        circleBehindTimer.SetActive(false); // Turn the circle background off
 
     }
         
