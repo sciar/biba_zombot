@@ -8,7 +8,7 @@ public class WinScreen : MonoBehaviour {
     public Text victoryText;
     public Image image;
     public BibaDevice bibaDevice;
-    public GameController controller; 
+    public GameController controller;
 
     private Color green;
     private Color purple;
@@ -38,7 +38,9 @@ public class WinScreen : MonoBehaviour {
     	
 	// Update is called once per frame
 	void Update () {
-        if (GameManager.Instance.victor == "Survivors") { victoryText.text = "SURVIVORS WIN!"; image.color = purple; } //LOCALIZATION controller.LocalizationService.GetText("copWin");
-        else if (GameManager.Instance.victor == "Zombies") { victoryText.text = "ZOMBIES WIN!"; image.color = green; } //controller.LocalizationService.GetText("robberWin");
+        
+
+        if (GameManager.Instance.victor == "Survivors") { victoryText.text = "SURVIVORS WIN!"; image.color = new Color(113,183,68); } //LOCALIZATION controller.LocalizationService.GetText("copWin");
+        else if (GameManager.Instance.victor == "Zombies") { victoryText.text = "ZOMBIES WIN!"; image.color = new Color(61,50,146);} //controller.LocalizationService.GetText("robberWin");
 	}
 }

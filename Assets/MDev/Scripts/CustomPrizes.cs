@@ -5,56 +5,47 @@ using UnityEngine.UI;
 public class CustomPrizes : MonoBehaviour {
 
     public Text[] textOptions;
-    private float imageSwapTimer;
-    private float imageSwapTimerMax; // This will slowly grow to slow down the flipping
-    private int rotationTotal = 0; // How many times we want to flip before swapping screens
-    private int rotationMax = 10;
-    private bool triggerOnce;
+    public Image[] lights;
+    public Text visibleText;
 
-    private int maxThemeCount;
-    private int themeCounter;
-
-    public Animator anim;
-
-    public BibaCanvasGroup bibaCanvasGroup;
+    private float lightSpeed = 0.2f;
+    private float lightSpeedMax;
+    private int lightCount = 0;
 
     void OnEnable()
     {
-
-        themeCounter = 0; // Reset theme counter so we always start at 0
-        rotationTotal = 0; // Reset every time we start back up
-        triggerOnce = false; // Reset this so we only send one flag to the animator
-        imageSwapTimerMax = 0.1f;
+        foreach (Image i in lights)
+        {
+            i.enabled = false;
+        }
+        lightSpeedMax = lightSpeed; 
     }
     void OnDisable()
     {
 
     }
-
-
+        
     void Update () {
+        //visibleText = CustomPrizes.whateverIsChosen;
+        if (lightSpeed > 0)
+        {    
+            lightSpeed -= Time.deltaTime;
+        }
+        else
+        {
+            if (lightCount >= lights.Length)
+                lightCount = 0;
+            else
+            {
+                if (lightCount > 0) // As long as we're above zero turn the last one off
+                    lights[lightCount - 1].GetComponent<Image>().enabled = false;
+                else // If we're at zero make sure the highest # is off
+                    lights[lights.Length].GetComponent<Image>().enabled = false;
 
-            imageSwapTimerMax += 0.002f; // Slowly increment this to slow down the image swaps
-
-            if (imageSwapTimer > 0)
-                imageSwapTimer -= Time.deltaTime; // Every second we go down 1
-            else {
-                
-                imageSwapTimer = imageSwapTimerMax;
-                rotationTotal++;
-                AudioManager.Instance.PlaySFX (AudioManager.Instance.rouletteTick);
-
-                // If theme counter is at the max theme count increment else reset
-                if (themeCounter < maxThemeCount - 1)
-                    themeCounter++;
-                else
-                    themeCounter = 0;
+                // Then we turn the light on
+                lights[lightCount].GetComponent<Image>().enabled = true;
             }
-
-            if (rotationTotal >= rotationMax && triggerOnce == false) {
-                triggerOnce = true;
-                anim.SetTrigger ("Next");
-            }
-            
+            lightSpeed = lightSpeedMax;
+        }
     }
 }

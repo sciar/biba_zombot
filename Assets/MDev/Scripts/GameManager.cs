@@ -310,7 +310,7 @@ public class GameManager : MonoBehaviour {
         }
             
         // NO SURVIVORS LEFT FOR X TIME
-        if (noSurvivorsTimer <= 0) // If you ever run out of time on the Survivor Timer the Zombies win
+        if (noSurvivorsTimer <= 0 && win == false) // If you ever run out of time on the Survivor Timer the Zombies win
         {
             gameOver("Zombies");
             win = true;
