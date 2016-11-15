@@ -15,7 +15,7 @@ public class ZombotLoose : MonoBehaviour {
     }
 
     void playMoan(){
-        AudioManager.Instance.PlaySFX(AudioManager.Instance.zombieMoan);
+        //AudioManager.Instance.PlaySFX(AudioManager.Instance.zombieMoan);
     }
 	
 }

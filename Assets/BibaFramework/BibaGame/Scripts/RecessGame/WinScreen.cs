@@ -14,14 +14,26 @@ public class WinScreen : MonoBehaviour {
     private Color purple;
 
     public AudioClip winMusic;
- 
-    void OnEnable(){
+
+    public BibaCanvasGroup bibaCanvasGroup;
+
+    // Use this for initialization
+    void OnEnable () {
+        bibaCanvasGroup.onCanvasGroupEnterSuscribers += DoTheThing;
+    }
+    void OnDisable()
+    {
+        bibaCanvasGroup.onCanvasGroupEnterSuscribers -= DoTheThing;
+    }
+
+    void DoTheThing()
+    {
         green = new Color(113, 183, 68);
         purple = new Color(61, 50, 146);
 
-        //AudioManager.Instance.bgMusic.Stop();
-        //AudioManager.Instance.bgMusic.clip = winMusic;
-        //AudioManager.Instance.bgMusic.Play();
+        AudioManager.Instance.bgMusic.Stop();
+        AudioManager.Instance.bgMusic.clip = winMusic;
+        AudioManager.Instance.bgMusic.Play();
     }
     	
 	// Update is called once per frame

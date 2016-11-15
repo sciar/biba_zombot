@@ -292,13 +292,17 @@ public class GameManager : MonoBehaviour {
         // IF GAME HAS STARTED WE ARE CONTROLLING THE ROUND TIMER
         if (gameStartTimer <= 0)
         {
-            if (sTimerMinutes > 0) // Stopping the countdown in case we have no survivors at the safehouse and the timer hits 0
-                sTimerSeconds -= Time.deltaTime;
-            if (sTimerSeconds <= 0)
+            if (sTimerMinutes <= 0 && sTimerSeconds <= 0 && touchCount > 0 && win == false) // If the survivors last the full time
             {
-                if (sTimerMinutes == 0 && touchCount > 0) // If the survivors last the full time
-                    gameOver("Survivors");
+                gameOver("Survivors");
+                win = true;
+            }
                 
+
+            if (sTimerSeconds > 0) // Stopping the countdown in case we have no survivors at the safehouse and the timer hits 0
+                sTimerSeconds -= Time.deltaTime;
+            if (sTimerSeconds <= 0 && sTimerMinutes > 0)
+            {
                 sTimerSeconds = 60; // Set the seconds to 60 once we roll over a minute
                 sTimerMinutes--;
             }
