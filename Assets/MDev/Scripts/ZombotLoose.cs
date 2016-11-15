@@ -3,11 +3,19 @@ using System.Collections;
 
 public class ZombotLoose : MonoBehaviour {
 
-    public AudioClip zombieMoan;
+    public BibaCanvasGroup bibaCanvasGroup;
 
 	// Use this for initialization
 	void OnEnable () {
-        AudioManager.Instance.PlaySFX(zombieMoan);
+        bibaCanvasGroup.onCanvasGroupEnterSuscribers += playMoan;
 	}
+    void OnDisable()
+    {
+        bibaCanvasGroup.onCanvasGroupEnterSuscribers -= playMoan;
+    }
+
+    void playMoan(){
+        AudioManager.Instance.PlaySFX(AudioManager.Instance.zombieMoan);
+    }
 	
 }

@@ -68,7 +68,8 @@ public class Prizes : MonoBehaviour {
         var iText3 = inputField3.GetComponentInChildren<Text>().text;
         var iText4 = inputField4.GetComponentInChildren<Text>().text;
 
-
+        //bibaDeviceSession.prize1 = iText1;
+        //bibaDeviceSession.prize2 = iText2; - Send this data to bibaDeviceSession and this should be good to go
 
         // Send iText1-4 to the prizes page 
 

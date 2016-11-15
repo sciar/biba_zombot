@@ -19,9 +19,9 @@ public class WinScreen : MonoBehaviour {
         green = new Color(113, 183, 68);
         purple = new Color(61, 50, 146);
 
-        AudioManager.Instance.bgMusic.Stop();
-        AudioManager.Instance.bgMusic.clip = winMusic;
-        AudioManager.Instance.bgMusic.Play();
+        //AudioManager.Instance.bgMusic.Stop();
+        //AudioManager.Instance.bgMusic.clip = winMusic;
+        //AudioManager.Instance.bgMusic.Play();
     }
     	
 	// Update is called once per frame

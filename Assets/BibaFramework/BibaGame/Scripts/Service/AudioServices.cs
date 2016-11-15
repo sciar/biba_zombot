@@ -59,6 +59,11 @@ namespace BibaFramework.BibaGame
 			StartCoroutine (C_PlaySFXWhileFadingActiveBGM (s_sfxName, f_delay));
 		}
 		
+        public bool IsIntroPlaying() {
+            if (!go_introSource) return false;
+            return go_introSource.GetComponent<AudioSource> ().isPlaying;
+        }
+
 		IEnumerator C_PlaySFXWhileFadingActiveBGM(string s_sfxName, float delay) {
 			yield return new WaitForSeconds (delay);
 			AudioSource bgmSource = GetBGMSource ();

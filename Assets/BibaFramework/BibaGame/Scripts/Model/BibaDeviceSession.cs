@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace BibaFramework.BibaGame
 {
@@ -17,6 +18,11 @@ namespace BibaFramework.BibaGame
 		public BibaTagType TagToScan { get; set; }
 		public List<BibaEquipment> SelectedEquipments { get; set; }
 
+        public String prize1;
+        public String prize2;
+        public String prize3;
+        public String prize4;
+
 		public BibaDeviceSession()
 		{
 			Reset ();
@@ -32,7 +38,13 @@ namespace BibaFramework.BibaGame
 			TagScanned = false;
 
 			TagToScan = BibaTagType.none;
-			SelectedEquipments = new List<BibaEquipment> ();
+            SelectedEquipments = new List<BibaEquipment> ();
+
+            // Reset all the prizes
+            prize1 = "";
+            prize2 = "";
+            prize3 = "";
+            prize4 = "";
 		}
     }
 }

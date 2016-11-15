@@ -20,6 +20,7 @@ public class AudioManager : MonoBehaviour
     public UnityEngine.AudioClip radioCall;
     public UnityEngine.AudioClip missionPopup;
     public UnityEngine.AudioClip doorCreak;
+    public UnityEngine.AudioClip zombieMoan;
 
     private GameObject introMusic; // This is how we're going to stop the intro music
 

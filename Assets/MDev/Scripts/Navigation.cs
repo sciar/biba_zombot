@@ -13,9 +13,9 @@ public class Navigation : MonoBehaviour {
 	void Start () {
         if (menuNav == null)
             menuNav = GameObject.Find("MenuStateMachine");
-        
+
         thisButton = GetComponent<Button>();
-        thisButton.onClick.AddListener( () => Navigate() ); 
+        thisButton.onClick.AddListener(() => Navigate()); 
         //myButton.GetComponent<Button>().onClick.AddListener(() => { someFunction(); otherFunction(); }); 
 	}
 	
@@ -28,6 +28,7 @@ public class Navigation : MonoBehaviour {
     }
     private void OnDestroy()
     {
-        thisButton.onClick.RemoveListener( () => Navigate() ); 
+        if (thisButton != null)
+            thisButton.onClick.RemoveListener( () => Navigate() ); 
     }
 }
