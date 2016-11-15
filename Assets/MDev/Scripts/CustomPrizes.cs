@@ -8,9 +8,9 @@ public class CustomPrizes : MonoBehaviour {
     public Image[] lights;
     public Text visibleText;
 
-    private float lightSpeed = 0.2f;
-    private float lightSpeedMax;
-    private int lightCount = 0;
+    public float lightSpeed = 0.05f;
+    public float lightSpeedMax;
+    public int lightCount = 0;
 
     void OnEnable()
     {
@@ -18,7 +18,8 @@ public class CustomPrizes : MonoBehaviour {
         {
             i.enabled = false;
         }
-        lightSpeedMax = lightSpeed; 
+        lightSpeedMax = lightSpeed;
+
     }
     void OnDisable()
     {
@@ -31,7 +32,8 @@ public class CustomPrizes : MonoBehaviour {
         {    
             lightSpeed -= Time.deltaTime;
         }
-        else
+
+        if (lightSpeed <= 0)
         {
             if (lightCount >= lights.Length)
                 lightCount = 0;
@@ -40,10 +42,11 @@ public class CustomPrizes : MonoBehaviour {
                 if (lightCount > 0) // As long as we're above zero turn the last one off
                     lights[lightCount - 1].GetComponent<Image>().enabled = false;
                 else // If we're at zero make sure the highest # is off
-                    lights[lights.Length].GetComponent<Image>().enabled = false;
+                    lights[lights.Length-1].GetComponent<Image>().enabled = false;
 
                 // Then we turn the light on
                 lights[lightCount].GetComponent<Image>().enabled = true;
+                lightCount++;
             }
             lightSpeed = lightSpeedMax;
         }

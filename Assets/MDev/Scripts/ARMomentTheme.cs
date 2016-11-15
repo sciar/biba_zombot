@@ -9,7 +9,6 @@ public class ARMomentTheme : MonoBehaviour {
 
     public Text themeText; // Text at the top 
     public GameObject themeBackground; // BG color only (hole for face)
-    public GameObject mainBG; // BG from the game we turn off
     public GameObject ARCamera; // Camera
     public Transform bibletDisable; // The biblet thing is still on from the AR screen so we turn it off
 
@@ -23,7 +22,6 @@ public class ARMomentTheme : MonoBehaviour {
     void OnDisable()
     {
         bibaCanvasGroup.onCanvasGroupEnterSuscribers -= reset;
-        mainBG.SetActive(true);
         themeBackground.SetActive(false);
         ARCamera.SetActive(false);
     }
@@ -45,7 +43,6 @@ public class ARMomentTheme : MonoBehaviour {
 
     // Update is called once per frame
     void Update () {
-        mainBG.SetActive(false);
 
         ARCamera.SetActive(true);
       
