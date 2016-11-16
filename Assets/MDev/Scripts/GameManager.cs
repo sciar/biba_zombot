@@ -65,6 +65,8 @@ public class GameManager : MonoBehaviour {
     public Animator roomDestroyAnimator;
     private int roomState;
     public GameObject roomBG;
+    public Sprite roomBG2;
+    public Sprite roomBG3;
     public Sprite originalRoomSprite;
 
     // Z Axis Fix on Screen Touch Updates
@@ -115,7 +117,7 @@ public class GameManager : MonoBehaviour {
 
         // Resets the state of the room
         roomState = 1;
-        roomBG.GetComponent<Image>() = originalRoomSprite;
+        roomBG.GetComponent<Image>().sprite = originalRoomSprite;
 
         // Particle Reset Variables
         originalParticleColor = touchMarkerObjects[0].GetComponentInChildren<ParticleSystem>().startColor;
@@ -133,8 +135,7 @@ public class GameManager : MonoBehaviour {
         survivorTimer.GetComponent<Text>().CrossFadeAlpha(0,0f,false);
         survivorTimerBG.CrossFadeAlpha(0, 0f, false);
         survivorTimerTitle.CrossFadeAlpha(0, 0f, false);
-
-        // MONDAY ---------------!!?!?!??!?!?????????- Resize the STContainer gameobject instead of this text object ---------------!!?!?!??!?!?????????
+       
 
         originalBGMusic = AudioManager.Instance.bgMusic.clip;
         AudioManager.Instance.bgMusic.Stop();
@@ -166,15 +167,17 @@ public class GameManager : MonoBehaviour {
         // Total Amount of Touches
         int touchCount = Input.touchCount;
 
-        if (survivorTimer < survivorTimerMax * 0.5f) // ***MATT
+        if (sTimerMinutes < survivorTimerMax * 0.6f && roomState == 1) // Shuffle the room BG to the second state
         {
-            if (roomState == 1)
-            {
-                roomDestroyAnimator.SetTrigger("Next");
-                roomState++;
-            }
-
-
+            roomDestroyAnimator.SetTrigger("Next");
+            roomBG.GetComponent<Image>().sprite = roomBG2;
+            roomState++;
+        }
+        if (sTimerMinutes < survivorTimerMax * 0.3f && roomState == 2) // Shuffle the room BG to the third state
+        {
+            roomDestroyAnimator.SetTrigger("Next");
+            roomBG.GetComponent<Image>().sprite = roomBG3;
+            roomState++;
         }
 
         if (touchCount > 0)
