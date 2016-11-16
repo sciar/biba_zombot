@@ -36,7 +36,7 @@ public class AudioManager : MonoBehaviour
         audiothing.StopBGM();
 
         introMusic = GameObject.Find("SFXPrefab(Clone)");
-        Destroy(introMusic);
+        //Destroy(introMusic);
     }
 
     public void PlaySingle(UnityEngine.AudioClip clip)
@@ -51,7 +51,6 @@ public class AudioManager : MonoBehaviour
 
         sfxSource.clip = clips[randomIndex];
         sfxSource.Play();
-
     }
 
     public void StartBGMusic()

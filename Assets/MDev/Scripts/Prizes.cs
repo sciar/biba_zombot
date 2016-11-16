@@ -2,9 +2,11 @@
 using UnityEngine.UI;
 using System.Collections;
 using BibaFramework;
+using BibaFramework.BibaGame;
 
 public class Prizes : MonoBehaviour {
 
+    public AchievementsView achievementsView;
     public GameObject prizeSelectionScreen;
     public GameObject prizeInstructionScreen;
 
@@ -22,9 +24,14 @@ public class Prizes : MonoBehaviour {
     private Color disableColor;
 
     private BibaGameState bibaGameState; // Trying to sort out the frameworks variable saving system
+    public GameObject menuNav;
 
     private void OnEnable()
     {
+        if (menuNav == null)
+            menuNav = GameObject.Find("MenuStateMachine");
+
+
         defaultColor = inputField1.GetComponentInChildren<Image>().color;
         disableColor = new Color(0, 0, 0, 255);
 
@@ -63,14 +70,22 @@ public class Prizes : MonoBehaviour {
 
     public void SavePrizeData()
     {
-        var iText1 = inputField1.GetComponentInChildren<Text>().text;
-        var iText2 = inputField2.GetComponentInChildren<Text>().text;
-        var iText3 = inputField3.GetComponentInChildren<Text>().text;
-        var iText4 = inputField4.GetComponentInChildren<Text>().text;
+        string iText1 = inputField1.GetComponentInChildren<Text>().text;
+        string iText2 = inputField2.GetComponentInChildren<Text>().text;
+        string iText3 = inputField3.GetComponentInChildren<Text>().text;
+        string iText4 = inputField4.GetComponentInChildren<Text>().text;
 
-        //bibaDeviceSession.prize1 = iText1;
-        //bibaDeviceSession.prize2 = iText2; - Send this data to bibaDeviceSession and this should be good to go
-
+        // Sending this info to bibaDeviceSession script!
+        achievementsView.bibaDeviceSession.prize1 = iText1;
+        achievementsView.bibaDeviceSession.prize2 = iText2;
+        achievementsView.bibaDeviceSession.prize3 = iText3;
+        achievementsView.bibaDeviceSession.prize4 = iText4;
+       
+        // If we have zero prize data we turn the custom prizes off so you don't get an empty prize page
+        if (iText1 == "" && iText2 == "" && iText3 == "" && iText4 == "")
+        {
+            //menuNav.GetComponent<Animator>().SetBool(CustomPrizes, true); - giving errors for some reason
+        }
         // Send iText1-4 to the prizes page 
 
     }

@@ -61,6 +61,12 @@ public class GameManager : MonoBehaviour {
 	public string missionText;
     public GameObject helperRobot;
 
+    // Room Destruction
+    public Animator roomDestroyAnimator;
+    private int roomState;
+    public GameObject roomBG;
+    public Sprite originalRoomSprite;
+
     // Z Axis Fix on Screen Touch Updates
     private float defaultZ;
 
@@ -106,6 +112,10 @@ public class GameManager : MonoBehaviour {
         gameStartGO.SetActive(true);
         circleBehindTimer.SetActive(true); // Turn on the circle behind the timer
         preGameText.SetActive(true);
+
+        // Resets the state of the room
+        roomState = 1;
+        roomBG.GetComponent<Image>() = originalRoomSprite;
 
         // Particle Reset Variables
         originalParticleColor = touchMarkerObjects[0].GetComponentInChildren<ParticleSystem>().startColor;
@@ -155,6 +165,17 @@ public class GameManager : MonoBehaviour {
         gameTime += Time.deltaTime; // Increment Gametime
         // Total Amount of Touches
         int touchCount = Input.touchCount;
+
+        if (survivorTimer < survivorTimerMax * 0.5f) // ***MATT
+        {
+            if (roomState == 1)
+            {
+                roomDestroyAnimator.SetTrigger("Next");
+                roomState++;
+            }
+
+
+        }
 
         if (touchCount > 0)
         {

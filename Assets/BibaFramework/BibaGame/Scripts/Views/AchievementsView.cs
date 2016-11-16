@@ -9,5 +9,7 @@ namespace BibaFramework.BibaGame
     {
 		public BibaDevice BibaDevice;
 		public IDataService dataService;
+
+        public BibaDeviceSession bibaDeviceSession;
     }
 }

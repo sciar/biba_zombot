@@ -1,16 +1,20 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.UI;
+using BibaFramework.BibaGame;
+using System.Collections.Generic;
 
 public class CustomPrizes : MonoBehaviour {
 
-    public Text[] textOptions;
+    public List<string> textOptions = new List<string>();
     public Image[] lights;
     public Text visibleText;
 
     public float lightSpeed = 0.05f;
     public float lightSpeedMax;
     public int lightCount = 0;
+
+    public GameController gameController;
 
     void OnEnable()
     {
@@ -20,6 +24,18 @@ public class CustomPrizes : MonoBehaviour {
         }
         lightSpeedMax = lightSpeed;
 
+        // For each custom prize we add them to the list
+        if (gameController.BibaDeviceSession.prize1 != "")
+            textOptions.Add (gameController.BibaDeviceSession.prize1);
+        if (gameController.BibaDeviceSession.prize2 != "")
+            textOptions.Add(gameController.BibaDeviceSession.prize2);
+        if (gameController.BibaDeviceSession.prize3 != "")
+            textOptions.Add(gameController.BibaDeviceSession.prize3);
+        if (gameController.BibaDeviceSession.prize4 != "")
+            textOptions.Add(gameController.BibaDeviceSession.prize4);
+
+        // Set the prize data to a random one of the prize options
+        visibleText.text = textOptions[Random.Range(0, textOptions.Count-1)];
     }
     void OnDisable()
     {
@@ -29,7 +45,7 @@ public class CustomPrizes : MonoBehaviour {
     void Update () {
         //visibleText = CustomPrizes.whateverIsChosen;
         if (lightSpeed > 0)
-        {    
+        {
             lightSpeed -= Time.deltaTime;
         }
 
