@@ -33,10 +33,12 @@ public class ARMomentTheme : MonoBehaviour {
         if (GameManager.Instance.victor == "Zombies")
         {
             themeBackground.GetComponent<Image>().sprite = bgOptionsZombies[Random.Range(0, bgOptionsZombies.Length)];
+            themeText.text = "MRRMMRRRMRMRMRRRRMRMMM";
         }
         else
         {
             themeBackground.GetComponent<Image>().sprite = bgOptionsSurvivors[Random.Range(0, bgOptionsSurvivors.Length)];
+            themeText.text = "WAY TO SURVIVE!";
         }
         //themeBackground.GetComponent<Image>.image = - Setup a random image if we have a bunch
     }

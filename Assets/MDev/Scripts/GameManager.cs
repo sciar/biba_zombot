@@ -36,6 +36,7 @@ public class GameManager : MonoBehaviour {
     public int survivorTimerMax = 5; // Tracked in full minutes
     private float sTimerMinutes;
     private float sTimerSeconds;
+    private float tickTimer = 1f;
 
     // No Survivors Left
     public GameObject noSurvivors;
@@ -266,6 +267,15 @@ public class GameManager : MonoBehaviour {
             if (gameStartTimer > 0) // This updates the countdown timer as long as someone is pressing on the screen we begin the game
             {
                 gameStartTimer -= Time.deltaTime;
+                if (tickTimer <= 0)
+                {
+                    AudioManager.Instance.PlaySingle(AudioManager.Instance.rouletteTick);
+                    tickTimer = 1f;
+                }
+                else{
+                    tickTimer -= Time.deltaTime;
+                }
+
                 gameStartGO.GetComponent<Text>().text = Mathf.CeilToInt(gameStartTimer).ToString();
             }
             else

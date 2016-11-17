@@ -31,12 +31,6 @@ public class AudioManager : MonoBehaviour
             Instance = this;
         else if (Instance != this)
             Destroy(gameObject);
-
-        AudioServices audiothing = GameObject.Find("AudioService").GetComponent<AudioServices>();
-        audiothing.StopBGM();
-
-        introMusic = GameObject.Find("SFXPrefab(Clone)");
-        //Destroy(introMusic);
     }
 
     public void PlaySingle(UnityEngine.AudioClip clip)

@@ -32,13 +32,12 @@ public class WinScreen : MonoBehaviour {
         purple = new Color(61, 50, 146);
 
         AudioManager.Instance.bgMusic.Stop();
-        AudioManager.Instance.bgMusic.clip = winMusic;
-        AudioManager.Instance.bgMusic.Play();
+        //AudioManager.Instance.bgMusic.clip = winMusic;
+        //AudioManager.Instance.bgMusic.Play();
     }
     	
 	// Update is called once per frame
 	void Update () {
-        
 
         if (GameManager.Instance.victor == "Survivors") { victoryText.text = "SURVIVORS WIN!"; image.color = new Color(113,183,68); } //LOCALIZATION controller.LocalizationService.GetText("copWin");
         else if (GameManager.Instance.victor == "Zombies") { victoryText.text = "ZOMBIES WIN!"; image.color = new Color(61,50,146);} //controller.LocalizationService.GetText("robberWin");
