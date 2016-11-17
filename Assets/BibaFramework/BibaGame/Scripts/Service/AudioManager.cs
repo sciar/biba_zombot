@@ -19,6 +19,7 @@ public class AudioManager : MonoBehaviour
     public UnityEngine.AudioClip rouletteTick;
     public UnityEngine.AudioClip radioCall;
     public UnityEngine.AudioClip missionPopup;
+    public UnityEngine.AudioClip rockRumble;
     public UnityEngine.AudioClip doorCreak;
     public UnityEngine.AudioClip zombieMoan;
 

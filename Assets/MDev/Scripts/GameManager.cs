@@ -171,12 +171,14 @@ public class GameManager : MonoBehaviour {
         if (sTimerMinutes < survivorTimerMax * 0.6f && roomState == 1) // Shuffle the room BG to the second state
         {
             roomDestroyAnimator.SetTrigger("Next");
+            AudioManager.Instance.PlaySingle(AudioManager.Instance.rockRumble);
             roomBG.GetComponent<Image>().sprite = roomBG2;
             roomState++;
         }
         if (sTimerMinutes < survivorTimerMax * 0.3f && roomState == 2) // Shuffle the room BG to the third state
         {
             roomDestroyAnimator.SetTrigger("Next");
+            AudioManager.Instance.PlaySingle(AudioManager.Instance.rockRumble);
             roomBG.GetComponent<Image>().sprite = roomBG3;
             roomState++;
         }
