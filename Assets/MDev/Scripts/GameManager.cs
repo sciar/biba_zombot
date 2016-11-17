@@ -211,7 +211,7 @@ public class GameManager : MonoBehaviour {
                     touchMarkerObjects[playerToSend].GetComponentInChildren<ParticleSystem>().startColor = new Color(255,0,0,1); // Set the color to red
                     touchMarkerObjects[playerToSend].GetComponentInChildren<ParticleSystem>().startSize = 1.6f;
                     touchMarkerObjects[playerToSend].GetComponent<TouchObjects>().turnOnShadingBox(); // Turns on the box and mission text
-                    AudioManager.Instance.PlaySFX(AudioManager.Instance.missionPopup);// Adds audio to the mission popup
+                    AudioManager.Instance.PlaySFX(AudioManager.Instance.missionPopup); // Adds audio to the mission popup
                 }
                     
                 // After we've made sure everything checks out we send a kid to a piece of equipment
